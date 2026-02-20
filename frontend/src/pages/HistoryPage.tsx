@@ -7,11 +7,6 @@ function formatCoin(n: number) {
   return n.toLocaleString('ko-KR')
 }
 
-function formatDate(dateStr: string) {
-  const d = new Date(dateStr)
-  return `${d.getMonth() + 1}/${d.getDate()}`
-}
-
 function formatTime(dateStr: string) {
   const d = new Date(dateStr)
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
