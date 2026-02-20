@@ -10,7 +10,7 @@
 set -e
 
 # ── 설정 변수 (필요 시 수정) ──
-GIT_REPO="https://github.com/YOUR_USERNAME/YOUR_REPO.git"  # ← 본인 Git 주소로 변경
+GIT_REPO="https://github.com/DUDINGDDI/investment.git"  # ← 본인 Git 주소로 변경
 DB_NAME="booth_invest"
 DB_USER="booth_user"
 DB_PASS="booth1234"
