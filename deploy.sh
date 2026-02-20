@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================
-# 부스 투자 시뮬레이터 - AWS EC2 전체 배포 스크립트
-# Amazon Linux 2023 / Ubuntu 22.04 기준
+# 부스 투자 시뮬레이터 - AWS EC2 배포 스크립트
+# Ubuntu 22.04 / 24.04 전용
 # ============================================
 # 사용법: 아래 변수를 수정한 뒤 실행
 #   chmod +x deploy.sh && sudo ./deploy.sh
@@ -21,66 +21,33 @@ DOMAIN="_"  # 도메인이 있으면 변경 (예: invest.example.com)
 echo "=========================================="
 echo " 1단계: 시스템 패키지 업데이트"
 echo "=========================================="
-# OS 감지
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    OS=$ID
-fi
-
-if [ "$OS" = "amzn" ] || [ "$OS" = "rhel" ] || [ "$OS" = "centos" ]; then
-    PKG="dnf"
-    sudo dnf update -y
-    sudo dnf install -y git curl wget unzip fontconfig
-else
-    PKG="apt"
-    sudo apt update && sudo apt upgrade -y
-    sudo apt install -y git curl wget unzip fontconfig
-fi
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git curl wget unzip fontconfig
 
 echo "=========================================="
 echo " 2단계: Java 21 설치"
 echo "=========================================="
-if [ "$PKG" = "dnf" ]; then
-    sudo dnf install -y java-21-amazon-corretto-devel || {
-        sudo dnf install -y java-21-openjdk-devel
-    }
-else
-    sudo apt install -y openjdk-21-jdk
-fi
+sudo apt install -y openjdk-21-jdk
 java -version
 
 echo "=========================================="
 echo " 3단계: Node.js 20 설치"
 echo "=========================================="
-curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash - 2>/dev/null || \
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-if [ "$PKG" = "dnf" ]; then
-    sudo dnf install -y nodejs
-else
-    sudo apt install -y nodejs
-fi
+sudo apt install -y nodejs
 node -v && npm -v
 
 echo "=========================================="
 echo " 4단계: MySQL 8.0 설치"
 echo "=========================================="
-if [ "$PKG" = "dnf" ]; then
-    sudo dnf install -y mysql-server || {
-        sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
-        sudo dnf install -y mysql-community-server
-    }
-    sudo systemctl start mysqld
-    sudo systemctl enable mysqld
-else
-    sudo apt install -y mysql-server
-    sudo systemctl start mysql
-    sudo systemctl enable mysql
-fi
+sudo apt install -y mysql-server
+sudo systemctl start mysql
+sudo systemctl enable mysql
 
 echo "=========================================="
 echo " 5단계: MySQL DB + 유저 생성"
 echo "=========================================="
-sudo mysql -u root <<MYSQL_SCRIPT
+sudo mysql <<MYSQL_SCRIPT
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${DB_ROOT_PASS}';
 CREATE DATABASE IF NOT EXISTS ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
@@ -123,11 +90,7 @@ echo "프론트엔드 빌드 완료"
 echo "=========================================="
 echo " 10단계: Nginx 설치 및 설정"
 echo "=========================================="
-if [ "$PKG" = "dnf" ]; then
-    sudo dnf install -y nginx
-else
-    sudo apt install -y nginx
-fi
+sudo apt install -y nginx
 
 # 프론트엔드 빌드 파일 복사
 sudo rm -rf /var/www/investment
@@ -135,7 +98,7 @@ sudo mkdir -p /var/www/investment
 sudo cp -r ${APP_DIR}/frontend/dist/* /var/www/investment/
 
 # Nginx 설정
-sudo tee /etc/nginx/conf.d/investment.conf > /dev/null <<NGINX_CONF
+sudo tee /etc/nginx/sites-available/investment > /dev/null <<NGINX_CONF
 server {
     listen 80;
     server_name ${DOMAIN};
@@ -166,12 +129,9 @@ server {
 }
 NGINX_CONF
 
-# 기본 nginx 설정에서 default server block 제거 (충돌 방지)
-if [ "$PKG" = "dnf" ]; then
-    sudo sed -i '/^[^#]*listen.*80.*default_server/s/^/#/' /etc/nginx/nginx.conf 2>/dev/null || true
-else
-    sudo rm -f /etc/nginx/sites-enabled/default
-fi
+# sites-enabled에 심볼릭 링크 생성 + default 제거
+sudo ln -sf /etc/nginx/sites-available/investment /etc/nginx/sites-enabled/investment
+sudo rm -f /etc/nginx/sites-enabled/default
 
 sudo nginx -t && sudo systemctl restart nginx
 sudo systemctl enable nginx
@@ -183,7 +143,7 @@ echo "=========================================="
 sudo tee /etc/systemd/system/investment.service > /dev/null <<SERVICE
 [Unit]
 Description=Booth Investment Simulator Backend
-After=network.target mysql.service mysqld.service
+After=network.target mysql.service
 
 [Service]
 Type=simple
@@ -205,14 +165,9 @@ echo "백엔드 서비스 시작 완료"
 echo "=========================================="
 echo " 12단계: 방화벽 설정"
 echo "=========================================="
-if command -v firewall-cmd &>/dev/null; then
-    sudo firewall-cmd --permanent --add-service=http
-    sudo firewall-cmd --permanent --add-service=https
-    sudo firewall-cmd --reload
-elif command -v ufw &>/dev/null; then
-    sudo ufw allow 'Nginx Full'
-    sudo ufw --force enable
-fi
+sudo ufw allow 'Nginx Full'
+sudo ufw allow OpenSSH
+sudo ufw --force enable
 
 echo ""
 echo "=========================================="
