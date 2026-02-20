@@ -1,0 +1,156 @@
+.container {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 24px 0 16px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.controlCard {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  margin-bottom: 28px;
+}
+
+.statusRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.statusLabel {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.statusOn {
+  background: #DCFCE7;
+  color: #16A34A;
+}
+
+.statusOff {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.statusDesc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.toggleBtn {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-button);
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+.toggleBtn:disabled {
+  opacity: 0.5;
+}
+
+.revealBtn {
+  background: var(--color-invest);
+}
+
+.hideBtn {
+  background: var(--text-secondary);
+}
+
+.rankingSection {
+  margin-top: 8px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  width: 28px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.topRank {
+  color: var(--color-invest);
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.amount {
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}

@@ -1,0 +1,139 @@
+.container {
+  padding: 20px;
+  padding-bottom: 100px;
+}
+
+.backBtn {
+  background: none;
+  padding: 8px;
+  margin: 8px 0 0 -8px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0 24px;
+}
+
+.iconLarge {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.investSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.investRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.investRow:first-child {
+  padding-top: 0;
+}
+
+.investRow:last-child {
+  padding-bottom: 0;
+}
+
+.investLabel {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.investValueLarge {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.investValueMy {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--accent-blue);
+}
+
+.description {
+  margin-bottom: 24px;
+}
+
+.descTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.descText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.actions {
+  position: fixed;
+  bottom: calc(var(--nav-height) + var(--safe-area-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+}
+
+.investBtn {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--radius-button);
+  background: var(--color-invest);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.investBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.withdrawBtn {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--radius-button);
+  background: var(--color-withdraw);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.withdrawBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

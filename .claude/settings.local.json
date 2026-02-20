@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew build:*)",
+      "Bash(export JAVA_HOME=\"C:/Program Files/Java/ms-21.0.10\")",
+      "Bash(npm create vite@latest:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite build)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker exec:*)",
+      "Bash(./gradlew bootRun:*)",
+      "Bash(npm run dev:*)",
+      "Bash(cmd.exe /c \"echo %JAVA_HOME%\")",
+      "Bash(cmd.exe /c \"where java\")",
+      "Bash(cmd.exe /c \"dir \"\"C:\\\\Program Files\\\\Java\\\\ms-21.0.10\\\\bin\\\\java.exe\"\" /B\")",
+      "Bash(cmd.exe /c \"dir \"\"C:\\\\Program Files\\\\Java\\\\ms-21.0.10\"\" /B /S\")"
+    ]
+  }
+}

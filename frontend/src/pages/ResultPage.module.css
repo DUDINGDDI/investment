@@ -1,0 +1,229 @@
+/* ── Coming Soon 잠금 화면 ── */
+.lockedContainer {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.lockIcon {
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.lockedTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.lockedDesc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.lockedSub {
+  font-size: 14px;
+  color: var(--text-disabled);
+  line-height: 1.5;
+}
+
+/* ── 결과 공개 화면 ── */
+.container {
+  padding: 20px;
+}
+
+.header {
+  padding: 24px 0 16px;
+  text-align: center;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ── 상위 3개 포디움 ── */
+.podium {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 8px 0;
+}
+
+.podiumItem {
+  flex: 1;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 16px 8px;
+  text-align: center;
+  position: relative;
+}
+
+.first {
+  order: 0;
+  background: linear-gradient(180deg, #FFF9E6 0%, #FFF3CC 100%);
+  box-shadow: 0 2px 12px rgba(255, 199, 0, 0.15);
+}
+
+.second {
+  order: -1;
+  margin-top: 16px;
+}
+
+.third {
+  order: 1;
+  margin-top: 16px;
+}
+
+.podiumRank {
+  margin-bottom: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.gold {
+  background: #FFD700;
+  color: #7A5C00;
+}
+
+.silver {
+  background: #C0C0C0;
+  color: #4A4A4A;
+}
+
+.bronze {
+  background: #CD7F32;
+  color: white;
+}
+
+.rankNum {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.podiumIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 8px;
+  border: 2px solid transparent;
+}
+
+.first .podiumIcon {
+  border-color: #FFD700;
+}
+
+.podiumName {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.podiumCategory {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.podiumAmount {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-invest);
+}
+
+.podiumUnit {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.podiumInvestors {
+  font-size: 11px;
+  color: var(--text-disabled);
+  margin-top: 4px;
+}
+
+/* ── 4등 이하 리스트 ── */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listRank {
+  width: 24px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.listIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.listInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.listName {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.listCategory {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.listAmount {
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}

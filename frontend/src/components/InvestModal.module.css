@@ -1,0 +1,126 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.sheet {
+  background: var(--bg-primary);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 480px;
+  padding: 20px 24px calc(24px + var(--safe-area-bottom));
+  animation: slideUp 0.3s ease;
+}
+
+.handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border-color);
+  margin: 0 auto 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.maxLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.amountDisplay {
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 16px;
+}
+
+.amountValue {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.amountUnit {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.pills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.pill:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pillReset {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.confirmBtn {
+  width: 100%;
+  height: 52px;
+  border-radius: var(--radius-button);
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.confirmBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.investBtn {
+  background: var(--color-invest);
+}
+
+.withdrawBtn {
+  background: var(--color-withdraw);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
