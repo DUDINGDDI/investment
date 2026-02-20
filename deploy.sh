@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================
 # 부스 투자 시뮬레이터 - AWS EC2 배포 스크립트
-# Ubuntu 22.04 / 24.04 전용
+# Ubuntu 22.04 / 24.04 전용 (MySQL은 Docker)
 # ============================================
 # 사용법: 아래 변수를 수정한 뒤 실행
 #   chmod +x deploy.sh && sudo ./deploy.sh
@@ -22,7 +22,7 @@ echo "=========================================="
 echo " 1단계: 시스템 패키지 업데이트"
 echo "=========================================="
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y git curl wget unzip fontconfig
+sudo apt install -y git curl wget unzip fontconfig mysql-client
 
 echo "=========================================="
 echo " 2단계: Java 21 설치"
@@ -38,26 +38,39 @@ sudo apt install -y nodejs
 node -v && npm -v
 
 echo "=========================================="
-echo " 4단계: MySQL 8.0 설치"
+echo " 4단계: Docker 설치 + MySQL 컨테이너 실행"
 echo "=========================================="
-sudo apt install -y mysql-server
-sudo systemctl start mysql
-sudo systemctl enable mysql
+sudo apt install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# 기존 컨테이너가 있으면 삭제
+sudo docker rm -f booth-invest-db 2>/dev/null || true
+
+sudo docker run -d \
+  --name booth-invest-db \
+  --restart always \
+  -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS} \
+  -e MYSQL_DATABASE=${DB_NAME} \
+  -e MYSQL_USER=${DB_USER} \
+  -e MYSQL_PASSWORD=${DB_PASS} \
+  -p 3306:3306 \
+  mysql:8.0 \
+  --character-set-server=utf8mb4 \
+  --collation-server=utf8mb4_unicode_ci
+
+echo "MySQL 컨테이너 시작 대기 중..."
+for i in $(seq 1 30); do
+  if mysql -h 127.0.0.1 -u ${DB_USER} -p${DB_PASS} ${DB_NAME} -e "SELECT 1;" &>/dev/null; then
+    echo "MySQL 준비 완료!"
+    break
+  fi
+  echo "  대기 중... (${i}/30)"
+  sleep 2
+done
 
 echo "=========================================="
-echo " 5단계: MySQL DB + 유저 생성"
-echo "=========================================="
-sudo mysql <<MYSQL_SCRIPT
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${DB_ROOT_PASS}';
-CREATE DATABASE IF NOT EXISTS ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';
-FLUSH PRIVILEGES;
-MYSQL_SCRIPT
-echo "MySQL DB/유저 생성 완료"
-
-echo "=========================================="
-echo " 6단계: Git 클론"
+echo " 5단계: Git 클론"
 echo "=========================================="
 sudo rm -rf ${APP_DIR}
 sudo mkdir -p ${APP_DIR}
@@ -65,14 +78,14 @@ sudo git clone ${GIT_REPO} ${APP_DIR}
 cd ${APP_DIR}
 
 echo "=========================================="
-echo " 7단계: MySQL 스키마 + 시드 데이터 적용"
+echo " 6단계: MySQL 스키마 + 시드 데이터 적용"
 echo "=========================================="
-mysql -u ${DB_USER} -p${DB_PASS} ${DB_NAME} < ${APP_DIR}/db/init/01_schema.sql
-mysql -u ${DB_USER} -p${DB_PASS} ${DB_NAME} < ${APP_DIR}/db/init/02_seed_data.sql
+mysql -h 127.0.0.1 -u ${DB_USER} -p${DB_PASS} ${DB_NAME} < ${APP_DIR}/db/init/01_schema.sql
+mysql -h 127.0.0.1 -u ${DB_USER} -p${DB_PASS} ${DB_NAME} < ${APP_DIR}/db/init/02_seed_data.sql
 echo "스키마 + 시드 데이터 적용 완료"
 
 echo "=========================================="
-echo " 8단계: Spring Boot 백엔드 빌드"
+echo " 7단계: Spring Boot 백엔드 빌드"
 echo "=========================================="
 cd ${APP_DIR}
 chmod +x ./gradlew
@@ -80,7 +93,7 @@ chmod +x ./gradlew
 echo "백엔드 빌드 완료"
 
 echo "=========================================="
-echo " 9단계: 프론트엔드 빌드"
+echo " 8단계: 프론트엔드 빌드"
 echo "=========================================="
 cd ${APP_DIR}/frontend
 npm install
@@ -88,7 +101,7 @@ npm run build
 echo "프론트엔드 빌드 완료"
 
 echo "=========================================="
-echo " 10단계: Nginx 설치 및 설정"
+echo " 9단계: Nginx 설치 및 설정"
 echo "=========================================="
 sudo apt install -y nginx
 
@@ -129,7 +142,6 @@ server {
 }
 NGINX_CONF
 
-# sites-enabled에 심볼릭 링크 생성 + default 제거
 sudo ln -sf /etc/nginx/sites-available/investment /etc/nginx/sites-enabled/investment
 sudo rm -f /etc/nginx/sites-enabled/default
 
@@ -138,12 +150,12 @@ sudo systemctl enable nginx
 echo "Nginx 설정 완료"
 
 echo "=========================================="
-echo " 11단계: Spring Boot를 systemd 서비스로 등록"
+echo " 10단계: Spring Boot를 systemd 서비스로 등록"
 echo "=========================================="
 sudo tee /etc/systemd/system/investment.service > /dev/null <<SERVICE
 [Unit]
 Description=Booth Investment Simulator Backend
-After=network.target mysql.service
+After=network.target docker.service
 
 [Service]
 Type=simple
@@ -163,7 +175,7 @@ sudo systemctl enable investment
 echo "백엔드 서비스 시작 완료"
 
 echo "=========================================="
-echo " 12단계: 방화벽 설정"
+echo " 11단계: 방화벽 설정"
 echo "=========================================="
 sudo ufw allow 'Nginx Full'
 sudo ufw allow OpenSSH
@@ -181,5 +193,7 @@ echo " 유용한 명령어:"
 echo "   백엔드 로그:    sudo journalctl -u investment -f"
 echo "   백엔드 재시작:  sudo systemctl restart investment"
 echo "   Nginx 재시작:   sudo systemctl restart nginx"
-echo "   MySQL 접속:     mysql -u ${DB_USER} -p${DB_PASS} ${DB_NAME}"
+echo "   MySQL 접속:     mysql -h 127.0.0.1 -u ${DB_USER} -p${DB_PASS} ${DB_NAME}"
+echo "   MySQL 로그:     sudo docker logs booth-invest-db"
+echo "   MySQL 재시작:   sudo docker restart booth-invest-db"
 echo "=========================================="
