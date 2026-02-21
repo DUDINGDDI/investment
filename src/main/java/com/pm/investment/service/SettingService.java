@@ -6,11 +6,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class SettingService {
 
     private static final String RESULTS_REVEALED_KEY = "results_revealed";
+    private static final String ANNOUNCEMENT_MESSAGE_KEY = "announcement_message";
+    private static final String ANNOUNCEMENT_UPDATED_AT_KEY = "announcement_updated_at";
 
     private final AppSettingRepository appSettingRepository;
 
@@ -33,5 +38,49 @@ public class SettingService {
         setting.setValue(String.valueOf(newValue));
         appSettingRepository.save(setting);
         return newValue;
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, String> getAnnouncement() {
+        String message = appSettingRepository.findById(ANNOUNCEMENT_MESSAGE_KEY)
+                .map(AppSetting::getValue)
+                .orElse(null);
+        String updatedAt = appSettingRepository.findById(ANNOUNCEMENT_UPDATED_AT_KEY)
+                .map(AppSetting::getValue)
+                .orElse(null);
+        return Map.of(
+                "message", message != null ? message : "",
+                "updatedAt", updatedAt != null ? updatedAt : ""
+        );
+    }
+
+    @Transactional
+    public Map<String, String> setAnnouncement(String message) {
+        if (message == null || message.isBlank()) {
+            throw new IllegalArgumentException("공지 메시지는 비어있을 수 없습니다.");
+        }
+        if (message.length() > 200) {
+            throw new IllegalArgumentException("공지 메시지는 200자를 초과할 수 없습니다.");
+        }
+
+        String now = Instant.now().toString();
+
+        AppSetting msgSetting = appSettingRepository.findById(ANNOUNCEMENT_MESSAGE_KEY)
+                .orElse(new AppSetting(ANNOUNCEMENT_MESSAGE_KEY, ""));
+        msgSetting.setValue(message);
+        appSettingRepository.save(msgSetting);
+
+        AppSetting timeSetting = appSettingRepository.findById(ANNOUNCEMENT_UPDATED_AT_KEY)
+                .orElse(new AppSetting(ANNOUNCEMENT_UPDATED_AT_KEY, ""));
+        timeSetting.setValue(now);
+        appSettingRepository.save(timeSetting);
+
+        return Map.of("message", message, "updatedAt", now);
+    }
+
+    @Transactional
+    public void clearAnnouncement() {
+        appSettingRepository.deleteById(ANNOUNCEMENT_MESSAGE_KEY);
+        appSettingRepository.deleteById(ANNOUNCEMENT_UPDATED_AT_KEY);
     }
 }

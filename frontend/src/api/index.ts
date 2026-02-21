@@ -8,6 +8,7 @@ import type {
   InvestmentResponse,
   InvestmentHistoryResponse,
   RankingResponse,
+  AnnouncementResponse,
 } from '../types';
 
 export const authApi = {
@@ -37,10 +38,14 @@ export const investmentApi = {
 export const resultApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/results/status'),
   getRanking: () => api.get<RankingResponse[]>('/results/ranking'),
+  getAnnouncement: () => api.get<AnnouncementResponse>('/results/announcement'),
 };
 
 export const adminApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/admin/results/status'),
   toggleResults: () => api.post<{ revealed: boolean }>('/admin/results/toggle'),
   getRanking: () => api.get<RankingResponse[]>('/admin/ranking'),
+  getAnnouncement: () => api.get<AnnouncementResponse>('/admin/announcement'),
+  setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),
+  clearAnnouncement: () => api.delete('/admin/announcement'),
 };

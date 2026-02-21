@@ -6,7 +6,7 @@ import InvestModal from '../components/InvestModal'
 import { useToast } from '../components/ToastContext'
 import styles from './BoothDetailPage.module.css'
 
-function formatCoin(n: number) {
+function formatWon(n: number) {
   return n.toLocaleString('ko-KR')
 }
 
@@ -31,7 +31,7 @@ export default function BoothDetailPage() {
   const handleInvest = async (amount: number) => {
     try {
       await investmentApi.invest({ boothId: Number(id), amount })
-      showToast(`${formatCoin(amount)} 코인 투자 완료!`, 'success')
+      showToast(`${formatWon(amount)}원 투자 완료!`, 'success')
       setModal(null)
       loadData()
     } catch (err: any) {
@@ -42,7 +42,7 @@ export default function BoothDetailPage() {
   const handleWithdraw = async (amount: number) => {
     try {
       await investmentApi.withdraw({ boothId: Number(id), amount })
-      showToast(`${formatCoin(amount)} 코인 철회 완료!`, 'success')
+      showToast(`${formatWon(amount)}원 철회 완료!`, 'success')
       setModal(null)
       loadData()
     } catch (err: any) {
@@ -56,16 +56,16 @@ export default function BoothDetailPage() {
     <div className={styles.container}>
       <button className={styles.backBtn} onClick={() => navigate(-1)}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M15 18L9 12L15 6" stroke="#191F28" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M15 18L9 12L15 6" stroke="#ECECEC" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
 
       <div className={styles.header}>
-        <div className={styles.iconLarge} style={{ background: booth.themeColor + '20' }}>
+        <div className={styles.iconLarge} style={{ background: booth.themeColor + '30' }}>
           <span>{booth.logoEmoji}</span>
         </div>
         <h2 className={styles.name}>{booth.name}</h2>
-        <span className={styles.badge} style={{ background: booth.themeColor + '20', color: booth.themeColor }}>
+        <span className={styles.badge} style={{ background: booth.themeColor + '30', color: booth.themeColor }}>
           {booth.category}
         </span>
       </div>
@@ -73,11 +73,11 @@ export default function BoothDetailPage() {
       <div className={styles.investSection}>
         <div className={styles.investRow}>
           <span className={styles.investLabel}>전체 투자금</span>
-          <span className={styles.investValueLarge}>{formatCoin(booth.totalInvestment)} 코인</span>
+          <span className={styles.investValueLarge}>{formatWon(booth.totalInvestment)}원</span>
         </div>
         <div className={styles.investRow}>
           <span className={styles.investLabel}>내 투자금</span>
-          <span className={styles.investValueMy}>{formatCoin(booth.myInvestment)} 코인</span>
+          <span className={styles.investValueMy}>{formatWon(booth.myInvestment)}원</span>
         </div>
       </div>
 

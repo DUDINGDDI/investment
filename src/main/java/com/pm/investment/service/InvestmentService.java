@@ -30,7 +30,7 @@ public class InvestmentService {
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
         if (user.getBalance() < amount) {
-            throw new IllegalStateException("보유 코인이 부족합니다");
+            throw new IllegalStateException("보유 잔액이 부족합니다");
         }
 
         Investment investment = investmentRepository.findByUserIdAndBoothIdWithLock(userId, boothId)
@@ -109,7 +109,7 @@ public class InvestmentService {
             throw new IllegalArgumentException("금액은 0보다 커야 합니다");
         }
         if (amount % 10_000 != 0) {
-            throw new IllegalArgumentException("금액은 10,000 코인 단위여야 합니다");
+            throw new IllegalArgumentException("금액은 10,000원 단위여야 합니다");
         }
     }
 }

@@ -77,12 +77,12 @@
 }
 
 .investBadge {
-  background: #FEE4E6;
+  background: rgba(240, 68, 82, 0.15);
   color: var(--color-invest);
 }
 
 .withdrawBadge {
-  background: #DBEAFE;
+  background: rgba(69, 147, 252, 0.15);
   color: var(--color-withdraw);
 }
 

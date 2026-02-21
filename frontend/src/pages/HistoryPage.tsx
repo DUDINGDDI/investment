@@ -3,7 +3,7 @@ import { investmentApi } from '../api'
 import type { InvestmentHistoryResponse } from '../types'
 import styles from './HistoryPage.module.css'
 
-function formatCoin(n: number) {
+function formatWon(n: number) {
   return n.toLocaleString('ko-KR')
 }
 
@@ -75,7 +75,7 @@ export default function HistoryPage() {
                   className={`${styles.item} stagger-item`}
                   style={{ animationDelay: `${(gi * 3 + i) * 0.04}s` }}
                 >
-                  <div className={styles.icon} style={{ background: item.themeColor + '20' }}>
+                  <div className={styles.icon} style={{ background: item.themeColor + '30' }}>
                     <span>{item.logoEmoji}</span>
                   </div>
                   <div className={styles.info}>
@@ -88,7 +88,7 @@ export default function HistoryPage() {
                     </div>
                   </div>
                   <p className={`${styles.amount} ${isInvest ? styles.investAmount : styles.withdrawAmount}`}>
-                    {isInvest ? '+' : '-'}{formatCoin(item.amount)}
+                    {isInvest ? '+' : '-'}{formatWon(item.amount)}
                   </p>
                 </div>
               )

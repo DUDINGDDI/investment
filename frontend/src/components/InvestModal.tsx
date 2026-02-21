@@ -41,12 +41,12 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
           {isInvest ? '투자할 금액을 선택하세요' : '철회할 금액을 선택하세요'}
         </p>
         <p className={styles.maxLabel}>
-          {isInvest ? '보유 코인' : '투자 금액'}: {formatNumber(maxAmount)} 코인
+          {isInvest ? '보유 잔액' : '투자 금액'}: {formatNumber(maxAmount)}원
         </p>
 
         <div className={styles.amountDisplay}>
           <span className={styles.amountValue}>{formatNumber(amount)}</span>
-          <span className={styles.amountUnit}> 코인</span>
+          <span className={styles.amountUnit}> 원</span>
         </div>
 
         <div className={styles.pills}>
@@ -70,7 +70,7 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
           onClick={() => onConfirm(amount)}
           disabled={amount === 0}
         >
-          {formatNumber(amount)} 코인 {title}
+          {formatNumber(amount)}원 {title}
         </button>
       </div>
     </div>

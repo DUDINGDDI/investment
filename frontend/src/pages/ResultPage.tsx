@@ -3,7 +3,7 @@ import { resultApi } from '../api'
 import type { RankingResponse } from '../types'
 import styles from './ResultPage.module.css'
 
-function formatCoin(n: number) {
+function formatWon(n: number) {
   return n.toLocaleString('ko-KR')
 }
 
@@ -42,8 +42,8 @@ export default function ResultPage() {
       <div className={styles.lockedContainer}>
         <div className={styles.lockIcon}>
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="11" width="18" height="11" rx="2" stroke="#B0B8C1" strokeWidth="2" />
-            <path d="M7 11V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V11" stroke="#B0B8C1" strokeWidth="2" strokeLinecap="round" />
+            <rect x="3" y="11" width="18" height="11" rx="2" stroke="#555560" strokeWidth="2" />
+            <path d="M7 11V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V11" stroke="#555560" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
         <h2 className={styles.lockedTitle}>Coming Soon</h2>
@@ -74,13 +74,13 @@ export default function ResultPage() {
               <div className={styles.podiumRank}>
                 <RankBadge rank={item.rank} />
               </div>
-              <div className={styles.podiumIcon} style={{ background: item.themeColor + '20', borderColor: item.themeColor }}>
+              <div className={styles.podiumIcon} style={{ background: item.themeColor + '30', borderColor: item.themeColor }}>
                 <span>{item.logoEmoji}</span>
               </div>
               <p className={styles.podiumName}>{item.boothName}</p>
               <p className={styles.podiumCategory}>{item.category}</p>
-              <p className={styles.podiumAmount}>{formatCoin(item.totalInvestment)}</p>
-              <p className={styles.podiumUnit}>코인</p>
+              <p className={styles.podiumAmount}>{formatWon(item.totalInvestment)}</p>
+              <p className={styles.podiumUnit}>원</p>
               <p className={styles.podiumInvestors}>{item.investorCount}명 투자</p>
             </div>
           ))}
@@ -96,14 +96,14 @@ export default function ResultPage() {
               style={{ animationDelay: `${(i + 3) * 0.06}s` }}
             >
               <span className={styles.listRank}>{item.rank}</span>
-              <div className={styles.listIcon} style={{ background: item.themeColor + '20' }}>
+              <div className={styles.listIcon} style={{ background: item.themeColor + '30' }}>
                 <span>{item.logoEmoji}</span>
               </div>
               <div className={styles.listInfo}>
                 <p className={styles.listName}>{item.boothName}</p>
                 <p className={styles.listCategory}>{item.category} · {item.investorCount}명</p>
               </div>
-              <p className={styles.listAmount}>{formatCoin(item.totalInvestment)} 코인</p>
+              <p className={styles.listAmount}>{formatWon(item.totalInvestment)}원</p>
             </div>
           ))}
         </div>

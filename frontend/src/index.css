@@ -7,17 +7,17 @@
 }
 
 :root {
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F5F6F8;
-  --bg-card: #FFFFFF;
-  --border-color: #EEEFF1;
-  --text-primary: #191F28;
-  --text-secondary: #8B95A1;
-  --text-disabled: #B0B8C1;
-  --accent-blue: #3182F6;
+  --bg-primary: #17171C;
+  --bg-secondary: #21212A;
+  --bg-card: #1E1E26;
+  --border-color: #2C2C35;
+  --text-primary: #ECECEC;
+  --text-secondary: #8C8C96;
+  --text-disabled: #555560;
+  --accent-blue: #4593FC;
   --color-invest: #F04452;
-  --color-withdraw: #3182F6;
-  --color-success: #00C851;
+  --color-withdraw: #4593FC;
+  --color-success: #00D68F;
   --radius-card: 16px;
   --radius-button: 12px;
   --radius-pill: 20px;

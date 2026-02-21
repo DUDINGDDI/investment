@@ -73,8 +73,8 @@
 
 .first {
   order: 0;
-  background: linear-gradient(180deg, #FFF9E6 0%, #FFF3CC 100%);
-  box-shadow: 0 2px 12px rgba(255, 199, 0, 0.15);
+  background: linear-gradient(180deg, #2A2820 0%, #33301E 100%);
+  box-shadow: 0 2px 12px rgba(255, 199, 0, 0.10);
 }
 
 .second {
@@ -101,12 +101,12 @@
 
 .gold {
   background: #FFD700;
-  color: #7A5C00;
+  color: #3D2E00;
 }
 
 .silver {
-  background: #C0C0C0;
-  color: #4A4A4A;
+  background: #A8A8B0;
+  color: #2A2A2A;
 }
 
 .bronze {

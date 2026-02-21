@@ -3,9 +3,12 @@ package com.pm.investment.controller;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.SettingService;
+import com.pm.investment.service.SseEmitterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ public class ResultController {
 
     private final SettingService settingService;
     private final RankingService rankingService;
+    private final SseEmitterService sseEmitterService;
 
     @GetMapping("/status")
     public ResponseEntity<Map<String, Boolean>> getStatus() {
@@ -29,5 +33,15 @@ public class ResultController {
             return ResponseEntity.ok(List.of());
         }
         return ResponseEntity.ok(rankingService.getRanking());
+    }
+
+    @GetMapping("/announcement")
+    public ResponseEntity<Map<String, String>> getAnnouncement() {
+        return ResponseEntity.ok(settingService.getAnnouncement());
+    }
+
+    @GetMapping(value = "/announce", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter subscribe() {
+        return sseEmitterService.subscribe();
     }
 }

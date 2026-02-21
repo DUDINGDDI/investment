@@ -4,7 +4,7 @@ import { boothApi } from '../api'
 import type { BoothResponse } from '../types'
 import styles from './BoothListPage.module.css'
 
-function formatCoin(n: number) {
+function formatWon(n: number) {
   if (n >= 100_000_000) return (n / 100_000_000).toFixed(1) + '억'
   if (n >= 10_000) return (n / 10_000).toFixed(0) + '만'
   return n.toLocaleString('ko-KR')
@@ -33,7 +33,7 @@ export default function BoothListPage() {
             style={{ animationDelay: `${i * 0.04}s` }}
             onClick={() => navigate(`/booths/${booth.id}`)}
           >
-            <div className={styles.icon} style={{ background: booth.themeColor + '20' }}>
+            <div className={styles.icon} style={{ background: booth.themeColor + '30' }}>
               <span>{booth.logoEmoji}</span>
             </div>
             <div className={styles.info}>
@@ -41,8 +41,8 @@ export default function BoothListPage() {
               <p className={styles.category}>{booth.category}</p>
             </div>
             <div className={styles.amount}>
-              <p className={styles.totalAmount}>{formatCoin(booth.totalInvestment)}</p>
-              <p className={styles.amountLabel}>코인</p>
+              <p className={styles.totalAmount}>{formatWon(booth.totalInvestment)}</p>
+              <p className={styles.amountLabel}>원</p>
             </div>
           </div>
         ))}

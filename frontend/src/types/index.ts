@@ -65,3 +65,8 @@ export interface RankingResponse {
   totalInvestment: number;
   investorCount: number;
 }
+
+export interface AnnouncementResponse {
+  message: string;
+  updatedAt: string;
+}

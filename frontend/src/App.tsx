@@ -3,11 +3,11 @@ import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import BoothListPage from './pages/BoothListPage'
 import BoothDetailPage from './pages/BoothDetailPage'
-import PortfolioPage from './pages/PortfolioPage'
 import HistoryPage from './pages/HistoryPage'
 import ResultPage from './pages/ResultPage'
 import AdminPage from './pages/AdminPage'
 import BottomNav from './components/BottomNav'
+import AnnouncementBanner from './components/AnnouncementBanner'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
 
@@ -20,6 +20,7 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-area-bottom) + 8px)' }}>
+      <AnnouncementBanner />
       {children}
       <BottomNav />
     </div>
@@ -40,9 +41,6 @@ export default function App() {
         } />
         <Route path="/booths/:id" element={
           <PrivateRoute><AppLayout><BoothDetailPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/portfolio" element={
-          <PrivateRoute><AppLayout><PortfolioPage /></AppLayout></PrivateRoute>
         } />
         <Route path="/history" element={
           <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>
