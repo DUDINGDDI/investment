@@ -71,4 +71,5 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `db/docker-compose.yml` — MySQL 8.0 Docker (booth_invest DB, booth_user/booth1234)
 - `db/init/` — MySQL 초기화 SQL (스키마 + 시드 + 테스트 유저)
 - `build.gradle` — 의존성 (JPA, WebMVC, Validation, H2, MySQL, Lombok)
-- `frontend/src/api/client.ts` — Axios baseURL `http://localhost:8080/api`
+- `frontend/src/api/client.ts` — Axios 인스턴스. baseURL은 `VITE_API_URL` 환경변수 또는 기본값 `/api`
+- `deploy.sh` — 배포 스크립트
