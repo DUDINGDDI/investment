@@ -1,0 +1,13 @@
+.gradle
+build
+.idea
+*.iml
+*.iws
+*.ipr
+out
+bin
+.vscode
+frontend/node_modules
+frontend/dist
+db/mysql_data
+*.log
