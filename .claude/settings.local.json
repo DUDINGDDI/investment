@@ -23,7 +23,14 @@
       "Bash(cd /d/git/JPA/investment/frontend && npm run build 2>&1)",
       "Bash(curl:*)",
       "Bash(docker compose down:*)",
-      "Bash(docker compose:*)"
+      "Bash(docker compose:*)",
+      "Bash(wc:*)",
+      "Bash(where:*)",
+      "Bash(cmd.exe /c \"where node\")",
+      "Bash(cmd.exe /c \"npx --version\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\User\\Desktop\\repository\\investment\\frontend\\public"
     ]
   }
 }

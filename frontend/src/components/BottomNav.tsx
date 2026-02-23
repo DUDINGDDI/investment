@@ -4,6 +4,7 @@ import styles from './BottomNav.module.css'
 const tabs = [
   { path: '/home', label: '홈', icon: 'home' },
   { path: '/booths', label: '부스', icon: 'booths' },
+  { path: '/map', label: '지도', icon: 'map' },
   { path: '/history', label: '이력', icon: 'history' },
   { path: '/result', label: '결과', icon: 'result' },
 ]
@@ -34,6 +35,14 @@ function NavIcon({ icon, active }: { icon: string; active: boolean }) {
           <path d="M12 7V12L15 15" stroke={color} strokeWidth="2" strokeLinecap="round" />
         </svg>
       )
+    case 'map':
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M9 2L3 5V22L9 19L15 22L21 19V2L15 5L9 2Z" stroke={color} strokeWidth="2" strokeLinejoin="round" fill={active ? color + '30' : 'none'} />
+          <path d="M9 2V19" stroke={color} strokeWidth="2" />
+          <path d="M15 5V22" stroke={color} strokeWidth="2" />
+        </svg>
+      )
     case 'result':
       return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -52,6 +61,9 @@ export default function BottomNav() {
   const isActive = (path: string) => {
     if (path === '/booths') {
       return location.pathname.startsWith('/booths')
+    }
+    if (path === '/map') {
+      return location.pathname.startsWith('/map')
     }
     return location.pathname === path
   }
