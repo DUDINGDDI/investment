@@ -9,6 +9,7 @@ interface ZoneBooth {
 
 /** 구역별 부스 데이터 — 실제 데이터로 교체 가능 */
 const ZONE_BOOTH_DATA: Record<string, ZoneBooth[]> = {
+  // LEADERSHIP CENTER 1F
   '101': [
     { id: 1, name: '부스 A', description: 'A 부스 설명' },
     { id: 2, name: '부스 B', description: 'B 부스 설명' },
@@ -17,25 +18,25 @@ const ZONE_BOOTH_DATA: Record<string, ZoneBooth[]> = {
     { id: 3, name: '부스 C', description: 'C 부스 설명' },
     { id: 4, name: '부스 D', description: 'D 부스 설명' },
   ],
-  '103': [
+  // INNOVATION CENTER LL
+  'L01': [
     { id: 5, name: '부스 E', description: 'E 부스 설명' },
   ],
-  '104': [
+  'L02': [
     { id: 6, name: '부스 F', description: 'F 부스 설명' },
   ],
-  '105': [
+  // LEADERSHIP CENTER 2F
+  '201': [
     { id: 7, name: '부스 G', description: 'G 부스 설명' },
-  ],
-  '106': [
     { id: 8, name: '부스 H', description: 'H 부스 설명' },
   ],
-  '107': [
+  '202': [
     { id: 9, name: '부스 I', description: 'I 부스 설명' },
   ],
-  '108': [
+  '203': [
     { id: 10, name: '부스 J', description: 'J 부스 설명' },
   ],
-  '109': [
+  '204': [
     { id: 11, name: '부스 K', description: 'K 부스 설명' },
   ],
 }

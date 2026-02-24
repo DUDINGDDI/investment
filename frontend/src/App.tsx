@@ -9,6 +9,7 @@ import MapPage from './pages/MapPage'
 import ZoneBoothListPage from './pages/ZoneBoothListPage'
 import AdminPage from './pages/AdminPage'
 import BottomNav from './components/BottomNav'
+import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
@@ -24,6 +25,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     <div style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-area-bottom) + 8px)' }}>
       <AnnouncementBanner />
       {children}
+      <FloatingMenu />
       <BottomNav />
     </div>
   )

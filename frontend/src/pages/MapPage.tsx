@@ -2,20 +2,27 @@ import { useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './MapPage.module.css'
 
-const MAP_IMAGES = ['/image/map1.png', '/image/map2.png', '/image/map3.png']
+type Hotspot = { zoneId: string; left: number; top: number; width: number; height: number }
 
-/** map1.png 위 클릭 가능한 구역 핫스팟 좌표 (% 기반) */
-const MAP_HOTSPOTS: { zoneId: string; left: number; top: number; width: number; height: number }[] = [
-  { zoneId: '101', left: 10, top: 20, width: 15, height: 12 },
-  { zoneId: '102', left: 35, top: 20, width: 15, height: 12 },
-  { zoneId: '103', left: 60, top: 20, width: 15, height: 12 },
-  { zoneId: '104', left: 10, top: 45, width: 15, height: 12 },
-  { zoneId: '105', left: 35, top: 45, width: 15, height: 12 },
-  { zoneId: '106', left: 60, top: 45, width: 15, height: 12 },
-  { zoneId: '107', left: 10, top: 70, width: 15, height: 12 },
-  { zoneId: '108', left: 35, top: 70, width: 15, height: 12 },
-  { zoneId: '109', left: 60, top: 70, width: 15, height: 12 },
-]
+const MAP_IMAGES = ['/image/map1.png', '/image/map2.png', '/image/map3.png']
+/** 슬라이드별 클릭 가능한 구역 핫스팟 좌표 (% 기반) */
+const MAP_HOTSPOTS_BY_SLIDE: Record<number, Hotspot[]> = {
+  // map1.png — LEADERSHIP CENTER 1F (843×596)
+  0: [
+    { zoneId: '101', left: 21, top: 13, width: 27, height: 50 },
+    { zoneId: '102', left: 53, top: 13, width: 27, height: 50 },
+  ],
+  // map2.png — INNOVATION CENTER LL (843×596)
+  1: [
+    // { zoneId: 'L01', left: 15, top: 9, width: 19, height: 22 },
+    // { zoneId: 'L02', left: 36, top: 9, width: 30, height: 22 },
+    { zoneId: '손복남홀', left: 60, top: 25, width: 19, height: 58 },
+  ],
+  // map3.png — LEADERSHIP CENTER 2F (843×596)
+  2: [
+    { zoneId: '201', left: 53, top: 13, width: 26, height: 43 },
+  ],
+}
 
 export default function MapPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -63,7 +70,7 @@ export default function MapPage() {
             <div key={src} className={styles.slide}>
               <div className={styles.imageWrapper}>
                 <img src={src} alt={`지도 ${i + 1}`} className={styles.image} draggable={false} />
-                {i === 0 && MAP_HOTSPOTS.map(spot => (
+                {(MAP_HOTSPOTS_BY_SLIDE[i] ?? []).map(spot => (
                   <button
                     key={spot.zoneId}
                     className={styles.hotspot}
@@ -76,7 +83,7 @@ export default function MapPage() {
                     onClick={() => navigate(`/map/${spot.zoneId}`)}
                     aria-label={`${spot.zoneId} 구역`}
                   >
-                    <span className={styles.hotspotLabel}>{spot.zoneId}</span>
+                    {/* <span className={styles.hotspotLabel}>{spot.zoneId}</span> */}
                   </button>
                 ))}
               </div>
