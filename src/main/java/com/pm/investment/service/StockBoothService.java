@@ -4,8 +4,10 @@ import com.pm.investment.dto.StockBoothResponse;
 import com.pm.investment.entity.Booth;
 import com.pm.investment.entity.StockPrice;
 import com.pm.investment.repository.BoothRepository;
+import com.pm.investment.repository.BoothVisitRepository;
 import com.pm.investment.repository.StockHoldingRepository;
 import com.pm.investment.repository.StockPriceRepository;
+import com.pm.investment.repository.StockRatingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,8 @@ public class StockBoothService {
     private final BoothRepository boothRepository;
     private final StockHoldingRepository stockHoldingRepository;
     private final StockPriceRepository stockPriceRepository;
+    private final BoothVisitRepository boothVisitRepository;
+    private final StockRatingRepository stockRatingRepository;
 
     @Transactional(readOnly = true)
     public List<StockBoothResponse> getAllStockBooths(Long userId) {
@@ -48,6 +52,8 @@ public class StockBoothService {
                     .currentPrice(currentPrice)
                     .totalHolding(totalHolding)
                     .myHolding(myHolding)
+                    .hasVisited(userId != null && boothVisitRepository.existsByUserIdAndBoothId(userId, booth.getId()))
+                    .hasRated(userId != null && stockRatingRepository.existsByUserIdAndBoothId(userId, booth.getId()))
                     .build();
         }).toList();
     }
@@ -80,6 +86,8 @@ public class StockBoothService {
                 .currentPrice(currentPrice)
                 .totalHolding(totalHolding)
                 .myHolding(myHolding)
+                .hasVisited(userId != null && boothVisitRepository.existsByUserIdAndBoothId(userId, boothId))
+                .hasRated(userId != null && stockRatingRepository.existsByUserIdAndBoothId(userId, boothId))
                 .build();
     }
 }

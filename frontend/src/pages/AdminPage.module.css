@@ -190,3 +190,103 @@
 .announcementBtns .toggleBtn {
   flex: 1;
 }
+
+/* 평가 결과 섹션 */
+.sortBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.sortLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.sortSelect {
+  flex: 1;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+}
+
+.ratingItem {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ratingItem:last-child {
+  border-bottom: none;
+}
+
+.ratingItemHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ratingScore {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.ratingAvg {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FBBF24;
+}
+
+.ratingAvgLabel {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.ratingBars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 38px;
+}
+
+.ratingBarRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratingBarLabel {
+  width: 42px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.ratingBarTrack {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-primary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ratingBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.ratingBarValue {
+  width: 28px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+  flex-shrink: 0;
+}

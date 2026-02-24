@@ -22,10 +22,13 @@ public class StockService {
     private final StockHoldingRepository stockHoldingRepository;
     private final StockTradeHistoryRepository stockTradeHistoryRepository;
     private final StockPriceRepository stockPriceRepository;
+    private final BoothVisitRepository boothVisitRepository;
+    private final StockRatingRepository stockRatingRepository;
 
     @Transactional
     public void buy(Long userId, Long boothId, Long amount) {
         validateAmount(amount);
+        validateVisitAndRating(userId, boothId);
 
         StockAccount account = stockAccountRepository.findByUserIdWithLock(userId)
                 .orElseThrow(() -> new IllegalArgumentException("주식 계좌를 찾을 수 없습니다"));
@@ -58,6 +61,7 @@ public class StockService {
     @Transactional
     public void sell(Long userId, Long boothId, Long amount) {
         validateAmount(amount);
+        validateVisitAndRating(userId, boothId);
 
         StockAccount account = stockAccountRepository.findByUserIdWithLock(userId)
                 .orElseThrow(() -> new IllegalArgumentException("주식 계좌를 찾을 수 없습니다"));
@@ -150,6 +154,15 @@ public class StockService {
                 .userId(userId)
                 .balance(account.getBalance())
                 .build();
+    }
+
+    private void validateVisitAndRating(Long userId, Long boothId) {
+        if (!boothVisitRepository.existsByUserIdAndBoothId(userId, boothId)) {
+            throw new IllegalStateException("부스를 방문한 후에 거래할 수 있습니다");
+        }
+        if (!stockRatingRepository.existsByUserIdAndBoothId(userId, boothId)) {
+            throw new IllegalStateException("부스 평가를 완료한 후에 거래할 수 있습니다");
+        }
     }
 
     private void validateAmount(Long amount) {

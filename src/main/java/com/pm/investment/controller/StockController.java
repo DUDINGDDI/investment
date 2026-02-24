@@ -4,6 +4,7 @@ import com.pm.investment.dto.*;
 import com.pm.investment.service.StockBoothService;
 import com.pm.investment.service.StockCommentService;
 import com.pm.investment.service.StockPriceService;
+import com.pm.investment.service.StockRatingService;
 import com.pm.investment.service.StockService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -23,6 +24,7 @@ public class StockController {
     private final StockBoothService stockBoothService;
     private final StockPriceService stockPriceService;
     private final StockCommentService stockCommentService;
+    private final StockRatingService stockRatingService;
 
     @PostMapping("/buy")
     public ResponseEntity<Map<String, String>> buy(
@@ -101,5 +103,26 @@ public class StockController {
             HttpServletRequest httpRequest) {
         Long userId = (Long) httpRequest.getAttribute("userId");
         return ResponseEntity.ok(stockCommentService.addComment(userId, id, request.getContent(), request.getTag()));
+    }
+
+    @PostMapping("/booths/{id}/rating")
+    public ResponseEntity<StockRatingResponse> submitRating(
+            @PathVariable Long id,
+            @Valid @RequestBody StockRatingRequest request,
+            HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        return ResponseEntity.ok(stockRatingService.submitRating(userId, id, request));
+    }
+
+    @GetMapping("/booths/{id}/rating")
+    public ResponseEntity<StockRatingResponse> getMyRating(
+            @PathVariable Long id,
+            HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        StockRatingResponse rating = stockRatingService.getMyRating(userId, id);
+        if (rating == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(rating);
     }
 }

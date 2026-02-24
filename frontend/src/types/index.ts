@@ -128,6 +128,8 @@ export interface StockBoothResponse {
   currentPrice: number;
   totalHolding: number;
   myHolding: number;
+  hasVisited: boolean;
+  hasRated: boolean;
 }
 
 export interface StockTradeRequest {
@@ -177,6 +179,48 @@ export interface MissionRankingItem {
 export interface MissionRankingData {
   rankings: MissionRankingItem[];
   myRanking: MissionRankingItem | null;
+}
+
+// === 부스 평가 (Rating) ===
+export interface StockRatingRequest {
+  scoreFirst: number;
+  scoreBest: number;
+  scoreDifferent: number;
+  scoreNumberOne: number;
+  scoreGap: number;
+  scoreGlobal: number;
+  review?: string;
+}
+
+export interface StockRatingResponse {
+  id: number;
+  boothId: number;
+  scoreFirst: number;
+  scoreBest: number;
+  scoreDifferent: number;
+  scoreNumberOne: number;
+  scoreGap: number;
+  scoreGlobal: number;
+  totalScore: number;
+  review: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminBoothRatingResponse {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  themeColor: string;
+  ratingCount: number;
+  totalScoreSum: number;
+  avgFirst: number;
+  avgBest: number;
+  avgDifferent: number;
+  avgNumberOne: number;
+  avgGap: number;
+  avgGlobal: number;
+  avgTotal: number;
 }
 
 export interface VisitRequest {

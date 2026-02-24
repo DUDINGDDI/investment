@@ -58,7 +58,7 @@ export default function QrPage() {
 
       const res = await visitApi.visit({ boothUuid })
       showToast(res.data.message, 'success')
-      navigate('/home')
+      navigate(`/stocks/booths/${res.data.boothId}?tab=review`)
     } catch (err: unknown) {
       const errorMsg =
         (err as { response?: { data?: { error?: string } } }).response?.data?.error ||
