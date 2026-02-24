@@ -267,30 +267,114 @@
   color: var(--color-withdraw);
 }
 
-/* 종목토론방 탭 */
+/* ===== Develop Zone (종목토론방) ===== */
 .discussionContainer {
   display: flex;
   flex-direction: column;
 }
 
+/* 상단 배너 */
+.developBanner {
+  border-radius: var(--radius-card);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  border: 1px solid transparent;
+}
+
+.developBannerInner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.developIcon {
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.developTexts {
+  flex: 1;
+}
+
+.developTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.developSubtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.developCount {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  text-align: right;
+}
+
+.developCountNum {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* 태그 필터 */
+.tagFilter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tagFilter::-webkit-scrollbar {
+  display: none;
+}
+
+.tagChip {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.tagChipActive {
+  border-color: var(--text-primary);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+/* 댓글 리스트 */
 .commentList {
   flex: 1;
 }
 
-.commentItem {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.commentItem:last-child {
-  border-bottom: none;
+/* 댓글 카드 (Develop Block) */
+.developBlock {
+  padding: 14px 16px;
+  border-left: 3px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 0 12px 12px 0;
+  margin-bottom: 10px;
 }
 
 .commentHeader {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
 
 .commentAuthor {
@@ -303,45 +387,146 @@
   color: var(--text-disabled);
 }
 
+.commentTagBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
 .commentContent {
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--text-secondary);
   word-break: break-word;
 }
 
-.commentInputArea {
-  display: flex;
-  gap: 8px;
-  padding: 12px 0;
-  margin-top: 8px;
-  border-top: 1px solid var(--border-color);
+/* 빈 상태 (Develop Zone) */
+.emptyDevelop {
+  text-align: center;
+  padding: 40px 0;
 }
 
-.commentInput {
+.emptyIcon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.emptySubtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.guideBox {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.guideTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.guideList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.guideList li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  position: relative;
+}
+
+.guideList li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--text-disabled);
+}
+
+/* 입력 영역 */
+.commentInputArea {
+  margin-top: 12px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+}
+
+.inputTagRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.inputTagChip {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.inputTagChipActive {
+  font-weight: 600;
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.commentTextarea {
   flex: 1;
-  height: 40px;
-  padding: 0 14px;
-  border-radius: 20px;
+  min-height: 40px;
+  max-height: 120px;
+  padding: 10px 14px;
+  border-radius: 16px;
   border: 1px solid var(--border-color);
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 14px;
+  line-height: 1.4;
   outline: none;
+  resize: none;
+  font-family: inherit;
 }
 
-.commentInput:focus {
+.commentTextarea:focus {
   border-color: var(--accent-blue);
 }
 
-.commentInput::placeholder {
+.commentTextarea::placeholder {
   color: var(--text-disabled);
 }
 
 .commentSendBtn {
   height: 40px;
   padding: 0 16px;
-  border-radius: 20px;
+  border-radius: 16px;
   background: var(--accent-blue);
   color: white;
   font-size: 14px;
@@ -349,6 +534,7 @@
   border: none;
   cursor: pointer;
   flex-shrink: 0;
+  align-self: flex-end;
 }
 
 .commentSendBtn:disabled {

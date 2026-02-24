@@ -9,6 +9,15 @@ import styles from './StockBoothDetailPage.module.css'
 
 type TabType = 'chart' | 'history' | 'discussion' | 'review'
 
+const TAG_CONFIG = [
+  { key: 'PROFITABILITY', label: '수익성', color: '#F0A030' },
+  { key: 'TECHNOLOGY', label: '기술력', color: '#4593FC' },
+  { key: 'GROWTH', label: '성장가능성', color: '#00D68F' },
+] as const
+
+const getTagLabel = (tag: string) => TAG_CONFIG.find(t => t.key === tag)?.label || tag
+const getTagColor = (tag: string) => TAG_CONFIG.find(t => t.key === tag)?.color || '#8C8C96'
+
 function formatStockAmount(n: number) {
   if (n >= 1_000_000_000_000) return (n / 1_000_000_000_000).toFixed(1) + '조'
   if (n >= 100_000_000) return (n / 100_000_000).toFixed(0) + '억'
@@ -74,6 +83,8 @@ export default function StockBoothDetailPage() {
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [commentInput, setCommentInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [filterTag, setFilterTag] = useState<string | null>(null)
+  const [inputTag, setInputTag] = useState<string>('PROFITABILITY')
 
   const loadData = useCallback(() => {
     if (!id) return
@@ -118,6 +129,14 @@ export default function StockBoothDetailPage() {
     }
   }, [activeTab, id, historyLoaded, commentsLoaded])
 
+  // 태그 필터 변경 시 댓글 재로드
+  useEffect(() => {
+    if (!id || activeTab !== 'discussion') return
+    stockApi.getComments(Number(id), filterTag || undefined).then(res => {
+      setComments(res.data)
+    })
+  }, [filterTag, id, activeTab])
+
   const handleBuy = async (amount: number) => {
     try {
       await stockApi.buy({ boothId: Number(id), amount })
@@ -146,11 +165,15 @@ export default function StockBoothDetailPage() {
     if (!id || !commentInput.trim() || submitting) return
     setSubmitting(true)
     try {
-      const res = await stockApi.addComment(Number(id), commentInput.trim())
-      setComments(prev => [res.data, ...prev])
+      const res = await stockApi.addComment(Number(id), commentInput.trim(), inputTag)
+      // 필터가 없거나, 필터와 같은 태그면 리스트에 추가
+      if (!filterTag || filterTag === inputTag) {
+        setComments(prev => [res.data, ...prev])
+      }
       setCommentInput('')
+      showToast('제안이 등록되었습니다!', 'success')
     } catch (err: any) {
-      showToast(err.response?.data?.error || '댓글 작성에 실패했습니다', 'error')
+      showToast(err.response?.data?.error || '제안 등록에 실패했습니다', 'error')
     } finally {
       setSubmitting(false)
     }
@@ -288,43 +311,138 @@ export default function StockBoothDetailPage() {
           </div>
         )}
 
-        {/* 종목토론방 탭 */}
+        {/* 종목토론방 탭 - Develop Zone */}
         {activeTab === 'discussion' && (
           <div className={styles.discussionContainer}>
+            {/* Develop Zone 배너 */}
+            <div
+              className={styles.developBanner}
+              style={{
+                background: `linear-gradient(135deg, ${booth.themeColor}20, var(--bg-secondary))`,
+                borderColor: `${booth.themeColor}30`,
+              }}
+            >
+              <div className={styles.developBannerInner}>
+                <span className={styles.developIcon}>🚀</span>
+                <div className={styles.developTexts}>
+                  <div className={styles.developTitle}>아이디어 Develop Zone</div>
+                  <p className={styles.developSubtitle}>
+                    투자자로서 이 아이디어를 발전시킬 제안을 남겨주세요
+                  </p>
+                </div>
+              </div>
+              <p className={styles.developCount}>
+                <span className={styles.developCountNum}>{comments.length}</span>개의 제안이 쌓였습니다
+              </p>
+            </div>
+
+            {/* 태그 필터 */}
+            <div className={styles.tagFilter}>
+              <button
+                className={`${styles.tagChip} ${filterTag === null ? styles.tagChipActive : ''}`}
+                onClick={() => setFilterTag(null)}
+              >
+                전체
+              </button>
+              {TAG_CONFIG.map(tag => (
+                <button
+                  key={tag.key}
+                  className={`${styles.tagChip} ${filterTag === tag.key ? styles.tagChipActive : ''}`}
+                  onClick={() => setFilterTag(filterTag === tag.key ? null : tag.key)}
+                  style={filterTag === tag.key ? { borderColor: tag.color, background: tag.color, color: '#fff' } : {}}
+                >
+                  {tag.label}
+                </button>
+              ))}
+            </div>
+
+            {/* 댓글 리스트 */}
             <div className={styles.commentList}>
               {comments.length === 0 ? (
-                <div className={styles.emptyState}>
-                  <p>아직 댓글이 없습니다. 첫 댓글을 남겨보세요!</p>
+                <div className={styles.emptyDevelop}>
+                  <span className={styles.emptyIcon}>🚀</span>
+                  <p className={styles.emptyTitle}>첫 번째 멘토가 되어주세요!</p>
+                  <p className={styles.emptySubtitle}>
+                    당신의 제안이 이 아이디어를{'\n'}한 단계 발전시킵니다
+                  </p>
+                  <div className={styles.guideBox}>
+                    <p className={styles.guideTitle}>💡 이런 제안을 남겨보세요</p>
+                    <ul className={styles.guideList}>
+                      <li>수익 모델 개선 방안</li>
+                      <li>기술적 차별화 포인트</li>
+                      <li>시장 확대 가능성</li>
+                    </ul>
+                  </div>
                 </div>
               ) : (
-                comments.map(comment => (
-                  <div key={comment.id} className={styles.commentItem}>
+                comments.map((comment, index) => (
+                  <div
+                    key={comment.id}
+                    className={`${styles.developBlock} stagger-item`}
+                    style={{
+                      borderLeftColor: getTagColor(comment.tag),
+                      animationDelay: `${index * 0.04}s`,
+                    }}
+                  >
                     <div className={styles.commentHeader}>
                       <span className={styles.commentAuthor}>{comment.userName}</span>
                       <span className={styles.commentTime}>{formatCommentTime(comment.createdAt)}</span>
                     </div>
+                    <span
+                      className={styles.commentTagBadge}
+                      style={{
+                        background: getTagColor(comment.tag) + '20',
+                        color: getTagColor(comment.tag),
+                      }}
+                    >
+                      {getTagLabel(comment.tag)}
+                    </span>
                     <p className={styles.commentContent}>{comment.content}</p>
                   </div>
                 ))
               )}
             </div>
+
+            {/* 입력 영역 */}
             <div className={styles.commentInputArea}>
-              <input
-                className={styles.commentInput}
-                type="text"
-                placeholder="댓글을 입력하세요..."
-                value={commentInput}
-                onChange={e => setCommentInput(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') handleAddComment() }}
-                disabled={submitting}
-              />
-              <button
-                className={styles.commentSendBtn}
-                onClick={handleAddComment}
-                disabled={!commentInput.trim() || submitting}
-              >
-                전송
-              </button>
+              <div className={styles.inputTagRow}>
+                {TAG_CONFIG.map(tag => (
+                  <button
+                    key={tag.key}
+                    className={`${styles.inputTagChip} ${inputTag === tag.key ? styles.inputTagChipActive : ''}`}
+                    onClick={() => setInputTag(tag.key)}
+                    style={inputTag === tag.key
+                      ? { borderColor: tag.color, background: tag.color + '20', color: tag.color }
+                      : {}
+                    }
+                  >
+                    {tag.label}
+                  </button>
+                ))}
+              </div>
+              <div className={styles.inputRow}>
+                <textarea
+                  className={styles.commentTextarea}
+                  placeholder="이 아이디어의 개선 아이디어를 제안해주세요."
+                  value={commentInput}
+                  onChange={e => setCommentInput(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault()
+                      handleAddComment()
+                    }
+                  }}
+                  disabled={submitting}
+                  rows={1}
+                />
+                <button
+                  className={styles.commentSendBtn}
+                  onClick={handleAddComment}
+                  disabled={!commentInput.trim() || submitting}
+                >
+                  제안
+                </button>
+              </div>
             </div>
           </div>
         )}

@@ -14,5 +14,6 @@ public class StockCommentResponse {
     private Long userId;
     private String userName;
     private String content;
+    private String tag;
     private LocalDateTime createdAt;
 }

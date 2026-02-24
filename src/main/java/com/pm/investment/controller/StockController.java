@@ -88,8 +88,10 @@ public class StockController {
     }
 
     @GetMapping("/booths/{id}/comments")
-    public ResponseEntity<List<StockCommentResponse>> getComments(@PathVariable Long id) {
-        return ResponseEntity.ok(stockCommentService.getComments(id));
+    public ResponseEntity<List<StockCommentResponse>> getComments(
+            @PathVariable Long id,
+            @RequestParam(required = false) String tag) {
+        return ResponseEntity.ok(stockCommentService.getComments(id, tag));
     }
 
     @PostMapping("/booths/{id}/comments")
@@ -98,6 +100,6 @@ public class StockController {
             @Valid @RequestBody StockCommentRequest request,
             HttpServletRequest httpRequest) {
         Long userId = (Long) httpRequest.getAttribute("userId");
-        return ResponseEntity.ok(stockCommentService.addComment(userId, id, request.getContent()));
+        return ResponseEntity.ok(stockCommentService.addComment(userId, id, request.getContent(), request.getTag()));
     }
 }

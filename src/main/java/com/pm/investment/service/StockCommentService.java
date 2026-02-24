@@ -22,28 +22,32 @@ public class StockCommentService {
     private final BoothRepository boothRepository;
 
     @Transactional(readOnly = true)
-    public List<StockCommentResponse> getComments(Long boothId) {
-        return stockCommentRepository.findByBoothIdOrderByCreatedAtDesc(boothId)
-                .stream()
+    public List<StockCommentResponse> getComments(Long boothId, String tag) {
+        List<StockComment> comments = (tag == null || tag.isBlank())
+                ? stockCommentRepository.findByBoothIdOrderByCreatedAtDesc(boothId)
+                : stockCommentRepository.findByBoothIdAndTagOrderByCreatedAtDesc(boothId, tag);
+
+        return comments.stream()
                 .map(c -> StockCommentResponse.builder()
                         .id(c.getId())
                         .userId(c.getUser().getId())
                         .userName(c.getUser().getName())
                         .content(c.getContent())
+                        .tag(c.getTag())
                         .createdAt(c.getCreatedAt())
                         .build())
                 .toList();
     }
 
     @Transactional
-    public StockCommentResponse addComment(Long userId, Long boothId, String content) {
+    public StockCommentResponse addComment(Long userId, Long boothId, String content, String tag) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다"));
 
         Booth booth = boothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
-        StockComment comment = new StockComment(user, booth, content);
+        StockComment comment = new StockComment(user, booth, content, tag);
         stockCommentRepository.save(comment);
 
         return StockCommentResponse.builder()
@@ -51,6 +55,7 @@ public class StockCommentService {
                 .userId(user.getId())
                 .userName(user.getName())
                 .content(comment.getContent())
+                .tag(comment.getTag())
                 .createdAt(comment.getCreatedAt())
                 .build();
     }

@@ -152,6 +152,7 @@ export interface StockCommentResponse {
   userId: number;
   userName: string;
   content: string;
+  tag: string;
   createdAt: string;
 }
 

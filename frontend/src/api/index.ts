@@ -68,8 +68,8 @@ export const stockApi = {
   getBoothById: (id: number) => api.get<StockBoothResponse>(`/stocks/booths/${id}`),
   getPriceHistory: (id: number) => api.get<StockPriceHistoryResponse>(`/stocks/booths/${id}/price-history`),
   getBoothHistory: (boothId: number) => api.get<StockTradeHistoryResponse[]>(`/stocks/booths/${boothId}/my-history`),
-  getComments: (boothId: number) => api.get<StockCommentResponse[]>(`/stocks/booths/${boothId}/comments`),
-  addComment: (boothId: number, content: string) => api.post<StockCommentResponse>(`/stocks/booths/${boothId}/comments`, { content }),
+  getComments: (boothId: number, tag?: string) => api.get<StockCommentResponse[]>(`/stocks/booths/${boothId}/comments`, { params: tag ? { tag } : {} }),
+  addComment: (boothId: number, content: string, tag: string) => api.post<StockCommentResponse>(`/stocks/booths/${boothId}/comments`, { content, tag }),
 };
 
 export const missionApi = {
