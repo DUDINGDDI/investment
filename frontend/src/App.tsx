@@ -8,7 +8,9 @@ import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
 import ZoneBoothListPage from './pages/ZoneBoothListPage'
 import AdminPage from './pages/AdminPage'
-import BottomNav from './components/BottomNav'
+import MyPage from './pages/MyPage'
+import QrPage from './pages/QrPage'
+import TopTabBar from './components/TopTabBar'
 import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import Toast from './components/Toast'
@@ -22,11 +24,11 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-area-bottom) + 8px)' }}>
+    <div style={{ paddingBottom: '80px' }}>
       <AnnouncementBanner />
+      <TopTabBar />
       {children}
       <FloatingMenu />
-      <BottomNav />
     </div>
   )
 }
@@ -57,6 +59,12 @@ export default function App() {
         } />
         <Route path="/result" element={
           <PrivateRoute><AppLayout><ResultPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/mypage" element={
+          <PrivateRoute><AppLayout><MyPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/qr" element={
+          <PrivateRoute><AppLayout><QrPage /></AppLayout></PrivateRoute>
         } />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>

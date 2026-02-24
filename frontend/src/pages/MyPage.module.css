@@ -1,0 +1,36 @@
+.container {
+  padding: 20px;
+}
+
+.header {
+  padding: 24px 0 20px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 12px;
+}
+
+.emptyIcon {
+  font-size: 48px;
+}
+
+.emptyText {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
