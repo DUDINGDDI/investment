@@ -10,6 +10,7 @@ import BadgePage from './pages/BadgePage'
 import AdminPage from './pages/AdminPage'
 import MyPage from './pages/MyPage'
 import QrPage from './pages/QrPage'
+import ZoneBoothListPage from './pages/ZoneBoothListPage'
 import TopTabBar from './components/TopTabBar'
 import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
@@ -39,6 +40,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <ToastProvider>
+      <MissionProvider>
       <Toast />
       <Routes>
         <Route path="/" element={<LoginPage />} />
@@ -74,6 +76,7 @@ export default function App() {
         } />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
+      </MissionProvider>
     </ToastProvider>
   )
 }
