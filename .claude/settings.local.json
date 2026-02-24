@@ -27,7 +27,8 @@
       "Bash(wc:*)",
       "Bash(where:*)",
       "Bash(cmd.exe /c \"where node\")",
-      "Bash(cmd.exe /c \"npx --version\")"
+      "Bash(cmd.exe /c \"npx --version\")",
+      "Bash(node_modules/.bin/tsc:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\User\\Desktop\\repository\\investment\\frontend\\public"

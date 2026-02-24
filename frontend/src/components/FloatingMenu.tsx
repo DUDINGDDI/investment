@@ -12,6 +12,7 @@ export default function FloatingMenu() {
     navigate(path)
   }
 
+  const isBadgeActive = location.pathname === '/badges'
   const isMapActive = location.pathname.startsWith('/map')
   const isBoothsActive = location.pathname.startsWith('/booths')
 
@@ -19,6 +20,15 @@ export default function FloatingMenu() {
     <div className={styles.container}>
       {/* 서브 버튼들 */}
       <div className={`${styles.subButtons} ${open ? styles.subButtonsOpen : ''}`}>
+        <button
+          className={`${styles.subButton} ${isBadgeActive ? styles.subButtonActive : ''}`}
+          onClick={() => handleNavigate('/badges')}
+          aria-label="미션"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+          </svg>
+        </button>
         <button
           className={`${styles.subButton} ${isMapActive ? styles.subButtonActive : ''}`}
           onClick={() => handleNavigate('/map')}

@@ -40,9 +40,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 백엔드: Spring Boot 4.0.3 (Java 21, Gradle 9.3.0)
 - **Base package:** `com.pm.investment`
+- **패키지 구조:** `config/` (인증·CORS), `controller/` (7개), `service/` (6개), `repository/` (5개), `entity/` (5개), `dto/` (8개)
 - **Persistence:** Spring Data JPA + Lombok
 - **DB 프로필:** 기본 H2 인메모리 (`ddl-auto: create` + `data.sql` 시드), `mysql` 프로필은 Docker MySQL (`ddl-auto: validate`)
-- **인증:** Base64 토큰 기반. `AuthInterceptor`가 `/api/**` 요청을 가로채고, `/api/auth/**`, `/api/admin/**`, `/api/results/**`는 제외. HTTP OPTIONS도 bypass.
+- **인증:** Base64 토큰 기반 (`Base64(userId:timestamp)`). `AuthInterceptor`가 `/api/**` 요청을 가로채고, `/api/auth/**`, `/api/admin/**`, `/api/results/**`는 제외. HTTP OPTIONS도 bypass. 토큰은 request attribute `userId`로 주입.
 - **동시성:** 투자/철회 시 `@Lock(PESSIMISTIC_WRITE)`로 User와 Investment에 비관적 락 적용
 - **금액 검증:** 서버에서 10,000 코인 단위 검증, 잔액/투자금 초과 체크
 - **예외 처리:** `GlobalExceptionHandler`에서 `IllegalArgumentException`/`IllegalStateException` → 400, `MethodArgumentNotValidException` → 첫 번째 필드 에러 메시지, 기타 → 500. 응답 형식: `{ "error": "message" }`
@@ -58,13 +59,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 7. `POST /api/admin/announcement` → 공지 저장 + 전체 SSE 브로드캐스트
 8. `DELETE /api/admin/announcement` → 공지 삭제 + 전체 SSE 클리어 브로드캐스트
 
-### 프론트엔드: React 19 + TypeScript + Vite
+### DB 스키마 (5개 테이블)
+- `users` — id, unique_code(UNIQUE), name, balance(기본 1,000,000)
+- `booths` — id, name, category, description, display_order, logo_emoji, theme_color
+- `investments` — id, user_id(FK), booth_id(FK), amount, UNIQUE(user_id, booth_id)
+- `investment_history` — id, user_id, booth_id, type(INVEST|WITHDRAW), amount, balance_after, created_at
+- `app_settings` — setting_key(PK), setting_value
+
+### 프론트엔드: React 19 + TypeScript + Vite 7
 - **스타일링:** CSS Modules (`.module.css`), 토스증권 스타일 디자인 시스템
 - **라우팅:** React Router DOM v7. `App.tsx`에서 `PrivateRoute`로 토큰 기반 접근 제어
-- **API 통신:** Axios. `api/client.ts`에서 인터셉터로 토큰 자동 첨부 및 401 시 로그아웃
-- **상태 관리:** 컴포넌트 로컬 state + `ToastContext`로 글로벌 토스트
+- **레이아웃:** 인증 필요 라우트는 `AppLayout`으로 감쌈 → `AnnouncementBanner` + `FloatingMenu` (미션/지도/부스 FAB) + `BottomNav` (홈/부스/이력/결과 탭)
+- **글로벌 Context:** `ToastProvider` (토스트 알림, 2.5초 자동 소멸) + `MissionProvider` (미션/배지 상태 관리). 둘 다 `App.tsx` 최상위에서 감쌈.
+- **API 통신:** Axios. `api/client.ts`에서 인터셉터로 토큰 자동 첨부 및 401 시 로그아웃. `api/index.ts`에서 도메인별 API 함수 모음 (`authApi`, `userApi`, `boothApi`, `investmentApi`, `resultApi`, `adminApi`)
+- **타입 정의:** `types/index.ts`에서 모든 DTO 인터페이스 중앙 관리
+- **상태 관리:** 컴포넌트 로컬 state + Context (Toast, Mission)
 - **반응형:** max-width 480px 컨테이너 고정, 모바일 앱 프레임 유지
 - **공지 배너:** `AnnouncementBanner`가 `AppLayout`에 포함되어 모든 인증 페이지 상단에 SSE로 실시간 공지 표시. 클릭 시 팝업으로 전체 내용 확인, 닫기(dismiss)는 `localStorage`에 `updatedAt` 기준으로 저장.
+- **정적 이미지:** `frontend/public/image/` 하위에 배지 이미지 등 저장 (빌드 시 그대로 서빙)
 
 ### 프론트엔드 라우트
 | 경로 | 페이지 | 비고 |
@@ -73,21 +85,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `/home` | HomePage | 대시보드 + 도넛 차트 |
 | `/booths` | BoothListPage | 부스 목록 |
 | `/booths/:id` | BoothDetailPage | 투자/철회 바텀시트 |
+| `/map` | MapPage | 행사장 지도 (스와이프 캐러셀 + 핫스팟) |
+| `/map/:zoneId` | ZoneBoothListPage | 구역별 부스 목록 |
+| `/badges` | BadgePage | 미션/배지 페이지 |
 | `/history` | HistoryPage | 날짜별 그룹핑 |
 | `/result` | ResultPage | Coming Soon 또는 랭킹 |
-| `/admin` | AdminPage | 관리자 전용, BottomNav 없음 |
+| `/admin` | AdminPage | 관리자 전용, AppLayout 없음 |
+
+### 향후 확장 계획
+`PLAN_REALTIME_MARKET.md`에 실시간 가격 변동 시스템 전환 계획이 문서화되어 있음 (유닛 기반 매매, 수요/공급 가격 결정, 관리자 이벤트, 라운드/타이머).
 
 ## Key Configuration
 
-- `src/main/resources/application.yaml` — DB 프로필(H2/MySQL), 서버 포트(8080)
+- `src/main/resources/application.yaml` — DB 프로필(H2/MySQL), 서버 포트(8080), H2 콘솔(`/h2-console`)
 - `src/main/resources/data.sql` — H2 시드 데이터 (11개 부스 + app_settings)
 - `db/docker-compose.yml` — MySQL 8.0 Docker (booth_invest DB, booth_user/booth1234)
-- `db/init/` — MySQL 초기화 SQL (스키마 + 시드 + 테스트 유저)
+- `db/init/` — MySQL 초기화 SQL (`01_schema.sql` 스키마, `02_seed_data.sql` 시드 + 테스트 유저)
 - `build.gradle` — 의존성 (JPA, WebMVC, Validation, H2, MySQL, Lombok)
 - `frontend/src/api/client.ts` — Axios 인스턴스. baseURL은 `VITE_API_URL` 환경변수 또는 기본값 `/api`
+- `frontend/.env.development` — 로컬 개발 시 `VITE_API_URL=http://localhost:8080/api`
 - `.env` — Docker Compose 환경변수 (`.gitignore`에 포함, `.env.example` 참고)
 - `docker-compose.yml` — 전체 스택 Docker Compose (MySQL + Backend + Frontend/Nginx)
-- `Dockerfile.backend` — Spring Boot 백엔드 멀티스테이지 빌드
-- `frontend/Dockerfile` — React 프론트엔드 빌드 + Nginx 서빙
-- `frontend/nginx.conf` — Nginx 리버스 프록시 설정 (API → backend, SPA 라우팅)
-- `deploy.sh` — AWS EC2 배포 스크립트
+- `Dockerfile.backend` — Spring Boot 멀티스테이지 빌드 (eclipse-temurin:21)
+- `frontend/Dockerfile` — React 빌드(node:20-alpine) + Nginx 서빙(nginx:alpine)
+- `frontend/nginx.conf` — Nginx 리버스 프록시 (`/api/` → backend:8080, SSE용 `proxy_buffering off`), SPA 라우팅, `/assets/` 1년 캐시
+- `frontend/public/image/` — 배지 이미지 등 정적 에셋
+- `deploy.sh` — AWS EC2 배포 스크립트 (Java 21 + Docker MySQL + Nginx + systemd)

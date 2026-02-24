@@ -7,12 +7,14 @@ import HistoryPage from './pages/HistoryPage'
 import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
 import ZoneBoothListPage from './pages/ZoneBoothListPage'
+import BadgePage from './pages/BadgePage'
 import AdminPage from './pages/AdminPage'
 import BottomNav from './components/BottomNav'
 import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
+import { MissionProvider } from './components/MissionContext'
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem('token')
@@ -34,32 +36,37 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <ToastProvider>
-      <Toast />
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/home" element={
-          <PrivateRoute><AppLayout><HomePage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/booths" element={
-          <PrivateRoute><AppLayout><BoothListPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/booths/:id" element={
-          <PrivateRoute><AppLayout><BoothDetailPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/map" element={
-          <PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/map/:zoneId" element={
-          <PrivateRoute><AppLayout><ZoneBoothListPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/history" element={
-          <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/result" element={
-          <PrivateRoute><AppLayout><ResultPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
+      <MissionProvider>
+        <Toast />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/home" element={
+            <PrivateRoute><AppLayout><HomePage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/booths" element={
+            <PrivateRoute><AppLayout><BoothListPage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/booths/:id" element={
+            <PrivateRoute><AppLayout><BoothDetailPage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/map" element={
+            <PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/map/:zoneId" element={
+            <PrivateRoute><AppLayout><ZoneBoothListPage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/badges" element={
+            <PrivateRoute><AppLayout><BadgePage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/history" element={
+            <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/result" element={
+            <PrivateRoute><AppLayout><ResultPage /></AppLayout></PrivateRoute>
+          } />
+          <Route path="/admin" element={<AdminPage />} />
+        </Routes>
+      </MissionProvider>
     </ToastProvider>
   )
 }
