@@ -1,0 +1,37 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 85;
+  background: var(--bg-primary);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backBtn {
+  background: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backBtn:active {
+  opacity: 0.5;
+  transform: none;
+}
+
+.logo {
+  height: 32px;
+  width: auto;
+}
+
+.title {
+  font-family: 'CJ ONLYONE', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+}

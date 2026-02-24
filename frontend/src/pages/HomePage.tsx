@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { userApi, investmentApi } from '../api'
-import type { UserResponse, InvestmentResponse } from '../types'
+import { investmentApi } from '../api'
+import type { InvestmentResponse } from '../types'
 import styles from './HomePage.module.css'
 
 function formatWon(n: number) {
@@ -53,49 +53,17 @@ function DonutChart({ investments }: { investments: InvestmentResponse[] }) {
 }
 
 export default function HomePage() {
-  const [user, setUser] = useState<UserResponse | null>(null)
   const [investments, setInvestments] = useState<InvestmentResponse[]>([])
   const navigate = useNavigate()
-  const userName = localStorage.getItem('userName') || ''
-
   useEffect(() => {
-    userApi.getMe().then(res => setUser(res.data))
     investmentApi.getMy().then(res => setInvestments(res.data))
   }, [])
 
   const totalInvested = investments.reduce((sum, inv) => sum + inv.amount, 0)
-  const totalAsset = (user?.balance || 0) + totalInvested
   const sorted = [...investments].sort((a, b) => b.amount - a.amount)
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <p className={styles.greeting}>{userName}님의 투자</p>
-        <div className={styles.balanceSection}>
-          <p className={styles.balanceLabel}>보유 잔액</p>
-          <p className={styles.balanceValue}>
-            {user ? formatWon(user.balance) : '-'} <span className={styles.unit}>원</span>
-          </p>
-        </div>
-      </div>
-
-      <div className={styles.assetSummary}>
-        <div className={styles.assetRow}>
-          <span className={styles.assetLabel}>총 자산</span>
-          <span className={styles.assetValue}>{formatWon(totalAsset)}원</span>
-        </div>
-        <div className={styles.assetDetail}>
-          <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>보유 금액</span>
-            <span className={styles.detailValue}>{formatWon(user?.balance || 0)}</span>
-          </div>
-          <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>투자 금액</span>
-            <span className={styles.detailValue}>{formatWon(totalInvested)}</span>
-          </div>
-        </div>
-      </div>
-
       {sorted.length > 0 && <DonutChart investments={sorted} />}
 
       <div className={styles.section}>

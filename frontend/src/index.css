@@ -1,5 +1,12 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 
+@font-face {
+  font-family: 'CJ ONLYONE';
+  src: url('./assets/fonts/CJ_ONLYONE_800_Origin.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -27,7 +34,7 @@
 
 html, body {
   font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
