@@ -153,6 +153,8 @@ export interface StockCommentResponse {
   userName: string;
   content: string;
   createdAt: string;
+}
+
 export interface UserMissionResponse {
   missionId: string;
   progress: number;

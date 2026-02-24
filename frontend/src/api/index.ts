@@ -70,6 +70,8 @@ export const stockApi = {
   getBoothHistory: (boothId: number) => api.get<StockTradeHistoryResponse[]>(`/stocks/booths/${boothId}/my-history`),
   getComments: (boothId: number) => api.get<StockCommentResponse[]>(`/stocks/booths/${boothId}/comments`),
   addComment: (boothId: number, content: string) => api.post<StockCommentResponse>(`/stocks/booths/${boothId}/comments`, { content }),
+};
+
 export const missionApi = {
   getMyMissions: () => api.get<UserMissionResponse[]>('/missions/my'),
   updateProgress: (missionId: string, progress: number) =>
