@@ -1,9 +1,12 @@
 package com.pm.investment.controller;
 
 import com.pm.investment.dto.RankingResponse;
+import com.pm.investment.dto.StockPriceChangeRequest;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.SettingService;
 import com.pm.investment.service.SseEmitterService;
+import com.pm.investment.service.StockPriceService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ public class AdminController {
     private final SettingService settingService;
     private final RankingService rankingService;
     private final SseEmitterService sseEmitterService;
+    private final StockPriceService stockPriceService;
 
     @GetMapping("/results/status")
     public ResponseEntity<Map<String, Boolean>> getResultsStatus() {
@@ -54,5 +58,12 @@ public class AdminController {
         settingService.clearAnnouncement();
         sseEmitterService.broadcastClear();
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/stocks/price")
+    public ResponseEntity<Map<String, String>> changeStockPrice(
+            @Valid @RequestBody StockPriceChangeRequest request) {
+        stockPriceService.changePrice(request.getBoothId(), request.getNewPrice());
+        return ResponseEntity.ok(Map.of("message", "가격이 변경되었습니다"));
     }
 }

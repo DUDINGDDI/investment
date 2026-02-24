@@ -10,6 +10,13 @@ import type {
   RankingResponse,
   AnnouncementResponse,
   ZoneResponse,
+  StockTradeRequest,
+  StockHoldingResponse,
+  StockTradeHistoryResponse,
+  StockAccountResponse,
+  StockBoothResponse,
+  StockPriceHistoryResponse,
+  StockCommentResponse,
   UserMissionResponse,
   MissionRankingData,
   VisitRequest,
@@ -51,6 +58,18 @@ export const zoneApi = {
   getByCode: (zoneCode: string) => api.get<ZoneResponse>(`/zones/${zoneCode}`),
 };
 
+export const stockApi = {
+  buy: (data: StockTradeRequest) => api.post('/stocks/buy', data),
+  sell: (data: StockTradeRequest) => api.post('/stocks/sell', data),
+  getMy: () => api.get<StockHoldingResponse[]>('/stocks/my'),
+  getHistory: () => api.get<StockTradeHistoryResponse[]>('/stocks/history'),
+  getAccount: () => api.get<StockAccountResponse>('/stocks/account'),
+  getBooths: () => api.get<StockBoothResponse[]>('/stocks/booths'),
+  getBoothById: (id: number) => api.get<StockBoothResponse>(`/stocks/booths/${id}`),
+  getPriceHistory: (id: number) => api.get<StockPriceHistoryResponse>(`/stocks/booths/${id}/price-history`),
+  getBoothHistory: (boothId: number) => api.get<StockTradeHistoryResponse[]>(`/stocks/booths/${boothId}/my-history`),
+  getComments: (boothId: number) => api.get<StockCommentResponse[]>(`/stocks/booths/${boothId}/comments`),
+  addComment: (boothId: number, content: string) => api.post<StockCommentResponse>(`/stocks/booths/${boothId}/comments`, { content }),
 export const missionApi = {
   getMyMissions: () => api.get<UserMissionResponse[]>('/missions/my'),
   updateProgress: (missionId: string, progress: number) =>

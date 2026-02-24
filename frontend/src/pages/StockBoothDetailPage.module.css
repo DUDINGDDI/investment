@@ -1,0 +1,381 @@
+.container {
+  padding-bottom: 100px;
+}
+
+/* 종목 헤더 - 가로 배치 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconLarge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.category {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.headerRight {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.currentPrice {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* 탭 바 */
+.tabBar {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 12px;
+  position: sticky;
+  top: 0;
+  background: var(--bg-primary);
+  z-index: 10;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-disabled);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.tabActive {
+  color: var(--text-primary);
+  font-weight: 700;
+  border-bottom-color: var(--text-primary);
+}
+
+/* 탭 콘텐츠 */
+.tabContent {
+  padding: 16px 20px;
+  min-height: 300px;
+}
+
+/* 차트 탭 - 투자 정보 */
+.investSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.investRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.investRow:first-child {
+  padding-top: 0;
+}
+
+.investRow:last-child {
+  padding-bottom: 0;
+}
+
+.investLabel {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.investValueLarge {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.investValueMy {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--accent-blue);
+}
+
+.description {
+  padding: 0 20px 12px;
+}
+
+.descText {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* 빈 상태 */
+.emptyState {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+/* 내 투자이력 탭 */
+.historyGroup {
+  margin-bottom: 8px;
+}
+
+.dateLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 12px 0 8px;
+}
+
+.historyItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.historyItem:last-child {
+  border-bottom: none;
+}
+
+.historyIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.historyInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.historyName {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.historyMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.typeBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.buyBadge {
+  background: rgba(240, 68, 82, 0.15);
+  color: var(--color-invest);
+}
+
+.sellBadge {
+  background: rgba(69, 147, 252, 0.15);
+  color: var(--color-withdraw);
+}
+
+.priceAtTrade {
+  font-size: 11px;
+  color: var(--text-disabled);
+}
+
+.time {
+  font-size: 12px;
+  color: var(--text-disabled);
+}
+
+.historyAmount {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.amount {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.buyAmount {
+  color: var(--color-invest);
+}
+
+.sellAmount {
+  color: var(--color-withdraw);
+}
+
+/* 종목토론방 탭 */
+.discussionContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.commentList {
+  flex: 1;
+}
+
+.commentItem {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.commentItem:last-child {
+  border-bottom: none;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.commentAuthor {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.commentTime {
+  font-size: 12px;
+  color: var(--text-disabled);
+}
+
+.commentContent {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+
+.commentInputArea {
+  display: flex;
+  gap: 8px;
+  padding: 12px 0;
+  margin-top: 8px;
+  border-top: 1px solid var(--border-color);
+}
+
+.commentInput {
+  flex: 1;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+}
+
+.commentInput:focus {
+  border-color: var(--accent-blue);
+}
+
+.commentInput::placeholder {
+  color: var(--text-disabled);
+}
+
+.commentSendBtn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 20px;
+  background: var(--accent-blue);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.commentSendBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 하단 고정 버튼 */
+.actions {
+  position: fixed;
+  bottom: calc(var(--nav-height) + var(--safe-area-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  z-index: 20;
+}
+
+.buyBtn {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--radius-button);
+  background: var(--color-invest);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.buyBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sellBtn {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--radius-button);
+  background: var(--color-withdraw);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sellBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

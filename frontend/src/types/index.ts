@@ -88,7 +88,71 @@ export interface ZoneResponse {
   displayOrder: number;
   booths: ZoneBoothItem[];
 }
+// === 주식 (Stock) ===
+export interface StockAccountResponse {
+  userId: number;
+  balance: number;
+}
 
+export interface StockHoldingResponse {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  themeColor: string;
+  amount: number;
+  currentPrice: number;
+}
+
+export interface StockTradeHistoryResponse {
+  id: number;
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  themeColor: string;
+  type: 'BUY' | 'SELL';
+  amount: number;
+  priceAtTrade: number;
+  balanceAfter: number;
+  createdAt: string;
+}
+
+export interface StockBoothResponse {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  shortDescription: string;
+  displayOrder: number;
+  logoEmoji: string;
+  themeColor: string;
+  currentPrice: number;
+  totalHolding: number;
+  myHolding: number;
+}
+
+export interface StockTradeRequest {
+  boothId: number;
+  amount: number;
+}
+
+export interface StockPricePoint {
+  price: number;
+  changedAt: string;
+}
+
+export interface StockPriceHistoryResponse {
+  boothId: number;
+  boothName: string;
+  currentPrice: number;
+  priceHistory: StockPricePoint[];
+}
+
+export interface StockCommentResponse {
+  id: number;
+  userId: number;
+  userName: string;
+  content: string;
+  createdAt: string;
 export interface UserMissionResponse {
   missionId: string;
   progress: number;

@@ -97,9 +97,9 @@ AppSetting — key-value 독립 테이블 (results_revealed, announcement_*)
 - **브랜딩:** CJ ONLYONE 커스텀 폰트 (`frontend/src/assets/fonts/`), CJ 로고 (`frontend/src/assets/logo/`)
 - **라우팅:** React Router DOM v7. `App.tsx`에서 `PrivateRoute`로 토큰 기반 접근 제어
 - **API 통신:** Axios. `api/client.ts`에서 인터셉터로 Bearer 토큰 자동 첨부 및 401 시 로그아웃
-- **상태 관리:** 컴포넌트 로컬 state + `ToastContext`(글로벌 토스트) + `MissionContext`(배지/미션)
+- **상태 관리:** 컴포넌트 로컬 state + `ToastContext`로 글로벌 토스트 + `MissionContext`로 미션/배지 상태 관리
 - **반응형:** max-width 480px 컨테이너 고정, 모바일 앱 프레임 유지
-- **레이아웃 (`AppLayout`):** `AppHeader`(CJ 로고 + ONLYONE FAIR 타이틀 + 뒤로가기) → `AnnouncementBanner`(SSE 실시간 공지) → `TopTabBar`(유저 잔액/자산 + 투자 탭 네비게이션) → 페이지 콘텐츠 → `FloatingMenu`(확장형 FAB: 투자/지도/마이페이지/QR)
+- **레이아웃 (`AppLayout`):** `AppHeader`(CJ 로고 + ONLYONE FAIR 타이틀 + 뒤로가기) → `AnnouncementBanner`(SSE 실시간 공지) → `TopTabBar`(유저 잔액/자산 + 투자 탭 네비게이션) → 페이지 콘텐츠 → `FloatingMenu`(확장형 FAB: 미션/QR/마이페이지/지도/투자)
 - **공지 배너:** `AnnouncementBanner`가 `AppLayout`에 포함되어 모든 인증 페이지 상단에 SSE로 실시간 공지 표시. 클릭 시 팝업으로 전체 내용 확인, 닫기(dismiss)는 `localStorage`에 `updatedAt` 기준으로 저장.
 - **정적 이미지:** `frontend/public/image/` 하위에 배지 이미지 등 저장 (빌드 시 그대로 서빙)
 

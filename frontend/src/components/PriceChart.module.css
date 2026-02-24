@@ -1,0 +1,25 @@
+.container {
+  margin-bottom: 20px;
+}
+
+.chart {
+  width: 100%;
+  border-radius: var(--radius-card);
+  background: var(--bg-secondary);
+  padding: 16px;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.priceRange {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}

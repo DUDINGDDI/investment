@@ -19,6 +19,19 @@ INSERT INTO booths (name, category, description, short_description, display_orde
 
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('results_revealed', 'false');
 
+-- 주식 초기 가격 (모든 부스 10억원)
+INSERT INTO stock_prices (booth_id, current_price, updated_at) VALUES
+(1, 1000000000, NOW()), (2, 1000000000, NOW()), (3, 1000000000, NOW()),
+(4, 1000000000, NOW()), (5, 1000000000, NOW()), (6, 1000000000, NOW()),
+(7, 1000000000, NOW()), (8, 1000000000, NOW()), (9, 1000000000, NOW()),
+(10, 1000000000, NOW()), (11, 1000000000, NOW());
+
+-- 주식 초기 가격 기록
+INSERT INTO stock_price_history (booth_id, price, created_at) VALUES
+(1, 1000000000, NOW()), (2, 1000000000, NOW()), (3, 1000000000, NOW()),
+(4, 1000000000, NOW()), (5, 1000000000, NOW()), (6, 1000000000, NOW()),
+(7, 1000000000, NOW()), (8, 1000000000, NOW()), (9, 1000000000, NOW()),
+(10, 1000000000, NOW()), (11, 1000000000, NOW());
 -- ──────────────────────────────────────────────
 -- 목업 유저 15명 (랭킹 테스트용)
 -- ──────────────────────────────────────────────
