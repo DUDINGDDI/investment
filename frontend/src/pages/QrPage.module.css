@@ -17,7 +17,28 @@
   color: var(--text-secondary);
 }
 
-.emptyState {
+.scannerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.scanner {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.guideText {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.errorState {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,11 +47,13 @@
   gap: 12px;
 }
 
-.emptyIcon {
+.errorIcon {
   font-size: 48px;
 }
 
-.emptyText {
+.errorText {
   font-size: 15px;
   color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
 }

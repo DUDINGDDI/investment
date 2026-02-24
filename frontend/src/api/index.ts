@@ -12,6 +12,8 @@ import type {
   ZoneResponse,
   UserMissionResponse,
   MissionRankingData,
+  VisitRequest,
+  BoothVisitResponse,
 } from '../types';
 
 export const authApi = {
@@ -57,6 +59,13 @@ export const missionApi = {
     api.post<UserMissionResponse>('/missions/complete', { missionId }),
   getRanking: (missionId: string) =>
     api.get<MissionRankingData>('/missions/ranking', { params: { missionId } }),
+};
+
+export const visitApi = {
+  visit: (data: VisitRequest) =>
+    api.post<BoothVisitResponse>('/visits', data),
+  getMyVisits: () =>
+    api.get<BoothVisitResponse[]>('/visits/my'),
 };
 
 export const adminApi = {

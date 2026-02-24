@@ -38,6 +38,7 @@ CREATE TABLE booths (
     logo_emoji VARCHAR(10) COMMENT '대표 이모지',
     theme_color VARCHAR(7) NOT NULL DEFAULT '#3182F6' COMMENT '테마 색상 HEX',
     zone_id BIGINT COMMENT '소속 구역 ID',
+    booth_uuid VARCHAR(36) NOT NULL UNIQUE COMMENT '부스 QR UUID',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (zone_id) REFERENCES zones(id) ON DELETE SET NULL,
     INDEX idx_display_order (display_order),
@@ -79,6 +80,19 @@ CREATE TABLE user_missions (
     UNIQUE KEY uk_user_mission (user_id, mission_id),
     INDEX idx_mission_id (mission_id),
     INDEX idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 부스 방문 기록 테이블
+CREATE TABLE booth_visits (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    booth_id BIGINT NOT NULL,
+    visited_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_user_booth_visit (user_id, booth_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_booth_id (booth_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 투자 이력 테이블
