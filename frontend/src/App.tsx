@@ -58,6 +58,7 @@ function StockDetailLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ paddingBottom: '80px' }}>
       <AppHeader />
+      <AnnouncementBanner />
       {children}
       <FloatingMenu />
     </div>
