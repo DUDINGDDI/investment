@@ -11,7 +11,12 @@ import AdminPage from './pages/AdminPage'
 import MyPage from './pages/MyPage'
 import QrPage from './pages/QrPage'
 import ZoneBoothListPage from './pages/ZoneBoothListPage'
+import StockHomePage from './pages/StockHomePage'
+import StockBoothListPage from './pages/StockBoothListPage'
+import StockBoothDetailPage from './pages/StockBoothDetailPage'
+import StockHistoryPage from './pages/StockHistoryPage'
 import TopTabBar from './components/TopTabBar'
+import StockTopTabBar from './components/StockTopTabBar'
 import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import AppHeader from './components/AppHeader'
@@ -31,6 +36,28 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       <AppHeader />
       <AnnouncementBanner />
       <TopTabBar />
+      {children}
+      <FloatingMenu />
+    </div>
+  )
+}
+
+function StockAppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ paddingBottom: '80px' }}>
+      <AppHeader />
+      <AnnouncementBanner />
+      <StockTopTabBar />
+      {children}
+      <FloatingMenu />
+    </div>
+  )
+}
+
+function StockDetailLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ paddingBottom: '80px' }}>
+      <AppHeader />
       {children}
       <FloatingMenu />
     </div>
@@ -73,6 +100,18 @@ export default function App() {
         } />
         <Route path="/qr" element={
           <PrivateRoute><AppLayout><QrPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/stocks" element={
+          <PrivateRoute><StockAppLayout><StockHomePage /></StockAppLayout></PrivateRoute>
+        } />
+        <Route path="/stocks/booths" element={
+          <PrivateRoute><StockAppLayout><StockBoothListPage /></StockAppLayout></PrivateRoute>
+        } />
+        <Route path="/stocks/booths/:id" element={
+          <PrivateRoute><StockDetailLayout><StockBoothDetailPage /></StockDetailLayout></PrivateRoute>
+        } />
+        <Route path="/stocks/history" element={
+          <PrivateRoute><StockAppLayout><StockHistoryPage /></StockAppLayout></PrivateRoute>
         } />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>

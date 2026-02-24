@@ -3,7 +3,9 @@ package com.pm.investment.service;
 import com.pm.investment.dto.LoginRequest;
 import com.pm.investment.dto.LoginResponse;
 import com.pm.investment.dto.UserResponse;
+import com.pm.investment.entity.StockAccount;
 import com.pm.investment.entity.User;
+import com.pm.investment.repository.StockAccountRepository;
 import com.pm.investment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.Base64;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final StockAccountRepository stockAccountRepository;
 
     @Transactional
     public LoginResponse login(LoginRequest request) {
@@ -24,6 +27,11 @@ public class UserService {
                     User newUser = new User(request.getUniqueCode(), request.getName());
                     return userRepository.save(newUser);
                 });
+
+        // StockAccount가 없으면 자동 생성
+        if (stockAccountRepository.findByUserId(user.getId()).isEmpty()) {
+            stockAccountRepository.save(new StockAccount(user));
+        }
 
         String token = generateToken(user.getId());
 

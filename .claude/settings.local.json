@@ -30,7 +30,9 @@
       "Bash(cmd.exe /c \"npx --version\")",
       "Bash(node_modules/.bin/tsc:*)",
       "mcp__ide__getDiagnostics",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(tail:*)",
+      "Bash(find /c/Users/sakms/IdeaProjects/investment/src/main/java/com/pm/investment -type f -name \"*.java\" | xargs grep -l \"Comment\\\\|Discussion\\\\|Opinion\\\\|Forum\" 2>/dev/null)"
     ],
     "additionalDirectories": [
       "c:\\Users\\User\\Desktop\\repository\\investment\\frontend\\public"

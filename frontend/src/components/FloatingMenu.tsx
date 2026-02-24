@@ -16,6 +16,7 @@ export default function FloatingMenu() {
   const isInvestActive = ['/home', '/booths', '/history', '/result'].some(p =>
     p === '/booths' ? location.pathname.startsWith('/booths') : location.pathname === p
   )
+  const isStockActive = location.pathname.startsWith('/stocks')
   const isMapActive = location.pathname.startsWith('/map')
   const isMyPageActive = location.pathname === '/mypage'
   const isQrActive = location.pathname === '/qr'
@@ -67,6 +68,16 @@ export default function FloatingMenu() {
             <path d="M9 2L3 5V22L9 19L15 22L21 19V2L15 5L9 2Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
             <path d="M9 2V19" stroke="white" strokeWidth="2" />
             <path d="M15 5V22" stroke="white" strokeWidth="2" />
+          </svg>
+        </button>
+        <button
+          className={`${styles.subButton} ${isStockActive ? styles.subButtonActive : ''}`}
+          onClick={() => handleNavigate('/stocks')}
+          aria-label="주식"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M3 17L9 11L13 15L21 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M17 7H21V11" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
         <button

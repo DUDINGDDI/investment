@@ -72,10 +72,6 @@ export default function BoothDetailPage() {
 
       <div className={styles.investSection}>
         <div className={styles.investRow}>
-          <span className={styles.investLabel}>전체 투자금</span>
-          <span className={styles.investValueLarge}>{formatWon(booth.totalInvestment)}원</span>
-        </div>
-        <div className={styles.investRow}>
           <span className={styles.investLabel}>내 투자금</span>
           <span className={styles.investValueMy}>{formatWon(booth.myInvestment)}원</span>
         </div>

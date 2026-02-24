@@ -1,0 +1,104 @@
+.wrapper {
+  background: var(--bg-primary);
+  position: sticky;
+  top: 47px;
+  z-index: 80;
+}
+
+.header {
+  padding: 16px 20px 12px;
+}
+
+.greeting {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.balanceValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.unit {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.assetBox {
+  margin: 0 20px 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 16px;
+}
+
+.assetRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.assetLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.assetValue {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.assetDetail {
+  display: flex;
+  gap: 24px;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detailLabel {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.detailValue {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  text-align: center;
+}
+
+.tab:active {
+  transform: none;
+}
+
+.active {
+  color: var(--text-primary);
+  font-weight: 700;
+  border-bottom-color: var(--accent-blue);
+}

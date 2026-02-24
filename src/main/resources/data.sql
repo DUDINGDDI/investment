@@ -18,3 +18,17 @@ INSERT INTO booths (name, category, description, short_description, display_orde
 ('클린워터텍', '환경', '나노 필터 기반 수질 정화 기술을 보유하고 있습니다. 오염된 물을 음용수 수준으로 정화하는 포터블 장치를 개발했으며, 개발도상국과 재난 지역에 보급 중입니다. UN 산하 기관과 파트너십을 맺고 아프리카 5개국에 시범 보급을 완료했습니다. ESG 투자 관점에서 높은 관심을 받고 있습니다.', '나노 필터 수질 정화 포터블 장치', 11, '💧', '#74B9FF', 4);
 
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('results_revealed', 'false');
+
+-- 주식 초기 가격 (모든 부스 10억원)
+INSERT INTO stock_prices (booth_id, current_price, updated_at) VALUES
+(1, 1000000000, NOW()), (2, 1000000000, NOW()), (3, 1000000000, NOW()),
+(4, 1000000000, NOW()), (5, 1000000000, NOW()), (6, 1000000000, NOW()),
+(7, 1000000000, NOW()), (8, 1000000000, NOW()), (9, 1000000000, NOW()),
+(10, 1000000000, NOW()), (11, 1000000000, NOW());
+
+-- 주식 초기 가격 기록
+INSERT INTO stock_price_history (booth_id, price, created_at) VALUES
+(1, 1000000000, NOW()), (2, 1000000000, NOW()), (3, 1000000000, NOW()),
+(4, 1000000000, NOW()), (5, 1000000000, NOW()), (6, 1000000000, NOW()),
+(7, 1000000000, NOW()), (8, 1000000000, NOW()), (9, 1000000000, NOW()),
+(10, 1000000000, NOW()), (11, 1000000000, NOW());
