@@ -44,7 +44,7 @@ export default function AnnouncementBanner() {
   const [dismissed, setDismissed] = useState(false)
   const [popupOpen, setPopupOpen] = useState(false)
   const eventSourceRef = useRef<EventSource | null>(null)
-  const isFirstLoad = useRef(true)
+  const notifiedAtRef = useRef<string | null>(null)
 
   useEffect(() => {
     requestNotificationPermission()
@@ -72,14 +72,14 @@ export default function AnnouncementBanner() {
           const alreadyDismissed = dismissedAt === ua
           setDismissed(alreadyDismissed)
 
-          // 새 공지일 때만 알림 (첫 로드의 기존 공지는 제외)
-          if (!isFirstLoad.current && !alreadyDismissed) {
+          // 같은 공지에 대해 한 번만 알림
+          if (!alreadyDismissed && notifiedAtRef.current !== ua) {
+            notifiedAtRef.current = ua
             notify(msg)
           }
         } else {
           setDismissed(false)
         }
-        isFirstLoad.current = false
       } catch {
         // 파싱 실패 시 무시
       }
