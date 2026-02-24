@@ -21,6 +21,15 @@ const MAP_HOTSPOTS_BY_SLIDE: Record<number, Hotspot[]> = {
   ],
 }
 
+/** zoneCode → 슬라이드 인덱스 매핑 (핫스팟 정보에서 자동 생성) */
+const ZONE_TO_SLIDE: Record<string, number> = Object.entries(MAP_HOTSPOTS_BY_SLIDE).reduce(
+  (acc, [slideIdx, spots]) => {
+    spots.forEach(spot => { acc[spot.zoneId] = Number(slideIdx) })
+    return acc
+  },
+  {} as Record<string, number>,
+)
+
 const PAGE_SIZE = 10
 
 export default function MapPage() {
@@ -114,6 +123,9 @@ export default function MapPage() {
     setFilterZoneCode(value)
     setSelectedZoneCode(null)
     setPage(1)
+    if (value && value in ZONE_TO_SLIDE) {
+      goTo(ZONE_TO_SLIDE[value])
+    }
   }
 
   const handlePageChange = (newPage: number) => {
