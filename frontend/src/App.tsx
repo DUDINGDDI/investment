@@ -5,8 +5,11 @@ import BoothListPage from './pages/BoothListPage'
 import BoothDetailPage from './pages/BoothDetailPage'
 import HistoryPage from './pages/HistoryPage'
 import ResultPage from './pages/ResultPage'
+import MapPage from './pages/MapPage'
+import ZoneBoothListPage from './pages/ZoneBoothListPage'
 import AdminPage from './pages/AdminPage'
 import BottomNav from './components/BottomNav'
+import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
@@ -22,6 +25,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     <div style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-area-bottom) + 8px)' }}>
       <AnnouncementBanner />
       {children}
+      <FloatingMenu />
       <BottomNav />
     </div>
   )
@@ -41,6 +45,12 @@ export default function App() {
         } />
         <Route path="/booths/:id" element={
           <PrivateRoute><AppLayout><BoothDetailPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/map" element={
+          <PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/map/:zoneId" element={
+          <PrivateRoute><AppLayout><ZoneBoothListPage /></AppLayout></PrivateRoute>
         } />
         <Route path="/history" element={
           <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>

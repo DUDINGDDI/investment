@@ -2,6 +2,7 @@
 -- 부스 투자 시뮬레이터 DB 스키마
 -- ============================================
 
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE booth_invest;
 
 -- 사용자 테이블

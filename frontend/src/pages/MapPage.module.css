@@ -1,0 +1,152 @@
+.container {
+  padding: 20px;
+}
+
+.header {
+  padding: 24px 0 16px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* 캐러셀 */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--bg-secondary);
+}
+
+.track {
+  display: flex;
+  transition: transform 0.35s ease;
+}
+
+.slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* 핫스팟 */
+.hotspot {
+  position: absolute;
+  background: rgba(69, 147, 252, 0.2);
+  border: 2px solid rgba(69, 147, 252, 0.6);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  padding: 0;
+}
+
+.hotspot:hover,
+.hotspot:active {
+  background: rgba(69, 147, 252, 0.35);
+  border-color: var(--accent-blue);
+  transform: none;
+}
+
+.hotspotLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* 화살표 */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 0;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.arrow:active {
+  transform: translateY(-50%);
+}
+
+.arrowLeft {
+  left: 8px;
+}
+
+.arrowRight {
+  right: 8px;
+}
+
+/* 인디케이터 */
+.indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0 8px;
+}
+
+.indicatorText {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-color);
+  transition: background 0.2s, transform 0.2s;
+  padding: 0;
+}
+
+.dot:active {
+  transform: none;
+}
+
+.dotActive {
+  background: var(--accent-blue);
+  transform: scale(1.2);
+}
+
+.dotActive:active {
+  transform: scale(1.2);
+}

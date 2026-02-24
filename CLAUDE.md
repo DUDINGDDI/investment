@@ -21,10 +21,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Lint:** `cd frontend && npm run lint`
 - **Type check:** `cd frontend && npx tsc --noEmit`
 
-### MySQL Docker
-- **Start:** `cd db && docker-compose up -d`
-- **Stop:** `cd db && docker-compose down`
-- **Reset (데이터 삭제):** `cd db && docker-compose down -v`
+### Docker Compose (전체 스택)
+- **전체 실행:** `docker compose up -d --build`
+- **전체 중지:** `docker compose down`
+- **전체 초기화 (데이터 삭제):** `docker compose down -v`
+- **로그 확인:** `docker compose logs -f`
+- **백엔드 로그:** `docker compose logs -f backend`
+- 포트: MySQL 3306, Backend 8080, Frontend(Nginx) 80
+
+### MySQL Docker (DB만 단독)
+- **Start:** `cd db && docker compose up -d`
+- **Stop:** `cd db && docker compose down`
+- **Reset (데이터 삭제):** `cd db && docker compose down -v`
 
 ## Architecture
 
@@ -77,4 +85,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `db/init/` — MySQL 초기화 SQL (스키마 + 시드 + 테스트 유저)
 - `build.gradle` — 의존성 (JPA, WebMVC, Validation, H2, MySQL, Lombok)
 - `frontend/src/api/client.ts` — Axios 인스턴스. baseURL은 `VITE_API_URL` 환경변수 또는 기본값 `/api`
-- `deploy.sh` — 배포 스크립트
+- `.env` — Docker Compose 환경변수 (`.gitignore`에 포함, `.env.example` 참고)
+- `docker-compose.yml` — 전체 스택 Docker Compose (MySQL + Backend + Frontend/Nginx)
+- `Dockerfile.backend` — Spring Boot 백엔드 멀티스테이지 빌드
+- `frontend/Dockerfile` — React 프론트엔드 빌드 + Nginx 서빙
+- `frontend/nginx.conf` — Nginx 리버스 프록시 설정 (API → backend, SPA 라우팅)
+- `deploy.sh` — AWS EC2 배포 스크립트
