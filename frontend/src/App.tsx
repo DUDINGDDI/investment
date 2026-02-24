@@ -13,6 +13,7 @@ import QrPage from './pages/QrPage'
 import TopTabBar from './components/TopTabBar'
 import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
+import AppHeader from './components/AppHeader'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
 
@@ -25,6 +26,7 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ paddingBottom: '80px' }}>
+      <AppHeader />
       <AnnouncementBanner />
       <TopTabBar />
       {children}

@@ -59,11 +59,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 8. `DELETE /api/admin/announcement` → 공지 삭제 + 전체 SSE 클리어 브로드캐스트
 
 ### 프론트엔드: React 19 + TypeScript + Vite
-- **스타일링:** CSS Modules (`.module.css`), 토스증권 스타일 디자인 시스템
+- **스타일링:** CSS Modules (`.module.css`), 다크 테마 기반 디자인 시스템
+- **브랜딩:** CJ ONLYONE 커스텀 폰트 (`frontend/src/assets/fonts/`), CJ 로고 (`frontend/src/assets/logo/`)
 - **라우팅:** React Router DOM v7. `App.tsx`에서 `PrivateRoute`로 토큰 기반 접근 제어
-- **API 통신:** Axios. `api/client.ts`에서 인터셉터로 토큰 자동 첨부 및 401 시 로그아웃
+- **API 통신:** Axios. `api/client.ts`에서 인터셉터로 Bearer 토큰 자동 첨부 및 401 시 로그아웃
 - **상태 관리:** 컴포넌트 로컬 state + `ToastContext`로 글로벌 토스트
 - **반응형:** max-width 480px 컨테이너 고정, 모바일 앱 프레임 유지
+- **레이아웃 (`AppLayout`):** `AppHeader`(CJ 로고 + ONLYONE FAIR 타이틀 + 뒤로가기) → `AnnouncementBanner`(SSE 실시간 공지) → `TopTabBar`(유저 잔액/자산 + 투자 탭 네비게이션) → 페이지 콘텐츠 → `FloatingMenu`(확장형 FAB: 투자/지도/마이페이지/QR)
 - **공지 배너:** `AnnouncementBanner`가 `AppLayout`에 포함되어 모든 인증 페이지 상단에 SSE로 실시간 공지 표시. 클릭 시 팝업으로 전체 내용 확인, 닫기(dismiss)는 `localStorage`에 `updatedAt` 기준으로 저장.
 
 ### 프론트엔드 라우트
@@ -73,9 +75,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `/home` | HomePage | 대시보드 + 도넛 차트 |
 | `/booths` | BoothListPage | 부스 목록 |
 | `/booths/:id` | BoothDetailPage | 투자/철회 바텀시트 |
+| `/map` | MapPage | 행사장 지도 (캐러셀 + 핫스팟) |
+| `/map/:zoneId` | ZoneBoothListPage | 구역별 부스 목록 |
 | `/history` | HistoryPage | 날짜별 그룹핑 |
 | `/result` | ResultPage | Coming Soon 또는 랭킹 |
-| `/admin` | AdminPage | 관리자 전용, BottomNav 없음 |
+| `/mypage` | MyPage | 준비 중 (플레이스홀더) |
+| `/qr` | QrPage | 준비 중 (플레이스홀더) |
+| `/admin` | AdminPage | 관리자 전용, 별도 레이아웃 |
 
 ## Key Configuration
 
