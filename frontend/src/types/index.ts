@@ -70,3 +70,21 @@ export interface AnnouncementResponse {
   message: string;
   updatedAt: string;
 }
+
+export interface ZoneBoothItem {
+  id: number;
+  name: string;
+  category: string;
+  shortDescription: string;
+  logoEmoji: string;
+  themeColor: string;
+}
+
+export interface ZoneResponse {
+  id: number;
+  zoneCode: string;
+  name: string;
+  floorInfo: string;
+  displayOrder: number;
+  booths: ZoneBoothItem[];
+}

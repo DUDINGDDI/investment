@@ -6,7 +6,6 @@ import BoothDetailPage from './pages/BoothDetailPage'
 import HistoryPage from './pages/HistoryPage'
 import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
-import ZoneBoothListPage from './pages/ZoneBoothListPage'
 import BadgePage from './pages/BadgePage'
 import AdminPage from './pages/AdminPage'
 import BottomNav from './components/BottomNav'
@@ -51,9 +50,6 @@ export default function App() {
           } />
           <Route path="/map" element={
             <PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/map/:zoneId" element={
-            <PrivateRoute><AppLayout><ZoneBoothListPage /></AppLayout></PrivateRoute>
           } />
           <Route path="/badges" element={
             <PrivateRoute><AppLayout><BadgePage /></AppLayout></PrivateRoute>

@@ -8,4 +8,10 @@ import java.util.List;
 public interface BoothRepository extends JpaRepository<Booth, Long> {
 
     List<Booth> findAllByOrderByDisplayOrderAsc();
+
+    List<Booth> findByZoneIdOrderByDisplayOrderAsc(Long zoneId);
+
+    List<Booth> findByZoneZoneCodeOrderByDisplayOrderAsc(String zoneCode);
+
+    List<Booth> findByNameContainingIgnoreCaseOrderByDisplayOrderAsc(String name);
 }

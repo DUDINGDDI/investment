@@ -9,6 +9,7 @@ import type {
   InvestmentHistoryResponse,
   RankingResponse,
   AnnouncementResponse,
+  ZoneResponse,
 } from '../types';
 
 export const authApi = {
@@ -39,6 +40,11 @@ export const resultApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/results/status'),
   getRanking: () => api.get<RankingResponse[]>('/results/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/results/announcement'),
+};
+
+export const zoneApi = {
+  getAll: () => api.get<ZoneResponse[]>('/zones'),
+  getByCode: (zoneCode: string) => api.get<ZoneResponse>(`/zones/${zoneCode}`),
 };
 
 export const adminApi = {
