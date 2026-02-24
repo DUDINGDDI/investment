@@ -1,7 +1,7 @@
 INSERT INTO zones (zone_code, name, floor_info, display_order) VALUES
-('101', '101호', 'LEADERSHIP CENTER 1F', 1),
-('102', '102호', 'LEADERSHIP CENTER 1F', 2),
-('손복남홀', '손복남홀', 'INNOVATION CENTER LL', 3),
+('손복남홀', '손복남홀', 'INNOVATION CENTER LL', 1),
+('101', '101호', 'LEADERSHIP CENTER 1F', 2),
+('102', '102호', 'LEADERSHIP CENTER 1F', 3),
 ('201', '201호', 'LEADERSHIP CENTER 2F', 4);
 
 INSERT INTO booths (name, category, description, short_description, display_order, logo_emoji, theme_color, zone_id) VALUES

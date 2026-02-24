@@ -6,15 +6,15 @@ import styles from './MapPage.module.css'
 
 type Hotspot = { zoneId: string; left: number; top: number; width: number; height: number }
 
-const MAP_IMAGES = ['/image/map1.png', '/image/map2.png', '/image/map3.png']
+const MAP_IMAGES = ['/image/map2.png', '/image/map1.png', '/image/map3.png']
 
 const MAP_HOTSPOTS_BY_SLIDE: Record<number, Hotspot[]> = {
   0: [
-    { zoneId: '101', left: 21, top: 13, width: 27, height: 50 },
-    { zoneId: '102', left: 53, top: 13, width: 27, height: 50 },
+    { zoneId: '손복남홀', left: 60, top: 25, width: 19, height: 58 },
   ],
   1: [
-    { zoneId: '손복남홀', left: 60, top: 25, width: 19, height: 58 },
+    { zoneId: '101', left: 21, top: 13, width: 27, height: 50 },
+    { zoneId: '102', left: 53, top: 13, width: 27, height: 50 },
   ],
   2: [
     { zoneId: '201', left: 53, top: 13, width: 26, height: 43 },
