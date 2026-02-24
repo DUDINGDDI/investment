@@ -19,6 +19,9 @@ import type {
   StockCommentResponse,
   UserMissionResponse,
   MissionRankingData,
+  StockRatingRequest,
+  StockRatingResponse,
+  AdminBoothRatingResponse,
   VisitRequest,
   BoothVisitResponse,
 } from '../types';
@@ -70,6 +73,8 @@ export const stockApi = {
   getBoothHistory: (boothId: number) => api.get<StockTradeHistoryResponse[]>(`/stocks/booths/${boothId}/my-history`),
   getComments: (boothId: number, tag?: string) => api.get<StockCommentResponse[]>(`/stocks/booths/${boothId}/comments`, { params: tag ? { tag } : {} }),
   addComment: (boothId: number, content: string, tag: string) => api.post<StockCommentResponse>(`/stocks/booths/${boothId}/comments`, { content, tag }),
+  submitRating: (boothId: number, data: StockRatingRequest) => api.post<StockRatingResponse>(`/stocks/booths/${boothId}/rating`, data),
+  getMyRating: (boothId: number) => api.get<StockRatingResponse>(`/stocks/booths/${boothId}/rating`),
 };
 
 export const missionApi = {
@@ -96,4 +101,5 @@ export const adminApi = {
   getAnnouncement: () => api.get<AnnouncementResponse>('/admin/announcement'),
   setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),
   clearAnnouncement: () => api.delete('/admin/announcement'),
+  getBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/ratings'),
 };

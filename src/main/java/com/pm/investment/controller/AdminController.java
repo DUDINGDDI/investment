@@ -1,11 +1,13 @@
 package com.pm.investment.controller;
 
+import com.pm.investment.dto.AdminBoothRatingResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.dto.StockPriceChangeRequest;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.SettingService;
 import com.pm.investment.service.SseEmitterService;
 import com.pm.investment.service.StockPriceService;
+import com.pm.investment.service.StockRatingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ public class AdminController {
     private final RankingService rankingService;
     private final SseEmitterService sseEmitterService;
     private final StockPriceService stockPriceService;
+    private final StockRatingService stockRatingService;
 
     @GetMapping("/results/status")
     public ResponseEntity<Map<String, Boolean>> getResultsStatus() {
@@ -65,5 +68,10 @@ public class AdminController {
             @Valid @RequestBody StockPriceChangeRequest request) {
         stockPriceService.changePrice(request.getBoothId(), request.getNewPrice());
         return ResponseEntity.ok(Map.of("message", "가격이 변경되었습니다"));
+    }
+
+    @GetMapping("/ratings")
+    public ResponseEntity<List<AdminBoothRatingResponse>> getBoothRatings() {
+        return ResponseEntity.ok(stockRatingService.getAdminRatingResults());
     }
 }

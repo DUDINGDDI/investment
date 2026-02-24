@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
-import type { StockBoothResponse, StockPricePoint, StockTradeHistoryResponse, StockCommentResponse } from '../types'
+import type { StockBoothResponse, StockPricePoint, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
 import PriceChart from '../components/PriceChart'
 import { useToast } from '../components/ToastContext'
@@ -17,6 +17,17 @@ const TAG_CONFIG = [
 
 const getTagLabel = (tag: string) => TAG_CONFIG.find(t => t.key === tag)?.label || tag
 const getTagColor = (tag: string) => TAG_CONFIG.find(t => t.key === tag)?.color || '#8C8C96'
+
+const RATING_CRITERIA = [
+  { key: 'scoreFirst', label: '최초' },
+  { key: 'scoreBest', label: '최고' },
+  { key: 'scoreDifferent', label: '차별화' },
+  { key: 'scoreNumberOne', label: '일등' },
+  { key: 'scoreGap', label: '초격차' },
+  { key: 'scoreGlobal', label: '글로벌' },
+] as const
+
+type ScoreKey = typeof RATING_CRITERIA[number]['key']
 
 function formatStockAmount(n: number) {
   if (n >= 1_000_000_000_000) return (n / 1_000_000_000_000).toFixed(1) + '조'
@@ -62,12 +73,17 @@ function formatCommentTime(dateStr: string) {
 
 export default function StockBoothDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const [searchParams] = useSearchParams()
   const { showToast } = useToast()
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
   const [priceHistory, setPriceHistory] = useState<StockPricePoint[]>([])
   const [modal, setModal] = useState<'buy' | 'sell' | null>(null)
-  const [activeTab, setActiveTab] = useState<TabType>('chart')
+  const [activeTab, setActiveTab] = useState<TabType>(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'review' || tab === 'chart' || tab === 'history' || tab === 'discussion') return tab
+    return 'chart'
+  })
 
   // 메모
   const [memoOpen, setMemoOpen] = useState(false)
@@ -83,6 +99,16 @@ export default function StockBoothDetailPage() {
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [commentInput, setCommentInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  // 평가 탭
+  const [myRating, setMyRating] = useState<StockRatingResponse | null>(null)
+  const [ratingLoaded, setRatingLoaded] = useState(false)
+  const [ratingScores, setRatingScores] = useState<Record<ScoreKey, number>>({
+    scoreFirst: 0, scoreBest: 0, scoreDifferent: 0,
+    scoreNumberOne: 0, scoreGap: 0, scoreGlobal: 0,
+  })
+  const [reviewText, setReviewText] = useState('')
+  const [ratingSubmitting, setRatingSubmitting] = useState(false)
   const [filterTag, setFilterTag] = useState<string | null>(null)
   const [inputTag, setInputTag] = useState<string>('PROFITABILITY')
 
@@ -127,7 +153,24 @@ export default function StockBoothDetailPage() {
         setCommentsLoaded(true)
       })
     }
-  }, [activeTab, id, historyLoaded, commentsLoaded])
+    if (activeTab === 'review' && !ratingLoaded) {
+      stockApi.getMyRating(Number(id)).then(res => {
+        if (res.status === 200 && res.data) {
+          setMyRating(res.data)
+          setRatingScores({
+            scoreFirst: res.data.scoreFirst,
+            scoreBest: res.data.scoreBest,
+            scoreDifferent: res.data.scoreDifferent,
+            scoreNumberOne: res.data.scoreNumberOne,
+            scoreGap: res.data.scoreGap,
+            scoreGlobal: res.data.scoreGlobal,
+          })
+          setReviewText(res.data.review || '')
+        }
+        setRatingLoaded(true)
+      }).catch(() => setRatingLoaded(true))
+    }
+  }, [activeTab, id, historyLoaded, commentsLoaded, ratingLoaded])
 
   // 태그 필터 변경 시 댓글 재로드
   useEffect(() => {
@@ -179,6 +222,29 @@ export default function StockBoothDetailPage() {
     }
   }
 
+  const handleSubmitRating = async () => {
+    if (!id || ratingSubmitting) return
+    const allScored = (Object.values(ratingScores) as number[]).every(v => v >= 1 && v <= 5)
+    if (!allScored) {
+      showToast('모든 평가 항목을 입력해주세요', 'error')
+      return
+    }
+    setRatingSubmitting(true)
+    try {
+      const res = await stockApi.submitRating(Number(id), {
+        ...ratingScores,
+        review: reviewText.trim() || undefined,
+      })
+      setMyRating(res.data)
+      showToast('평가가 완료되었습니다!', 'success')
+      loadData()
+    } catch (err: any) {
+      showToast(err.response?.data?.error || '평가에 실패했습니다', 'error')
+    } finally {
+      setRatingSubmitting(false)
+    }
+  }
+
   if (!booth) return null
 
   const tabs: { key: TabType; label: string }[] = [
@@ -199,6 +265,8 @@ export default function StockBoothDetailPage() {
     }
     grouped[grouped.length - 1].items.push(item)
   }
+
+  const canTrade = booth.hasVisited && booth.hasRated
 
   return (
     <div className={styles.container}>
@@ -449,28 +517,89 @@ export default function StockBoothDetailPage() {
 
         {/* 평가 탭 */}
         {activeTab === 'review' && (
-          <div className={styles.emptyState}>
-            <p>준비 중입니다</p>
+          <div className={styles.ratingContainer}>
+            {!booth.hasVisited ? (
+              <div className={styles.ratingLocked}>
+                <span className={styles.lockIcon}>&#x1F512;</span>
+                <p className={styles.lockTitle}>부스를 방문한 후에 평가할 수 있습니다</p>
+                <p className={styles.lockHint}>QR 코드를 스캔하여 방문을 기록하세요</p>
+              </div>
+            ) : (
+              <>
+                {RATING_CRITERIA.map(({ key, label }) => (
+                  <div key={key} className={styles.criteriaRow}>
+                    <span className={styles.criteriaLabel}>{label}</span>
+                    <div className={styles.stars}>
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <button
+                          key={star}
+                          className={`${styles.star} ${ratingScores[key] >= star ? styles.starActive : ''}`}
+                          onClick={() => !myRating && setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))}
+                          disabled={!!myRating}
+                        >
+                          &#9733;
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                <div className={styles.reviewSection}>
+                  <textarea
+                    className={styles.reviewInput}
+                    placeholder="리뷰를 작성해주세요 (선택)"
+                    value={reviewText}
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReviewText(e.target.value)}
+                    maxLength={500}
+                    disabled={!!myRating}
+                  />
+                  <div className={styles.charCount}>{reviewText.length} / 500</div>
+                </div>
+
+                {myRating ? (
+                  <div className={styles.ratingCompleted}>
+                    <span>평가가 완료되었습니다 (총점: {myRating.totalScore}/30)</span>
+                  </div>
+                ) : (
+                  <button
+                    className={styles.submitRatingBtn}
+                    onClick={handleSubmitRating}
+                    disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                  >
+                    {ratingSubmitting ? '제출 중...' : '평가 제출'}
+                  </button>
+                )}
+              </>
+            )}
           </div>
         )}
       </div>
 
       {/* 하단 고정 매수/매도 버튼 */}
       <div className={styles.actions}>
-        <button
-          className={styles.sellBtn}
-          onClick={() => setModal('sell')}
-          disabled={booth.myHolding === 0}
-        >
-          매도하기
-        </button>
-        <button
-          className={styles.buyBtn}
-          onClick={() => setModal('buy')}
-          disabled={balance === 0}
-        >
-          매수하기
-        </button>
+        {!canTrade && (
+          <p className={styles.tradeGuide}>
+            {!booth.hasVisited
+              ? 'QR 스캔으로 부스를 방문해주세요'
+              : '평가를 완료하면 매수/매도가 가능합니다'}
+          </p>
+        )}
+        <div className={styles.actionBtns}>
+          <button
+            className={styles.sellBtn}
+            onClick={() => setModal('sell')}
+            disabled={!canTrade || booth.myHolding === 0}
+          >
+            매도하기
+          </button>
+          <button
+            className={styles.buyBtn}
+            onClick={() => setModal('buy')}
+            disabled={!canTrade || balance === 0}
+          >
+            매수하기
+          </button>
+        </div>
       </div>
 
       {modal === 'buy' && (

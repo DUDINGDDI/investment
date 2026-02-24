@@ -169,6 +169,26 @@ CREATE TABLE stock_comments (
     INDEX idx_booth_tag (booth_id, tag)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 부스 평가 테이블
+CREATE TABLE stock_ratings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    booth_id BIGINT NOT NULL,
+    score_first INT NOT NULL COMMENT '최초 (1~5)',
+    score_best INT NOT NULL COMMENT '최고 (1~5)',
+    score_different INT NOT NULL COMMENT '차별화 (1~5)',
+    score_number_one INT NOT NULL COMMENT '일등 (1~5)',
+    score_gap INT NOT NULL COMMENT '초격차 (1~5)',
+    score_global INT NOT NULL COMMENT '글로벌 (1~5)',
+    review VARCHAR(500) NULL COMMENT '텍스트 리뷰 (선택)',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_user_booth_rating (user_id, booth_id),
+    INDEX idx_booth_id (booth_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 투자 이력 테이블
 CREATE TABLE investment_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

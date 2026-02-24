@@ -542,6 +542,159 @@
   cursor: not-allowed;
 }
 
+/* 평가 탭 */
+.ratingContainer {
+  padding: 4px 0;
+}
+
+.ratingLocked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.lockIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.lockTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.lockHint {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.criteriaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.criteriaRow:last-of-type {
+  border-bottom: none;
+}
+
+.criteriaLabel {
+  font-size: 15px;
+  font-weight: 600;
+  min-width: 60px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-disabled);
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.15s, transform 0.15s;
+  line-height: 1;
+}
+
+.star:hover:not(:disabled) {
+  transform: scale(1.15);
+}
+
+.starActive {
+  color: #FBBF24;
+}
+
+.star:disabled {
+  cursor: default;
+}
+
+.reviewSection {
+  margin-top: 20px;
+}
+
+.reviewInput {
+  width: 100%;
+  min-height: 100px;
+  padding: 14px;
+  border-radius: var(--radius-button);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.reviewInput:focus {
+  border-color: var(--accent-blue);
+}
+
+.reviewInput::placeholder {
+  color: var(--text-disabled);
+}
+
+.reviewInput:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.charCount {
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.submitRatingBtn {
+  width: 100%;
+  height: 52px;
+  margin-top: 20px;
+  border-radius: var(--radius-button);
+  background: var(--accent-blue);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submitRatingBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.submitRatingBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ratingCompleted {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 16px;
+  background: rgba(22, 163, 74, 0.1);
+  border-radius: var(--radius-button);
+  color: #34D399;
+  font-size: 15px;
+  font-weight: 600;
+}
+
 /* 하단 고정 버튼 */
 .actions {
   position: fixed;
@@ -550,12 +703,22 @@
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  display: flex;
-  gap: 8px;
   padding: 12px 20px;
   background: var(--bg-primary);
   border-top: 1px solid var(--border-color);
   z-index: 20;
+}
+
+.tradeGuide {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.actionBtns {
+  display: flex;
+  gap: 8px;
 }
 
 .buyBtn {

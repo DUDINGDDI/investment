@@ -1,11 +1,25 @@
 import { useEffect, useState } from 'react'
 import { adminApi } from '../api'
-import type { RankingResponse } from '../types'
+import type { RankingResponse, AdminBoothRatingResponse } from '../types'
 import styles from './AdminPage.module.css'
 
 function formatWon(n: number) {
   return n.toLocaleString('ko-KR')
 }
+
+type RatingSortKey = 'avgTotal' | 'totalScoreSum' | 'ratingCount' | 'avgFirst' | 'avgBest' | 'avgDifferent' | 'avgNumberOne' | 'avgGap' | 'avgGlobal'
+
+const SORT_OPTIONS: { key: RatingSortKey; label: string }[] = [
+  { key: 'avgTotal', label: '전체 평균' },
+  { key: 'totalScoreSum', label: '총점 합계' },
+  { key: 'ratingCount', label: '참여자 수' },
+  { key: 'avgFirst', label: '최초' },
+  { key: 'avgBest', label: '최고' },
+  { key: 'avgDifferent', label: '차별화' },
+  { key: 'avgNumberOne', label: '일등' },
+  { key: 'avgGap', label: '초격차' },
+  { key: 'avgGlobal', label: '글로벌' },
+]
 
 export default function AdminPage() {
   const [revealed, setRevealed] = useState(false)
@@ -15,18 +29,22 @@ export default function AdminPage() {
   const [annMessage, setAnnMessage] = useState('')
   const [annCurrent, setAnnCurrent] = useState('')
   const [annSaving, setAnnSaving] = useState(false)
+  const [boothRatings, setBoothRatings] = useState<AdminBoothRatingResponse[]>([])
+  const [ratingSortKey, setRatingSortKey] = useState<RatingSortKey>('avgTotal')
 
   const loadData = async () => {
     try {
-      const [statusRes, rankRes, annRes] = await Promise.all([
+      const [statusRes, rankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
         adminApi.getRanking(),
         adminApi.getAnnouncement(),
+        adminApi.getBoothRatings(),
       ])
       setRevealed(statusRes.data.revealed)
       setRanking(rankRes.data)
       setAnnCurrent(annRes.data.message)
       setAnnMessage(annRes.data.message)
+      setBoothRatings(ratingsRes.data)
     } finally {
       setLoading(false)
     }
@@ -149,6 +167,67 @@ export default function AdminPage() {
               <p className={styles.amount}>{formatWon(item.totalInvestment)}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className={styles.rankingSection}>
+        <h3 className={styles.sectionTitle}>부스 평가 결과</h3>
+        <div className={styles.sortBar}>
+          <span className={styles.sortLabel}>정렬</span>
+          <select
+            className={styles.sortSelect}
+            value={ratingSortKey}
+            onChange={e => setRatingSortKey(e.target.value as RatingSortKey)}
+          >
+            {SORT_OPTIONS.map(opt => (
+              <option key={opt.key} value={opt.key}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
+        <div className={styles.list}>
+          {[...boothRatings]
+            .sort((a, b) => (b[ratingSortKey] ?? 0) - (a[ratingSortKey] ?? 0))
+            .map((item, i) => (
+              <div key={item.boothId} className={styles.ratingItem}>
+                <div className={styles.ratingItemHeader}>
+                  <span className={`${styles.rank} ${i < 3 ? styles.topRank : ''}`}>
+                    {i + 1}
+                  </span>
+                  <div className={styles.icon} style={{ background: item.themeColor + '30' }}>
+                    <span>{item.logoEmoji}</span>
+                  </div>
+                  <div className={styles.info}>
+                    <p className={styles.name}>{item.boothName}</p>
+                    <p className={styles.meta}>참여자 {item.ratingCount}명 · 총점 {item.totalScoreSum}</p>
+                  </div>
+                  <div className={styles.ratingScore}>
+                    <p className={styles.ratingAvg}>{(item.avgTotal ?? 0).toFixed(1)}</p>
+                    <p className={styles.ratingAvgLabel}>평균</p>
+                  </div>
+                </div>
+                <div className={styles.ratingBars}>
+                  {[
+                    { label: '최초', value: item.avgFirst },
+                    { label: '최고', value: item.avgBest },
+                    { label: '차별화', value: item.avgDifferent },
+                    { label: '일등', value: item.avgNumberOne },
+                    { label: '초격차', value: item.avgGap },
+                    { label: '글로벌', value: item.avgGlobal },
+                  ].map(bar => (
+                    <div key={bar.label} className={styles.ratingBarRow}>
+                      <span className={styles.ratingBarLabel}>{bar.label}</span>
+                      <div className={styles.ratingBarTrack}>
+                        <div
+                          className={styles.ratingBarFill}
+                          style={{ width: `${((bar.value ?? 0) / 5) * 100}%`, background: item.themeColor }}
+                        />
+                      </div>
+                      <span className={styles.ratingBarValue}>{(bar.value ?? 0).toFixed(1)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>

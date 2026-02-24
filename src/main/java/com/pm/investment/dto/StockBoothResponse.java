@@ -20,4 +20,6 @@ public class StockBoothResponse {
     private Long currentPrice;
     private Long totalHolding;
     private Long myHolding;
+    private Boolean hasVisited;
+    private Boolean hasRated;
 }
