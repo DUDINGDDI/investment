@@ -6,7 +6,7 @@ import BoothDetailPage from './pages/BoothDetailPage'
 import HistoryPage from './pages/HistoryPage'
 import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
-import ZoneBoothListPage from './pages/ZoneBoothListPage'
+import BadgePage from './pages/BadgePage'
 import AdminPage from './pages/AdminPage'
 import MyPage from './pages/MyPage'
 import QrPage from './pages/QrPage'
@@ -16,6 +16,7 @@ import AnnouncementBanner from './components/AnnouncementBanner'
 import AppHeader from './components/AppHeader'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
+import { MissionProvider } from './components/MissionContext'
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem('token')
@@ -55,6 +56,9 @@ export default function App() {
         } />
         <Route path="/map/:zoneId" element={
           <PrivateRoute><AppLayout><ZoneBoothListPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/badges" element={
+          <PrivateRoute><AppLayout><BadgePage /></AppLayout></PrivateRoute>
         } />
         <Route path="/history" element={
           <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>

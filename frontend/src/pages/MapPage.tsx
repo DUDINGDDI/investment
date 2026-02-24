@@ -1,36 +1,53 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { zoneApi } from '../api'
+import type { ZoneResponse, ZoneBoothItem } from '../types'
 import styles from './MapPage.module.css'
 
 type Hotspot = { zoneId: string; left: number; top: number; width: number; height: number }
 
 const MAP_IMAGES = ['/image/map1.png', '/image/map2.png', '/image/map3.png']
-/** 슬라이드별 클릭 가능한 구역 핫스팟 좌표 (% 기반) */
+
 const MAP_HOTSPOTS_BY_SLIDE: Record<number, Hotspot[]> = {
-  // map1.png — LEADERSHIP CENTER 1F (843×596)
   0: [
     { zoneId: '101', left: 21, top: 13, width: 27, height: 50 },
     { zoneId: '102', left: 53, top: 13, width: 27, height: 50 },
   ],
-  // map2.png — INNOVATION CENTER LL (843×596)
   1: [
-    // { zoneId: 'L01', left: 15, top: 9, width: 19, height: 22 },
-    // { zoneId: 'L02', left: 36, top: 9, width: 30, height: 22 },
     { zoneId: '손복남홀', left: 60, top: 25, width: 19, height: 58 },
   ],
-  // map3.png — LEADERSHIP CENTER 2F (843×596)
   2: [
     { zoneId: '201', left: 53, top: 13, width: 26, height: 43 },
   ],
 }
 
+/** zoneCode → 슬라이드 인덱스 매핑 (핫스팟 정보에서 자동 생성) */
+const ZONE_TO_SLIDE: Record<string, number> = Object.entries(MAP_HOTSPOTS_BY_SLIDE).reduce(
+  (acc, [slideIdx, spots]) => {
+    spots.forEach(spot => { acc[spot.zoneId] = Number(slideIdx) })
+    return acc
+  },
+  {} as Record<string, number>,
+)
+
+const PAGE_SIZE = 10
+
 export default function MapPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [zones, setZones] = useState<ZoneResponse[]>([])
+  const [selectedZoneCode, setSelectedZoneCode] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterZoneCode, setFilterZoneCode] = useState<string>('')
+  const [page, setPage] = useState(1)
   const navigate = useNavigate()
+  const listRef = useRef<HTMLDivElement>(null)
 
-  // 스와이프 처리
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
+
+  useEffect(() => {
+    zoneApi.getAll().then(res => setZones(res.data))
+  }, [])
 
   const goTo = useCallback((index: number) => {
     if (index < 0 || index >= MAP_IMAGES.length) return
@@ -50,6 +67,74 @@ export default function MapPage() {
     }
   }
 
+  const handleHotspotClick = (zoneId: string) => {
+    setSelectedZoneCode(prev => prev === zoneId ? null : zoneId)
+    setSearchQuery('')
+    setFilterZoneCode('')
+    setPage(1)
+  }
+
+  // 검색/필터 결과 계산
+  const allBooths = useMemo(() => {
+    const result: (ZoneBoothItem & { zoneName: string; zoneCode: string })[] = []
+    zones.forEach(zone => {
+      zone.booths.forEach(booth => {
+        result.push({ ...booth, zoneName: zone.name, zoneCode: zone.zoneCode })
+      })
+    })
+    return result
+  }, [zones])
+
+  const isSearchMode = searchQuery.length > 0 || filterZoneCode.length > 0
+
+  const displayBooths = useMemo(() => {
+    if (isSearchMode) {
+      let filtered = allBooths
+      if (filterZoneCode) {
+        filtered = filtered.filter(b => b.zoneCode === filterZoneCode)
+      }
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase()
+        filtered = filtered.filter(b => b.name.toLowerCase().includes(q))
+      }
+      return filtered
+    }
+    if (selectedZoneCode) {
+      const zone = zones.find(z => z.zoneCode === selectedZoneCode)
+      if (zone) {
+        return zone.booths.map(b => ({ ...b, zoneName: zone.name, zoneCode: zone.zoneCode }))
+      }
+    }
+    return []
+  }, [isSearchMode, searchQuery, filterZoneCode, selectedZoneCode, zones, allBooths])
+
+  const totalPages = Math.ceil(displayBooths.length / PAGE_SIZE)
+  const pagedBooths = displayBooths.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
+  const selectedZone = zones.find(z => z.zoneCode === selectedZoneCode)
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value)
+    setSelectedZoneCode(null)
+    setPage(1)
+  }
+
+  const handleFilterChange = (value: string) => {
+    setFilterZoneCode(value)
+    setSelectedZoneCode(null)
+    setPage(1)
+    if (value && value in ZONE_TO_SLIDE) {
+      goTo(ZONE_TO_SLIDE[value])
+    }
+  }
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage)
+    listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const showBoothList = displayBooths.length > 0 || isSearchMode || selectedZoneCode
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -57,6 +142,52 @@ export default function MapPage() {
         <p className={styles.subtitle}>구역을 탭하여 부스 목록을 확인하세요</p>
       </div>
 
+      {/* 검색 + 필터 */}
+      <div className={styles.searchArea}>
+        <div className={styles.searchBox}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className={styles.searchIcon}>
+            <circle cx="11" cy="11" r="7" stroke="var(--text-secondary)" strokeWidth="2"/>
+            <path d="M16 16L21 21" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          <input
+            type="text"
+            placeholder="부스명 검색"
+            value={searchQuery}
+            onChange={e => handleSearchChange(e.target.value)}
+            className={styles.searchInput}
+          />
+          {searchQuery && (
+            <button
+              className={styles.clearBtn}
+              onClick={() => handleSearchChange('')}
+              aria-label="검색어 지우기"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+          )}
+        </div>
+        <div className={styles.filterRow}>
+          <button
+            className={`${styles.filterChip} ${filterZoneCode === '' ? styles.filterChipActive : ''}`}
+            onClick={() => handleFilterChange('')}
+          >
+            전체
+          </button>
+          {zones.map(zone => (
+            <button
+              key={zone.zoneCode}
+              className={`${styles.filterChip} ${filterZoneCode === zone.zoneCode ? styles.filterChipActive : ''}`}
+              onClick={() => handleFilterChange(filterZoneCode === zone.zoneCode ? '' : zone.zoneCode)}
+            >
+              {zone.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 캐러셀 */}
       <div
         className={styles.carousel}
         onTouchStart={handleTouchStart}
@@ -73,25 +204,22 @@ export default function MapPage() {
                 {(MAP_HOTSPOTS_BY_SLIDE[i] ?? []).map(spot => (
                   <button
                     key={spot.zoneId}
-                    className={styles.hotspot}
+                    className={`${styles.hotspot} ${selectedZoneCode === spot.zoneId ? styles.hotspotSelected : ''}`}
                     style={{
                       left: `${spot.left}%`,
                       top: `${spot.top}%`,
                       width: `${spot.width}%`,
                       height: `${spot.height}%`,
                     }}
-                    onClick={() => navigate(`/map/${spot.zoneId}`)}
+                    onClick={() => handleHotspotClick(spot.zoneId)}
                     aria-label={`${spot.zoneId} 구역`}
-                  >
-                    {/* <span className={styles.hotspotLabel}>{spot.zoneId}</span> */}
-                  </button>
+                  />
                 ))}
               </div>
             </div>
           ))}
         </div>
 
-        {/* 좌우 화살표 */}
         {currentIndex > 0 && (
           <button className={`${styles.arrow} ${styles.arrowLeft}`} onClick={() => goTo(currentIndex - 1)} aria-label="이전">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -104,7 +232,7 @@ export default function MapPage() {
         )}
       </div>
 
-      {/* 슬라이드 인디케이터 */}
+      {/* 인디케이터 */}
       <div className={styles.indicator}>
         <span className={styles.indicatorText}>{currentIndex + 1} / {MAP_IMAGES.length}</span>
         <div className={styles.dots}>
@@ -118,6 +246,77 @@ export default function MapPage() {
           ))}
         </div>
       </div>
+
+      {/* 부스 목록 (하단) */}
+      {showBoothList && (
+        <div className={styles.boothSection}>
+          <div className={styles.boothHeader}>
+            <h3 className={styles.boothTitle}>
+              {isSearchMode
+                ? `검색 결과 (${displayBooths.length}개)`
+                : `${selectedZone?.name ?? ''} 구역 부스`
+              }
+            </h3>
+            {!isSearchMode && selectedZoneCode && selectedZone && (
+              <span className={styles.boothFloorInfo}>{selectedZone.floorInfo}</span>
+            )}
+          </div>
+
+          {pagedBooths.length > 0 ? (
+            <>
+              <div className={styles.boothList} ref={listRef}>
+                {pagedBooths.map((booth, i) => (
+                  <div
+                    key={booth.id}
+                    className={`${styles.boothCard} stagger-item`}
+                    style={{ animationDelay: `${i * 0.04}s` }}
+                    onClick={() => navigate(`/booths/${booth.id}`)}
+                  >
+                    <div className={styles.boothIcon} style={{ background: booth.themeColor + '30' }}>
+                      <span>{booth.logoEmoji}</span>
+                    </div>
+                    <div className={styles.boothBody}>
+                      <p className={styles.boothName}>{booth.name}</p>
+                      <p className={styles.boothDesc}>
+                        {isSearchMode && <span className={styles.boothZoneTag}>{booth.zoneName}</span>}
+                        {booth.shortDescription}
+                      </p>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className={styles.chevron}>
+                      <path d="M9 6L15 12L9 18" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                ))}
+              </div>
+
+              {/* 페이지네이션 */}
+              {totalPages > 1 && (
+                <div className={styles.pagination}>
+                  <button
+                    className={styles.pageBtn}
+                    disabled={page <= 1}
+                    onClick={() => handlePageChange(page - 1)}
+                  >
+                    이전
+                  </button>
+                  <span className={styles.pageInfo}>{page} / {totalPages}</span>
+                  <button
+                    className={styles.pageBtn}
+                    disabled={page >= totalPages}
+                    onClick={() => handlePageChange(page + 1)}
+                  >
+                    다음
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className={styles.emptyList}>
+              <p>검색 결과가 없습니다.</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

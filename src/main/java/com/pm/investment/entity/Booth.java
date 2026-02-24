@@ -40,6 +40,10 @@ public class Booth {
     @Column(name = "theme_color", length = 7)
     private String themeColor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zone_id")
+    private Zone zone;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 

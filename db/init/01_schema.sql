@@ -16,6 +16,17 @@ CREATE TABLE users (
     INDEX idx_unique_code (unique_code)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 구역(Zone) 테이블
+CREATE TABLE zones (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    zone_code VARCHAR(20) NOT NULL UNIQUE COMMENT '구역 코드 (101, 102, 손복남홀 등)',
+    name VARCHAR(100) NOT NULL COMMENT '구역 이름',
+    floor_info VARCHAR(50) COMMENT '층/건물 정보',
+    display_order INT NOT NULL COMMENT '표시 순서',
+    INDEX idx_zone_code (zone_code),
+    INDEX idx_display_order (display_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 부스 테이블
 CREATE TABLE booths (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -26,8 +37,11 @@ CREATE TABLE booths (
     display_order INT NOT NULL COMMENT '발표 순서 (1~11)',
     logo_emoji VARCHAR(10) COMMENT '대표 이모지',
     theme_color VARCHAR(7) NOT NULL DEFAULT '#3182F6' COMMENT '테마 색상 HEX',
+    zone_id BIGINT COMMENT '소속 구역 ID',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_display_order (display_order)
+    FOREIGN KEY (zone_id) REFERENCES zones(id) ON DELETE SET NULL,
+    INDEX idx_display_order (display_order),
+    INDEX idx_zone_id (zone_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 투자 현황 테이블 (유저-부스 간 현재 투자금)

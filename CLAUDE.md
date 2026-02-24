@@ -40,9 +40,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 백엔드: Spring Boot 4.0.3 (Java 21, Gradle 9.3.0)
 - **Base package:** `com.pm.investment`
+- **패키지 구조:** `config/` (인증·CORS), `controller/` (7개), `service/` (6개), `repository/` (5개), `entity/` (5개), `dto/` (8개)
 - **Persistence:** Spring Data JPA + Lombok
 - **DB 프로필:** 기본 H2 인메모리 (`ddl-auto: create` + `data.sql` 시드), `mysql` 프로필은 Docker MySQL (`ddl-auto: validate`)
-- **인증:** Base64 토큰 기반. `AuthInterceptor`가 `/api/**` 요청을 가로채고, `/api/auth/**`, `/api/admin/**`, `/api/results/**`는 제외. HTTP OPTIONS도 bypass.
+- **인증:** Base64 토큰 기반 (`Base64(userId:timestamp)`). `AuthInterceptor`가 `/api/**` 요청을 가로채고, `/api/auth/**`, `/api/admin/**`, `/api/results/**`는 제외. HTTP OPTIONS도 bypass. 토큰은 request attribute `userId`로 주입.
 - **동시성:** 투자/철회 시 `@Lock(PESSIMISTIC_WRITE)`로 User와 Investment에 비관적 락 적용
 - **금액 검증:** 서버에서 10,000 코인 단위 검증, 잔액/투자금 초과 체크
 - **예외 처리:** `GlobalExceptionHandler`에서 `IllegalArgumentException`/`IllegalStateException` → 400, `MethodArgumentNotValidException` → 첫 번째 필드 에러 메시지, 기타 → 500. 응답 형식: `{ "error": "message" }`
@@ -67,6 +68,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **반응형:** max-width 480px 컨테이너 고정, 모바일 앱 프레임 유지
 - **레이아웃 (`AppLayout`):** `AppHeader`(CJ 로고 + ONLYONE FAIR 타이틀 + 뒤로가기) → `AnnouncementBanner`(SSE 실시간 공지) → `TopTabBar`(유저 잔액/자산 + 투자 탭 네비게이션) → 페이지 콘텐츠 → `FloatingMenu`(확장형 FAB: 투자/지도/마이페이지/QR)
 - **공지 배너:** `AnnouncementBanner`가 `AppLayout`에 포함되어 모든 인증 페이지 상단에 SSE로 실시간 공지 표시. 클릭 시 팝업으로 전체 내용 확인, 닫기(dismiss)는 `localStorage`에 `updatedAt` 기준으로 저장.
+- **정적 이미지:** `frontend/public/image/` 하위에 배지 이미지 등 저장 (빌드 시 그대로 서빙)
 
 ### 프론트엔드 라우트
 | 경로 | 페이지 | 비고 |
@@ -85,15 +87,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Key Configuration
 
-- `src/main/resources/application.yaml` — DB 프로필(H2/MySQL), 서버 포트(8080)
+- `src/main/resources/application.yaml` — DB 프로필(H2/MySQL), 서버 포트(8080), H2 콘솔(`/h2-console`)
 - `src/main/resources/data.sql` — H2 시드 데이터 (11개 부스 + app_settings)
 - `db/docker-compose.yml` — MySQL 8.0 Docker (booth_invest DB, booth_user/booth1234)
-- `db/init/` — MySQL 초기화 SQL (스키마 + 시드 + 테스트 유저)
+- `db/init/` — MySQL 초기화 SQL (`01_schema.sql` 스키마, `02_seed_data.sql` 시드 + 테스트 유저)
 - `build.gradle` — 의존성 (JPA, WebMVC, Validation, H2, MySQL, Lombok)
 - `frontend/src/api/client.ts` — Axios 인스턴스. baseURL은 `VITE_API_URL` 환경변수 또는 기본값 `/api`
+- `frontend/.env.development` — 로컬 개발 시 `VITE_API_URL=http://localhost:8080/api`
 - `.env` — Docker Compose 환경변수 (`.gitignore`에 포함, `.env.example` 참고)
 - `docker-compose.yml` — 전체 스택 Docker Compose (MySQL + Backend + Frontend/Nginx)
-- `Dockerfile.backend` — Spring Boot 백엔드 멀티스테이지 빌드
-- `frontend/Dockerfile` — React 프론트엔드 빌드 + Nginx 서빙
-- `frontend/nginx.conf` — Nginx 리버스 프록시 설정 (API → backend, SPA 라우팅)
-- `deploy.sh` — AWS EC2 배포 스크립트
+- `Dockerfile.backend` — Spring Boot 멀티스테이지 빌드 (eclipse-temurin:21)
+- `frontend/Dockerfile` — React 빌드(node:20-alpine) + Nginx 서빙(nginx:alpine)
+- `frontend/nginx.conf` — Nginx 리버스 프록시 (`/api/` → backend:8080, SSE용 `proxy_buffering off`), SPA 라우팅, `/assets/` 1년 캐시
+- `frontend/public/image/` — 배지 이미지 등 정적 에셋
+- `deploy.sh` — AWS EC2 배포 스크립트 (Java 21 + Docker MySQL + Nginx + systemd)

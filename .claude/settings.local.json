@@ -28,6 +28,7 @@
       "Bash(where:*)",
       "Bash(cmd.exe /c \"where node\")",
       "Bash(cmd.exe /c \"npx --version\")",
+      "Bash(node_modules/.bin/tsc:*)",
       "mcp__ide__getDiagnostics"
     ],
     "additionalDirectories": [
