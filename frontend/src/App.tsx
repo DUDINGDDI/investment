@@ -8,9 +8,12 @@ import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
 import BadgePage from './pages/BadgePage'
 import AdminPage from './pages/AdminPage'
-import BottomNav from './components/BottomNav'
+import MyPage from './pages/MyPage'
+import QrPage from './pages/QrPage'
+import TopTabBar from './components/TopTabBar'
 import FloatingMenu from './components/FloatingMenu'
 import AnnouncementBanner from './components/AnnouncementBanner'
+import AppHeader from './components/AppHeader'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
 import { MissionProvider } from './components/MissionContext'
@@ -23,11 +26,12 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-area-bottom) + 8px)' }}>
+    <div style={{ paddingBottom: '80px' }}>
+      <AppHeader />
       <AnnouncementBanner />
+      <TopTabBar />
       {children}
       <FloatingMenu />
-      <BottomNav />
     </div>
   )
 }
@@ -35,34 +39,41 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <ToastProvider>
-      <MissionProvider>
-        <Toast />
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/home" element={
-            <PrivateRoute><AppLayout><HomePage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/booths" element={
-            <PrivateRoute><AppLayout><BoothListPage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/booths/:id" element={
-            <PrivateRoute><AppLayout><BoothDetailPage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/map" element={
-            <PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/badges" element={
-            <PrivateRoute><AppLayout><BadgePage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/history" element={
-            <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/result" element={
-            <PrivateRoute><AppLayout><ResultPage /></AppLayout></PrivateRoute>
-          } />
-          <Route path="/admin" element={<AdminPage />} />
-        </Routes>
-      </MissionProvider>
+      <Toast />
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={
+          <PrivateRoute><AppLayout><HomePage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/booths" element={
+          <PrivateRoute><AppLayout><BoothListPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/booths/:id" element={
+          <PrivateRoute><AppLayout><BoothDetailPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/map" element={
+          <PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/map/:zoneId" element={
+          <PrivateRoute><AppLayout><ZoneBoothListPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/badges" element={
+          <PrivateRoute><AppLayout><BadgePage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/history" element={
+          <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/result" element={
+          <PrivateRoute><AppLayout><ResultPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/mypage" element={
+          <PrivateRoute><AppLayout><MyPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/qr" element={
+          <PrivateRoute><AppLayout><QrPage /></AppLayout></PrivateRoute>
+        } />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
     </ToastProvider>
   )
 }

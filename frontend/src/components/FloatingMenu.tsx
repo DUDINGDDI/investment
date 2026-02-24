@@ -13,8 +13,12 @@ export default function FloatingMenu() {
   }
 
   const isBadgeActive = location.pathname === '/badges'
+  const isInvestActive = ['/home', '/booths', '/history', '/result'].some(p =>
+    p === '/booths' ? location.pathname.startsWith('/booths') : location.pathname === p
+  )
   const isMapActive = location.pathname.startsWith('/map')
-  const isBoothsActive = location.pathname.startsWith('/booths')
+  const isMyPageActive = location.pathname === '/mypage'
+  const isQrActive = location.pathname === '/qr'
 
   return (
     <div className={styles.container}>
@@ -27,6 +31,28 @@ export default function FloatingMenu() {
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+          className={`${styles.subButton} ${isQrActive ? styles.subButtonActive : ''}`}
+          onClick={() => handleNavigate('/qr')}
+          aria-label="QR"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
+            <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
+            <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
+            <rect x="16" y="16" width="3" height="3" fill="white" />
+            <rect x="14" y="14" width="2" height="2" fill="white" />
+            <rect x="19" y="14" width="2" height="2" fill="white" />
+            <rect x="14" y="19" width="2" height="2" fill="white" />
+          </svg>
+        </button>
+        <button
+          className={`${styles.subButton} ${isMyPageActive ? styles.subButtonActive : ''}`}
+          onClick={() => handleNavigate('/mypage')}
+          aria-label="마이페이지"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2" />
+            <path d="M4 20C4 16.6863 7.58172 14 12 14C16.4183 14 20 16.6863 20 20" stroke="white" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </button>
         <button
@@ -41,15 +67,13 @@ export default function FloatingMenu() {
           </svg>
         </button>
         <button
-          className={`${styles.subButton} ${isBoothsActive ? styles.subButtonActive : ''}`}
-          onClick={() => handleNavigate('/booths')}
-          aria-label="부스 목록"
+          className={`${styles.subButton} ${isInvestActive ? styles.subButtonActive : ''}`}
+          onClick={() => handleNavigate('/home')}
+          aria-label="투자"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="white" strokeWidth="2" />
-            <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="white" strokeWidth="2" />
-            <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="white" strokeWidth="2" />
-            <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="white" strokeWidth="2" />
+            <path d="M12 2L2 7V10C2 16.08 6.16 21.74 12 23C17.84 21.74 22 16.08 22 10V7L12 2Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+            <path d="M12 8V14M9 11H15" stroke="white" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </button>
       </div>

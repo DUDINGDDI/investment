@@ -28,7 +28,8 @@
       "Bash(where:*)",
       "Bash(cmd.exe /c \"where node\")",
       "Bash(cmd.exe /c \"npx --version\")",
-      "Bash(node_modules/.bin/tsc:*)"
+      "Bash(node_modules/.bin/tsc:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "additionalDirectories": [
       "c:\\Users\\User\\Desktop\\repository\\investment\\frontend\\public"
