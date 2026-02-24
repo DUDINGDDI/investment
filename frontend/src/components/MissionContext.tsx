@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import { missionApi } from '../api'
 
 export interface Mission {
   id: string
@@ -15,6 +16,7 @@ interface MissionContextType {
   updateProgress: (id: string, progress: number) => void
   completeMission: (id: string) => void
   resetMission: (id: string) => void
+  syncFromServer: () => Promise<void>
 }
 
 const STORAGE_KEY = 'mission_states'
@@ -103,6 +105,18 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     saveMissions(missions)
   }, [missions])
 
+  const syncToServer = useCallback(async (id: string, progress: number, completed: boolean) => {
+    try {
+      if (completed) {
+        await missionApi.completeMission(id)
+      } else {
+        await missionApi.updateProgress(id, progress)
+      }
+    } catch {
+      // 서버 동기화 실패 시 로컬 상태만 유지
+    }
+  }, [])
+
   const updateProgress = useCallback((id: string, progress: number) => {
     setMissions(prev => prev.map(m => {
       if (m.id !== id) return m
@@ -110,13 +124,18 @@ export function MissionProvider({ children }: { children: ReactNode }) {
       const completed = m.target ? newProgress >= m.target : false
       return { ...m, progress: newProgress, isCompleted: completed || m.isCompleted }
     }))
-  }, [])
+    const mission = DEFAULT_MISSIONS.find(m => m.id === id)
+    const target = mission?.target ?? 1
+    const completed = target ? progress >= target : false
+    syncToServer(id, progress, completed)
+  }, [syncToServer])
 
   const completeMission = useCallback((id: string) => {
     setMissions(prev => prev.map(m =>
       m.id === id ? { ...m, isCompleted: true, progress: m.target ?? m.progress } : m
     ))
-  }, [])
+    syncToServer(id, 0, true)
+  }, [syncToServer])
 
   const resetMission = useCallback((id: string) => {
     setMissions(prev => prev.map(m =>
@@ -124,8 +143,29 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     ))
   }, [])
 
+  const syncFromServer = useCallback(async () => {
+    try {
+      const res = await missionApi.getMyMissions()
+      const serverMissions = res.data
+      if (serverMissions.length > 0) {
+        setMissions(prev => prev.map(m => {
+          const sm = serverMissions.find(s => s.missionId === m.id)
+          if (!sm) return m
+          return {
+            ...m,
+            isCompleted: sm.isCompleted,
+            progress: sm.progress,
+            target: sm.target > 0 ? sm.target : m.target,
+          }
+        }))
+      }
+    } catch {
+      // 서버 동기화 실패 시 무시
+    }
+  }, [])
+
   return (
-    <MissionContext.Provider value={{ missions, updateProgress, completeMission, resetMission }}>
+    <MissionContext.Provider value={{ missions, updateProgress, completeMission, resetMission, syncFromServer }}>
       {children}
     </MissionContext.Provider>
   )

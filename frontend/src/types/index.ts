@@ -88,7 +88,6 @@ export interface ZoneResponse {
   displayOrder: number;
   booths: ZoneBoothItem[];
 }
-
 // === 주식 (Stock) ===
 export interface StockAccountResponse {
   userId: number;
@@ -154,4 +153,37 @@ export interface StockCommentResponse {
   userName: string;
   content: string;
   createdAt: string;
+export interface UserMissionResponse {
+  missionId: string;
+  progress: number;
+  target: number;
+  isCompleted: boolean;
+  achievementRate: number;
+}
+
+export interface MissionRankingItem {
+  rank: number;
+  userId: number;
+  name: string;
+  achievementRate: number;
+  isCompleted: boolean;
+  progress: number;
+  target: number;
+}
+
+export interface MissionRankingData {
+  rankings: MissionRankingItem[];
+  myRanking: MissionRankingItem | null;
+}
+
+export interface VisitRequest {
+  boothUuid: string;
+}
+
+export interface BoothVisitResponse {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  message: string;
+  visitedAt: string;
 }
