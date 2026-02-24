@@ -1,7 +1,37 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import styles from './AnnouncementBanner.module.css'
 
 const DISMISS_KEY = 'announcement_dismissed_at'
+
+function playNotificationSound() {
+  try {
+    const ctx = new AudioContext()
+    const osc = ctx.createOscillator()
+    const gain = ctx.createGain()
+    osc.connect(gain)
+    gain.connect(ctx.destination)
+    osc.frequency.setValueAtTime(880, ctx.currentTime)
+    osc.frequency.setValueAtTime(1047, ctx.currentTime + 0.1)
+    gain.gain.setValueAtTime(0.3, ctx.currentTime)
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4)
+    osc.start(ctx.currentTime)
+    osc.stop(ctx.currentTime + 0.4)
+  } catch {
+    // AudioContext 사용 불가 시 무시
+  }
+}
+
+function requestNotificationPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission()
+  }
+}
+
+function showBrowserNotification(msg: string) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('📢 공지사항', { body: msg, tag: 'announcement' })
+  }
+}
 
 function getSseUrl() {
   const base = import.meta.env.VITE_API_URL || '/api'
@@ -14,6 +44,16 @@ export default function AnnouncementBanner() {
   const [dismissed, setDismissed] = useState(false)
   const [popupOpen, setPopupOpen] = useState(false)
   const eventSourceRef = useRef<EventSource | null>(null)
+  const isFirstLoad = useRef(true)
+
+  useEffect(() => {
+    requestNotificationPermission()
+  }, [])
+
+  const notify = useCallback((msg: string) => {
+    playNotificationSound()
+    showBrowserNotification(msg)
+  }, [])
 
   useEffect(() => {
     const es = new EventSource(getSseUrl())
@@ -29,10 +69,17 @@ export default function AnnouncementBanner() {
 
         if (msg && ua) {
           const dismissedAt = localStorage.getItem(DISMISS_KEY)
-          setDismissed(dismissedAt === ua)
+          const alreadyDismissed = dismissedAt === ua
+          setDismissed(alreadyDismissed)
+
+          // 새 공지일 때만 알림 (첫 로드의 기존 공지는 제외)
+          if (!isFirstLoad.current && !alreadyDismissed) {
+            notify(msg)
+          }
         } else {
           setDismissed(false)
         }
+        isFirstLoad.current = false
       } catch {
         // 파싱 실패 시 무시
       }
