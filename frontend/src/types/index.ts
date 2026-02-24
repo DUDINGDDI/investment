@@ -111,3 +111,15 @@ export interface MissionRankingData {
   rankings: MissionRankingItem[];
   myRanking: MissionRankingItem | null;
 }
+
+export interface VisitRequest {
+  boothUuid: string;
+}
+
+export interface BoothVisitResponse {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  message: string;
+  visitedAt: string;
+}
