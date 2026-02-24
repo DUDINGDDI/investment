@@ -60,6 +60,11 @@ export default function StockBoothDetailPage() {
   const [modal, setModal] = useState<'buy' | 'sell' | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>('chart')
 
+  // 메모
+  const [memoOpen, setMemoOpen] = useState(false)
+  const [memo, setMemo] = useState('')
+  const [memoSaved, setMemoSaved] = useState('')
+
   // 내 투자이력 탭
   const [boothHistory, setBoothHistory] = useState<StockTradeHistoryResponse[]>([])
   const [historyLoaded, setHistoryLoaded] = useState(false)
@@ -80,6 +85,21 @@ export default function StockBoothDetailPage() {
   useEffect(() => {
     loadData()
   }, [loadData])
+
+  // 메모 로드
+  useEffect(() => {
+    if (!id) return
+    const saved = localStorage.getItem(`stock_memo_${id}`) || ''
+    setMemo(saved)
+    setMemoSaved(saved)
+  }, [id])
+
+  const handleMemoSave = () => {
+    if (!id) return
+    localStorage.setItem(`stock_memo_${id}`, memo)
+    setMemoSaved(memo)
+    setMemoOpen(false)
+  }
 
   // 탭 전환 시 데이터 로드
   useEffect(() => {
@@ -172,6 +192,18 @@ export default function StockBoothDetailPage() {
         </div>
         <div className={styles.headerRight}>
           <p className={styles.currentPrice}>{formatStockAmount(booth.currentPrice)}원</p>
+          <button
+            className={`${styles.memoBtn} ${memoSaved ? styles.memoBtnActive : ''}`}
+            onClick={() => setMemoOpen(true)}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M16 13H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M16 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            메모
+          </button>
         </div>
       </div>
 
@@ -341,6 +373,41 @@ export default function StockBoothDetailPage() {
           onConfirm={handleSell}
           onClose={() => setModal(null)}
         />
+      )}
+      {/* 메모 팝업 */}
+      {memoOpen && (
+        <div className={styles.memoOverlay} onClick={() => { setMemo(memoSaved); setMemoOpen(false) }}>
+          <div className={styles.memoPopup} onClick={e => e.stopPropagation()}>
+            <div className={styles.memoPopupHeader}>
+              <h3 className={styles.memoPopupTitle}>메모</h3>
+              <button className={styles.memoCloseBtn} onClick={() => { setMemo(memoSaved); setMemoOpen(false) }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <textarea
+              className={styles.memoTextarea}
+              placeholder="이 종목에 대한 메모를 작성하세요..."
+              value={memo}
+              onChange={e => setMemo(e.target.value)}
+              autoFocus
+            />
+            <div className={styles.memoActions}>
+              {memoSaved && (
+                <button
+                  className={styles.memoDeleteBtn}
+                  onClick={() => { setMemo(''); localStorage.removeItem(`stock_memo_${id}`); setMemoSaved(''); setMemoOpen(false) }}
+                >
+                  삭제
+                </button>
+              )}
+              <button className={styles.memoSaveBtn} onClick={handleMemoSave}>
+                저장
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
