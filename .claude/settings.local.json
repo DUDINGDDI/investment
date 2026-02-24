@@ -30,7 +30,9 @@
       "Bash(cmd.exe /c \"npx --version\")",
       "Bash(node_modules/.bin/tsc:*)",
       "mcp__ide__getDiagnostics",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(cmd.exe /c \"where node 2>&1 && where npm 2>&1\")",
+      "Bash(cmd.exe /c \"cd c:\\\\Users\\\\User\\\\Desktop\\\\repository\\\\investment\\\\frontend && npx tsc --noEmit 2>&1\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\User\\Desktop\\repository\\investment\\frontend\\public"

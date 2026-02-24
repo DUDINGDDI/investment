@@ -65,6 +65,22 @@ CREATE TABLE app_settings (
     setting_value VARCHAR(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 유저 미션 진행 테이블
+CREATE TABLE user_missions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    mission_id VARCHAR(30) NOT NULL COMMENT '미션 ID (renew, dream, result, again, sincere, together)',
+    progress INT NOT NULL DEFAULT 0 COMMENT '현재 진행도',
+    target INT NOT NULL DEFAULT 0 COMMENT '목표 수치',
+    is_completed BOOLEAN NOT NULL DEFAULT FALSE,
+    completed_at DATETIME NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_user_mission (user_id, mission_id),
+    INDEX idx_mission_id (mission_id),
+    INDEX idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 투자 이력 테이블
 CREATE TABLE investment_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

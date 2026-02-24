@@ -10,6 +10,8 @@ import type {
   RankingResponse,
   AnnouncementResponse,
   ZoneResponse,
+  UserMissionResponse,
+  MissionRankingData,
 } from '../types';
 
 export const authApi = {
@@ -45,6 +47,16 @@ export const resultApi = {
 export const zoneApi = {
   getAll: () => api.get<ZoneResponse[]>('/zones'),
   getByCode: (zoneCode: string) => api.get<ZoneResponse>(`/zones/${zoneCode}`),
+};
+
+export const missionApi = {
+  getMyMissions: () => api.get<UserMissionResponse[]>('/missions/my'),
+  updateProgress: (missionId: string, progress: number) =>
+    api.post<UserMissionResponse>('/missions/progress', { missionId, progress }),
+  completeMission: (missionId: string) =>
+    api.post<UserMissionResponse>('/missions/complete', { missionId }),
+  getRanking: (missionId: string) =>
+    api.get<MissionRankingData>('/missions/ranking', { params: { missionId } }),
 };
 
 export const adminApi = {

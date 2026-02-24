@@ -18,3 +18,136 @@ INSERT INTO booths (name, category, description, short_description, display_orde
 ('클린워터텍', '환경', '나노 필터 기반 수질 정화 기술을 보유하고 있습니다. 오염된 물을 음용수 수준으로 정화하는 포터블 장치를 개발했으며, 개발도상국과 재난 지역에 보급 중입니다. UN 산하 기관과 파트너십을 맺고 아프리카 5개국에 시범 보급을 완료했습니다. ESG 투자 관점에서 높은 관심을 받고 있습니다.', '나노 필터 수질 정화 포터블 장치', 11, '💧', '#74B9FF', 4);
 
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('results_revealed', 'false');
+
+-- ──────────────────────────────────────────────
+-- 목업 유저 15명 (랭킹 테스트용)
+-- ──────────────────────────────────────────────
+INSERT INTO users (unique_code, name, balance) VALUES
+('MOCK001', '김민준', 730000),
+('MOCK002', '이서윤', 850000),
+('MOCK003', '박도현', 1000000),
+('MOCK004', '최수아', 500000),
+('MOCK005', '정하준', 620000),
+('MOCK006', '한지우', 900000),
+('MOCK007', '윤서진', 780000),
+('MOCK008', '장예린', 650000),
+('MOCK009', '오준혁', 920000),
+('MOCK010', '신다은', 810000),
+('MOCK011', '임태윤', 560000),
+('MOCK012', '황소희', 740000),
+('MOCK013', '조민서', 880000),
+('MOCK014', '강현우', 690000),
+('MOCK015', '배지민', 950000);
+
+-- ──────────────────────────────────────────────
+-- 목업 미션 진행 데이터 (6개 미션 × 15명 유저)
+-- 미션 target: renew=1, dream=1, result=1, again=70, sincere=12, together=1
+-- ──────────────────────────────────────────────
+
+-- renew 미션 (target=1, 완료 or 미완료)
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
+(1, 'renew', 1, 1, TRUE, '2026-02-20 09:30:00'),
+(2, 'renew', 1, 1, TRUE, '2026-02-20 10:15:00'),
+(3, 'renew', 0, 1, FALSE, NULL),
+(4, 'renew', 1, 1, TRUE, '2026-02-20 09:05:00'),
+(5, 'renew', 1, 1, TRUE, '2026-02-20 11:00:00'),
+(6, 'renew', 0, 1, FALSE, NULL),
+(7, 'renew', 1, 1, TRUE, '2026-02-20 09:50:00'),
+(8, 'renew', 0, 1, FALSE, NULL),
+(9, 'renew', 1, 1, TRUE, '2026-02-20 10:40:00'),
+(10, 'renew', 1, 1, TRUE, '2026-02-20 11:20:00'),
+(11, 'renew', 0, 1, FALSE, NULL),
+(12, 'renew', 1, 1, TRUE, '2026-02-20 09:15:00'),
+(13, 'renew', 0, 1, FALSE, NULL),
+(14, 'renew', 1, 1, TRUE, '2026-02-20 10:05:00'),
+(15, 'renew', 1, 1, TRUE, '2026-02-20 08:55:00');
+
+-- dream 미션 (target=1)
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
+(1, 'dream', 1, 1, TRUE, '2026-02-20 10:00:00'),
+(2, 'dream', 0, 1, FALSE, NULL),
+(3, 'dream', 1, 1, TRUE, '2026-02-20 09:20:00'),
+(4, 'dream', 1, 1, TRUE, '2026-02-20 10:30:00'),
+(5, 'dream', 0, 1, FALSE, NULL),
+(6, 'dream', 1, 1, TRUE, '2026-02-20 09:45:00'),
+(7, 'dream', 1, 1, TRUE, '2026-02-20 11:10:00'),
+(8, 'dream', 1, 1, TRUE, '2026-02-20 09:00:00'),
+(9, 'dream', 0, 1, FALSE, NULL),
+(10, 'dream', 1, 1, TRUE, '2026-02-20 10:50:00'),
+(11, 'dream', 1, 1, TRUE, '2026-02-20 09:35:00'),
+(12, 'dream', 0, 1, FALSE, NULL),
+(13, 'dream', 1, 1, TRUE, '2026-02-20 10:20:00'),
+(14, 'dream', 0, 1, FALSE, NULL),
+(15, 'dream', 1, 1, TRUE, '2026-02-20 09:10:00');
+
+-- result 미션 (target=1)
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
+(1, 'result', 1, 1, TRUE, '2026-02-20 09:15:00'),
+(2, 'result', 1, 1, TRUE, '2026-02-20 09:55:00'),
+(3, 'result', 0, 1, FALSE, NULL),
+(4, 'result', 1, 1, TRUE, '2026-02-20 10:10:00'),
+(5, 'result', 1, 1, TRUE, '2026-02-20 09:40:00'),
+(6, 'result', 1, 1, TRUE, '2026-02-20 10:25:00'),
+(7, 'result', 0, 1, FALSE, NULL),
+(8, 'result', 1, 1, TRUE, '2026-02-20 09:30:00'),
+(9, 'result', 1, 1, TRUE, '2026-02-20 11:05:00'),
+(10, 'result', 0, 1, FALSE, NULL),
+(11, 'result', 1, 1, TRUE, '2026-02-20 10:45:00'),
+(12, 'result', 1, 1, TRUE, '2026-02-20 09:25:00'),
+(13, 'result', 1, 1, TRUE, '2026-02-20 10:35:00'),
+(14, 'result', 1, 1, TRUE, '2026-02-20 09:50:00'),
+(15, 'result', 0, 1, FALSE, NULL);
+
+-- again 미션 (target=70, 다양한 진행도)
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
+(1, 'again', 70, 70, TRUE, '2026-02-20 14:00:00'),
+(2, 'again', 55, 70, FALSE, NULL),
+(3, 'again', 70, 70, TRUE, '2026-02-20 13:30:00'),
+(4, 'again', 42, 70, FALSE, NULL),
+(5, 'again', 70, 70, TRUE, '2026-02-20 15:10:00'),
+(6, 'again', 63, 70, FALSE, NULL),
+(7, 'again', 28, 70, FALSE, NULL),
+(8, 'again', 70, 70, TRUE, '2026-02-20 12:45:00'),
+(9, 'again', 15, 70, FALSE, NULL),
+(10, 'again', 70, 70, TRUE, '2026-02-20 14:30:00'),
+(11, 'again', 48, 70, FALSE, NULL),
+(12, 'again', 35, 70, FALSE, NULL),
+(13, 'again', 70, 70, TRUE, '2026-02-20 13:00:00'),
+(14, 'again', 60, 70, FALSE, NULL),
+(15, 'again', 70, 70, TRUE, '2026-02-20 11:50:00');
+
+-- sincere 미션 (target=12, 다양한 진행도)
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
+(1, 'sincere', 12, 12, TRUE, '2026-02-20 15:00:00'),
+(2, 'sincere', 9, 12, FALSE, NULL),
+(3, 'sincere', 5, 12, FALSE, NULL),
+(4, 'sincere', 12, 12, TRUE, '2026-02-20 14:20:00'),
+(5, 'sincere', 8, 12, FALSE, NULL),
+(6, 'sincere', 12, 12, TRUE, '2026-02-20 13:50:00'),
+(7, 'sincere', 11, 12, FALSE, NULL),
+(8, 'sincere', 3, 12, FALSE, NULL),
+(9, 'sincere', 12, 12, TRUE, '2026-02-20 15:30:00'),
+(10, 'sincere', 7, 12, FALSE, NULL),
+(11, 'sincere', 12, 12, TRUE, '2026-02-20 14:45:00'),
+(12, 'sincere', 10, 12, FALSE, NULL),
+(13, 'sincere', 6, 12, FALSE, NULL),
+(14, 'sincere', 12, 12, TRUE, '2026-02-20 13:15:00'),
+(15, 'sincere', 2, 12, FALSE, NULL);
+
+-- together 미션 (target=1)
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
+(1, 'together', 1, 1, TRUE, '2026-02-20 11:30:00'),
+(2, 'together', 1, 1, TRUE, '2026-02-20 10:45:00'),
+(3, 'together', 1, 1, TRUE, '2026-02-20 09:50:00'),
+(4, 'together', 0, 1, FALSE, NULL),
+(5, 'together', 1, 1, TRUE, '2026-02-20 12:00:00'),
+(6, 'together', 0, 1, FALSE, NULL),
+(7, 'together', 1, 1, TRUE, '2026-02-20 10:20:00'),
+(8, 'together', 1, 1, TRUE, '2026-02-20 11:15:00'),
+(9, 'together', 0, 1, FALSE, NULL),
+(10, 'together', 1, 1, TRUE, '2026-02-20 09:30:00'),
+(11, 'together', 0, 1, FALSE, NULL),
+(12, 'together', 1, 1, TRUE, '2026-02-20 10:55:00'),
+(13, 'together', 1, 1, TRUE, '2026-02-20 11:45:00'),
+(14, 'together', 0, 1, FALSE, NULL),
+(15, 'together', 1, 1, TRUE, '2026-02-20 09:05:00');

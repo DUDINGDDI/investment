@@ -88,3 +88,26 @@ export interface ZoneResponse {
   displayOrder: number;
   booths: ZoneBoothItem[];
 }
+
+export interface UserMissionResponse {
+  missionId: string;
+  progress: number;
+  target: number;
+  isCompleted: boolean;
+  achievementRate: number;
+}
+
+export interface MissionRankingItem {
+  rank: number;
+  userId: number;
+  name: string;
+  achievementRate: number;
+  isCompleted: boolean;
+  progress: number;
+  target: number;
+}
+
+export interface MissionRankingData {
+  rankings: MissionRankingItem[];
+  myRanking: MissionRankingItem | null;
+}

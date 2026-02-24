@@ -49,6 +49,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **예외 처리:** `GlobalExceptionHandler`에서 `IllegalArgumentException`/`IllegalStateException` → 400, `MethodArgumentNotValidException` → 첫 번째 필드 에러 메시지, 기타 → 500. 응답 형식: `{ "error": "message" }`
 - **실시간 공지:** `SseEmitterService`로 SSE(Server-Sent Events) 기반 공지 브로드캐스트. `CopyOnWriteArrayList<SseEmitter>`로 구독자 관리, 5분 타임아웃.
 
+### 엔티티 관계
+```
+Zone (1) ──< (N) Booth
+User (1) ──< (N) Investment >──(1) Booth   [UNIQUE(user_id, booth_id)]
+User (1) ──< (N) InvestmentHistory >──(1) Booth
+AppSetting — key-value 독립 테이블 (results_revealed, announcement_*)
+```
+
 ### 핵심 도메인 흐름
 1. `POST /api/auth/login` → 고유코드+이름으로 유저 자동 생성 또는 로그인 (초기 1,000,000 코인)
 2. `POST /api/investments/invest` → 비관적 락으로 User 잔액 차감 + Investment 금액 증가 + History 기록
@@ -59,16 +67,50 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 7. `POST /api/admin/announcement` → 공지 저장 + 전체 SSE 브로드캐스트
 8. `DELETE /api/admin/announcement` → 공지 삭제 + 전체 SSE 클리어 브로드캐스트
 
+### REST API 엔드포인트 전체 목록
+
+| Method | Endpoint | Controller | 인증 | 설명 |
+|--------|----------|------------|------|------|
+| POST | `/api/auth/login` | AuthController | X | 로그인/회원가입 |
+| GET | `/api/users/me` | UserController | O | 내 정보 조회 |
+| GET | `/api/booths` | BoothController | O | 전체 부스 목록 (투자금 포함) |
+| GET | `/api/booths/:id` | BoothController | O | 부스 상세 |
+| POST | `/api/investments/invest` | InvestmentController | O | 투자 |
+| POST | `/api/investments/withdraw` | InvestmentController | O | 철회 |
+| GET | `/api/investments/my` | InvestmentController | O | 내 투자 목록 |
+| GET | `/api/investments/history` | InvestmentController | O | 투자 내역 |
+| GET | `/api/zones` | ZoneController | O | 전체 존 목록 |
+| GET | `/api/zones/:code` | ZoneController | O | 존별 부스 목록 |
+| GET | `/api/results/status` | ResultController | X | 결과 공개 여부 |
+| GET | `/api/results/ranking` | ResultController | X | 부스별 랭킹 |
+| GET | `/api/results/announcement` | ResultController | X | 현재 공지 조회 |
+| GET | `/api/results/announce` | ResultController | X | SSE 구독 |
+| GET | `/api/admin/results/status` | AdminController | X | 결과 공개 상태 |
+| POST | `/api/admin/results/toggle` | AdminController | X | 결과 공개 토글 |
+| GET | `/api/admin/ranking` | AdminController | X | 관리자 랭킹 조회 |
+| GET | `/api/admin/announcement` | AdminController | X | 관리자 공지 조회 |
+| POST | `/api/admin/announcement` | AdminController | X | 공지 등록 + SSE 브로드캐스트 |
+| DELETE | `/api/admin/announcement` | AdminController | X | 공지 삭제 + SSE 클리어 |
+
 ### 프론트엔드: React 19 + TypeScript + Vite
-- **스타일링:** CSS Modules (`.module.css`), 다크 테마 기반 디자인 시스템
+- **스타일링:** CSS Modules (`.module.css`), 다크 테마 기반 (`#17171C`), CJ 퍼플 `#6C5CE7`
 - **브랜딩:** CJ ONLYONE 커스텀 폰트 (`frontend/src/assets/fonts/`), CJ 로고 (`frontend/src/assets/logo/`)
 - **라우팅:** React Router DOM v7. `App.tsx`에서 `PrivateRoute`로 토큰 기반 접근 제어
 - **API 통신:** Axios. `api/client.ts`에서 인터셉터로 Bearer 토큰 자동 첨부 및 401 시 로그아웃
-- **상태 관리:** 컴포넌트 로컬 state + `ToastContext`로 글로벌 토스트
+- **상태 관리:** 컴포넌트 로컬 state + `ToastContext`(글로벌 토스트) + `MissionContext`(배지/미션)
 - **반응형:** max-width 480px 컨테이너 고정, 모바일 앱 프레임 유지
 - **레이아웃 (`AppLayout`):** `AppHeader`(CJ 로고 + ONLYONE FAIR 타이틀 + 뒤로가기) → `AnnouncementBanner`(SSE 실시간 공지) → `TopTabBar`(유저 잔액/자산 + 투자 탭 네비게이션) → 페이지 콘텐츠 → `FloatingMenu`(확장형 FAB: 투자/지도/마이페이지/QR)
 - **공지 배너:** `AnnouncementBanner`가 `AppLayout`에 포함되어 모든 인증 페이지 상단에 SSE로 실시간 공지 표시. 클릭 시 팝업으로 전체 내용 확인, 닫기(dismiss)는 `localStorage`에 `updatedAt` 기준으로 저장.
 - **정적 이미지:** `frontend/public/image/` 하위에 배지 이미지 등 저장 (빌드 시 그대로 서빙)
+
+### 프론트엔드 API 모듈 (`frontend/src/api/index.ts`)
+- `authApi`: `login(LoginRequest)`
+- `userApi`: `getMe()`
+- `boothApi`: `getAll()`, `getById(id)`
+- `investmentApi`: `invest(data)`, `withdraw(data)`, `getMy()`, `getHistory()`
+- `resultApi`: `getStatus()`, `getRanking()`, `getAnnouncement()`
+- `zoneApi`: `getAll()`, `getByCode(zoneCode)`
+- `adminApi`: `getStatus()`, `toggleResults()`, `getRanking()`, `getAnnouncement()`, `setAnnouncement(msg)`, `clearAnnouncement()`
 
 ### 프론트엔드 라우트
 | 경로 | 페이지 | 비고 |
@@ -81,14 +123,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `/map/:zoneId` | ZoneBoothListPage | 구역별 부스 목록 |
 | `/history` | HistoryPage | 날짜별 그룹핑 |
 | `/result` | ResultPage | Coming Soon 또는 랭킹 |
+| `/badges` | BadgePage | 미션/배지 |
 | `/mypage` | MyPage | 준비 중 (플레이스홀더) |
 | `/qr` | QrPage | 준비 중 (플레이스홀더) |
 | `/admin` | AdminPage | 관리자 전용, 별도 레이아웃 |
 
+## Code Conventions
+
+### 백엔드
+- **Lombok 패턴:** 엔티티는 `@Getter @Setter @Builder @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)`, DTO는 `@Getter @Builder`
+- **네이밍:** Repository `*Repository`, Service `*Service`, Controller `*Controller`, DTO `*Request`/`*Response`
+- **DB 컬럼:** snake_case (`user_id`, `created_at`), Java 필드: camelCase
+- **타임스탬프:** `@PrePersist`로 `createdAt` 설정, `@PreUpdate`로 `updatedAt` 갱신
+
+### 프론트엔드
+- **TypeScript 인터페이스:** `frontend/src/types/index.ts`에 모든 DTO 타입 중앙 관리
+- **CSS 클래스명:** CSS Modules 내에서 BEM 스타일 (`container`, `header`, `item`, `itemActive`)
+- **localStorage 키:** `token` (인증 토큰), `userName` (유저명), `announcement_dismissed_at` (공지 닫기 시각)
+
 ## Key Configuration
 
 - `src/main/resources/application.yaml` — DB 프로필(H2/MySQL), 서버 포트(8080), H2 콘솔(`/h2-console`)
-- `src/main/resources/data.sql` — H2 시드 데이터 (11개 부스 + app_settings)
+- `src/main/resources/data.sql` — H2 시드 데이터 (4개 존 + 11개 부스 + app_settings)
 - `db/docker-compose.yml` — MySQL 8.0 Docker (booth_invest DB, booth_user/booth1234)
 - `db/init/` — MySQL 초기화 SQL (`01_schema.sql` 스키마, `02_seed_data.sql` 시드 + 테스트 유저)
 - `build.gradle` — 의존성 (JPA, WebMVC, Validation, H2, MySQL, Lombok)
