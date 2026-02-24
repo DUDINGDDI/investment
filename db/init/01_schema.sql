@@ -95,6 +95,78 @@ CREATE TABLE booth_visits (
     INDEX idx_booth_id (booth_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 주식 계좌 테이블
+CREATE TABLE stock_accounts (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL UNIQUE,
+    balance BIGINT NOT NULL DEFAULT 200000000000 COMMENT '주식 계좌 잔액',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 주식 보유 현황 테이블
+CREATE TABLE stock_holdings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    booth_id BIGINT NOT NULL,
+    amount BIGINT NOT NULL DEFAULT 0 COMMENT '보유 수량',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_stock_user_booth (user_id, booth_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_booth_id (booth_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 주식 가격 테이블
+CREATE TABLE stock_prices (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booth_id BIGINT NOT NULL UNIQUE,
+    current_price BIGINT NOT NULL DEFAULT 1000000000 COMMENT '현재 주가',
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 주식 가격 이력 테이블
+CREATE TABLE stock_price_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booth_id BIGINT NOT NULL,
+    price BIGINT NOT NULL COMMENT '가격',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE,
+    INDEX idx_booth_created (booth_id, created_at DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 주식 거래 이력 테이블
+CREATE TABLE stock_trade_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    booth_id BIGINT NOT NULL,
+    type ENUM('BUY', 'SELL') NOT NULL COMMENT '매수 or 매도',
+    amount BIGINT NOT NULL COMMENT '거래 수량',
+    price_at_trade BIGINT NOT NULL COMMENT '거래 시 가격',
+    balance_after BIGINT NOT NULL COMMENT '거래 후 잔액',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE,
+    INDEX idx_user_created (user_id, created_at DESC),
+    INDEX idx_booth_id (booth_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 주식 댓글 테이블
+CREATE TABLE stock_comments (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    booth_id BIGINT NOT NULL,
+    content VARCHAR(500) NOT NULL COMMENT '댓글 내용',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE,
+    INDEX idx_booth_created (booth_id, created_at DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 투자 이력 테이블
 CREATE TABLE investment_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
