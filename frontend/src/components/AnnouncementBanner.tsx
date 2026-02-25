@@ -96,7 +96,7 @@ export default function AnnouncementBanner() {
       es.close()
       eventSourceRef.current = null
     }
-  }, [])
+  }, [notify])
 
   const handleDismiss = (e: React.MouseEvent) => {
     e.stopPropagation()

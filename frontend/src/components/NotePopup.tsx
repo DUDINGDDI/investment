@@ -60,8 +60,8 @@ export default function NotePopup({ onClose }: Props) {
       setContent('')
       setSelectedUser(null)
       setTab('sent')
-    } catch (err: any) {
-      const msg = err.response?.data?.error || '전송에 실패했습니다'
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { error?: string } } }).response?.data?.error || '전송에 실패했습니다'
       showToast(msg, 'error')
     } finally {
       setSending(false)

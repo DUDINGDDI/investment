@@ -30,16 +30,25 @@ function ProgressBar({ progress, target }: { progress: number; target: number })
   )
 }
 
-function ConfettiParticle({ index }: { index: number }) {
+// 인덱스 기반 결정적 의사 난수 생성 (컴포넌트 순수성 유지)
+function seededRandom(seed: number) {
+  const x = Math.sin(seed + 1) * 10000
+  return x - Math.floor(x)
+}
+
+const CONFETTI_STYLES: React.CSSProperties[] = Array.from({ length: 40 }, (_, i) => {
   const colors = ['#6C63FF', '#4593FC', '#F5C842', '#00D68F', '#F04452', '#FF8A65']
-  const style = {
-    '--x': `${(Math.random() - 0.5) * 300}px`,
-    '--y': `${-Math.random() * 400 - 100}px`,
-    '--r': `${Math.random() * 720 - 360}deg`,
-    '--delay': `${index * 0.03}s`,
-    backgroundColor: colors[index % colors.length],
+  return {
+    '--x': `${(seededRandom(i * 3) - 0.5) * 300}px`,
+    '--y': `${-seededRandom(i * 3 + 1) * 400 - 100}px`,
+    '--r': `${seededRandom(i * 3 + 2) * 720 - 360}deg`,
+    '--delay': `${i * 0.03}s`,
+    backgroundColor: colors[i % colors.length],
   } as React.CSSProperties
-  return <div className={styles.confetti} style={style} />
+})
+
+function ConfettiParticle({ index }: { index: number }) {
+  return <div className={styles.confetti} style={CONFETTI_STYLES[index]} />
 }
 
 function RankBadgeLabel({ rank }: { rank: number }) {

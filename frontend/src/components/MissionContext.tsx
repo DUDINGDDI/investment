@@ -111,6 +111,7 @@ export function MissionProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useMissions() {
   const ctx = useContext(MissionContext)
   if (!ctx) throw new Error('useMissions must be used within MissionProvider')

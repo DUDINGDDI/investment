@@ -17,13 +17,12 @@ function DonutChart({ holdings }: { holdings: StockHoldingResponse[] }) {
   const radius = (size - strokeWidth) / 2
   const circumference = 2 * Math.PI * radius
 
-  let accumulated = 0
-  const segments = holdings.map(h => {
+  const segments = holdings.reduce<(StockHoldingResponse & { ratio: number; offset: number })[]>((acc, h) => {
     const ratio = h.amount / total
-    const offset = accumulated
-    accumulated += ratio
-    return { ...h, ratio, offset }
-  })
+    const offset = acc.length > 0 ? acc[acc.length - 1].offset + acc[acc.length - 1].ratio : 0
+    acc.push({ ...h, ratio, offset })
+    return acc
+  }, [])
 
   return (
     <div className={styles.chartContainer}>

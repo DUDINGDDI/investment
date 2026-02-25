@@ -194,8 +194,8 @@ export default function StockBoothDetailPage() {
       setModal(null)
       setHistoryLoaded(false)
       loadData()
-    } catch (err: any) {
-      showToast(err.response?.data?.error || '매수에 실패했습니다', 'error')
+    } catch (err: unknown) {
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '매수에 실패했습니다', 'error')
     }
   }
 
@@ -206,8 +206,8 @@ export default function StockBoothDetailPage() {
       setModal(null)
       setHistoryLoaded(false)
       loadData()
-    } catch (err: any) {
-      showToast(err.response?.data?.error || '매도에 실패했습니다', 'error')
+    } catch (err: unknown) {
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '매도에 실패했습니다', 'error')
     }
   }
 
@@ -222,8 +222,8 @@ export default function StockBoothDetailPage() {
       }
       setCommentInput('')
       showToast('제안이 등록되었습니다!', 'success')
-    } catch (err: any) {
-      showToast(err.response?.data?.error || '제안 등록에 실패했습니다', 'error')
+    } catch (err: unknown) {
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '제안 등록에 실패했습니다', 'error')
     } finally {
       setSubmitting(false)
     }
@@ -247,8 +247,8 @@ export default function StockBoothDetailPage() {
       setReviewsLoaded(false)
       showToast(myRating ? '평가가 수정되었습니다!' : '평가가 완료되었습니다!', 'success')
       loadData()
-    } catch (err: any) {
-      showToast(err.response?.data?.error || '평가에 실패했습니다', 'error')
+    } catch (err: unknown) {
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '평가에 실패했습니다', 'error')
     } finally {
       setRatingSubmitting(false)
     }
@@ -283,8 +283,8 @@ export default function StockBoothDetailPage() {
       }
       setReviewsLoaded(false)
       showToast('리뷰가 삭제되었습니다', 'success')
-    } catch (err: any) {
-      showToast(err.response?.data?.error || '리뷰 삭제에 실패했습니다', 'error')
+    } catch (err: unknown) {
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '리뷰 삭제에 실패했습니다', 'error')
     }
   }
 
