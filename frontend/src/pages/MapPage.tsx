@@ -30,6 +30,8 @@ const ZONE_TO_SLIDE: Record<string, number> = Object.entries(MAP_HOTSPOTS_BY_SLI
   {} as Record<string, number>,
 )
 
+const ZONE_ORDER = ['손복남홀', '101', '102', '201']
+
 const PAGE_SIZE = 10
 
 export default function MapPage() {
@@ -37,7 +39,7 @@ export default function MapPage() {
   const [zones, setZones] = useState<ZoneResponse[]>([])
   const [selectedZoneCode, setSelectedZoneCode] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [filterZoneCode, setFilterZoneCode] = useState<string>('')
+  const [filterZoneCode, setFilterZoneCode] = useState<string>('all')
   const [page, setPage] = useState(1)
   const navigate = useNavigate()
   const listRef = useRef<HTMLDivElement>(null)
@@ -49,9 +51,24 @@ export default function MapPage() {
     zoneApi.getAll().then(res => setZones(res.data))
   }, [])
 
-  const goTo = useCallback((index: number) => {
+  const goTo = useCallback((index: number, skipFilter = false) => {
     if (index < 0 || index >= MAP_IMAGES.length) return
     setCurrentIndex(index)
+    if (!skipFilter) {
+      const spots = MAP_HOTSPOTS_BY_SLIDE[index] ?? []
+      if (spots.length === 1) {
+        setSelectedZoneCode(spots[0].zoneId)
+        setFilterZoneCode('')
+      } else if (spots.length > 1) {
+        // 여러 구역이 있는 슬라이드: 해당 구역들만 필터링
+        const zoneCodes = spots.map(s => s.zoneId)
+        const firstZone = zoneCodes[0]
+        setSelectedZoneCode(firstZone)
+        setFilterZoneCode('')
+      }
+      setSearchQuery('')
+      setPage(1)
+    }
   }, [])
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -68,9 +85,10 @@ export default function MapPage() {
   }
 
   const handleHotspotClick = (zoneId: string) => {
-    setSelectedZoneCode(prev => prev === zoneId ? null : zoneId)
+    const isDeselect = selectedZoneCode === zoneId
+    setSelectedZoneCode(isDeselect ? null : zoneId)
+    setFilterZoneCode(isDeselect ? 'all' : zoneId)
     setSearchQuery('')
-    setFilterZoneCode('')
     setPage(1)
   }
 
@@ -85,12 +103,17 @@ export default function MapPage() {
     return result
   }, [zones])
 
-  const isSearchMode = searchQuery.length > 0 || filterZoneCode.length > 0
+  const isFilterActive = filterZoneCode !== '' && filterZoneCode !== 'all'
+  const isSearchMode = searchQuery.length > 0 || isFilterActive
+  const isShowAll = filterZoneCode === 'all'
 
   const displayBooths = useMemo(() => {
+    if (isShowAll && !searchQuery) {
+      return allBooths
+    }
     if (isSearchMode) {
       let filtered = allBooths
-      if (filterZoneCode) {
+      if (isFilterActive) {
         filtered = filtered.filter(b => b.zoneCode === filterZoneCode)
       }
       if (searchQuery) {
@@ -106,7 +129,7 @@ export default function MapPage() {
       }
     }
     return []
-  }, [isSearchMode, searchQuery, filterZoneCode, selectedZoneCode, zones, allBooths])
+  }, [isShowAll, isSearchMode, isFilterActive, searchQuery, filterZoneCode, selectedZoneCode, zones, allBooths])
 
   const totalPages = Math.ceil(displayBooths.length / PAGE_SIZE)
   const pagedBooths = displayBooths.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
@@ -123,8 +146,8 @@ export default function MapPage() {
     setFilterZoneCode(value)
     setSelectedZoneCode(null)
     setPage(1)
-    if (value && value in ZONE_TO_SLIDE) {
-      goTo(ZONE_TO_SLIDE[value])
+    if (value && value !== 'all' && value in ZONE_TO_SLIDE) {
+      goTo(ZONE_TO_SLIDE[value], true)
     }
   }
 
@@ -133,7 +156,7 @@ export default function MapPage() {
     listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const showBoothList = displayBooths.length > 0 || isSearchMode || selectedZoneCode
+  const showBoothList = displayBooths.length > 0 || isSearchMode || isShowAll || selectedZoneCode
 
   return (
     <div className={styles.container}>
@@ -170,16 +193,20 @@ export default function MapPage() {
         </div>
         <div className={styles.filterRow}>
           <button
-            className={`${styles.filterChip} ${filterZoneCode === '' ? styles.filterChipActive : ''}`}
-            onClick={() => handleFilterChange('')}
+            className={`${styles.filterChip} ${filterZoneCode === 'all' ? styles.filterChipActive : ''}`}
+            onClick={() => handleFilterChange('all')}
           >
             전체
           </button>
-          {zones.map(zone => (
+          {[...zones].sort((a, b) => {
+            const ai = ZONE_ORDER.indexOf(a.zoneCode)
+            const bi = ZONE_ORDER.indexOf(b.zoneCode)
+            return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
+          }).map(zone => (
             <button
               key={zone.zoneCode}
               className={`${styles.filterChip} ${filterZoneCode === zone.zoneCode ? styles.filterChipActive : ''}`}
-              onClick={() => handleFilterChange(filterZoneCode === zone.zoneCode ? '' : zone.zoneCode)}
+              onClick={() => handleFilterChange(filterZoneCode === zone.zoneCode ? 'all' : zone.zoneCode)}
             >
               {zone.name}
             </button>
@@ -254,10 +281,12 @@ export default function MapPage() {
             <h3 className={styles.boothTitle}>
               {isSearchMode
                 ? `검색 결과 (${displayBooths.length}개)`
-                : `${selectedZone?.name ?? ''} 구역 부스`
+                : isShowAll
+                  ? `전체 부스 (${displayBooths.length}개)`
+                  : `${selectedZone?.name ?? ''} 구역 부스`
               }
             </h3>
-            {!isSearchMode && selectedZoneCode && selectedZone && (
+            {!isSearchMode && !isShowAll && selectedZoneCode && selectedZone && (
               <span className={styles.boothFloorInfo}>{selectedZone.floorInfo}</span>
             )}
           </div>
@@ -270,7 +299,7 @@ export default function MapPage() {
                     key={booth.id}
                     className={`${styles.boothCard} stagger-item`}
                     style={{ animationDelay: `${i * 0.04}s` }}
-                    onClick={() => navigate(`/booths/${booth.id}`)}
+                    onClick={() => navigate(`/stocks/booths/${booth.id}`)}
                   >
                     <div className={styles.boothIcon} style={{ background: booth.themeColor + '30' }}>
                       <span>{booth.logoEmoji}</span>
@@ -278,7 +307,7 @@ export default function MapPage() {
                     <div className={styles.boothBody}>
                       <p className={styles.boothName}>{booth.name}</p>
                       <p className={styles.boothDesc}>
-                        {isSearchMode && <span className={styles.boothZoneTag}>{booth.zoneName}</span>}
+                        {(isSearchMode || isShowAll) && <span className={styles.boothZoneTag}>{booth.zoneName}</span>}
                         {booth.shortDescription}
                       </p>
                     </div>
