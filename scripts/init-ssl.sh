@@ -17,9 +17,9 @@ openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
     -out "$DATA_PATH/conf/live/$DOMAIN/fullchain.pem" \
     -subj "/CN=$DOMAIN"
 
-# 2) Docker Compose 시작 (임시 인증서로 Nginx 기동)
+# 2) Docker Compose 시작 (새 nginx.conf 반영 + 임시 인증서로 기동)
 echo "=== Docker Compose 시작 ==="
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d --build
 sleep 10
 
 # 3) 임시 인증서 삭제
