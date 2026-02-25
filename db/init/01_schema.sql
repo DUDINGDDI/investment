@@ -109,9 +109,12 @@ CREATE TABLE stock_booths (
     display_order INT NOT NULL COMMENT '표시 순서',
     logo_emoji VARCHAR(10) COMMENT '대표 이모지',
     theme_color VARCHAR(7) NOT NULL DEFAULT '#3182F6' COMMENT '테마 색상 HEX',
+    zone_id BIGINT COMMENT '소속 구역 ID',
     booth_uuid VARCHAR(36) NOT NULL UNIQUE COMMENT '부스 QR UUID',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_display_order (display_order)
+    FOREIGN KEY (zone_id) REFERENCES zones(id) ON DELETE SET NULL,
+    INDEX idx_display_order (display_order),
+    INDEX idx_zone_id (zone_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 주식 부스 방문 기록 테이블

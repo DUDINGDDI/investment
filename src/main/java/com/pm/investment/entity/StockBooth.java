@@ -43,6 +43,10 @@ public class StockBooth {
     @Column(name = "booth_uuid", nullable = false, unique = true, length = 36)
     private String boothUuid;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zone_id")
+    private Zone zone;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
