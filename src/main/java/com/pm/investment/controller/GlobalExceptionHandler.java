@@ -6,6 +6,7 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.Map;
@@ -30,6 +31,11 @@ public class GlobalExceptionHandler {
                 .findFirst()
                 .orElse("유효하지 않은 요청입니다");
         return ResponseEntity.badRequest().body(Map.of("error", message));
+    }
+
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public ResponseEntity<Void> handleAsyncTimeout(AsyncRequestTimeoutException e) {
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
