@@ -24,7 +24,7 @@ public class StockAccount {
     private User user;
 
     @Column(nullable = false)
-    private Long balance = 200_000_000_000L;
+    private Long balance = 100_000_000L;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -45,6 +45,6 @@ public class StockAccount {
 
     public StockAccount(User user) {
         this.user = user;
-        this.balance = 200_000_000_000L;
+        this.balance = 100_000_000L;
     }
 }

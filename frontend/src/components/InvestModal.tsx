@@ -9,11 +9,13 @@ interface Props {
   onClose: () => void
 }
 
+const UNIT = 10_000_000
+
 const AMOUNTS = [
-  { label: '+1만', value: 10000 },
-  { label: '+5만', value: 50000 },
-  { label: '+10만', value: 100000 },
-  { label: '+50만', value: 500000 },
+  { label: '+1천만', value: UNIT },
+  { label: '+2천만', value: UNIT * 2 },
+  { label: '+5천만', value: UNIT * 5 },
+  { label: '+1억', value: UNIT * 10 },
 ]
 
 function formatNumber(n: number) {
@@ -22,6 +24,7 @@ function formatNumber(n: number) {
 
 export default function InvestModal({ type, boothName, maxAmount, onConfirm, onClose }: Props) {
   const [amount, setAmount] = useState(0)
+  const [inputValue, setInputValue] = useState('')
 
   const isInvest = type === 'invest'
   const title = isInvest ? '투자하기' : '철회하기'
@@ -30,7 +33,34 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
     setAmount(prev => Math.min(prev + value, maxAmount))
   }
 
-  const resetAmount = () => setAmount(0)
+  const resetAmount = () => {
+    setAmount(0)
+    setInputValue('')
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value.replace(/[^0-9]/g, '')
+    setInputValue(raw)
+  }
+
+  const handleInputApply = () => {
+    const n = parseInt(inputValue, 10)
+    if (!n || n <= 0) return
+    const value = n * UNIT
+    if (value > maxAmount) {
+      setAmount(maxAmount - (maxAmount % UNIT))
+    } else {
+      setAmount(value)
+    }
+    setInputValue('')
+  }
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleInputApply()
+    }
+  }
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -47,6 +77,22 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
         <div className={styles.amountDisplay}>
           <span className={styles.amountValue}>{formatNumber(amount)}</span>
           <span className={styles.amountUnit}> 원</span>
+        </div>
+
+        <div className={styles.directInput}>
+          <input
+            type="text"
+            inputMode="numeric"
+            className={styles.input}
+            placeholder="직접 입력"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+          />
+          <span className={styles.inputSuffix}>천만원</span>
+          <button className={styles.inputBtn} onClick={handleInputApply} disabled={!inputValue}>
+            적용
+          </button>
         </div>
 
         <div className={styles.pills}>

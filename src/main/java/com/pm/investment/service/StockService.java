@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StockService {
 
-    private static final long TRADE_UNIT = 100_000_000L;
+    private static final long TRADE_UNIT = 10_000_000L;
 
     private final StockAccountRepository stockAccountRepository;
     private final BoothRepository boothRepository;
@@ -46,15 +46,11 @@ public class StockService {
                     return stockHoldingRepository.save(newHolding);
                 });
 
-        Long currentPrice = stockPriceRepository.findByBoothId(boothId)
-                .map(StockPrice::getCurrentPrice)
-                .orElse(1_000_000_000L);
-
         account.setBalance(account.getBalance() - amount);
         holding.setAmount(holding.getAmount() + amount);
 
         stockTradeHistoryRepository.save(
-                new StockTradeHistory(account.getUser(), booth, StockTradeHistory.TradeType.BUY, amount, currentPrice, account.getBalance())
+                new StockTradeHistory(account.getUser(), booth, StockTradeHistory.TradeType.BUY, amount, 0L, account.getBalance())
         );
     }
 
@@ -70,21 +66,17 @@ public class StockService {
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
         StockHolding holding = stockHoldingRepository.findByUserIdAndBoothIdWithLock(userId, boothId)
-                .orElseThrow(() -> new IllegalStateException("해당 부스에 보유한 주식이 없습니다"));
+                .orElseThrow(() -> new IllegalStateException("해당 부스에 보유한 투자금이 없습니다"));
 
         if (holding.getAmount() < amount) {
-            throw new IllegalStateException("매도 금액이 보유 금액을 초과합니다");
+            throw new IllegalStateException("철회 금액이 투자 금액을 초과합니다");
         }
-
-        Long currentPrice = stockPriceRepository.findByBoothId(boothId)
-                .map(StockPrice::getCurrentPrice)
-                .orElse(1_000_000_000L);
 
         account.setBalance(account.getBalance() + amount);
         holding.setAmount(holding.getAmount() - amount);
 
         stockTradeHistoryRepository.save(
-                new StockTradeHistory(account.getUser(), booth, StockTradeHistory.TradeType.SELL, amount, currentPrice, account.getBalance())
+                new StockTradeHistory(account.getUser(), booth, StockTradeHistory.TradeType.SELL, amount, 0L, account.getBalance())
         );
     }
 
@@ -93,16 +85,12 @@ public class StockService {
         return stockHoldingRepository.findByUserIdAndAmountGreaterThan(userId, 0L)
                 .stream()
                 .map(holding -> {
-                    Long currentPrice = stockPriceRepository.findByBoothId(holding.getBooth().getId())
-                            .map(StockPrice::getCurrentPrice)
-                            .orElse(1_000_000_000L);
                     return StockHoldingResponse.builder()
                             .boothId(holding.getBooth().getId())
                             .boothName(holding.getBooth().getName())
                             .logoEmoji(holding.getBooth().getLogoEmoji())
                             .themeColor(holding.getBooth().getThemeColor())
                             .amount(holding.getAmount())
-                            .currentPrice(currentPrice)
                             .build();
                 })
                 .toList();
@@ -170,7 +158,7 @@ public class StockService {
             throw new IllegalArgumentException("금액은 0보다 커야 합니다");
         }
         if (amount % TRADE_UNIT != 0) {
-            throw new IllegalArgumentException("금액은 1억원 단위여야 합니다");
+            throw new IllegalArgumentException("금액은 10,000,000원 단위여야 합니다");
         }
     }
 }

@@ -14,5 +14,4 @@ public class StockHoldingResponse {
     private String logoEmoji;
     private String themeColor;
     private Long amount;
-    private Long currentPrice;
 }

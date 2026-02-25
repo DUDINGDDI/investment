@@ -2,11 +2,9 @@ package com.pm.investment.service;
 
 import com.pm.investment.dto.StockBoothResponse;
 import com.pm.investment.entity.Booth;
-import com.pm.investment.entity.StockPrice;
 import com.pm.investment.repository.BoothRepository;
 import com.pm.investment.repository.BoothVisitRepository;
 import com.pm.investment.repository.StockHoldingRepository;
-import com.pm.investment.repository.StockPriceRepository;
 import com.pm.investment.repository.StockRatingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,6 @@ public class StockBoothService {
 
     private final BoothRepository boothRepository;
     private final StockHoldingRepository stockHoldingRepository;
-    private final StockPriceRepository stockPriceRepository;
     private final BoothVisitRepository boothVisitRepository;
     private final StockRatingRepository stockRatingRepository;
 
@@ -29,9 +26,6 @@ public class StockBoothService {
         List<Booth> booths = boothRepository.findAllByOrderByDisplayOrderAsc();
 
         return booths.stream().map(booth -> {
-            Long currentPrice = stockPriceRepository.findByBoothId(booth.getId())
-                    .map(StockPrice::getCurrentPrice)
-                    .orElse(1_000_000_000L);
             Long totalHolding = stockHoldingRepository.getTotalHoldingByBoothId(booth.getId());
             Long myHolding = 0L;
             if (userId != null) {
@@ -49,7 +43,6 @@ public class StockBoothService {
                     .displayOrder(booth.getDisplayOrder())
                     .logoEmoji(booth.getLogoEmoji())
                     .themeColor(booth.getThemeColor())
-                    .currentPrice(currentPrice)
                     .totalHolding(totalHolding)
                     .myHolding(myHolding)
                     .hasVisited(userId != null && boothVisitRepository.existsByUserIdAndBoothId(userId, booth.getId()))
@@ -63,9 +56,6 @@ public class StockBoothService {
         Booth booth = boothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
-        Long currentPrice = stockPriceRepository.findByBoothId(boothId)
-                .map(StockPrice::getCurrentPrice)
-                .orElse(1_000_000_000L);
         Long totalHolding = stockHoldingRepository.getTotalHoldingByBoothId(boothId);
         Long myHolding = 0L;
         if (userId != null) {
@@ -83,7 +73,6 @@ public class StockBoothService {
                 .displayOrder(booth.getDisplayOrder())
                 .logoEmoji(booth.getLogoEmoji())
                 .themeColor(booth.getThemeColor())
-                .currentPrice(currentPrice)
                 .totalHolding(totalHolding)
                 .myHolding(myHolding)
                 .hasVisited(userId != null && boothVisitRepository.existsByUserIdAndBoothId(userId, boothId))

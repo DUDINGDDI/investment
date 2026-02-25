@@ -13,6 +13,6 @@ public class InvestRequest {
     private Long boothId;
 
     @NotNull(message = "금액은 필수입니다")
-    @Min(value = 10000, message = "최소 투자 금액은 10,000원입니다")
+    @Min(value = 10_000_000, message = "최소 투자 금액은 10,000,000원입니다")
     private Long amount;
 }

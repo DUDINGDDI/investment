@@ -13,6 +13,6 @@ public class StockTradeRequest {
     private Long boothId;
 
     @NotNull(message = "금액은 필수입니다")
-    @Min(value = 100_000_000, message = "최소 거래 금액은 1억원입니다")
+    @Min(value = 10_000_000, message = "최소 거래 금액은 10,000,000원입니다")
     private Long amount;
 }
