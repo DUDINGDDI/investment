@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface StockCommentRepository extends JpaRepository<StockComment, Long> {
 
-    List<StockComment> findByBoothIdOrderByCreatedAtDesc(Long boothId);
+    List<StockComment> findByStockBoothIdOrderByCreatedAtDesc(Long stockBoothId);
 
-    List<StockComment> findByBoothIdAndTagOrderByCreatedAtDesc(Long boothId, String tag);
+    List<StockComment> findByStockBoothIdAndTagOrderByCreatedAtDesc(Long stockBoothId, String tag);
 
     long countByUserId(Long userId);
 }

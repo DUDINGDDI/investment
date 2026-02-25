@@ -20,8 +20,8 @@ public class StockPrice {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id", nullable = false, unique = true)
-    private Booth booth;
+    @JoinColumn(name = "stock_booth_id", nullable = false, unique = true)
+    private StockBooth stockBooth;
 
     @Column(name = "current_price", nullable = false)
     private Long currentPrice = 1_000_000_000L;
@@ -39,8 +39,8 @@ public class StockPrice {
         updatedAt = LocalDateTime.now();
     }
 
-    public StockPrice(Booth booth) {
-        this.booth = booth;
+    public StockPrice(StockBooth stockBooth) {
+        this.stockBooth = stockBooth;
         this.currentPrice = 1_000_000_000L;
     }
 }

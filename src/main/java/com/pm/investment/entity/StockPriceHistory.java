@@ -20,8 +20,8 @@ public class StockPriceHistory {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id", nullable = false)
-    private Booth booth;
+    @JoinColumn(name = "stock_booth_id", nullable = false)
+    private StockBooth stockBooth;
 
     @Column(nullable = false)
     private Long price;
@@ -34,8 +34,8 @@ public class StockPriceHistory {
         createdAt = LocalDateTime.now();
     }
 
-    public StockPriceHistory(Booth booth, Long price) {
-        this.booth = booth;
+    public StockPriceHistory(StockBooth stockBooth, Long price) {
+        this.stockBooth = stockBooth;
         this.price = price;
     }
 }

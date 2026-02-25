@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi } from '../api'
 import { useToast } from '../components/ToastContext'
+import cjLogo from '../assets/logo/CJ_Group_White Wordtype.png'
 import styles from './LoginPage.module.css'
 
 export default function LoginPage() {
@@ -37,10 +38,8 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.logo}>
-          <span className={styles.logoIcon}>📈</span>
-        </div>
-        <h1 className={styles.title}>부스 투자</h1>
+        <img src={cjLogo} alt="CJ" className={styles.logo} />
+        <h1 className={styles.title}>ONLYONE FAIR</h1>
         <p className={styles.subtitle}>나만의 투자 포트폴리오를 만들어보세요</p>
       </div>
 
