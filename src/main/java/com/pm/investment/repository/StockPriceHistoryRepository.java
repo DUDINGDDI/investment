@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StockPriceHistoryRepository extends JpaRepository<StockPriceHistory, Long> {
 
-    List<StockPriceHistory> findByBoothIdOrderByCreatedAtAsc(Long boothId);
+    List<StockPriceHistory> findByStockBoothIdOrderByCreatedAtAsc(Long stockBoothId);
 }

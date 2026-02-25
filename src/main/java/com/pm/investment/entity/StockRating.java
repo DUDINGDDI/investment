@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "stock_ratings", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_user_booth_rating", columnNames = {"user_id", "booth_id"})
+        @UniqueConstraint(name = "uk_user_booth_rating", columnNames = {"user_id", "stock_booth_id"})
 })
 @Getter
 @Setter
@@ -26,8 +26,8 @@ public class StockRating {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id", nullable = false)
-    private Booth booth;
+    @JoinColumn(name = "stock_booth_id", nullable = false)
+    private StockBooth stockBooth;
 
     @Column(name = "score_first", nullable = false)
     private Integer scoreFirst;
@@ -67,11 +67,11 @@ public class StockRating {
         updatedAt = LocalDateTime.now();
     }
 
-    public StockRating(User user, Booth booth, Integer scoreFirst, Integer scoreBest,
+    public StockRating(User user, StockBooth stockBooth, Integer scoreFirst, Integer scoreBest,
                        Integer scoreDifferent, Integer scoreNumberOne,
                        Integer scoreGap, Integer scoreGlobal, String review) {
         this.user = user;
-        this.booth = booth;
+        this.stockBooth = stockBooth;
         this.scoreFirst = scoreFirst;
         this.scoreBest = scoreBest;
         this.scoreDifferent = scoreDifferent;

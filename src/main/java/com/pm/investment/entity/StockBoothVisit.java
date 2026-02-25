@@ -9,13 +9,13 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "stock_holdings", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_stock_user_booth", columnNames = {"user_id", "stock_booth_id"})
+@Table(name = "stock_booth_visits", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_user_stock_booth_visit", columnNames = {"user_id", "stock_booth_id"})
 })
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StockHolding {
+public class StockBoothVisit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,29 +29,16 @@ public class StockHolding {
     @JoinColumn(name = "stock_booth_id", nullable = false)
     private StockBooth stockBooth;
 
-    @Column(nullable = false)
-    private Long amount = 0L;
-
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "visited_at", updatable = false)
+    private LocalDateTime visitedAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        visitedAt = LocalDateTime.now();
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
-    public StockHolding(User user, StockBooth stockBooth) {
+    public StockBoothVisit(User user, StockBooth stockBooth) {
         this.user = user;
         this.stockBooth = stockBooth;
-        this.amount = 0L;
     }
 }

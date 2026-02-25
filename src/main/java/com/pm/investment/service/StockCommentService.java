@@ -1,10 +1,10 @@
 package com.pm.investment.service;
 
 import com.pm.investment.dto.StockCommentResponse;
-import com.pm.investment.entity.Booth;
+import com.pm.investment.entity.StockBooth;
 import com.pm.investment.entity.StockComment;
 import com.pm.investment.entity.User;
-import com.pm.investment.repository.BoothRepository;
+import com.pm.investment.repository.StockBoothRepository;
 import com.pm.investment.repository.StockCommentRepository;
 import com.pm.investment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +19,14 @@ public class StockCommentService {
 
     private final StockCommentRepository stockCommentRepository;
     private final UserRepository userRepository;
-    private final BoothRepository boothRepository;
+    private final StockBoothRepository stockBoothRepository;
     private final MissionService missionService;
 
     @Transactional(readOnly = true)
     public List<StockCommentResponse> getComments(Long boothId, String tag) {
         List<StockComment> comments = (tag == null || tag.isBlank())
-                ? stockCommentRepository.findByBoothIdOrderByCreatedAtDesc(boothId)
-                : stockCommentRepository.findByBoothIdAndTagOrderByCreatedAtDesc(boothId, tag);
+                ? stockCommentRepository.findByStockBoothIdOrderByCreatedAtDesc(boothId)
+                : stockCommentRepository.findByStockBoothIdAndTagOrderByCreatedAtDesc(boothId, tag);
 
         return comments.stream()
                 .map(c -> StockCommentResponse.builder()
@@ -45,10 +45,10 @@ public class StockCommentService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다"));
 
-        Booth booth = boothRepository.findById(boothId)
+        StockBooth stockBooth = stockBoothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
-        StockComment comment = new StockComment(user, booth, content, tag);
+        StockComment comment = new StockComment(user, stockBooth, content, tag);
         stockCommentRepository.save(comment);
 
         // renew 미션: 댓글 총 수를 progress로 반영
