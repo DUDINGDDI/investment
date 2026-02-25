@@ -240,3 +240,26 @@ export interface BoothReviewResponse {
   review: string;
   updatedAt: string;
 }
+
+// === 쪽지 (Note) ===
+export interface NoteRequest {
+  receiverId: number;
+  content: string;
+}
+
+export interface NoteResponse {
+  id: number;
+  senderId: number;
+  senderName: string;
+  receiverId: number;
+  receiverName: string;
+  content: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface UserSearchResponse {
+  userId: number;
+  name: string;
+  uniqueCode: string;
+}
