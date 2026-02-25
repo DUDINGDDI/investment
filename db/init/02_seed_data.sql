@@ -155,6 +155,7 @@ INSERT INTO users (unique_code, name, balance) VALUES
 -- 앱 설정 초기값
 -- ──────────────────────────────────────────────
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('results_revealed', 'false');
+INSERT INTO app_settings (setting_key, setting_value) VALUES ('investment_enabled', 'true');
 
 
 -- ──────────────────────────────────────────────

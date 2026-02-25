@@ -56,6 +56,7 @@ export const investmentApi = {
 
 export const resultApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/results/status'),
+  getInvestmentStatus: () => api.get<{ enabled: boolean }>('/results/investment-status'),
   getRanking: () => api.get<RankingResponse[]>('/results/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/results/announcement'),
 };
@@ -118,6 +119,8 @@ export const noteApi = {
 export const adminApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/admin/results/status'),
   toggleResults: () => api.post<{ revealed: boolean }>('/admin/results/toggle'),
+  getInvestmentStatus: () => api.get<{ enabled: boolean }>('/admin/investment/status'),
+  toggleInvestment: () => api.post<{ enabled: boolean }>('/admin/investment/toggle'),
   getRanking: () => api.get<RankingResponse[]>('/admin/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/admin/announcement'),
   setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),

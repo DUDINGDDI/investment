@@ -18,6 +18,7 @@ INSERT INTO booths (name, category, description, short_description, display_orde
 ('클린워터텍', '환경', '나노 필터 기반 수질 정화 기술을 보유하고 있습니다. 오염된 물을 음용수 수준으로 정화하는 포터블 장치를 개발했으며, 개발도상국과 재난 지역에 보급 중입니다. UN 산하 기관과 파트너십을 맺고 아프리카 5개국에 시범 보급을 완료했습니다. ESG 투자 관점에서 높은 관심을 받고 있습니다.', '나노 필터 수질 정화 포터블 장치', 11, '💧', '#74B9FF', 4, 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c11');
 
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('results_revealed', 'false');
+INSERT INTO app_settings (setting_key, setting_value) VALUES ('investment_enabled', 'true');
 
 -- ──────────────────────────────────────────────
 -- 30개 주식 부스 데이터 (오전 세션용)

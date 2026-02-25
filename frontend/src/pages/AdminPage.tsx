@@ -23,9 +23,11 @@ const SORT_OPTIONS: { key: RatingSortKey; label: string }[] = [
 
 export default function AdminPage() {
   const [revealed, setRevealed] = useState(false)
+  const [investmentEnabled, setInvestmentEnabled] = useState(true)
   const [ranking, setRanking] = useState<RankingResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState(false)
+  const [investToggling, setInvestToggling] = useState(false)
   const [annMessage, setAnnMessage] = useState('')
   const [annCurrent, setAnnCurrent] = useState('')
   const [annSaving, setAnnSaving] = useState(false)
@@ -34,13 +36,15 @@ export default function AdminPage() {
 
   const loadData = async () => {
     try {
-      const [statusRes, rankRes, annRes, ratingsRes] = await Promise.all([
+      const [statusRes, investRes, rankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
+        adminApi.getInvestmentStatus(),
         adminApi.getRanking(),
         adminApi.getAnnouncement(),
         adminApi.getBoothRatings(),
       ])
       setRevealed(statusRes.data.revealed)
+      setInvestmentEnabled(investRes.data.enabled)
       setRanking(rankRes.data)
       setAnnCurrent(annRes.data.message)
       setAnnMessage(annRes.data.message)
@@ -94,6 +98,37 @@ export default function AdminPage() {
           disabled={toggling}
         >
           {toggling ? '처리 중...' : revealed ? '결과 숨기기' : '결과 공개하기'}
+        </button>
+      </div>
+
+      <div className={styles.controlCard}>
+        <div className={styles.statusRow}>
+          <span className={styles.statusLabel}>투자 메뉴 상태</span>
+          <span className={`${styles.statusBadge} ${investmentEnabled ? styles.statusOn : styles.statusOff}`}>
+            {investmentEnabled ? '활성' : '비활성'}
+          </span>
+        </div>
+        <p className={styles.statusDesc}>
+          {investmentEnabled
+            ? '현재 참가자가 플로팅 메뉴에서 투자 기능에 접근할 수 있습니다.'
+            : '투자 메뉴가 숨겨져 있어 참가자가 투자 기능에 접근할 수 없습니다.'}
+        </p>
+        <button
+          className={`${styles.toggleBtn} ${investmentEnabled ? styles.hideBtn : styles.revealBtn}`}
+          onClick={async () => {
+            const action = investmentEnabled ? '투자 메뉴를 비활성화하시겠습니까?' : '투자 메뉴를 활성화하시겠습니까?'
+            if (!confirm(action)) return
+            setInvestToggling(true)
+            try {
+              const res = await adminApi.toggleInvestment()
+              setInvestmentEnabled(res.data.enabled)
+            } finally {
+              setInvestToggling(false)
+            }
+          }}
+          disabled={investToggling}
+        >
+          {investToggling ? '처리 중...' : investmentEnabled ? '투자 메뉴 끄기' : '투자 메뉴 켜기'}
         </button>
       </div>
 
