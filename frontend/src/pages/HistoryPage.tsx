@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
 import { investmentApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { InvestmentHistoryResponse } from '../types'
 import styles from './HistoryPage.module.css'
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 function formatTime(dateStr: string) {
   const d = new Date(dateStr)
@@ -88,7 +85,7 @@ export default function HistoryPage() {
                     </div>
                   </div>
                   <p className={`${styles.amount} ${isInvest ? styles.investAmount : styles.withdrawAmount}`}>
-                    {isInvest ? '+' : '-'}{formatWon(item.amount)}
+                    {isInvest ? '+' : '-'}{formatKorean(item.amount)}
                   </p>
                 </div>
               )

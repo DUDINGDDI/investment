@@ -1,12 +1,9 @@
+import { formatKorean } from '../utils/format'
 import styles from './PriceChart.module.css'
 
 interface PriceChartProps {
   priceHistory: { price: number; changedAt: string }[]
   themeColor: string
-}
-
-function formatPrice(n: number): string {
-  return n.toLocaleString('ko-KR')
 }
 
 export default function PriceChart({ priceHistory, themeColor }: PriceChartProps) {
@@ -100,8 +97,8 @@ export default function PriceChart({ priceHistory, themeColor }: PriceChartProps
         </svg>
 
         <div className={styles.priceRange}>
-          <span>최저 {formatPrice(minPrice)}</span>
-          <span>최고 {formatPrice(maxPrice)}</span>
+          <span>최저 {formatKorean(minPrice)}</span>
+          <span>최고 {formatKorean(maxPrice)}</span>
         </div>
       </div>
     </div>

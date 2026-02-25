@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { stockApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { StockHoldingResponse } from '../types'
 import styles from './StockHomePage.module.css'
-
-function formatStockAmount(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 function DonutChart({ holdings }: { holdings: StockHoldingResponse[] }) {
   const total = holdings.reduce((sum, h) => sum + h.amount, 0)
@@ -44,7 +41,7 @@ function DonutChart({ holdings }: { holdings: StockHoldingResponse[] }) {
         ))}
       </svg>
       <div className={styles.chartCenter}>
-        <p className={styles.chartTotal}>{formatStockAmount(total)}</p>
+        <p className={styles.chartTotal}>{formatKorean(total)}</p>
         <p className={styles.chartLabel}>총 보유</p>
       </div>
     </div>
@@ -97,7 +94,7 @@ export default function StockHomePage() {
                     <p className={styles.boothName}>{h.boothName}</p>
                     <p className={styles.ratio}>{ratio}%</p>
                   </div>
-                  <p className={styles.investAmount}>{formatStockAmount(h.amount)}원</p>
+                  <p className={styles.investAmount}>{formatKorean(h.amount)}원</p>
                 </div>
               )
             })}

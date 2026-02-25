@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { StockBoothResponse, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
 import { useToast } from '../components/ToastContext'
@@ -28,9 +29,6 @@ const RATING_CRITERIA = [
 
 type ScoreKey = typeof RATING_CRITERIA[number]['key']
 
-function formatStockAmount(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 function formatTime(dateStr: string) {
   const d = new Date(dateStr)
@@ -190,24 +188,26 @@ export default function StockBoothDetailPage() {
   const handleBuy = async (amount: number) => {
     try {
       await stockApi.buy({ boothId: Number(id), amount })
-      showToast(`${formatStockAmount(amount)}원 매수 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 투자 완료!`, 'success')
       setModal(null)
       setHistoryLoaded(false)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
-      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '매수에 실패했습니다', 'error')
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '투자에 실패했습니다', 'error')
     }
   }
 
   const handleSell = async (amount: number) => {
     try {
       await stockApi.sell({ boothId: Number(id), amount })
-      showToast(`${formatStockAmount(amount)}원 매도 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 철회 완료!`, 'success')
       setModal(null)
       setHistoryLoaded(false)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
-      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '매도에 실패했습니다', 'error')
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '철회에 실패했습니다', 'error')
     }
   }
 
@@ -363,7 +363,7 @@ export default function StockBoothDetailPage() {
       <div className={styles.investSection}>
         <div className={styles.investRow}>
           <span className={styles.investLabel}>내 투자금</span>
-          <span className={styles.investValueMy}>{formatStockAmount(booth.myHolding)}원</span>
+          <span className={styles.investValueMy}>{formatKorean(booth.myHolding)}원</span>
         </div>
       </div>
 
@@ -402,7 +402,7 @@ export default function StockBoothDetailPage() {
                         </div>
                         <div className={styles.historyAmount}>
                           <p className={`${styles.amount} ${isBuy ? styles.buyAmount : styles.sellAmount}`}>
-                            {isBuy ? '+' : '-'}{formatStockAmount(item.amount)}
+                            {isBuy ? '+' : '-'}{formatKorean(item.amount)}
                           </p>
                         </div>
                       </div>
@@ -681,13 +681,13 @@ export default function StockBoothDetailPage() {
         )}
       </div>
 
-      {/* 하단 고정 매수/매도 버튼 */}
+      {/* 하단 고정 투자/철회 버튼 */}
       <div className={styles.actions}>
         {!canTrade && (
           <p className={styles.tradeGuide}>
             {!booth.hasVisited
               ? 'QR 스캔으로 부스를 방문해주세요'
-              : '평가를 완료하면 매수/매도가 가능합니다'}
+              : '평가를 완료하면 투자/철회가 가능합니다'}
           </p>
         )}
         <div className={styles.actionBtns}>
@@ -696,14 +696,14 @@ export default function StockBoothDetailPage() {
             onClick={() => setModal('sell')}
             disabled={!canTrade || booth.myHolding === 0}
           >
-            매도하기
+            철회하기
           </button>
           <button
             className={styles.buyBtn}
             onClick={() => setModal('buy')}
             disabled={!canTrade || balance === 0}
           >
-            매수하기
+            투자하기
           </button>
         </div>
       </div>
