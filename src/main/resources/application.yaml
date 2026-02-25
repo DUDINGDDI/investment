@@ -42,6 +42,13 @@ spring:
     username: booth_user
     password: booth1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+      connection-timeout: 5000
+      idle-timeout: 300000
+      max-lifetime: 1740000
+      leak-detection-threshold: 10000
 
   h2:
     console:

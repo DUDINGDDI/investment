@@ -19,6 +19,11 @@ services:
       - --character-set-client-handshake=FALSE
       - --init-connect=SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
       - --default-authentication-plugin=mysql_native_password
+      - --max-connections=300
+      - --innodb-buffer-pool-size=536870912
+      - --innodb-lock-wait-timeout=10
+      - --wait-timeout=600
+      - --thread-cache-size=50
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
       interval: 5s

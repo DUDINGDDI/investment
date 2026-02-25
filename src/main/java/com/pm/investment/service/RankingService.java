@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,17 +25,24 @@ public class RankingService {
     public List<RankingResponse> getRanking() {
         List<Booth> booths = boothRepository.findAll();
 
+        // 1개 쿼리로 전체 부스 투자 통계 조회 (N+1 제거)
+        Map<Long, long[]> statsMap = investmentRepository.getInvestmentStatsByBooth()
+                .stream()
+                .collect(Collectors.toMap(
+                        row -> (Long) row[0],
+                        row -> new long[]{((Number) row[1]).longValue(), ((Number) row[2]).longValue()}
+                ));
+
         List<RankingResponse> unsorted = booths.stream().map(booth -> {
-            Long totalInvestment = investmentRepository.getTotalInvestmentByBoothId(booth.getId());
-            Long investorCount = investmentRepository.getInvestorCountByBoothId(booth.getId());
+            long[] stats = statsMap.getOrDefault(booth.getId(), new long[]{0L, 0L});
             return RankingResponse.builder()
                     .boothId(booth.getId())
                     .boothName(booth.getName())
                     .category(booth.getCategory())
                     .logoEmoji(booth.getLogoEmoji())
                     .themeColor(booth.getThemeColor())
-                    .totalInvestment(totalInvestment)
-                    .investorCount(investorCount)
+                    .totalInvestment(stats[0])
+                    .investorCount(stats[1])
                     .build();
         }).sorted(Comparator.comparingLong(RankingResponse::getTotalInvestment).reversed())
                 .toList();
