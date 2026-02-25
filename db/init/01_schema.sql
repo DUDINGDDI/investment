@@ -193,6 +193,20 @@ CREATE TABLE stock_ratings (
     INDEX idx_booth_id (booth_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 쪽지 테이블
+CREATE TABLE notes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sender_id BIGINT NOT NULL,
+    receiver_id BIGINT NOT NULL,
+    content VARCHAR(50) NOT NULL COMMENT '쪽지 내용 (50자 이내)',
+    is_read BOOLEAN NOT NULL DEFAULT FALSE COMMENT '읽음 여부',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_receiver_created (receiver_id, created_at DESC),
+    INDEX idx_sender_created (sender_id, created_at DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 투자 이력 테이블
 CREATE TABLE investment_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

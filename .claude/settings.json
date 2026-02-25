@@ -28,7 +28,8 @@
       "Bash(export PATH=\"$JAVA_HOME/bin:$PATH\")",
       "Bash(java -version)",
       "Bash(JAVA_HOME=\"C:/Users/User/.jdks/openjdk-25.0.1\" PATH=\"C:/Users/User/.jdks/openjdk-25.0.1/bin:$PATH\" /c/Users/User/.jdks/openjdk-25.0.1/bin/java.exe -version)",
-      "Bash(JAVA_HOME=\"C:/Users/User/.jdks/openjdk-25.0.1\" PATH=\"C:/Users/User/.jdks/openjdk-25.0.1/bin:$PATH\" ./gradlew build -x test)"
+      "Bash(JAVA_HOME=\"C:/Users/User/.jdks/openjdk-25.0.1\" PATH=\"C:/Users/User/.jdks/openjdk-25.0.1/bin:$PATH\" ./gradlew build -x test)",
+      "Bash(npm run build)"
     ]
   }
 }
