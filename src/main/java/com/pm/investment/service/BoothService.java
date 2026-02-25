@@ -2,6 +2,7 @@ package com.pm.investment.service;
 
 import com.pm.investment.dto.BoothResponse;
 import com.pm.investment.entity.Booth;
+import com.pm.investment.entity.Investment;
 import com.pm.investment.repository.BoothRepository;
 import com.pm.investment.repository.InvestmentRepository;
 import lombok.RequiredArgsConstructor;
