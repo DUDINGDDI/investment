@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { StockBoothResponse, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
 import { useToast } from '../components/ToastContext'
@@ -28,9 +29,6 @@ const RATING_CRITERIA = [
 
 type ScoreKey = typeof RATING_CRITERIA[number]['key']
 
-function formatStockAmount(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 function formatTime(dateStr: string) {
   const d = new Date(dateStr)
@@ -190,7 +188,7 @@ export default function StockBoothDetailPage() {
   const handleBuy = async (amount: number) => {
     try {
       await stockApi.buy({ boothId: Number(id), amount })
-      showToast(`${formatStockAmount(amount)}원 매수 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 매수 완료!`, 'success')
       setModal(null)
       setHistoryLoaded(false)
       loadData()
@@ -202,7 +200,7 @@ export default function StockBoothDetailPage() {
   const handleSell = async (amount: number) => {
     try {
       await stockApi.sell({ boothId: Number(id), amount })
-      showToast(`${formatStockAmount(amount)}원 매도 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 매도 완료!`, 'success')
       setModal(null)
       setHistoryLoaded(false)
       loadData()
@@ -363,7 +361,7 @@ export default function StockBoothDetailPage() {
       <div className={styles.investSection}>
         <div className={styles.investRow}>
           <span className={styles.investLabel}>내 투자금</span>
-          <span className={styles.investValueMy}>{formatStockAmount(booth.myHolding)}원</span>
+          <span className={styles.investValueMy}>{formatKorean(booth.myHolding)}원</span>
         </div>
       </div>
 
@@ -402,7 +400,7 @@ export default function StockBoothDetailPage() {
                         </div>
                         <div className={styles.historyAmount}>
                           <p className={`${styles.amount} ${isBuy ? styles.buyAmount : styles.sellAmount}`}>
-                            {isBuy ? '+' : '-'}{formatStockAmount(item.amount)}
+                            {isBuy ? '+' : '-'}{formatKorean(item.amount)}
                           </p>
                         </div>
                       </div>

@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { stockApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { StockBoothResponse } from '../types'
 import styles from './StockBoothListPage.module.css'
-
-function formatStockAmount(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 export default function StockBoothListPage() {
   const [booths, setBooths] = useState<StockBoothResponse[]>([])
@@ -39,7 +36,7 @@ export default function StockBoothListPage() {
               <p className={styles.category}>{booth.category}</p>
             </div>
             <div className={styles.priceArea}>
-              <p className={styles.totalHolding}>{formatStockAmount(booth.totalHolding)}원</p>
+              <p className={styles.totalHolding}>{formatKorean(booth.totalHolding)}원</p>
             </div>
           </div>
         ))}

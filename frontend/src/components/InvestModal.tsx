@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { formatKorean } from '../utils/format'
 import styles from './InvestModal.module.css'
 
 interface Props {
@@ -11,56 +12,13 @@ interface Props {
 
 const UNIT = 10_000_000
 
-const AMOUNTS = [
-  { label: '+1천만', value: UNIT },
-  { label: '+2천만', value: UNIT * 2 },
-  { label: '+5천만', value: UNIT * 5 },
-  { label: '+1억', value: UNIT * 10 },
-]
-
-function formatNumber(n: number) {
-  return n.toLocaleString('ko-KR')
-}
-
 export default function InvestModal({ type, boothName, maxAmount, onConfirm, onClose }: Props) {
-  const [amount, setAmount] = useState(0)
-  const [inputValue, setInputValue] = useState('')
+  const maxSteps = Math.floor(maxAmount / UNIT)
+  const [steps, setSteps] = useState(maxSteps > 0 ? 1 : 0)
+  const amount = steps * UNIT
 
   const isInvest = type === 'invest'
   const title = isInvest ? '투자하기' : '철회하기'
-
-  const addAmount = (value: number) => {
-    setAmount(prev => Math.min(prev + value, maxAmount))
-  }
-
-  const resetAmount = () => {
-    setAmount(0)
-    setInputValue('')
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/[^0-9]/g, '')
-    setInputValue(raw)
-  }
-
-  const handleInputApply = () => {
-    const n = parseInt(inputValue, 10)
-    if (!n || n <= 0) return
-    const value = n * UNIT
-    if (value > maxAmount) {
-      setAmount(maxAmount - (maxAmount % UNIT))
-    } else {
-      setAmount(value)
-    }
-    setInputValue('')
-  }
-
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      handleInputApply()
-    }
-  }
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -71,43 +29,26 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
           {isInvest ? '투자할 금액을 선택하세요' : '철회할 금액을 선택하세요'}
         </p>
         <p className={styles.maxLabel}>
-          {isInvest ? '보유 잔액' : '투자 금액'}: {formatNumber(maxAmount)}원
+          {isInvest ? '보유 잔액' : '투자 금액'}: {formatKorean(maxAmount)}원
         </p>
 
-        <div className={styles.amountDisplay}>
-          <span className={styles.amountValue}>{formatNumber(amount)}</span>
-          <span className={styles.amountUnit}> 원</span>
-        </div>
-
-        <div className={styles.directInput}>
-          <input
-            type="text"
-            inputMode="numeric"
-            className={styles.input}
-            placeholder="직접 입력"
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
-          />
-          <span className={styles.inputSuffix}>천만원</span>
-          <button className={styles.inputBtn} onClick={handleInputApply} disabled={!inputValue}>
-            적용
+        <div className={styles.stepper}>
+          <button
+            className={styles.stepperBtn}
+            onClick={() => setSteps(prev => prev - 1)}
+            disabled={steps <= 1}
+          >
+            −
           </button>
-        </div>
-
-        <div className={styles.pills}>
-          {AMOUNTS.map(a => (
-            <button
-              key={a.value}
-              className={styles.pill}
-              onClick={() => addAmount(a.value)}
-              disabled={amount + a.value > maxAmount}
-            >
-              {a.label}
-            </button>
-          ))}
-          <button className={styles.pillReset} onClick={resetAmount}>
-            초기화
+          <span className={styles.stepperValue}>
+            {formatKorean(amount)}원
+          </span>
+          <button
+            className={styles.stepperBtn}
+            onClick={() => setSteps(prev => prev + 1)}
+            disabled={steps >= maxSteps}
+          >
+            +
           </button>
         </div>
 
@@ -116,7 +57,7 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
           onClick={() => onConfirm(amount)}
           disabled={amount === 0}
         >
-          {formatNumber(amount)}원 {title}
+          {formatKorean(amount)}원 {title}
         </button>
       </div>
     </div>

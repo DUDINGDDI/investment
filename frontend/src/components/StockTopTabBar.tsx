@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { stockApi } from '../api'
+import { formatKorean } from '../utils/format'
 import styles from './StockTopTabBar.module.css'
 
 const tabs = [
@@ -8,10 +9,6 @@ const tabs = [
   { path: '/stocks/booths', label: '종목' },
   { path: '/stocks/history', label: '이력' },
 ]
-
-function formatStockAmount(n: number): string {
-  return n.toLocaleString('ko-KR')
-}
 
 export default function StockTopTabBar() {
   const location = useLocation()
@@ -44,7 +41,7 @@ export default function StockTopTabBar() {
       <div className={styles.header}>
         <p className={styles.greeting}>{userName}님의 주식</p>
         <p className={styles.balanceValue}>
-          {balance !== null ? formatStockAmount(balance) : '-'}
+          {balance !== null ? formatKorean(balance) : '-'}
           <span className={styles.unit}> 원</span>
         </p>
       </div>
@@ -52,16 +49,16 @@ export default function StockTopTabBar() {
       <div className={styles.assetBox}>
         <div className={styles.assetRow}>
           <span className={styles.assetLabel}>총 자산</span>
-          <span className={styles.assetValue}>{formatStockAmount(totalAsset)}원</span>
+          <span className={styles.assetValue}>{formatKorean(totalAsset)}원</span>
         </div>
         <div className={styles.assetDetail}>
           <div className={styles.detailItem}>
             <span className={styles.detailLabel}>보유 잔액</span>
-            <span className={styles.detailValue}>{formatStockAmount(balance || 0)}</span>
+            <span className={styles.detailValue}>{formatKorean(balance || 0)}원</span>
           </div>
           <div className={styles.detailItem}>
             <span className={styles.detailLabel}>보유 금액</span>
-            <span className={styles.detailValue}>{formatStockAmount(totalHolding)}</span>
+            <span className={styles.detailValue}>{formatKorean(totalHolding)}원</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { userApi, investmentApi } from '../api'
+import { formatKorean } from '../utils/format'
 import styles from './TopTabBar.module.css'
 
 const tabs = [
@@ -9,10 +10,6 @@ const tabs = [
   { path: '/history', label: '이력' },
   { path: '/result', label: '결과' },
 ]
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 export default function TopTabBar() {
   const location = useLocation()
@@ -48,7 +45,7 @@ export default function TopTabBar() {
       <div className={styles.header}>
         <p className={styles.greeting}>{userName}님의 투자</p>
         <p className={styles.balanceValue}>
-          {balance !== null ? formatWon(balance) : '-'}
+          {balance !== null ? formatKorean(balance) : '-'}
           <span className={styles.unit}> 원</span>
         </p>
       </div>
@@ -56,16 +53,16 @@ export default function TopTabBar() {
       <div className={styles.assetBox}>
         <div className={styles.assetRow}>
           <span className={styles.assetLabel}>총 자산</span>
-          <span className={styles.assetValue}>{formatWon(totalAsset)}원</span>
+          <span className={styles.assetValue}>{formatKorean(totalAsset)}원</span>
         </div>
         <div className={styles.assetDetail}>
           <div className={styles.detailItem}>
             <span className={styles.detailLabel}>보유 금액</span>
-            <span className={styles.detailValue}>{formatWon(balance || 0)}</span>
+            <span className={styles.detailValue}>{formatKorean(balance || 0)}원</span>
           </div>
           <div className={styles.detailItem}>
             <span className={styles.detailLabel}>투자 금액</span>
-            <span className={styles.detailValue}>{formatWon(totalInvested)}</span>
+            <span className={styles.detailValue}>{formatKorean(totalInvested)}원</span>
           </div>
         </div>
       </div>

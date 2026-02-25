@@ -1,14 +1,11 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { boothApi, investmentApi, userApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { BoothResponse } from '../types'
 import InvestModal from '../components/InvestModal'
 import { useToast } from '../components/ToastContext'
 import styles from './BoothDetailPage.module.css'
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 export default function BoothDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -31,7 +28,7 @@ export default function BoothDetailPage() {
   const handleInvest = async (amount: number) => {
     try {
       await investmentApi.invest({ boothId: Number(id), amount })
-      showToast(`${formatWon(amount)}원 투자 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 투자 완료!`, 'success')
       setModal(null)
       loadData()
     } catch (err: unknown) {
@@ -42,7 +39,7 @@ export default function BoothDetailPage() {
   const handleWithdraw = async (amount: number) => {
     try {
       await investmentApi.withdraw({ boothId: Number(id), amount })
-      showToast(`${formatWon(amount)}원 철회 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 철회 완료!`, 'success')
       setModal(null)
       loadData()
     } catch (err: unknown) {
@@ -73,7 +70,7 @@ export default function BoothDetailPage() {
       <div className={styles.investSection}>
         <div className={styles.investRow}>
           <span className={styles.investLabel}>내 투자금</span>
-          <span className={styles.investValueMy}>{formatWon(booth.myInvestment)}원</span>
+          <span className={styles.investValueMy}>{formatKorean(booth.myInvestment)}원</span>
         </div>
       </div>
 
