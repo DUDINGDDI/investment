@@ -70,9 +70,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_SSH_PORT || 22 }}
-          script_stop: true
           script: |
-            cd /opt/investment
+            set -e
+            cd /home/ec2-user/investment
 
             echo "=== Git Pull ==="
             git pull origin main
