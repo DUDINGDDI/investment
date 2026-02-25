@@ -86,9 +86,13 @@ jobs:
             echo "=== Docker Compose Up ==="
             docker compose -f docker-compose.prod.yml up -d --build
 
+            echo "=== SSL Certificate Renewal ==="
+            docker compose -f docker-compose.prod.yml run --rm certbot renew --quiet || true
+            docker compose -f docker-compose.prod.yml exec frontend nginx -s reload || true
+
             echo "=== Health Check ==="
             for i in $(seq 1 30); do
-              if curl -sf http://localhost/api/results/status > /dev/null 2>&1; then
+              if curl -sf https://localhost/api/results/status --insecure > /dev/null 2>&1; then
                 echo "Health check passed!"
                 exit 0
               fi
