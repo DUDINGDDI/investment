@@ -82,20 +82,22 @@ export default function BoothDetailPage() {
       </div>
 
       <div className={styles.actions}>
-        <button
-          className={styles.withdrawBtn}
-          onClick={() => setModal('withdraw')}
-          disabled={booth.myInvestment === 0}
-        >
-          철회하기
-        </button>
-        <button
-          className={styles.investBtn}
-          onClick={() => setModal('invest')}
-          disabled={balance === 0}
-        >
-          투자하기
-        </button>
+        <div className={styles.actionBtns}>
+          <button
+            className={styles.withdrawBtn}
+            onClick={() => setModal('withdraw')}
+            disabled={booth.myInvestment === 0}
+          >
+            철회하기
+          </button>
+          <button
+            className={styles.investBtn}
+            onClick={() => setModal('invest')}
+            disabled={balance === 0}
+          >
+            투자하기
+          </button>
+        </div>
       </div>
 
       {modal === 'invest' && (

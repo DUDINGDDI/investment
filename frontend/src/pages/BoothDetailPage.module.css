@@ -96,16 +96,20 @@
 
 .actions {
   position: fixed;
-  bottom: calc(var(--nav-height) + var(--safe-area-bottom));
+  bottom: var(--safe-area-bottom);
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  display: flex;
-  gap: 8px;
   padding: 12px 20px;
   background: var(--bg-primary);
   border-top: 1px solid var(--border-color);
+  z-index: 20;
+}
+
+.actionBtns {
+  display: flex;
+  gap: 8px;
 }
 
 .investBtn {
