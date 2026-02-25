@@ -170,10 +170,8 @@ export interface MissionRankingItem {
   rank: number;
   userId: number;
   name: string;
-  achievementRate: number;
-  isCompleted: boolean;
   progress: number;
-  target: number;
+  rankChange: number;
 }
 
 export interface MissionRankingData {

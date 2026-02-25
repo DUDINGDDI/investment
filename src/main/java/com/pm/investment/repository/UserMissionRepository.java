@@ -16,7 +16,9 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
 
     List<UserMission> findByUser_Id(Long userId);
 
-    @Query("SELECT um FROM UserMission um JOIN FETCH um.user WHERE um.missionId = :missionId ORDER BY um.isCompleted DESC, " +
-            "CASE WHEN um.target > 0 THEN (um.progress * 1.0 / um.target) ELSE 0 END DESC, um.completedAt ASC")
+    @Query("SELECT um FROM UserMission um JOIN FETCH um.user WHERE um.missionId = :missionId ORDER BY um.progress DESC, um.completedAt ASC")
     List<UserMission> findRankingByMissionId(@Param("missionId") String missionId);
+
+    @Query("SELECT um FROM UserMission um JOIN FETCH um.user WHERE um.missionId IN :missionIds")
+    List<UserMission> findByMissionIdIn(@Param("missionIds") List<String> missionIds);
 }

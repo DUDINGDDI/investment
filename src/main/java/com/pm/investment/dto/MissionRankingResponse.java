@@ -9,8 +9,6 @@ public class MissionRankingResponse {
     private int rank;
     private Long userId;
     private String name;
-    private double achievementRate;
-    private boolean isCompleted;
     private int progress;
-    private int target;
+    private int rankChange;
 }

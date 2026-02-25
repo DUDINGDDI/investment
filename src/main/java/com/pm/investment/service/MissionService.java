@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +21,9 @@ public class MissionService {
 
     private final UserMissionRepository userMissionRepository;
     private final UserRepository userRepository;
+
+    /** 랭킹 스냅샷: missionId → (userId → 이전 순위). 조회 시마다 갱신 */
+    private final Map<String, Map<Long, Integer>> previousRankSnapshots = new ConcurrentHashMap<>();
 
     private static final Map<String, Integer> MISSION_TARGETS = Map.of(
             "renew", 1,
@@ -32,15 +35,11 @@ public class MissionService {
     );
 
     /**
-     * 자동 미션 달성 체크 — 이미 완료된 미션은 스킵
+     * 자동 미션 달성 체크 — 완료 후에도 progress는 계속 카운팅
      */
     @Transactional
     public void checkAndUpdateMission(Long userId, String missionId, int currentProgress) {
         if (!MISSION_TARGETS.containsKey(missionId)) return;
-
-        Optional<UserMission> existing = userMissionRepository.findByUser_IdAndMissionId(userId, missionId);
-        if (existing.isPresent() && existing.get().getIsCompleted()) return;
-
         updateProgress(userId, missionId, currentProgress);
     }
 
@@ -123,40 +122,55 @@ public class MissionService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 미션별 랭킹: progress 내림차순, 등락 포함 (페이지 접속 시 실시간 계산)
+     */
     @Transactional(readOnly = true)
     public Map<String, Object> getMissionRanking(String missionId, Long currentUserId) {
         if (!MISSION_TARGETS.containsKey(missionId)) {
             throw new IllegalArgumentException("존재하지 않는 미션입니다: " + missionId);
         }
 
+        // progress 내림차순 정렬
         List<UserMission> allMissions = userMissionRepository.findRankingByMissionId(missionId);
 
-        List<MissionRankingResponse> rankings = IntStream.range(0, allMissions.size())
-                .mapToObj(i -> {
-                    UserMission um = allMissions.get(i);
-                    return new MissionRankingResponse(
-                            i + 1,
-                            um.getUser().getId(),
-                            um.getUser().getName(),
-                            um.getAchievementRate(),
-                            um.getIsCompleted(),
-                            um.getProgress(),
-                            um.getTarget()
-                    );
-                })
-                .collect(Collectors.toList());
+        // 이전 스냅샷으로 등락 계산
+        Map<Long, Integer> snapshot = previousRankSnapshots.getOrDefault(missionId, Map.of());
+
+        List<MissionRankingResponse> rankings = new ArrayList<>();
+        Map<Long, Integer> newSnapshot = new HashMap<>();
+
+        for (int i = 0; i < allMissions.size(); i++) {
+            UserMission um = allMissions.get(i);
+            int rank = i + 1;
+            int prevRank = snapshot.getOrDefault(um.getUser().getId(), 0);
+            int rankChange = prevRank > 0 ? prevRank - rank : 0;
+
+            rankings.add(new MissionRankingResponse(
+                    rank,
+                    um.getUser().getId(),
+                    um.getUser().getName(),
+                    um.getProgress(),
+                    rankChange
+            ));
+
+            newSnapshot.put(um.getUser().getId(), rank);
+        }
+
+        // 현재 순위를 다음 조회 시 비교용으로 저장
+        previousRankSnapshots.put(missionId, newSnapshot);
 
         MissionRankingResponse myRanking = rankings.stream()
                 .filter(r -> r.getUserId().equals(currentUserId))
                 .findFirst()
                 .orElse(null);
 
-        List<MissionRankingResponse> top10 = rankings.stream()
-                .limit(10)
+        List<MissionRankingResponse> top20 = rankings.stream()
+                .limit(20)
                 .collect(Collectors.toList());
 
         Map<String, Object> result = new HashMap<>();
-        result.put("rankings", top10);
+        result.put("rankings", top20);
         result.put("myRanking", myRanking);
         return result;
     }

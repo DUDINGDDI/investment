@@ -51,9 +51,9 @@ public class StockCommentService {
         StockComment comment = new StockComment(user, booth, content, tag);
         stockCommentRepository.save(comment);
 
-        // renew 미션 자동 달성 체크: 아이디어 제안 1개 이상 작성
+        // renew 미션: 댓글 총 수를 progress로 반영
         long commentCount = stockCommentRepository.countByUserId(userId);
-        missionService.checkAndUpdateMission(userId, "renew", (int) Math.min(commentCount, 1));
+        missionService.checkAndUpdateMission(userId, "renew", (int) commentCount);
 
         return StockCommentResponse.builder()
                 .id(comment.getId())

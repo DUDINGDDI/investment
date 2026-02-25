@@ -57,23 +57,23 @@ INSERT INTO users (unique_code, name, balance) VALUES
 -- 미션 target: renew=1, dream=1, result=1, again=70, sincere=12, together=1
 -- ──────────────────────────────────────────────
 
--- renew 미션 (target=1, 완료 or 미완료)
+-- renew 미션 (target=1, progress는 target 이상도 가능 — 계속 카운팅)
 INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
-(1, 'renew', 1, 1, TRUE, '2026-02-20 09:30:00'),
-(2, 'renew', 1, 1, TRUE, '2026-02-20 10:15:00'),
+(1, 'renew', 7, 1, TRUE, '2026-02-20 09:30:00'),
+(2, 'renew', 5, 1, TRUE, '2026-02-20 10:15:00'),
 (3, 'renew', 0, 1, FALSE, NULL),
-(4, 'renew', 1, 1, TRUE, '2026-02-20 09:05:00'),
-(5, 'renew', 1, 1, TRUE, '2026-02-20 11:00:00'),
+(4, 'renew', 12, 1, TRUE, '2026-02-20 09:05:00'),
+(5, 'renew', 3, 1, TRUE, '2026-02-20 11:00:00'),
 (6, 'renew', 0, 1, FALSE, NULL),
-(7, 'renew', 1, 1, TRUE, '2026-02-20 09:50:00'),
+(7, 'renew', 9, 1, TRUE, '2026-02-20 09:50:00'),
 (8, 'renew', 0, 1, FALSE, NULL),
-(9, 'renew', 1, 1, TRUE, '2026-02-20 10:40:00'),
-(10, 'renew', 1, 1, TRUE, '2026-02-20 11:20:00'),
+(9, 'renew', 4, 1, TRUE, '2026-02-20 10:40:00'),
+(10, 'renew', 8, 1, TRUE, '2026-02-20 11:20:00'),
 (11, 'renew', 0, 1, FALSE, NULL),
-(12, 'renew', 1, 1, TRUE, '2026-02-20 09:15:00'),
+(12, 'renew', 6, 1, TRUE, '2026-02-20 09:15:00'),
 (13, 'renew', 0, 1, FALSE, NULL),
-(14, 'renew', 1, 1, TRUE, '2026-02-20 10:05:00'),
-(15, 'renew', 1, 1, TRUE, '2026-02-20 08:55:00');
+(14, 'renew', 2, 1, TRUE, '2026-02-20 10:05:00'),
+(15, 'renew', 11, 1, TRUE, '2026-02-20 08:55:00');
 
 -- dream 미션 (target=1)
 INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
@@ -111,40 +111,40 @@ INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, 
 (14, 'result', 1, 1, TRUE, '2026-02-20 09:50:00'),
 (15, 'result', 0, 1, FALSE, NULL);
 
--- again 미션 (target=70, 다양한 진행도)
+-- again 미션 (target=70, progress는 70 이상도 가능)
 INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
-(1, 'again', 70, 70, TRUE, '2026-02-20 14:00:00'),
+(1, 'again', 95, 70, TRUE, '2026-02-20 14:00:00'),
 (2, 'again', 55, 70, FALSE, NULL),
-(3, 'again', 70, 70, TRUE, '2026-02-20 13:30:00'),
+(3, 'again', 82, 70, TRUE, '2026-02-20 13:30:00'),
 (4, 'again', 42, 70, FALSE, NULL),
-(5, 'again', 70, 70, TRUE, '2026-02-20 15:10:00'),
+(5, 'again', 110, 70, TRUE, '2026-02-20 15:10:00'),
 (6, 'again', 63, 70, FALSE, NULL),
 (7, 'again', 28, 70, FALSE, NULL),
-(8, 'again', 70, 70, TRUE, '2026-02-20 12:45:00'),
+(8, 'again', 73, 70, TRUE, '2026-02-20 12:45:00'),
 (9, 'again', 15, 70, FALSE, NULL),
-(10, 'again', 70, 70, TRUE, '2026-02-20 14:30:00'),
+(10, 'again', 88, 70, TRUE, '2026-02-20 14:30:00'),
 (11, 'again', 48, 70, FALSE, NULL),
 (12, 'again', 35, 70, FALSE, NULL),
-(13, 'again', 70, 70, TRUE, '2026-02-20 13:00:00'),
+(13, 'again', 105, 70, TRUE, '2026-02-20 13:00:00'),
 (14, 'again', 60, 70, FALSE, NULL),
-(15, 'again', 70, 70, TRUE, '2026-02-20 11:50:00');
+(15, 'again', 78, 70, TRUE, '2026-02-20 11:50:00');
 
--- sincere 미션 (target=12, 다양한 진행도)
+-- sincere 미션 (target=12, progress는 12 이상도 가능)
 INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at) VALUES
-(1, 'sincere', 12, 12, TRUE, '2026-02-20 15:00:00'),
+(1, 'sincere', 18, 12, TRUE, '2026-02-20 15:00:00'),
 (2, 'sincere', 9, 12, FALSE, NULL),
 (3, 'sincere', 5, 12, FALSE, NULL),
-(4, 'sincere', 12, 12, TRUE, '2026-02-20 14:20:00'),
+(4, 'sincere', 22, 12, TRUE, '2026-02-20 14:20:00'),
 (5, 'sincere', 8, 12, FALSE, NULL),
-(6, 'sincere', 12, 12, TRUE, '2026-02-20 13:50:00'),
+(6, 'sincere', 15, 12, TRUE, '2026-02-20 13:50:00'),
 (7, 'sincere', 11, 12, FALSE, NULL),
 (8, 'sincere', 3, 12, FALSE, NULL),
-(9, 'sincere', 12, 12, TRUE, '2026-02-20 15:30:00'),
+(9, 'sincere', 14, 12, TRUE, '2026-02-20 15:30:00'),
 (10, 'sincere', 7, 12, FALSE, NULL),
-(11, 'sincere', 12, 12, TRUE, '2026-02-20 14:45:00'),
+(11, 'sincere', 13, 12, TRUE, '2026-02-20 14:45:00'),
 (12, 'sincere', 10, 12, FALSE, NULL),
 (13, 'sincere', 6, 12, FALSE, NULL),
-(14, 'sincere', 12, 12, TRUE, '2026-02-20 13:15:00'),
+(14, 'sincere', 19, 12, TRUE, '2026-02-20 13:15:00'),
 (15, 'sincere', 2, 12, FALSE, NULL);
 
 -- together 미션 (target=1)
