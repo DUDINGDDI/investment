@@ -125,4 +125,18 @@ public class StockController {
         }
         return ResponseEntity.ok(rating);
     }
+
+    @GetMapping("/booths/{id}/reviews")
+    public ResponseEntity<List<BoothReviewResponse>> getBoothReviews(@PathVariable Long id) {
+        return ResponseEntity.ok(stockRatingService.getBoothReviews(id));
+    }
+
+    @DeleteMapping("/booths/{id}/rating/review")
+    public ResponseEntity<Void> deleteReview(
+            @PathVariable Long id,
+            HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        stockRatingService.deleteReview(userId, id);
+        return ResponseEntity.noContent().build();
+    }
 }

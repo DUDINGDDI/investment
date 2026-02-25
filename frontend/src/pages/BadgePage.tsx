@@ -49,8 +49,26 @@ function RankBadgeLabel({ rank }: { rank: number }) {
   return <span>{rank}</span>
 }
 
+function RankChangeIndicator({ change }: { change: number }) {
+  if (change === 0) return null
+  if (change > 0) {
+    return <span className={styles.rankUp}>▲{change}</span>
+  }
+  return <span className={styles.rankDown}>▼{Math.abs(change)}</span>
+}
+
+/** 정량 측정 가능한 미션 ID */
+const QUANTITATIVE_IDS = new Set(['renew', 'again', 'sincere'])
+
+/** 미션별 수치 단위 */
+const MISSION_UNIT: Record<string, string> = {
+  renew: '회',
+  again: '명',
+  sincere: '회',
+}
+
 export default function BadgePage() {
-  const { missions, updateProgress, completeMission } = useMissions()
+  const { missions, syncFromServer } = useMissions()
   const [user, setUser] = useState<UserResponse | null>(null)
   const [activeTab, setActiveTab] = useState('badges')
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
@@ -65,7 +83,8 @@ export default function BadgePage() {
 
   useEffect(() => {
     userApi.getMe().then(res => setUser(res.data)).catch(() => {})
-  }, [])
+    syncFromServer()
+  }, [syncFromServer])
 
   const loadRanking = useCallback(async (missionId: string) => {
     setRankingLoading(true)
@@ -102,24 +121,6 @@ export default function BadgePage() {
     }
   }
 
-  const handleSimulateProgress = () => {
-    if (!selectedMission) return
-    if (selectedMission.target != null) {
-      const current = selectedMission.progress ?? 0
-      updateProgress(selectedMission.id, current + 1)
-    } else {
-      completeMission(selectedMission.id)
-      setSelectedMission(null)
-      setShowSuccess(true)
-      setShowConfetti(true)
-      setTimeout(() => setShowConfetti(false), 2000)
-    }
-  }
-
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab)
-  }
-
   const closeModal = () => {
     setSelectedMission(null)
     setShowSuccess(false)
@@ -131,9 +132,19 @@ export default function BadgePage() {
 
   const userName = user?.name || localStorage.getItem('userName') || ''
   const currentFilterMission = missions.find(m => m.id === selectedFilter)
+  const currentUnit = MISSION_UNIT[selectedFilter] || ''
 
   const top3 = rankings.slice(0, 3)
   const rest = rankings.slice(3)
+
+  /** 배지 아래 표시할 라벨 */
+  const getBadgeLabel = (mission: Mission) => {
+    if (QUANTITATIVE_IDS.has(mission.id)) {
+      const unit = MISSION_UNIT[mission.id] || ''
+      return `${mission.progress ?? 0}${unit}`
+    }
+    return mission.title
+  }
 
   return (
     <div className={styles.container}>
@@ -148,19 +159,19 @@ export default function BadgePage() {
         <p className={styles.userRole}>참가자</p>
       </div>
 
-      {/* 탭 바 (2개) */}
+      {/* 탭 바 */}
       <div className={styles.tabBar}>
         <button
           className={`${styles.tab} ${activeTab === 'badges' ? styles.tabActive : ''}`}
-          onClick={() => handleTabClick('badges')}
+          onClick={() => setActiveTab('badges')}
         >BADGES</button>
         <button
           className={`${styles.tab} ${activeTab === 'ranking' ? styles.tabActive : ''}`}
-          onClick={() => handleTabClick('ranking')}
+          onClick={() => setActiveTab('ranking')}
         >RANKING</button>
       </div>
 
-      {/* BADGES 탭 콘텐츠 */}
+      {/* BADGES 탭 */}
       {activeTab === 'badges' && (
         <>
           <p className={styles.badgeCount}>{completedCount} / {missions.length} 완료</p>
@@ -176,9 +187,7 @@ export default function BadgePage() {
                   onClick={() => handleBadgeTap(mission)}
                 >
                   <BadgeImage mission={mission} />
-                  <span className={styles.chip}>
-                    {mission.title}
-                  </span>
+                  <span className={styles.chip}>{getBadgeLabel(mission)}</span>
                 </button>
               ))}
             </div>
@@ -195,12 +204,7 @@ export default function BadgePage() {
                   onClick={() => handleBadgeTap(mission)}
                 >
                   <BadgeImage mission={mission} />
-                  <span className={styles.chip}>
-                    {mission.target != null && !mission.isCompleted
-                      ? `${mission.progress ?? 0}/${mission.target}`
-                      : mission.title
-                    }
-                  </span>
+                  <span className={styles.chip}>{getBadgeLabel(mission)}</span>
                 </button>
               ))}
             </div>
@@ -208,7 +212,7 @@ export default function BadgePage() {
         </>
       )}
 
-      {/* RANKING 탭 콘텐츠 */}
+      {/* RANKING 탭 */}
       {activeTab === 'ranking' && (
         <>
           {/* 미션 필터 바 */}
@@ -234,11 +238,13 @@ export default function BadgePage() {
               <div className={styles.myRankInfo}>
                 <p className={styles.myRankLabel}>내 순위</p>
                 <p className={styles.myRankName}>{userName || '-'}</p>
-                <p className={styles.myRankRate}>
-                  {myRanking
-                    ? `달성률 ${myRanking.achievementRate.toFixed(1)}%`
-                    : '달성률 0.0%'}
-                </p>
+                <div className={styles.myRankScoreRow}>
+                  <span className={styles.myRankScore}>
+                    {myRanking ? myRanking.progress : 0}
+                  </span>
+                  <span className={styles.myRankScoreUnit}>{currentUnit}</span>
+                  {myRanking && <RankChangeIndicator change={myRanking.rankChange} />}
+                </div>
               </div>
               <div className={styles.myRankPosition}>
                 {myRanking ? `${myRanking.rank}위` : '-'}
@@ -250,7 +256,7 @@ export default function BadgePage() {
           <div className={styles.rankingHeader}>
             <h3 className={styles.rankingTitle}>미션 랭킹</h3>
             <p className={styles.rankingSubtitle}>
-              {currentFilterMission?.title} 달성률 순위
+              {currentFilterMission?.title} 순위
             </p>
           </div>
 
@@ -280,11 +286,15 @@ export default function BadgePage() {
                         {item.name.charAt(0)}
                       </div>
                       <p className={styles.podiumName}>{item.name}</p>
-                      <p className={styles.podiumRate}>{item.achievementRate.toFixed(1)}</p>
-                      <p className={styles.podiumRateUnit}>%</p>
-                      <p className={styles.podiumStatus}>
-                        {item.isCompleted ? '완료' : `${item.progress}/${item.target}`}
-                      </p>
+                      <div className={styles.podiumScoreRow}>
+                        <span className={styles.podiumRate}>{item.progress}</span>
+                        <span className={styles.podiumRateUnit}>{currentUnit}</span>
+                      </div>
+                      {item.rankChange !== 0 && (
+                        <div className={styles.podiumChange}>
+                          <RankChangeIndicator change={item.rankChange} />
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -305,11 +315,11 @@ export default function BadgePage() {
                       </div>
                       <div className={styles.rankListInfo}>
                         <p className={styles.rankListName}>{item.name}</p>
-                        <p className={styles.rankListSub}>
-                          {item.isCompleted ? '미션 완료' : `${item.progress}/${item.target}`}
-                        </p>
                       </div>
-                      <p className={styles.rankListRate}>{item.achievementRate.toFixed(1)}%</p>
+                      <div className={styles.rankListScoreArea}>
+                        <span className={styles.rankListRate}>{item.progress}{currentUnit}</span>
+                        <RankChangeIndicator change={item.rankChange} />
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -319,7 +329,7 @@ export default function BadgePage() {
         </>
       )}
 
-      {/* 잠김 미션 바텀시트 */}
+      {/* 미션 정보 바텀시트 */}
       {freshMission && !showSuccess && (
         <div className={styles.overlay} onClick={closeModal}>
           <div className={styles.bottomSheet} onClick={e => e.stopPropagation()}>
@@ -337,10 +347,10 @@ export default function BadgePage() {
               />
             )}
 
-            {!freshMission.isCompleted && (
-              <button className={styles.ctaButton} onClick={handleSimulateProgress}>
-                {freshMission.target != null ? '진행도 +1 (데모)' : '미션 완료 (데모)'}
-              </button>
+            {QUANTITATIVE_IDS.has(freshMission.id) && (
+              <p className={styles.sheetCount}>
+                현재 횟수: <strong>{freshMission.progress ?? 0}{MISSION_UNIT[freshMission.id] || ''}</strong>
+              </p>
             )}
 
             {freshMission.isCompleted && (

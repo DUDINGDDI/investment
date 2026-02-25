@@ -168,10 +168,8 @@ export interface MissionRankingItem {
   rank: number;
   userId: number;
   name: string;
-  achievementRate: number;
-  isCompleted: boolean;
   progress: number;
-  target: number;
+  rankChange: number;
 }
 
 export interface MissionRankingData {
@@ -231,4 +229,12 @@ export interface BoothVisitResponse {
   logoEmoji: string;
   message: string;
   visitedAt: string;
+}
+
+export interface BoothReviewResponse {
+  id: number;
+  userId: number;
+  userName: string;
+  review: string;
+  updatedAt: string;
 }

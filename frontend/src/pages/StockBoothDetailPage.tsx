@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
-import type { StockBoothResponse, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse } from '../types'
+import type { StockBoothResponse, StockPricePoint, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
 import { useToast } from '../components/ToastContext'
 import styles from './StockBoothDetailPage.module.css'
@@ -104,6 +104,9 @@ export default function StockBoothDetailPage() {
   })
   const [reviewText, setReviewText] = useState('')
   const [ratingSubmitting, setRatingSubmitting] = useState(false)
+  const [isEditingRating, setIsEditingRating] = useState(false)
+  const [boothReviews, setBoothReviews] = useState<BoothReviewResponse[]>([])
+  const [reviewsLoaded, setReviewsLoaded] = useState(false)
   const [filterTag, setFilterTag] = useState<string | null>(null)
   const [inputTag, setInputTag] = useState<string>('PROFITABILITY')
 
@@ -164,7 +167,17 @@ export default function StockBoothDetailPage() {
         setRatingLoaded(true)
       }).catch(() => setRatingLoaded(true))
     }
-  }, [activeTab, id, historyLoaded, commentsLoaded, ratingLoaded])
+    if (activeTab === 'review' && !reviewsLoaded) {
+      const loadReviews = async () => {
+        try {
+          const res = await stockApi.getBoothReviews(Number(id))
+          setBoothReviews(res.data)
+        } catch { /* ignore */ }
+        setReviewsLoaded(true)
+      }
+      loadReviews()
+    }
+  }, [activeTab, id, historyLoaded, commentsLoaded, ratingLoaded, reviewsLoaded])
 
   // 태그 필터 변경 시 댓글 재로드
   useEffect(() => {
@@ -230,12 +243,48 @@ export default function StockBoothDetailPage() {
         review: reviewText.trim() || undefined,
       })
       setMyRating(res.data)
-      showToast('평가가 완료되었습니다!', 'success')
+      setIsEditingRating(false)
+      setReviewsLoaded(false)
+      showToast(myRating ? '평가가 수정되었습니다!' : '평가가 완료되었습니다!', 'success')
       loadData()
     } catch (err: any) {
       showToast(err.response?.data?.error || '평가에 실패했습니다', 'error')
     } finally {
       setRatingSubmitting(false)
+    }
+  }
+
+  const handleEditRating = () => {
+    setIsEditingRating(true)
+  }
+
+  const handleCancelEdit = () => {
+    if (myRating) {
+      setRatingScores({
+        scoreFirst: myRating.scoreFirst,
+        scoreBest: myRating.scoreBest,
+        scoreDifferent: myRating.scoreDifferent,
+        scoreNumberOne: myRating.scoreNumberOne,
+        scoreGap: myRating.scoreGap,
+        scoreGlobal: myRating.scoreGlobal,
+      })
+      setReviewText(myRating.review || '')
+    }
+    setIsEditingRating(false)
+  }
+
+  const handleDeleteReview = async () => {
+    if (!id) return
+    try {
+      await stockApi.deleteReview(Number(id))
+      setReviewText('')
+      if (myRating) {
+        setMyRating({ ...myRating, review: null })
+      }
+      setReviewsLoaded(false)
+      showToast('리뷰가 삭제되었습니다', 'success')
+    } catch (err: any) {
+      showToast(err.response?.data?.error || '리뷰 삭제에 실패했습니다', 'error')
     }
   }
 
@@ -512,6 +561,7 @@ export default function StockBoothDetailPage() {
               </div>
             ) : (
               <>
+                {/* 내 평가 섹션 */}
                 {RATING_CRITERIA.map(({ key, label }) => (
                   <div key={key} className={styles.criteriaRow}>
                     <span className={styles.criteriaLabel}>{label}</span>
@@ -520,8 +570,8 @@ export default function StockBoothDetailPage() {
                         <button
                           key={star}
                           className={`${styles.star} ${ratingScores[key] >= star ? styles.starActive : ''}`}
-                          onClick={() => !myRating && setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))}
-                          disabled={!!myRating}
+                          onClick={() => (!myRating || isEditingRating) && setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))}
+                          disabled={!!myRating && !isEditingRating}
                         >
                           &#9733;
                         </button>
@@ -537,14 +587,52 @@ export default function StockBoothDetailPage() {
                     value={reviewText}
                     onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReviewText(e.target.value)}
                     maxLength={500}
-                    disabled={!!myRating}
+                    disabled={!!myRating && !isEditingRating}
                   />
                   <div className={styles.charCount}>{reviewText.length} / 500</div>
                 </div>
 
-                {myRating ? (
-                  <div className={styles.ratingCompleted}>
-                    <span>평가가 완료되었습니다 (총점: {myRating.totalScore}/30)</span>
+                {myRating && !isEditingRating ? (
+                  <div>
+                    <div className={styles.ratingCompleted}>
+                      <span>평가 완료 (총점: {myRating.totalScore}/30)</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                      <button
+                        className={styles.submitRatingBtn}
+                        onClick={handleEditRating}
+                        style={{ flex: 1 }}
+                      >
+                        평가 수정
+                      </button>
+                      {myRating.review && (
+                        <button
+                          className={styles.submitRatingBtn}
+                          onClick={handleDeleteReview}
+                          style={{ flex: 1, background: 'var(--bg-tertiary, #2A2A30)', color: '#F04452' }}
+                        >
+                          리뷰 삭제
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ) : isEditingRating ? (
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      className={styles.submitRatingBtn}
+                      onClick={handleSubmitRating}
+                      disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                      style={{ flex: 1 }}
+                    >
+                      {ratingSubmitting ? '저장 중...' : '수정 완료'}
+                    </button>
+                    <button
+                      className={styles.submitRatingBtn}
+                      onClick={handleCancelEdit}
+                      style={{ flex: 1, background: 'var(--bg-tertiary, #2A2A30)' }}
+                    >
+                      취소
+                    </button>
                   </div>
                 ) : (
                   <button
@@ -554,6 +642,38 @@ export default function StockBoothDetailPage() {
                   >
                     {ratingSubmitting ? '제출 중...' : '평가 제출'}
                   </button>
+                )}
+
+                {/* 전체 리뷰 섹션 */}
+                {boothReviews.length > 0 && (
+                  <div style={{ marginTop: '24px', borderTop: '1px solid var(--border-color, #2A2A30)', paddingTop: '16px' }}>
+                    <h4 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-secondary, #8C8C96)', marginBottom: '12px' }}>
+                      리뷰 ({boothReviews.length})
+                    </h4>
+                    {boothReviews.map((r: BoothReviewResponse) => (
+                      <div
+                        key={r.id}
+                        style={{
+                          padding: '12px',
+                          background: 'var(--bg-secondary, #1E1E24)',
+                          borderRadius: '8px',
+                          marginBottom: '8px',
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary, #E8E8ED)' }}>
+                            {r.userName}
+                          </span>
+                          <span style={{ fontSize: '11px', color: 'var(--text-tertiary, #5C5C66)' }}>
+                            {formatCommentTime(r.updatedAt)}
+                          </span>
+                        </div>
+                        <p style={{ fontSize: '13px', color: 'var(--text-secondary, #8C8C96)', lineHeight: '1.5', margin: 0 }}>
+                          {r.review}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </>
             )}

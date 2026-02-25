@@ -1,7 +1,34 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/Users/User/**)"
+      "Read(//c/Users/User/**)",
+      "Read(//c//**)",
+      "Bash(powershell.exe -Command \"Get-Command node -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell.exe -Command \"Get-ChildItem -Path ''C:\\\\'' -Recurse -Filter ''node.exe'' -ErrorAction SilentlyContinue -Depth 5 | Select-Object -First 5 -ExpandProperty FullName\")",
+      "Bash(xargs grep -l \"BoothVisit\\\\|booth_visit\")",
+      "Bash(npx tsc --noEmit)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(where node)",
+      "Bash(where npm)",
+      "Bash(where npx)",
+      "Bash(ls /c/Users/User/Desktop/repository/investment/frontend/node_modules/.bin/tsc*)",
+      "Bash(./gradlew build -x test)",
+      "Bash(cmd //c \"npx tsc --noEmit\")",
+      "Bash(cmd //c \"gradlew.bat build -x test\")",
+      "Bash(where java)",
+      "Bash(cmd //c \"where node\")",
+      "Bash(cmd //c \"where npm\")",
+      "Bash(cmd //c \"where java\")",
+      "Bash(powershell.exe -Command \"Get-Command npm -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell.exe -Command \"Get-Command java -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell.exe -Command \"& {Get-Command node -ErrorAction SilentlyContinue}\")",
+      "Bash(powershell.exe -Command \"& {$env:Path}\")",
+      "Read(//c/Program Files/**)",
+      "Bash(export JAVA_HOME=\"/c/Users/User/.jdks/openjdk-25.0.1\")",
+      "Bash(export PATH=\"$JAVA_HOME/bin:$PATH\")",
+      "Bash(java -version)",
+      "Bash(JAVA_HOME=\"C:/Users/User/.jdks/openjdk-25.0.1\" PATH=\"C:/Users/User/.jdks/openjdk-25.0.1/bin:$PATH\" /c/Users/User/.jdks/openjdk-25.0.1/bin/java.exe -version)",
+      "Bash(JAVA_HOME=\"C:/Users/User/.jdks/openjdk-25.0.1\" PATH=\"C:/Users/User/.jdks/openjdk-25.0.1/bin:$PATH\" ./gradlew build -x test)"
     ]
   }
 }
