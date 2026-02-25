@@ -14,8 +14,8 @@ public interface StockRatingRepository extends JpaRepository<StockRating, Long> 
 
     boolean existsByUserIdAndStockBoothId(Long userId, Long stockBoothId);
 
-    @Query("SELECT r.booth.id FROM StockRating r WHERE r.user.id = :userId")
-    List<Long> findRatedBoothIdsByUserId(@Param("userId") Long userId);
+    @Query("SELECT r.stockBooth.id FROM StockRating r WHERE r.user.id = :userId")
+    List<Long> findRatedStockBoothIdsByUserId(@Param("userId") Long userId);
 
     long countByUserIdAndReviewIsNotNull(Long userId);
 

@@ -48,8 +48,8 @@ public class StockBoothService {
                             row -> (Long) row[0],
                             row -> ((Number) row[1]).longValue()
                     ));
-            visitedSet = new HashSet<>(boothVisitRepository.findVisitedBoothIdsByUserId(userId));
-            ratedSet = new HashSet<>(stockRatingRepository.findRatedBoothIdsByUserId(userId));
+            visitedSet = new HashSet<>(stockBoothVisitRepository.findVisitedStockBoothIdsByUserId(userId));
+            ratedSet = new HashSet<>(stockRatingRepository.findRatedStockBoothIdsByUserId(userId));
         }
 
         final Map<Long, Long> finalMyMap = myMap;

@@ -23,13 +23,10 @@ public interface StockHoldingRepository extends JpaRepository<StockHolding, Long
     @Query("SELECT COALESCE(SUM(sh.amount), 0) FROM StockHolding sh WHERE sh.stockBooth.id = :stockBoothId")
     Long getTotalHoldingByStockBoothId(@Param("stockBoothId") Long stockBoothId);
 
-    @Query("SELECT COUNT(sh) FROM StockHolding sh WHERE sh.booth.id = :boothId AND sh.amount > 0")
-    Long getHolderCountByBoothId(@Param("boothId") Long boothId);
-
-    @Query("SELECT sh.booth.id, COALESCE(SUM(sh.amount), 0) FROM StockHolding sh WHERE sh.amount > 0 GROUP BY sh.booth.id")
+    @Query("SELECT sh.stockBooth.id, COALESCE(SUM(sh.amount), 0) FROM StockHolding sh WHERE sh.amount > 0 GROUP BY sh.stockBooth.id")
     List<Object[]> getTotalHoldingByAllBooths();
 
-    @Query("SELECT sh.booth.id, sh.amount FROM StockHolding sh WHERE sh.user.id = :userId AND sh.amount > 0")
+    @Query("SELECT sh.stockBooth.id, sh.amount FROM StockHolding sh WHERE sh.user.id = :userId AND sh.amount > 0")
     List<Object[]> getMyHoldingAmounts(@Param("userId") Long userId);
     
     @Query("SELECT COUNT(sh) FROM StockHolding sh WHERE sh.stockBooth.id = :stockBoothId AND sh.amount > 0")
