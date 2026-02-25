@@ -31,6 +31,7 @@ export default function BoothDetailPage() {
       showToast(`${formatKorean(amount)}원 투자 완료!`, 'success')
       setModal(null)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '투자에 실패했습니다', 'error')
     }
@@ -42,6 +43,7 @@ export default function BoothDetailPage() {
       showToast(`${formatKorean(amount)}원 철회 완료!`, 'success')
       setModal(null)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '철회에 실패했습니다', 'error')
     }

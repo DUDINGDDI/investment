@@ -192,6 +192,7 @@ export default function StockBoothDetailPage() {
       setModal(null)
       setHistoryLoaded(false)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '매수에 실패했습니다', 'error')
     }
@@ -204,6 +205,7 @@ export default function StockBoothDetailPage() {
       setModal(null)
       setHistoryLoaded(false)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '매도에 실패했습니다', 'error')
     }

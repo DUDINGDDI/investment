@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { userApi, investmentApi } from '../api'
 import { formatKorean } from '../utils/format'
@@ -18,13 +18,22 @@ export default function TopTabBar() {
   const [totalInvested, setTotalInvested] = useState(0)
   const userName = sessionStorage.getItem('userName') || ''
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     userApi.getMe().then(res => setBalance(res.data.balance)).catch(() => {})
     investmentApi.getMy().then(res => {
       const total = res.data.reduce((sum: number, inv: { amount: number }) => sum + inv.amount, 0)
       setTotalInvested(total)
     }).catch(() => {})
-  }, [location.pathname])
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [location.pathname, fetchData])
+
+  useEffect(() => {
+    window.addEventListener('balance-changed', fetchData)
+    return () => window.removeEventListener('balance-changed', fetchData)
+  }, [fetchData])
 
   const isActive = (path: string) => {
     if (path === '/booths') return location.pathname.startsWith('/booths')

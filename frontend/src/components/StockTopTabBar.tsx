@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { stockApi } from '../api'
 import { formatKorean } from '../utils/format'
@@ -17,13 +17,22 @@ export default function StockTopTabBar() {
   const [totalHolding, setTotalHolding] = useState(0)
   const userName = sessionStorage.getItem('userName') || ''
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
     stockApi.getMy().then(res => {
       const total = res.data.reduce((sum: number, h: { amount: number }) => sum + h.amount, 0)
       setTotalHolding(total)
     }).catch(() => {})
-  }, [location.pathname])
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [location.pathname, fetchData])
+
+  useEffect(() => {
+    window.addEventListener('balance-changed', fetchData)
+    return () => window.removeEventListener('balance-changed', fetchData)
+  }, [fetchData])
 
   const isActive = (path: string) => {
     if (path === '/stocks/booths') return location.pathname.startsWith('/stocks/booths')
