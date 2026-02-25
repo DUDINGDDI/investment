@@ -5,7 +5,7 @@ import type { BoothVisitResponse } from '../types'
 import styles from './MyPage.module.css'
 
 export default function MyPage() {
-  const userName = localStorage.getItem('userName') || ''
+  const userName = sessionStorage.getItem('userName') || ''
   const [activeTab, setActiveTab] = useState<'visits' | 'tickets'>('visits')
   const [visits, setVisits] = useState<BoothVisitResponse[]>([])
   const [visitsLoaded, setVisitsLoaded] = useState(false)

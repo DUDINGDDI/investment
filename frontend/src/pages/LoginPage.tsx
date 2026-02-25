@@ -21,8 +21,8 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const { data } = await authApi.login({ uniqueCode: uniqueCode.trim(), name: name.trim() })
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('userName', data.name)
+      sessionStorage.setItem('token', data.token)
+      sessionStorage.setItem('userName', data.name)
       navigate('/home', { replace: true })
     } catch {
       showToast('로그인에 실패했습니다', 'error')
@@ -45,7 +45,7 @@ export default function LoginPage() {
 
       <div className={styles.form}>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>고유 코드 (학번/사번)</label>
+          <label className={styles.label}>고유 코드 (사번)</label>
           <input
             className={styles.input}
             type="text"

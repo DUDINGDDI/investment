@@ -25,7 +25,7 @@ import { ToastProvider } from './components/ToastContext'
 import { MissionProvider } from './components/MissionContext'
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   if (!token) return <Navigate to="/" replace />
   return <>{children}</>
 }

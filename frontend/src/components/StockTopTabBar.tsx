@@ -18,7 +18,7 @@ export default function StockTopTabBar() {
   const navigate = useNavigate()
   const [balance, setBalance] = useState<number | null>(null)
   const [totalHolding, setTotalHolding] = useState(0)
-  const userName = localStorage.getItem('userName') || ''
+  const userName = sessionStorage.getItem('userName') || ''
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})

@@ -130,7 +130,7 @@ export default function BadgePage() {
     ? missions.find(m => m.id === selectedMission.id) ?? selectedMission
     : null
 
-  const userName = user?.name || localStorage.getItem('userName') || ''
+  const userName = user?.name || sessionStorage.getItem('userName') || ''
   const currentFilterMission = missions.find(m => m.id === selectedFilter)
   const currentUnit = MISSION_UNIT[selectedFilter] || ''
 

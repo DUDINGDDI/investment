@@ -19,7 +19,7 @@ export default function TopTabBar() {
   const navigate = useNavigate()
   const [balance, setBalance] = useState<number | null>(null)
   const [totalInvested, setTotalInvested] = useState(0)
-  const userName = localStorage.getItem('userName') || ''
+  const userName = sessionStorage.getItem('userName') || ''
 
   useEffect(() => {
     userApi.getMe().then(res => setBalance(res.data.balance)).catch(() => {})
