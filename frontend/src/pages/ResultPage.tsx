@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
 import { resultApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { RankingResponse } from '../types'
 import styles from './ResultPage.module.css'
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 function RankBadge({ rank }: { rank: number }) {
   if (rank === 1) return <span className={`${styles.badge} ${styles.gold}`}>1st</span>
@@ -79,7 +76,7 @@ export default function ResultPage() {
               </div>
               <p className={styles.podiumName}>{item.boothName}</p>
               <p className={styles.podiumCategory}>{item.category}</p>
-              <p className={styles.podiumAmount}>{formatWon(item.totalInvestment)}</p>
+              <p className={styles.podiumAmount}>{formatKorean(item.totalInvestment)}</p>
               <p className={styles.podiumUnit}>원</p>
               <p className={styles.podiumInvestors}>{item.investorCount}명 투자</p>
             </div>
@@ -103,7 +100,7 @@ export default function ResultPage() {
                 <p className={styles.listName}>{item.boothName}</p>
                 <p className={styles.listCategory}>{item.category} · {item.investorCount}명</p>
               </div>
-              <p className={styles.listAmount}>{formatWon(item.totalInvestment)}원</p>
+              <p className={styles.listAmount}>{formatKorean(item.totalInvestment)}원</p>
             </div>
           ))}
         </div>

@@ -1,14 +1,11 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { boothApi, investmentApi, userApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { BoothResponse } from '../types'
 import InvestModal from '../components/InvestModal'
 import { useToast } from '../components/ToastContext'
 import styles from './BoothDetailPage.module.css'
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 export default function BoothDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -31,9 +28,10 @@ export default function BoothDetailPage() {
   const handleInvest = async (amount: number) => {
     try {
       await investmentApi.invest({ boothId: Number(id), amount })
-      showToast(`${formatWon(amount)}원 투자 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 투자 완료!`, 'success')
       setModal(null)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '투자에 실패했습니다', 'error')
     }
@@ -42,9 +40,10 @@ export default function BoothDetailPage() {
   const handleWithdraw = async (amount: number) => {
     try {
       await investmentApi.withdraw({ boothId: Number(id), amount })
-      showToast(`${formatWon(amount)}원 철회 완료!`, 'success')
+      showToast(`${formatKorean(amount)}원 철회 완료!`, 'success')
       setModal(null)
       loadData()
+      window.dispatchEvent(new Event('balance-changed'))
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '철회에 실패했습니다', 'error')
     }
@@ -73,7 +72,7 @@ export default function BoothDetailPage() {
       <div className={styles.investSection}>
         <div className={styles.investRow}>
           <span className={styles.investLabel}>내 투자금</span>
-          <span className={styles.investValueMy}>{formatWon(booth.myInvestment)}원</span>
+          <span className={styles.investValueMy}>{formatKorean(booth.myInvestment)}원</span>
         </div>
       </div>
 
@@ -83,20 +82,22 @@ export default function BoothDetailPage() {
       </div>
 
       <div className={styles.actions}>
-        <button
-          className={styles.withdrawBtn}
-          onClick={() => setModal('withdraw')}
-          disabled={booth.myInvestment === 0}
-        >
-          철회하기
-        </button>
-        <button
-          className={styles.investBtn}
-          onClick={() => setModal('invest')}
-          disabled={balance === 0}
-        >
-          투자하기
-        </button>
+        <div className={styles.actionBtns}>
+          <button
+            className={styles.withdrawBtn}
+            onClick={() => setModal('withdraw')}
+            disabled={booth.myInvestment === 0}
+          >
+            철회하기
+          </button>
+          <button
+            className={styles.investBtn}
+            onClick={() => setModal('invest')}
+            disabled={balance === 0}
+          >
+            투자하기
+          </button>
+        </div>
       </div>
 
       {modal === 'invest' && (

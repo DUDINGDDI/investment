@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { boothApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { BoothResponse } from '../types'
 import styles from './BoothListPage.module.css'
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 export default function BoothListPage() {
   const [booths, setBooths] = useState<BoothResponse[]>([])
@@ -39,7 +36,7 @@ export default function BoothListPage() {
               <p className={styles.category}>{booth.category}</p>
             </div>
             <div className={styles.amount}>
-              <p className={styles.totalAmount}>{formatWon(booth.totalInvestment)}</p>
+              <p className={styles.totalAmount}>{formatKorean(booth.myInvestment)}</p>
               <p className={styles.amountLabel}>원</p>
             </div>
           </div>

@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { investmentApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { InvestmentResponse } from '../types'
 import styles from './HomePage.module.css'
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 function DonutChart({ investments }: { investments: InvestmentResponse[] }) {
   const total = investments.reduce((sum, inv) => sum + inv.amount, 0)
@@ -44,7 +41,7 @@ function DonutChart({ investments }: { investments: InvestmentResponse[] }) {
         ))}
       </svg>
       <div className={styles.chartCenter}>
-        <p className={styles.chartTotal}>{formatWon(total)}</p>
+        <p className={styles.chartTotal}>{formatKorean(total)}</p>
         <p className={styles.chartLabel}>총 투자</p>
       </div>
     </div>
@@ -96,7 +93,7 @@ export default function HomePage() {
                     <p className={styles.boothName}>{inv.boothName}</p>
                     <p className={styles.ratio}>{ratio}%</p>
                   </div>
-                  <p className={styles.investAmount}>{formatWon(inv.amount)}원</p>
+                  <p className={styles.investAmount}>{formatKorean(inv.amount)}원</p>
                 </div>
               )
             })}

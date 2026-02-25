@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
 import { adminApi } from '../api'
+import { formatKorean } from '../utils/format'
 import type { RankingResponse, AdminBoothRatingResponse } from '../types'
 import styles from './AdminPage.module.css'
-
-function formatWon(n: number) {
-  return n.toLocaleString('ko-KR')
-}
 
 type RatingSortKey = 'avgTotal' | 'totalScoreSum' | 'ratingCount' | 'avgFirst' | 'avgBest' | 'avgDifferent' | 'avgNumberOne' | 'avgGap' | 'avgGlobal'
 
@@ -199,7 +196,7 @@ export default function AdminPage() {
                 <p className={styles.name}>{item.boothName}</p>
                 <p className={styles.meta}>{item.category} · 투자자 {item.investorCount}명</p>
               </div>
-              <p className={styles.amount}>{formatWon(item.totalInvestment)}</p>
+              <p className={styles.amount}>{formatKorean(item.totalInvestment)}</p>
             </div>
           ))}
         </div>
