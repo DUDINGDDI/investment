@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { resultApi } from '../api'
 import styles from './FloatingMenu.module.css'
 
 const menuItems = [
@@ -81,8 +82,15 @@ const menuItems = [
 
 export default function FloatingMenu() {
   const [open, setOpen] = useState(false)
+  const [investmentEnabled, setInvestmentEnabled] = useState(true)
   const navigate = useNavigate()
   const location = useLocation()
+
+  useEffect(() => {
+    resultApi.getInvestmentStatus()
+      .then(res => setInvestmentEnabled(res.data.enabled))
+      .catch(() => {})
+  }, [])
 
   const handleNavigate = (path: string) => {
     setOpen(false)
@@ -92,7 +100,7 @@ export default function FloatingMenu() {
   return (
     <div className={styles.container}>
       <div className={`${styles.subButtons} ${open ? styles.subButtonsOpen : ''}`}>
-        {menuItems.map((item) => (
+        {menuItems.filter(item => investmentEnabled || item.path !== '/home').map((item) => (
           <div key={item.path} className={styles.subRow}>
             <span className={styles.subLabel}>{item.label}</span>
             <button

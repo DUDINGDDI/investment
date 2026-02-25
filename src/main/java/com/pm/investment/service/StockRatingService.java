@@ -4,11 +4,11 @@ import com.pm.investment.dto.AdminBoothRatingResponse;
 import com.pm.investment.dto.BoothReviewResponse;
 import com.pm.investment.dto.StockRatingRequest;
 import com.pm.investment.dto.StockRatingResponse;
-import com.pm.investment.entity.Booth;
+import com.pm.investment.entity.StockBooth;
 import com.pm.investment.entity.StockRating;
 import com.pm.investment.entity.User;
-import com.pm.investment.repository.BoothRepository;
-import com.pm.investment.repository.BoothVisitRepository;
+import com.pm.investment.repository.StockBoothRepository;
+import com.pm.investment.repository.StockBoothVisitRepository;
 import com.pm.investment.repository.StockRatingRepository;
 import com.pm.investment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +26,23 @@ public class StockRatingService {
 
     private final StockRatingRepository stockRatingRepository;
     private final UserRepository userRepository;
-    private final BoothRepository boothRepository;
-    private final BoothVisitRepository boothVisitRepository;
+    private final StockBoothRepository stockBoothRepository;
+    private final StockBoothVisitRepository stockBoothVisitRepository;
     private final MissionService missionService;
 
     @Transactional
     public StockRatingResponse submitRating(Long userId, Long boothId, StockRatingRequest request) {
-        if (!boothVisitRepository.existsByUserIdAndBoothId(userId, boothId)) {
+        if (!stockBoothVisitRepository.existsByUserIdAndStockBoothId(userId, boothId)) {
             throw new IllegalStateException("부스를 방문한 후에 평가할 수 있습니다");
         }
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
-        Booth booth = boothRepository.findById(boothId)
+        StockBooth stockBooth = stockBoothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
-        Optional<StockRating> existing = stockRatingRepository.findByUserIdAndBoothId(userId, boothId);
+        Optional<StockRating> existing = stockRatingRepository.findByUserIdAndStockBoothId(userId, boothId);
 
         StockRating rating;
         if (existing.isPresent()) {
@@ -55,7 +55,7 @@ public class StockRatingService {
             rating.setScoreGlobal(request.getScoreGlobal());
             rating.setReview(request.getReview());
         } else {
-            rating = new StockRating(user, booth,
+            rating = new StockRating(user, stockBooth,
                     request.getScoreFirst(), request.getScoreBest(),
                     request.getScoreDifferent(), request.getScoreNumberOne(),
                     request.getScoreGap(), request.getScoreGlobal(),
@@ -72,7 +72,7 @@ public class StockRatingService {
 
     @Transactional(readOnly = true)
     public List<BoothReviewResponse> getBoothReviews(Long boothId) {
-        return stockRatingRepository.findByBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(boothId)
+        return stockRatingRepository.findByStockBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(boothId)
                 .stream()
                 .map(r -> BoothReviewResponse.builder()
                         .id(r.getId())
@@ -86,7 +86,7 @@ public class StockRatingService {
 
     @Transactional
     public void deleteReview(Long userId, Long boothId) {
-        StockRating rating = stockRatingRepository.findByUserIdAndBoothId(userId, boothId)
+        StockRating rating = stockRatingRepository.findByUserIdAndStockBoothId(userId, boothId)
                 .orElseThrow(() -> new IllegalArgumentException("평가를 찾을 수 없습니다"));
         rating.setReview(null);
 
@@ -97,14 +97,14 @@ public class StockRatingService {
 
     @Transactional(readOnly = true)
     public StockRatingResponse getMyRating(Long userId, Long boothId) {
-        return stockRatingRepository.findByUserIdAndBoothId(userId, boothId)
+        return stockRatingRepository.findByUserIdAndStockBoothId(userId, boothId)
                 .map(this::toResponse)
                 .orElse(null);
     }
 
     @Transactional(readOnly = true)
     public List<AdminBoothRatingResponse> getAdminRatingResults() {
-        List<Booth> booths = boothRepository.findAllByOrderByDisplayOrderAsc();
+        List<StockBooth> booths = stockBoothRepository.findAllByOrderByDisplayOrderAsc();
         List<Object[]> aggregates = stockRatingRepository.getBoothRatingAggregates();
 
         Map<Long, Object[]> aggMap = new HashMap<>();
@@ -155,7 +155,7 @@ public class StockRatingService {
     private StockRatingResponse toResponse(StockRating r) {
         return StockRatingResponse.builder()
                 .id(r.getId())
-                .boothId(r.getBooth().getId())
+                .boothId(r.getStockBooth().getId())
                 .scoreFirst(r.getScoreFirst())
                 .scoreBest(r.getScoreBest())
                 .scoreDifferent(r.getScoreDifferent())

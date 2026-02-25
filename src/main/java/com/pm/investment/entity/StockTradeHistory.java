@@ -24,8 +24,8 @@ public class StockTradeHistory {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id", nullable = false)
-    private Booth booth;
+    @JoinColumn(name = "stock_booth_id", nullable = false)
+    private StockBooth stockBooth;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -48,9 +48,9 @@ public class StockTradeHistory {
         createdAt = LocalDateTime.now();
     }
 
-    public StockTradeHistory(User user, Booth booth, TradeType type, Long amount, Long priceAtTrade, Long balanceAfter) {
+    public StockTradeHistory(User user, StockBooth stockBooth, TradeType type, Long amount, Long priceAtTrade, Long balanceAfter) {
         this.user = user;
-        this.booth = booth;
+        this.stockBooth = stockBooth;
         this.type = type;
         this.amount = amount;
         this.priceAtTrade = priceAtTrade;

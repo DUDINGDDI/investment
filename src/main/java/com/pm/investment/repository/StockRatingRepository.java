@@ -10,22 +10,22 @@ import java.util.Optional;
 
 public interface StockRatingRepository extends JpaRepository<StockRating, Long> {
 
-    Optional<StockRating> findByUserIdAndBoothId(Long userId, Long boothId);
+    Optional<StockRating> findByUserIdAndStockBoothId(Long userId, Long stockBoothId);
 
-    boolean existsByUserIdAndBoothId(Long userId, Long boothId);
+    boolean existsByUserIdAndStockBoothId(Long userId, Long stockBoothId);
 
     @Query("SELECT r.booth.id FROM StockRating r WHERE r.user.id = :userId")
     List<Long> findRatedBoothIdsByUserId(@Param("userId") Long userId);
 
     long countByUserIdAndReviewIsNotNull(Long userId);
 
-    List<StockRating> findByBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(Long boothId);
+    List<StockRating> findByStockBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(Long stockBoothId);
 
-    @Query("SELECT r.booth.id, " +
+    @Query("SELECT r.stockBooth.id, " +
            "COUNT(r), " +
            "SUM(r.scoreFirst + r.scoreBest + r.scoreDifferent + r.scoreNumberOne + r.scoreGap + r.scoreGlobal), " +
            "AVG(r.scoreFirst), AVG(r.scoreBest), AVG(r.scoreDifferent), " +
            "AVG(r.scoreNumberOne), AVG(r.scoreGap), AVG(r.scoreGlobal) " +
-           "FROM StockRating r GROUP BY r.booth.id")
+           "FROM StockRating r GROUP BY r.stockBooth.id")
     List<Object[]> getBoothRatingAggregates();
 }

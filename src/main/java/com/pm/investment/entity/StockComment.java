@@ -24,8 +24,8 @@ public class StockComment {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id", nullable = false)
-    private Booth booth;
+    @JoinColumn(name = "stock_booth_id", nullable = false)
+    private StockBooth stockBooth;
 
     @Column(nullable = false, length = 500)
     private String content;
@@ -41,9 +41,9 @@ public class StockComment {
         createdAt = LocalDateTime.now();
     }
 
-    public StockComment(User user, Booth booth, String content, String tag) {
+    public StockComment(User user, StockBooth stockBooth, String content, String tag) {
         this.user = user;
-        this.booth = booth;
+        this.stockBooth = stockBooth;
         this.content = content;
         this.tag = tag;
     }

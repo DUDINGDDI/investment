@@ -12,16 +12,16 @@ import java.util.Optional;
 
 public interface StockHoldingRepository extends JpaRepository<StockHolding, Long> {
 
-    Optional<StockHolding> findByUserIdAndBoothId(Long userId, Long boothId);
+    Optional<StockHolding> findByUserIdAndStockBoothId(Long userId, Long stockBoothId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT sh FROM StockHolding sh WHERE sh.user.id = :userId AND sh.booth.id = :boothId")
-    Optional<StockHolding> findByUserIdAndBoothIdWithLock(@Param("userId") Long userId, @Param("boothId") Long boothId);
+    @Query("SELECT sh FROM StockHolding sh WHERE sh.user.id = :userId AND sh.stockBooth.id = :stockBoothId")
+    Optional<StockHolding> findByUserIdAndStockBoothIdWithLock(@Param("userId") Long userId, @Param("stockBoothId") Long stockBoothId);
 
     List<StockHolding> findByUserIdAndAmountGreaterThan(Long userId, Long amount);
 
-    @Query("SELECT COALESCE(SUM(sh.amount), 0) FROM StockHolding sh WHERE sh.booth.id = :boothId")
-    Long getTotalHoldingByBoothId(@Param("boothId") Long boothId);
+    @Query("SELECT COALESCE(SUM(sh.amount), 0) FROM StockHolding sh WHERE sh.stockBooth.id = :stockBoothId")
+    Long getTotalHoldingByStockBoothId(@Param("stockBoothId") Long stockBoothId);
 
     @Query("SELECT COUNT(sh) FROM StockHolding sh WHERE sh.booth.id = :boothId AND sh.amount > 0")
     Long getHolderCountByBoothId(@Param("boothId") Long boothId);
@@ -31,4 +31,7 @@ public interface StockHoldingRepository extends JpaRepository<StockHolding, Long
 
     @Query("SELECT sh.booth.id, sh.amount FROM StockHolding sh WHERE sh.user.id = :userId AND sh.amount > 0")
     List<Object[]> getMyHoldingAmounts(@Param("userId") Long userId);
+    
+    @Query("SELECT COUNT(sh) FROM StockHolding sh WHERE sh.stockBooth.id = :stockBoothId AND sh.amount > 0")
+    Long getHolderCountByStockBoothId(@Param("stockBoothId") Long stockBoothId);
 }

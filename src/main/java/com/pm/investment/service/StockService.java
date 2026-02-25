@@ -18,11 +18,11 @@ public class StockService {
     private static final long TRADE_UNIT = 10_000_000L;
 
     private final StockAccountRepository stockAccountRepository;
-    private final BoothRepository boothRepository;
+    private final StockBoothRepository stockBoothRepository;
     private final StockHoldingRepository stockHoldingRepository;
     private final StockTradeHistoryRepository stockTradeHistoryRepository;
     private final StockPriceRepository stockPriceRepository;
-    private final BoothVisitRepository boothVisitRepository;
+    private final StockBoothVisitRepository stockBoothVisitRepository;
     private final StockRatingRepository stockRatingRepository;
 
     @Transactional
@@ -33,16 +33,16 @@ public class StockService {
         StockAccount account = stockAccountRepository.findByUserIdWithLock(userId)
                 .orElseThrow(() -> new IllegalArgumentException("주식 계좌를 찾을 수 없습니다"));
 
-        Booth booth = boothRepository.findById(boothId)
+        StockBooth stockBooth = stockBoothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
         if (account.getBalance() < amount) {
             throw new IllegalStateException("보유 잔액이 부족합니다");
         }
 
-        StockHolding holding = stockHoldingRepository.findByUserIdAndBoothIdWithLock(userId, boothId)
+        StockHolding holding = stockHoldingRepository.findByUserIdAndStockBoothIdWithLock(userId, boothId)
                 .orElseGet(() -> {
-                    StockHolding newHolding = new StockHolding(account.getUser(), booth);
+                    StockHolding newHolding = new StockHolding(account.getUser(), stockBooth);
                     return stockHoldingRepository.save(newHolding);
                 });
 
@@ -50,7 +50,7 @@ public class StockService {
         holding.setAmount(holding.getAmount() + amount);
 
         stockTradeHistoryRepository.save(
-                new StockTradeHistory(account.getUser(), booth, StockTradeHistory.TradeType.BUY, amount, 0L, account.getBalance())
+                new StockTradeHistory(account.getUser(), stockBooth, StockTradeHistory.TradeType.BUY, amount, 0L, account.getBalance())
         );
     }
 
@@ -62,10 +62,10 @@ public class StockService {
         StockAccount account = stockAccountRepository.findByUserIdWithLock(userId)
                 .orElseThrow(() -> new IllegalArgumentException("주식 계좌를 찾을 수 없습니다"));
 
-        Booth booth = boothRepository.findById(boothId)
+        StockBooth stockBooth = stockBoothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
-        StockHolding holding = stockHoldingRepository.findByUserIdAndBoothIdWithLock(userId, boothId)
+        StockHolding holding = stockHoldingRepository.findByUserIdAndStockBoothIdWithLock(userId, boothId)
                 .orElseThrow(() -> new IllegalStateException("해당 부스에 보유한 투자금이 없습니다"));
 
         if (holding.getAmount() < amount) {
@@ -76,7 +76,7 @@ public class StockService {
         holding.setAmount(holding.getAmount() - amount);
 
         stockTradeHistoryRepository.save(
-                new StockTradeHistory(account.getUser(), booth, StockTradeHistory.TradeType.SELL, amount, 0L, account.getBalance())
+                new StockTradeHistory(account.getUser(), stockBooth, StockTradeHistory.TradeType.SELL, amount, 0L, account.getBalance())
         );
     }
 
@@ -86,10 +86,10 @@ public class StockService {
                 .stream()
                 .map(holding -> {
                     return StockHoldingResponse.builder()
-                            .boothId(holding.getBooth().getId())
-                            .boothName(holding.getBooth().getName())
-                            .logoEmoji(holding.getBooth().getLogoEmoji())
-                            .themeColor(holding.getBooth().getThemeColor())
+                            .boothId(holding.getStockBooth().getId())
+                            .boothName(holding.getStockBooth().getName())
+                            .logoEmoji(holding.getStockBooth().getLogoEmoji())
+                            .themeColor(holding.getStockBooth().getThemeColor())
                             .amount(holding.getAmount())
                             .build();
                 })
@@ -102,10 +102,10 @@ public class StockService {
                 .stream()
                 .map(h -> StockTradeHistoryResponse.builder()
                         .id(h.getId())
-                        .boothId(h.getBooth().getId())
-                        .boothName(h.getBooth().getName())
-                        .logoEmoji(h.getBooth().getLogoEmoji())
-                        .themeColor(h.getBooth().getThemeColor())
+                        .boothId(h.getStockBooth().getId())
+                        .boothName(h.getStockBooth().getName())
+                        .logoEmoji(h.getStockBooth().getLogoEmoji())
+                        .themeColor(h.getStockBooth().getThemeColor())
                         .type(h.getType().name())
                         .amount(h.getAmount())
                         .priceAtTrade(h.getPriceAtTrade())
@@ -117,14 +117,14 @@ public class StockService {
 
     @Transactional(readOnly = true)
     public List<StockTradeHistoryResponse> getMyTradeHistoryByBooth(Long userId, Long boothId) {
-        return stockTradeHistoryRepository.findByUserIdAndBoothIdOrderByCreatedAtDesc(userId, boothId)
+        return stockTradeHistoryRepository.findByUserIdAndStockBoothIdOrderByCreatedAtDesc(userId, boothId)
                 .stream()
                 .map(h -> StockTradeHistoryResponse.builder()
                         .id(h.getId())
-                        .boothId(h.getBooth().getId())
-                        .boothName(h.getBooth().getName())
-                        .logoEmoji(h.getBooth().getLogoEmoji())
-                        .themeColor(h.getBooth().getThemeColor())
+                        .boothId(h.getStockBooth().getId())
+                        .boothName(h.getStockBooth().getName())
+                        .logoEmoji(h.getStockBooth().getLogoEmoji())
+                        .themeColor(h.getStockBooth().getThemeColor())
                         .type(h.getType().name())
                         .amount(h.getAmount())
                         .priceAtTrade(h.getPriceAtTrade())
@@ -145,10 +145,10 @@ public class StockService {
     }
 
     private void validateVisitAndRating(Long userId, Long boothId) {
-        if (!boothVisitRepository.existsByUserIdAndBoothId(userId, boothId)) {
+        if (!stockBoothVisitRepository.existsByUserIdAndStockBoothId(userId, boothId)) {
             throw new IllegalStateException("부스를 방문한 후에 거래할 수 있습니다");
         }
-        if (!stockRatingRepository.existsByUserIdAndBoothId(userId, boothId)) {
+        if (!stockRatingRepository.existsByUserIdAndStockBoothId(userId, boothId)) {
             throw new IllegalStateException("부스 평가를 완료한 후에 거래할 수 있습니다");
         }
     }
