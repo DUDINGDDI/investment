@@ -47,6 +47,8 @@ public class ResultController {
 
     @GetMapping(value = "/announce", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe() {
-        return sseEmitterService.subscribe();
+        // DB 조회를 컨트롤러에서 먼저 수행하여 트랜잭션/커넥션을 즉시 반환
+        Map<String, String> currentAnnouncement = settingService.getAnnouncement();
+        return sseEmitterService.subscribe(currentAnnouncement);
     }
 }

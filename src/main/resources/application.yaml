@@ -50,6 +50,9 @@ spring:
       max-lifetime: 1740000
       leak-detection-threshold: 10000
 
+  transaction:
+    default-timeout: 30s
+
   h2:
     console:
       enabled: false

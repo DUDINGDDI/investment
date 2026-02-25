@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.Map;
 
+// 단순 단건 조회(findById)는 @Transactional 없이 사용 — 커넥션을 즉시 반환하여 풀 고갈 방지
+
 @Service
 @RequiredArgsConstructor
 public class SettingService {
@@ -20,7 +22,6 @@ public class SettingService {
 
     private final AppSettingRepository appSettingRepository;
 
-    @Transactional(readOnly = true)
     public boolean isResultsRevealed() {
         return appSettingRepository.findById(RESULTS_REVEALED_KEY)
                 .map(s -> "true".equals(s.getValue()))
@@ -41,7 +42,6 @@ public class SettingService {
         return newValue;
     }
 
-    @Transactional(readOnly = true)
     public boolean isInvestmentEnabled() {
         return appSettingRepository.findById(INVESTMENT_ENABLED_KEY)
                 .map(s -> "true".equals(s.getValue()))
@@ -62,7 +62,6 @@ public class SettingService {
         return newValue;
     }
 
-    @Transactional(readOnly = true)
     public Map<String, String> getAnnouncement() {
         String message = appSettingRepository.findById(ANNOUNCEMENT_MESSAGE_KEY)
                 .map(AppSetting::getValue)

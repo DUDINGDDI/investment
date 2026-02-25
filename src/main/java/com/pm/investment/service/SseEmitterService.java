@@ -12,13 +12,8 @@ public class SseEmitterService {
 
     private static final long TIMEOUT = 5 * 60 * 1000L; // 5분
     private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
-    private final SettingService settingService;
 
-    public SseEmitterService(SettingService settingService) {
-        this.settingService = settingService;
-    }
-
-    public SseEmitter subscribe() {
+    public SseEmitter subscribe(Map<String, String> currentAnnouncement) {
         SseEmitter emitter = new SseEmitter(TIMEOUT);
         emitters.add(emitter);
 
@@ -26,11 +21,10 @@ public class SseEmitterService {
         emitter.onTimeout(() -> emitters.remove(emitter));
         emitter.onError(e -> emitters.remove(emitter));
 
-        // 현재 공지를 초기 이벤트로 전송
+        // 이미 조회된 공지 데이터를 초기 이벤트로 전송 (DB 커넥션 미사용)
         try {
-            Map<String, String> current = settingService.getAnnouncement();
-            String message = current.get("message");
-            String updatedAt = current.get("updatedAt");
+            String message = currentAnnouncement.get("message");
+            String updatedAt = currentAnnouncement.get("updatedAt");
             if (message != null && !message.isEmpty()) {
                 emitter.send(SseEmitter.event()
                         .name("announcement")
