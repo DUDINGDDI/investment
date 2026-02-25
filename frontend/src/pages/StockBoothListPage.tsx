@@ -36,7 +36,7 @@ export default function StockBoothListPage() {
               <p className={styles.category}>{booth.category}</p>
             </div>
             <div className={styles.priceArea}>
-              <p className={styles.totalHolding}>{formatKorean(booth.totalHolding)}원</p>
+              <p className={styles.totalHolding}>{formatKorean(booth.myHolding)}원</p>
             </div>
           </div>
         ))}

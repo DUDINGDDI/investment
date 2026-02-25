@@ -36,7 +36,7 @@ export default function BoothListPage() {
               <p className={styles.category}>{booth.category}</p>
             </div>
             <div className={styles.amount}>
-              <p className={styles.totalAmount}>{formatKorean(booth.totalInvestment)}</p>
+              <p className={styles.totalAmount}>{formatKorean(booth.myInvestment)}</p>
               <p className={styles.amountLabel}>원</p>
             </div>
           </div>
