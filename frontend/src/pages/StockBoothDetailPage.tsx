@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
-import type { StockBoothResponse, StockPricePoint, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
+import type { StockBoothResponse, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
 import { useToast } from '../components/ToastContext'
 import styles from './StockBoothDetailPage.module.css'
