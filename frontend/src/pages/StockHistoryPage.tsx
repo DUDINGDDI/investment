@@ -4,9 +4,6 @@ import type { StockTradeHistoryResponse } from '../types'
 import styles from './StockHistoryPage.module.css'
 
 function formatStockAmount(n: number) {
-  if (n >= 1_000_000_000_000) return (n / 1_000_000_000_000).toFixed(1) + '조'
-  if (n >= 100_000_000) return (n / 100_000_000).toFixed(0) + '억'
-  if (n >= 10_000) return (n / 10_000).toFixed(0) + '만'
   return n.toLocaleString('ko-KR')
 }
 
@@ -85,9 +82,8 @@ export default function StockHistoryPage() {
                     <p className={styles.name}>{item.boothName}</p>
                     <div className={styles.meta}>
                       <span className={`${styles.typeBadge} ${isBuy ? styles.buyBadge : styles.sellBadge}`}>
-                        {isBuy ? '매수' : '매도'}
+                        {isBuy ? '투자' : '철회'}
                       </span>
-                      <span className={styles.priceAtTrade}>{formatStockAmount(item.priceAtTrade)}원</span>
                       <span className={styles.time}>{formatTime(item.createdAt)}</span>
                     </div>
                   </div>

@@ -100,7 +100,6 @@ export interface StockHoldingResponse {
   logoEmoji: string;
   themeColor: string;
   amount: number;
-  currentPrice: number;
 }
 
 export interface StockTradeHistoryResponse {
@@ -125,7 +124,6 @@ export interface StockBoothResponse {
   displayOrder: number;
   logoEmoji: string;
   themeColor: string;
-  currentPrice: number;
   totalHolding: number;
   myHolding: number;
   hasVisited: boolean;

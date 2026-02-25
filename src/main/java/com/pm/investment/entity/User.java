@@ -26,7 +26,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private Long balance = 1_000_000L;
+    private Long balance = 100_000_000L;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "belonging_booth_id")
@@ -52,6 +52,6 @@ public class User {
     public User(String uniqueCode, String name) {
         this.uniqueCode = uniqueCode;
         this.name = name;
-        this.balance = 1_000_000L;
+        this.balance = 100_000_000L;
     }
 }

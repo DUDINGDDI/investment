@@ -108,8 +108,8 @@ public class InvestmentService {
         if (amount == null || amount <= 0) {
             throw new IllegalArgumentException("금액은 0보다 커야 합니다");
         }
-        if (amount % 10_000 != 0) {
-            throw new IllegalArgumentException("금액은 10,000원 단위여야 합니다");
+        if (amount % 10_000_000 != 0) {
+            throw new IllegalArgumentException("금액은 10,000,000원 단위여야 합니다");
         }
     }
 }

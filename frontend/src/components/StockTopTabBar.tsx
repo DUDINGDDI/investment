@@ -10,15 +10,6 @@ const tabs = [
 ]
 
 function formatStockAmount(n: number): string {
-  if (n >= 1_0000_0000_0000) {
-    return `${(n / 1_0000_0000_0000).toFixed(1)}조`
-  }
-  if (n >= 1_0000_0000) {
-    return `${Math.floor(n / 1_0000_0000)}억`
-  }
-  if (n >= 1_0000) {
-    return `${Math.floor(n / 1_0000)}만`
-  }
   return n.toLocaleString('ko-KR')
 }
 

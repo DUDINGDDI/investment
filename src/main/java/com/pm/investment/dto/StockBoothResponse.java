@@ -17,7 +17,6 @@ public class StockBoothResponse {
     private Integer displayOrder;
     private String logoEmoji;
     private String themeColor;
-    private Long currentPrice;
     private Long totalHolding;
     private Long myHolding;
     private Boolean hasVisited;

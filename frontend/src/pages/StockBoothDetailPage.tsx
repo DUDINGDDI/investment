@@ -1,13 +1,12 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
-import type { StockBoothResponse, StockPricePoint, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
+import type { StockBoothResponse, StockTradeHistoryResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
-import PriceChart from '../components/PriceChart'
 import { useToast } from '../components/ToastContext'
 import styles from './StockBoothDetailPage.module.css'
 
-type TabType = 'chart' | 'history' | 'discussion' | 'review'
+type TabType = 'history' | 'discussion' | 'review'
 
 const TAG_CONFIG = [
   { key: 'PROFITABILITY', label: '수익성', color: '#F0A030' },
@@ -30,9 +29,6 @@ const RATING_CRITERIA = [
 type ScoreKey = typeof RATING_CRITERIA[number]['key']
 
 function formatStockAmount(n: number) {
-  if (n >= 1_000_000_000_000) return (n / 1_000_000_000_000).toFixed(1) + '조'
-  if (n >= 100_000_000) return (n / 100_000_000).toFixed(0) + '억'
-  if (n >= 10_000) return (n / 10_000).toFixed(0) + '만'
   return n.toLocaleString('ko-KR')
 }
 
@@ -77,12 +73,11 @@ export default function StockBoothDetailPage() {
   const { showToast } = useToast()
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
-  const [priceHistory, setPriceHistory] = useState<StockPricePoint[]>([])
   const [modal, setModal] = useState<'buy' | 'sell' | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>(() => {
     const tab = searchParams.get('tab')
-    if (tab === 'review' || tab === 'chart' || tab === 'history' || tab === 'discussion') return tab
-    return 'chart'
+    if (tab === 'review' || tab === 'history' || tab === 'discussion') return tab
+    return 'history'
   })
 
   // 메모
@@ -119,7 +114,6 @@ export default function StockBoothDetailPage() {
     if (!id) return
     stockApi.getBoothById(Number(id)).then(res => setBooth(res.data))
     stockApi.getAccount().then(res => setBalance(res.data.balance))
-    stockApi.getPriceHistory(Number(id)).then(res => setPriceHistory(res.data.priceHistory))
   }, [id])
 
   useEffect(() => {
@@ -297,7 +291,6 @@ export default function StockBoothDetailPage() {
   if (!booth) return null
 
   const tabs: { key: TabType; label: string }[] = [
-    { key: 'chart', label: '차트' },
     { key: 'history', label: '내 투자이력' },
     { key: 'discussion', label: '토론방' },
     { key: 'review', label: '평가' },
@@ -331,7 +324,6 @@ export default function StockBoothDetailPage() {
           </div>
         </div>
         <div className={styles.headerRight}>
-          <p className={styles.currentPrice}>{formatStockAmount(booth.currentPrice)}원</p>
           <button
             className={`${styles.memoBtn} ${memoSaved ? styles.memoBtnActive : ''}`}
             onClick={() => setMemoOpen(true)}
@@ -367,21 +359,16 @@ export default function StockBoothDetailPage() {
         ))}
       </div>
 
+      {/* 내 투자 현황 */}
+      <div className={styles.investSection}>
+        <div className={styles.investRow}>
+          <span className={styles.investLabel}>내 투자금</span>
+          <span className={styles.investValueMy}>{formatStockAmount(booth.myHolding)}원</span>
+        </div>
+      </div>
+
       {/* 탭 콘텐츠 */}
       <div className={styles.tabContent}>
-        {/* 차트 탭 */}
-        {activeTab === 'chart' && (
-          <div>
-            <PriceChart priceHistory={priceHistory} themeColor={booth.themeColor} />
-            <div className={styles.investSection}>
-              <div className={styles.investRow}>
-                <span className={styles.investLabel}>내 보유금</span>
-                <span className={styles.investValueMy}>{formatStockAmount(booth.myHolding)}원</span>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* 내 투자이력 탭 */}
         {activeTab === 'history' && (
           <div>
@@ -408,9 +395,8 @@ export default function StockBoothDetailPage() {
                           <p className={styles.historyName}>{item.boothName}</p>
                           <div className={styles.historyMeta}>
                             <span className={`${styles.typeBadge} ${isBuy ? styles.buyBadge : styles.sellBadge}`}>
-                              {isBuy ? '매수' : '매도'}
+                              {isBuy ? '투자' : '철회'}
                             </span>
-                            <span className={styles.priceAtTrade}>{formatStockAmount(item.priceAtTrade)}원</span>
                             <span className={styles.time}>{formatTime(item.createdAt)}</span>
                           </div>
                         </div>
