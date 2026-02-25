@@ -176,3 +176,9 @@ INSERT INTO investment_history (user_id, booth_id, type, amount, balance_after, 
 (5, 10, 'INVEST', 100000, 770000, '2026-02-20 09:50:00'),
 (5, 11, 'INVEST', 200000, 570000, '2026-02-20 10:10:00'),
 (5, 11, 'WITHDRAW', 50000, 620000, '2026-02-20 10:35:00');
+
+-- ──────────────────────────────────────────────
+-- 테스트 쪽지 데이터
+-- ──────────────────────────────────────────────
+INSERT INTO notes (sender_id, receiver_id, content, is_read, created_at) VALUES
+(2, 1, '김민준님 스텔라AI 부스 어떤가요?', FALSE, '2026-02-25 09:10:00');

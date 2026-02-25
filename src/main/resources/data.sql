@@ -164,3 +164,9 @@ INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, 
 (13, 'together', 1, 1, TRUE, '2026-02-20 11:45:00'),
 (14, 'together', 0, 1, FALSE, NULL),
 (15, 'together', 1, 1, TRUE, '2026-02-20 09:05:00');
+
+-- ──────────────────────────────────────────────
+-- 테스트 쪽지 데이터
+-- ──────────────────────────────────────────────
+INSERT INTO notes (sender_id, receiver_id, content, is_read, created_at) VALUES
+(2, 1, '김민준님 스텔라AI 부스 어떤가요?', false, '2026-02-25 09:10:00');
