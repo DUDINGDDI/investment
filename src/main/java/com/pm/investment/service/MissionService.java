@@ -31,6 +31,19 @@ public class MissionService {
             "together", 1
     );
 
+    /**
+     * 자동 미션 달성 체크 — 이미 완료된 미션은 스킵
+     */
+    @Transactional
+    public void checkAndUpdateMission(Long userId, String missionId, int currentProgress) {
+        if (!MISSION_TARGETS.containsKey(missionId)) return;
+
+        Optional<UserMission> existing = userMissionRepository.findByUser_IdAndMissionId(userId, missionId);
+        if (existing.isPresent() && existing.get().getIsCompleted()) return;
+
+        updateProgress(userId, missionId, currentProgress);
+    }
+
     @Transactional
     public UserMissionResponse updateProgress(Long userId, String missionId, int progress) {
         if (!MISSION_TARGETS.containsKey(missionId)) {

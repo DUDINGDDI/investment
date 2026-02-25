@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Test (all):** `./gradlew test`
 - **Test (single class):** `./gradlew test --tests "com.pm.investment.SomeTest"`
 - **Test (single method):** `./gradlew test --tests "com.pm.investment.SomeTest.methodName"`
-- **Clean:** `./gradlew clean`
+- **Clean:** `./gradlew clean``
 
 ### 프론트엔드 (React)
 - **Install:** `cd frontend && npm install`

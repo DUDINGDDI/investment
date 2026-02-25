@@ -50,7 +50,7 @@ function RankBadgeLabel({ rank }: { rank: number }) {
 }
 
 export default function BadgePage() {
-  const { missions, updateProgress, completeMission } = useMissions()
+  const { missions, syncFromServer } = useMissions()
   const [user, setUser] = useState<UserResponse | null>(null)
   const [activeTab, setActiveTab] = useState('badges')
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
@@ -65,7 +65,8 @@ export default function BadgePage() {
 
   useEffect(() => {
     userApi.getMe().then(res => setUser(res.data)).catch(() => {})
-  }, [])
+    syncFromServer()
+  }, [syncFromServer])
 
   const loadRanking = useCallback(async (missionId: string) => {
     setRankingLoading(true)
@@ -99,20 +100,6 @@ export default function BadgePage() {
       setTimeout(() => setShowConfetti(false), 2000)
     } else {
       setSelectedMission(mission)
-    }
-  }
-
-  const handleSimulateProgress = () => {
-    if (!selectedMission) return
-    if (selectedMission.target != null) {
-      const current = selectedMission.progress ?? 0
-      updateProgress(selectedMission.id, current + 1)
-    } else {
-      completeMission(selectedMission.id)
-      setSelectedMission(null)
-      setShowSuccess(true)
-      setShowConfetti(true)
-      setTimeout(() => setShowConfetti(false), 2000)
     }
   }
 
@@ -319,7 +306,7 @@ export default function BadgePage() {
         </>
       )}
 
-      {/* 잠김 미션 바텀시트 */}
+      {/* 미션 정보 바텀시트 */}
       {freshMission && !showSuccess && (
         <div className={styles.overlay} onClick={closeModal}>
           <div className={styles.bottomSheet} onClick={e => e.stopPropagation()}>
@@ -335,12 +322,6 @@ export default function BadgePage() {
                 progress={freshMission.progress ?? 0}
                 target={freshMission.target}
               />
-            )}
-
-            {!freshMission.isCompleted && (
-              <button className={styles.ctaButton} onClick={handleSimulateProgress}>
-                {freshMission.target != null ? '진행도 +1 (데모)' : '미션 완료 (데모)'}
-              </button>
             )}
 
             {freshMission.isCompleted && (

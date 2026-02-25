@@ -20,6 +20,7 @@ public class StockCommentService {
     private final StockCommentRepository stockCommentRepository;
     private final UserRepository userRepository;
     private final BoothRepository boothRepository;
+    private final MissionService missionService;
 
     @Transactional(readOnly = true)
     public List<StockCommentResponse> getComments(Long boothId, String tag) {
@@ -49,6 +50,10 @@ public class StockCommentService {
 
         StockComment comment = new StockComment(user, booth, content, tag);
         stockCommentRepository.save(comment);
+
+        // renew 미션 자동 달성 체크: 아이디어 제안 1개 이상 작성
+        long commentCount = stockCommentRepository.countByUserId(userId);
+        missionService.checkAndUpdateMission(userId, "renew", (int) Math.min(commentCount, 1));
 
         return StockCommentResponse.builder()
                 .id(comment.getId())

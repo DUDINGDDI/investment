@@ -20,6 +20,7 @@ public class BoothVisitService {
     private final UserRepository userRepository;
     private final BoothRepository boothRepository;
     private final BoothVisitRepository boothVisitRepository;
+    private final MissionService missionService;
 
     @Transactional
     public BoothVisitResponse visit(Long userId, String boothUuid) {
@@ -35,6 +36,13 @@ public class BoothVisitService {
 
         BoothVisit visit = new BoothVisit(user, booth);
         boothVisitRepository.save(visit);
+
+        // again 미션 자동 달성 체크: 해당 부스에 소속된 사용자들의 미션 진행도 갱신
+        long visitCount = boothVisitRepository.countByBoothId(booth.getId());
+        List<User> boothMembers = userRepository.findByBelongingBooth_Id(booth.getId());
+        for (User member : boothMembers) {
+            missionService.checkAndUpdateMission(member.getId(), "again", (int) visitCount);
+        }
 
         return BoothVisitResponse.builder()
                 .boothId(booth.getId())

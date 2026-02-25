@@ -234,3 +234,11 @@ export interface BoothVisitResponse {
   message: string;
   visitedAt: string;
 }
+
+export interface BoothReviewResponse {
+  id: number;
+  userId: number;
+  userName: string;
+  review: string;
+  updatedAt: string;
+}

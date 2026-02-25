@@ -1,6 +1,7 @@
 package com.pm.investment.service;
 
 import com.pm.investment.dto.AdminBoothRatingResponse;
+import com.pm.investment.dto.BoothReviewResponse;
 import com.pm.investment.dto.StockRatingRequest;
 import com.pm.investment.dto.StockRatingResponse;
 import com.pm.investment.entity.Booth;
@@ -27,6 +28,7 @@ public class StockRatingService {
     private final UserRepository userRepository;
     private final BoothRepository boothRepository;
     private final BoothVisitRepository boothVisitRepository;
+    private final MissionService missionService;
 
     @Transactional
     public StockRatingResponse submitRating(Long userId, Long boothId, StockRatingRequest request) {
@@ -61,7 +63,36 @@ public class StockRatingService {
             stockRatingRepository.save(rating);
         }
 
+        // sincere 미션 자동 달성 체크: 리뷰가 포함된 평가 수
+        long reviewCount = stockRatingRepository.countByUserIdAndReviewIsNotNull(userId);
+        missionService.checkAndUpdateMission(userId, "sincere", (int) reviewCount);
+
         return toResponse(rating);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoothReviewResponse> getBoothReviews(Long boothId) {
+        return stockRatingRepository.findByBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(boothId)
+                .stream()
+                .map(r -> BoothReviewResponse.builder()
+                        .id(r.getId())
+                        .userId(r.getUser().getId())
+                        .userName(r.getUser().getName())
+                        .review(r.getReview())
+                        .updatedAt(r.getUpdatedAt())
+                        .build())
+                .toList();
+    }
+
+    @Transactional
+    public void deleteReview(Long userId, Long boothId) {
+        StockRating rating = stockRatingRepository.findByUserIdAndBoothId(userId, boothId)
+                .orElseThrow(() -> new IllegalArgumentException("평가를 찾을 수 없습니다"));
+        rating.setReview(null);
+
+        // sincere 미션 진행도 재계산
+        long reviewCount = stockRatingRepository.countByUserIdAndReviewIsNotNull(userId);
+        missionService.checkAndUpdateMission(userId, "sincere", (int) reviewCount);
     }
 
     @Transactional(readOnly = true)
