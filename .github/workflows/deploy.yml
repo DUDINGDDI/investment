@@ -77,8 +77,11 @@ jobs:
             echo "=== Git Pull ==="
             git pull origin main
 
+            echo "=== Stop orphan containers on port 80 ==="
+            docker ps -q --filter "publish=80" | xargs -r docker stop | xargs -r docker rm || true
+
             echo "=== Docker Compose Down ==="
-            docker compose -f docker-compose.prod.yml down
+            docker compose -f docker-compose.prod.yml down --remove-orphans
 
             echo "=== Docker Compose Up ==="
             docker compose -f docker-compose.prod.yml up -d --build
