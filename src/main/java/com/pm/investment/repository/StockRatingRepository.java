@@ -13,6 +13,10 @@ public interface StockRatingRepository extends JpaRepository<StockRating, Long> 
 
     boolean existsByUserIdAndBoothId(Long userId, Long boothId);
 
+    long countByUserIdAndReviewIsNotNull(Long userId);
+
+    List<StockRating> findByBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(Long boothId);
+
     @Query("SELECT r.booth.id, " +
            "COUNT(r), " +
            "SUM(r.scoreFirst + r.scoreBest + r.scoreDifferent + r.scoreNumberOne + r.scoreGap + r.scoreGlobal), " +

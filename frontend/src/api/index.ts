@@ -24,6 +24,7 @@ import type {
   AdminBoothRatingResponse,
   VisitRequest,
   BoothVisitResponse,
+  BoothReviewResponse,
 } from '../types';
 
 export const authApi = {
@@ -75,6 +76,8 @@ export const stockApi = {
   addComment: (boothId: number, content: string, tag: string) => api.post<StockCommentResponse>(`/stocks/booths/${boothId}/comments`, { content, tag }),
   submitRating: (boothId: number, data: StockRatingRequest) => api.post<StockRatingResponse>(`/stocks/booths/${boothId}/rating`, data),
   getMyRating: (boothId: number) => api.get<StockRatingResponse>(`/stocks/booths/${boothId}/rating`),
+  getBoothReviews: (boothId: number) => api.get<BoothReviewResponse[]>(`/stocks/booths/${boothId}/reviews`),
+  deleteReview: (boothId: number) => api.delete(`/stocks/booths/${boothId}/rating/review`),
 };
 
 export const missionApi = {
