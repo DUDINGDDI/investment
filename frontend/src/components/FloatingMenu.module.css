@@ -72,6 +72,19 @@
   border-color: var(--accent-blue);
 }
 
+/* QR 라벨 — 항상 표시 */
+.qrLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
 /* 메인 토글 버튼 — 서브와 동일 크기 */
 .mainButton {
   width: 48px;

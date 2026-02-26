@@ -16,10 +16,11 @@ export default function QrPage() {
   const isProcessingRef = useRef(false)
 
   useEffect(() => {
+    let cancelled = false
     const scanner = new Html5Qrcode('qr-reader')
     scannerRef.current = scanner
 
-    scanner.start(
+    const startPromise = scanner.start(
       { facingMode: 'environment' },
       { fps: 10, qrbox: { width: 250, height: 250 } },
       (decodedText) => {
@@ -29,15 +30,22 @@ export default function QrPage() {
       },
       () => {}
     ).then(() => {
-      setIsScanning(true)
+      if (cancelled) {
+        scanner.stop().then(() => scanner.clear()).catch(() => {
+          try { scanner.clear() } catch { /* ignore */ }
+        })
+      } else {
+        setIsScanning(true)
+      }
     }).catch(() => {
-      setError('카메라를 사용할 수 없습니다. 카메라 권한을 허용해주세요.')
+      if (!cancelled) setError('카메라를 사용할 수 없습니다. 카메라 권한을 허용해주세요.')
     })
 
     return () => {
-      if (scannerRef.current?.isScanning) {
-        scannerRef.current.stop().catch(() => {})
-      }
+      cancelled = true
+      startPromise.then(() => {
+        // start가 완료된 후 정리 — then 내부에서 이미 처리됨
+      }).catch(() => {})
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

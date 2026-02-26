@@ -231,6 +231,13 @@ export interface BoothVisitResponse {
   visitedAt: string;
 }
 
+export interface MyBoothVisitorResponse {
+  boothId: number | null;
+  boothName: string | null;
+  logoEmoji: string | null;
+  visitorCount: number;
+}
+
 export interface BoothReviewResponse {
   id: number;
   userId: number;

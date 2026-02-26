@@ -165,7 +165,6 @@ export default function BadgePage() {
           </span>
         </div>
         <h2 className={styles.userName}>{userName || '-'}</h2>
-        <p className={styles.userRole}>참가자</p>
       </div>
 
       {/* 탭 바 */}
@@ -186,7 +185,6 @@ export default function BadgePage() {
           <p className={styles.badgeCount}>{completedCount} / {missions.length} 완료</p>
 
           <div className={styles.section}>
-            <h3 className={styles.categoryTitle}>핵심 미션</h3>
             <div className={styles.badgeRow}>
               {row1.map((mission, i) => (
                 <button
@@ -203,7 +201,6 @@ export default function BadgePage() {
           </div>
 
           <div className={styles.section}>
-            <h3 className={styles.categoryTitle}>도전 미션</h3>
             <div className={styles.badgeRow}>
               {row2.map((mission, i) => (
                 <button
