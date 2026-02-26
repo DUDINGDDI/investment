@@ -18,6 +18,7 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: false
+    open-in-view: false
     properties:
       hibernate:
         format_sql: true
@@ -30,6 +31,10 @@ spring:
 server:
   port: 8080
   address: 0.0.0.0
+  tomcat:
+    threads:
+      max: 300
+      min-spare: 20
 
 ---
 # MySQL 프로필: docker-compose로 MySQL 사용 시 --spring.profiles.active=mysql
