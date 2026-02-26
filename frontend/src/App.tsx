@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import BoothListPage from './pages/BoothListPage'
@@ -24,44 +24,34 @@ import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
 import { MissionProvider } from './components/MissionContext'
 
-function PrivateRoute({ children }: { children: React.ReactNode }) {
+function PrivateLayout() {
   const token = sessionStorage.getItem('token')
   if (!token) return <Navigate to="/" replace />
-  return <>{children}</>
-}
-
-function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ paddingBottom: '80px' }}>
       <AppHeader />
       <AnnouncementBanner />
+      <Outlet />
+      <FloatingMenu />
+    </div>
+  )
+}
+
+function WithTopTabBar() {
+  return (
+    <>
       <TopTabBar />
-      {children}
-      <FloatingMenu />
-    </div>
+      <Outlet />
+    </>
   )
 }
 
-function StockAppLayout({ children }: { children: React.ReactNode }) {
+function WithStockTopTabBar() {
   return (
-    <div style={{ paddingBottom: '80px' }}>
-      <AppHeader />
-      <AnnouncementBanner />
+    <>
       <StockTopTabBar />
-      {children}
-      <FloatingMenu />
-    </div>
-  )
-}
-
-function StockDetailLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{ paddingBottom: '80px' }}>
-      <AppHeader />
-      <AnnouncementBanner />
-      {children}
-      <FloatingMenu />
-    </div>
+      <Outlet />
+    </>
   )
 }
 
@@ -72,48 +62,26 @@ export default function App() {
       <Toast />
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/home" element={
-          <PrivateRoute><AppLayout><HomePage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/booths" element={
-          <PrivateRoute><AppLayout><BoothListPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/booths/:id" element={
-          <PrivateRoute><AppLayout><BoothDetailPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/map" element={
-          <PrivateRoute><AppLayout><MapPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/map/:zoneId" element={
-          <PrivateRoute><AppLayout><ZoneBoothListPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/badges" element={
-          <PrivateRoute><AppLayout><BadgePage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/history" element={
-          <PrivateRoute><AppLayout><HistoryPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/result" element={
-          <PrivateRoute><AppLayout><ResultPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/mypage" element={
-          <PrivateRoute><AppLayout><MyPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/qr" element={
-          <PrivateRoute><AppLayout><QrPage /></AppLayout></PrivateRoute>
-        } />
-        <Route path="/stocks" element={
-          <PrivateRoute><StockAppLayout><StockHomePage /></StockAppLayout></PrivateRoute>
-        } />
-        <Route path="/stocks/booths" element={
-          <PrivateRoute><StockAppLayout><StockBoothListPage /></StockAppLayout></PrivateRoute>
-        } />
-        <Route path="/stocks/booths/:id" element={
-          <PrivateRoute><StockDetailLayout><StockBoothDetailPage /></StockDetailLayout></PrivateRoute>
-        } />
-        <Route path="/stocks/history" element={
-          <PrivateRoute><StockAppLayout><StockHistoryPage /></StockAppLayout></PrivateRoute>
-        } />
+        <Route element={<PrivateLayout />}>
+          <Route element={<WithTopTabBar />}>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/booths" element={<BoothListPage />} />
+            <Route path="/booths/:id" element={<BoothDetailPage />} />
+            <Route path="/map" element={<MapPage />} />
+            <Route path="/map/:zoneId" element={<ZoneBoothListPage />} />
+            <Route path="/badges" element={<BadgePage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/result" element={<ResultPage />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/qr" element={<QrPage />} />
+          </Route>
+          <Route element={<WithStockTopTabBar />}>
+            <Route path="/stocks" element={<StockHomePage />} />
+            <Route path="/stocks/booths" element={<StockBoothListPage />} />
+            <Route path="/stocks/history" element={<StockHistoryPage />} />
+          </Route>
+          <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
+        </Route>
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
       </MissionProvider>
