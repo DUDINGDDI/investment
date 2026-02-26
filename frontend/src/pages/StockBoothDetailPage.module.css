@@ -611,15 +611,20 @@
 .star {
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 32px;
   color: var(--text-disabled);
   cursor: pointer;
-  padding: 8px 6px;
+  padding: 10px 8px;
   transition: color 0.15s, transform 0.15s;
   line-height: 1;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .star:hover:not(:disabled) {
