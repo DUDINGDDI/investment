@@ -4,12 +4,6 @@ import { ideaBoardApi } from '../api'
 import type { IdeaBoardResponse, StockCommentResponse } from '../types'
 import styles from './IdeaBoardPage.module.css'
 
-const TAG_CONFIG: Record<string, { label: string; color: string }> = {
-  PROFITABILITY: { label: '수익성', color: '#D4A843' },
-  TECHNOLOGY: { label: '기술력', color: '#5A9E6F' },
-  GROWTH: { label: '성장가능성', color: '#2F6F3C' },
-}
-
 /* 포스트잇 4색 + 텍스트 색상 */
 const POSTIT_COLORS = [
   { bg: '#E3F2E2', text: '#0F1C14', sub: '#2F6F3C' },
@@ -224,7 +218,6 @@ export default function IdeaBoardPage() {
       ) : (
         <div className={styles.board} style={{ height: boardHeight }}>
           {board.comments.map((comment, i) => {
-            const tag = TAG_CONFIG[comment.tag]
             const pos = positions[i]
             const isNew = newIds.has(comment.id)
 
@@ -262,14 +255,6 @@ export default function IdeaBoardPage() {
                 {/* 내용 */}
                 <div className={styles.cardHeader}>
                   <span className={styles.cardAuthor}>{comment.userName}</span>
-                  {tag && (
-                    <span
-                      className={styles.cardTag}
-                      style={{ background: tag.color }}
-                    >
-                      {tag.label}
-                    </span>
-                  )}
                 </div>
                 <p className={styles.cardContent}>{comment.content}</p>
                 <div className={styles.cardTime}>{formatTime(comment.createdAt)}</div>

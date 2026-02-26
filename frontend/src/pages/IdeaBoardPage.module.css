@@ -286,14 +286,6 @@
   letter-spacing: -0.2px;
 }
 
-.cardTag {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 8px;
-  color: #fff;
-}
-
 .cardContent {
   font-size: 14px;
   line-height: 1.7;

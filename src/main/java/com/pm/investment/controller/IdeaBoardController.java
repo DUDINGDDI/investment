@@ -24,7 +24,7 @@ public class IdeaBoardController {
         StockBooth booth = stockBoothRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
-        List<StockCommentResponse> comments = stockCommentService.getComments(id, null);
+        List<StockCommentResponse> comments = stockCommentService.getComments(id);
 
         IdeaBoardResponse response = IdeaBoardResponse.builder()
                 .boothId(booth.getId())

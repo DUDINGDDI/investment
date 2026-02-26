@@ -9,15 +9,6 @@ import styles from './StockBoothDetailPage.module.css'
 
 type TabType = 'history' | 'discussion' | 'review'
 
-const TAG_CONFIG = [
-  { key: 'PROFITABILITY', label: '수익성', color: '#F0A030' },
-  { key: 'TECHNOLOGY', label: '기술력', color: '#4593FC' },
-  { key: 'GROWTH', label: '성장가능성', color: '#00D68F' },
-] as const
-
-const getTagLabel = (tag: string) => TAG_CONFIG.find(t => t.key === tag)?.label || tag
-const getTagColor = (tag: string) => TAG_CONFIG.find(t => t.key === tag)?.color || '#8C8C96'
-
 const RATING_CRITERIA = [
   { key: 'scoreFirst', label: '최초' },
   { key: 'scoreBest', label: '최고' },
@@ -105,8 +96,6 @@ export default function StockBoothDetailPage() {
   const [isEditingRating, setIsEditingRating] = useState(false)
   const [boothReviews, setBoothReviews] = useState<BoothReviewResponse[]>([])
   const [reviewsLoaded, setReviewsLoaded] = useState(false)
-  const [filterTag, setFilterTag] = useState<string | null>(null)
-  const [inputTag, setInputTag] = useState<string>('PROFITABILITY')
 
   const loadData = useCallback(() => {
     if (!id) return
@@ -177,14 +166,6 @@ export default function StockBoothDetailPage() {
     }
   }, [activeTab, id, historyLoaded, commentsLoaded, ratingLoaded, reviewsLoaded])
 
-  // 태그 필터 변경 시 댓글 재로드
-  useEffect(() => {
-    if (!id || activeTab !== 'discussion') return
-    stockApi.getComments(Number(id), filterTag || undefined).then(res => {
-      setComments(res.data)
-    })
-  }, [filterTag, id, activeTab])
-
   const handleBuy = async (amount: number) => {
     try {
       await stockApi.buy({ boothId: Number(id), amount })
@@ -215,11 +196,8 @@ export default function StockBoothDetailPage() {
     if (!id || !commentInput.trim() || submitting) return
     setSubmitting(true)
     try {
-      const res = await stockApi.addComment(Number(id), commentInput.trim(), inputTag)
-      // 필터가 없거나, 필터와 같은 태그면 리스트에 추가
-      if (!filterTag || filterTag === inputTag) {
-        setComments(prev => [res.data, ...prev])
-      }
+      const res = await stockApi.addComment(Number(id), commentInput.trim())
+      setComments(prev => [res.data, ...prev])
       setCommentInput('')
       showToast('제안이 등록되었습니다!', 'success')
     } catch (err: unknown) {
@@ -439,26 +417,6 @@ export default function StockBoothDetailPage() {
               </p>
             </div>
 
-            {/* 태그 필터 */}
-            <div className={styles.tagFilter}>
-              <button
-                className={`${styles.tagChip} ${filterTag === null ? styles.tagChipActive : ''}`}
-                onClick={() => setFilterTag(null)}
-              >
-                전체
-              </button>
-              {TAG_CONFIG.map(tag => (
-                <button
-                  key={tag.key}
-                  className={`${styles.tagChip} ${filterTag === tag.key ? styles.tagChipActive : ''}`}
-                  onClick={() => setFilterTag(filterTag === tag.key ? null : tag.key)}
-                  style={filterTag === tag.key ? { borderColor: tag.color, background: tag.color, color: '#fff' } : {}}
-                >
-                  {tag.label}
-                </button>
-              ))}
-            </div>
-
             {/* 댓글 리스트 */}
             <div className={styles.commentList}>
               {comments.length === 0 ? (
@@ -483,7 +441,6 @@ export default function StockBoothDetailPage() {
                     key={comment.id}
                     className={`${styles.developBlock} stagger-item`}
                     style={{
-                      borderLeftColor: getTagColor(comment.tag),
                       animationDelay: `${index * 0.04}s`,
                     }}
                   >
@@ -491,15 +448,6 @@ export default function StockBoothDetailPage() {
                       <span className={styles.commentAuthor}>{comment.userName}{comment.userCompany ? ` · ${comment.userCompany}` : ''}</span>
                       <span className={styles.commentTime}>{formatCommentTime(comment.createdAt)}</span>
                     </div>
-                    <span
-                      className={styles.commentTagBadge}
-                      style={{
-                        background: getTagColor(comment.tag) + '20',
-                        color: getTagColor(comment.tag),
-                      }}
-                    >
-                      {getTagLabel(comment.tag)}
-                    </span>
                     <p className={styles.commentContent}>{comment.content}</p>
                   </div>
                 ))
@@ -515,21 +463,6 @@ export default function StockBoothDetailPage() {
               </div>
             ) : (
               <div className={styles.commentInputArea}>
-                <div className={styles.inputTagRow}>
-                  {TAG_CONFIG.map(tag => (
-                    <button
-                      key={tag.key}
-                      className={`${styles.inputTagChip} ${inputTag === tag.key ? styles.inputTagChipActive : ''}`}
-                      onClick={() => setInputTag(tag.key)}
-                      style={inputTag === tag.key
-                        ? { borderColor: tag.color, background: tag.color + '20', color: tag.color }
-                        : {}
-                      }
-                    >
-                      {tag.label}
-                    </button>
-                  ))}
-                </div>
                 <div className={styles.inputRow}>
                   <textarea
                     className={styles.commentTextarea}

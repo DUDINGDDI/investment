@@ -30,9 +30,6 @@ public class StockComment {
     @Column(nullable = false, length = 500)
     private String content;
 
-    @Column(length = 20, nullable = false)
-    private String tag;
-
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -41,10 +38,9 @@ public class StockComment {
         createdAt = LocalDateTime.now();
     }
 
-    public StockComment(User user, StockBooth stockBooth, String content, String tag) {
+    public StockComment(User user, StockBooth stockBooth, String content) {
         this.user = user;
         this.stockBooth = stockBooth;
         this.content = content;
-        this.tag = tag;
     }
 }
