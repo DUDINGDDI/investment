@@ -29,6 +29,7 @@ import type {
   NoteRequest,
   NoteResponse,
   UserSearchResponse,
+  IdeaBoardResponse,
 } from '../types';
 
 export const authApi = {
@@ -92,6 +93,8 @@ export const missionApi = {
     api.post<UserMissionResponse>('/missions/progress', { missionId, progress }),
   completeMission: (missionId: string) =>
     api.post<UserMissionResponse>('/missions/complete', { missionId }),
+  completeTogether: (uuid: string) =>
+    api.post<UserMissionResponse>('/missions/together', { boothUuid: uuid }),
   getRanking: (missionId: string) =>
     api.get<MissionRankingData>('/missions/ranking', { params: { missionId } }),
 };
@@ -116,6 +119,11 @@ export const noteApi = {
     api.get<{ count: number }>('/notes/unread-count'),
   searchUsers: (keyword: string) =>
     api.get<UserSearchResponse[]>('/notes/users/search', { params: { keyword } }),
+};
+
+export const ideaBoardApi = {
+  getBoard: (boothId: number) =>
+    api.get<IdeaBoardResponse>(`/idea-board/booths/${boothId}`),
 };
 
 export const adminApi = {
