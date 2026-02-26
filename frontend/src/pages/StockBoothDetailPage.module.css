@@ -589,9 +589,10 @@
 .criteriaRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   padding: 14px 0;
   border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
 }
 
 .criteriaRow:last-of-type {
@@ -601,12 +602,14 @@
 .criteriaLabel {
   font-size: 15px;
   font-weight: 600;
-  min-width: 60px;
+  flex-shrink: 0;
+  width: 60px;
 }
 
 .stars {
   display: flex;
   flex: 1;
+  min-width: 0;
 }
 
 .star {
@@ -616,12 +619,13 @@
   color: var(--text-disabled);
   cursor: pointer;
   padding: 0;
-  transition: color 0.15s, transform 0.15s;
+  transition: color 0.15s;
   line-height: 1;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 48px;
   display: flex;
   align-items: center;
@@ -629,7 +633,7 @@
 }
 
 .star:hover:not(:disabled) {
-  transform: scale(1.15);
+  opacity: 0.8;
 }
 
 .starActive {
