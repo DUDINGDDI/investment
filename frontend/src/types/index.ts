@@ -156,6 +156,15 @@ export interface StockCommentResponse {
   createdAt: string;
 }
 
+export interface IdeaBoardResponse {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  themeColor: string;
+  category: string;
+  comments: StockCommentResponse[];
+}
+
 export interface UserMissionResponse {
   missionId: string;
   progress: number;

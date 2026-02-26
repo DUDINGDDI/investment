@@ -29,6 +29,7 @@ import type {
   NoteRequest,
   NoteResponse,
   UserSearchResponse,
+  IdeaBoardResponse,
 } from '../types';
 
 export const authApi = {
@@ -116,6 +117,11 @@ export const noteApi = {
     api.get<{ count: number }>('/notes/unread-count'),
   searchUsers: (keyword: string) =>
     api.get<UserSearchResponse[]>('/notes/users/search', { params: { keyword } }),
+};
+
+export const ideaBoardApi = {
+  getBoard: (boothId: number) =>
+    api.get<IdeaBoardResponse>(`/idea-board/booths/${boothId}`),
 };
 
 export const adminApi = {
