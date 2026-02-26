@@ -17,8 +17,8 @@
   color: var(--text-secondary);
 }
 
-/* 검색 영역 */
-.searchArea {
+/* 필터 영역 */
+.filterArea {
   margin-bottom: 16px;
 }
 
@@ -110,22 +110,12 @@
   border-color: var(--accent-blue);
 }
 
-/* 캐러셀 */
-.carousel {
+/* 지도 이미지 */
+.mapImage {
   position: relative;
-  overflow: hidden;
   border-radius: var(--radius-card);
   background: var(--bg-secondary);
-}
-
-.track {
-  display: flex;
-  transition: transform 0.35s ease;
-}
-
-.slide {
-  flex: 0 0 100%;
-  min-width: 0;
+  overflow: hidden;
 }
 
 .imageWrapper {
@@ -177,80 +167,6 @@
   pointer-events: none;
 }
 
-/* 화살표 */
-.arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  padding: 0;
-}
-
-.arrow:hover {
-  background: rgba(0, 0, 0, 0.65);
-}
-
-.arrow:active {
-  transform: translateY(-50%);
-}
-
-.arrowLeft {
-  left: 8px;
-}
-
-.arrowRight {
-  right: 8px;
-}
-
-/* 인디케이터 */
-.indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 0 8px;
-}
-
-.indicatorText {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.dots {
-  display: flex;
-  gap: 6px;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--border-color);
-  transition: background 0.2s, transform 0.2s;
-  padding: 0;
-}
-
-.dot:active {
-  transform: none;
-}
-
-.dotActive {
-  background: var(--accent-blue);
-  transform: scale(1.2);
-}
-
-.dotActive:active {
-  transform: scale(1.2);
-}
-
 /* 부스 목록 섹션 */
 .boothSection {
   margin-top: 16px;
@@ -282,26 +198,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.boothList::-webkit-scrollbar {
-  width: 4px;
-}
-
-.boothList::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.boothList::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
-}
-
-.boothList::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
 }
 
 .boothCard {
