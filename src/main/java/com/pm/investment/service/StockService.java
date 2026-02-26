@@ -46,6 +46,11 @@ public class StockService {
                     return stockHoldingRepository.save(newHolding);
                 });
 
+        long maxPerBooth = 40_000_000L;
+        if (holding.getAmount() + amount > maxPerBooth) {
+            throw new IllegalStateException("부스당 최대 투자 금액은 4,000만원입니다");
+        }
+
         account.setBalance(account.getBalance() - amount);
         holding.setAmount(holding.getAmount() + amount);
 
