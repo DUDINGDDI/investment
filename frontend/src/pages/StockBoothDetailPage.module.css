@@ -606,23 +606,23 @@
 
 .stars {
   display: flex;
-  gap: 0;
+  flex: 1;
 }
 
 .star {
   background: none;
   border: none;
-  font-size: 32px;
+  font-size: 28px;
   color: var(--text-disabled);
   cursor: pointer;
-  padding: 10px 8px;
+  padding: 0;
   transition: color 0.15s, transform 0.15s;
   line-height: 1;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
-  min-width: 44px;
-  min-height: 44px;
+  flex: 1;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
