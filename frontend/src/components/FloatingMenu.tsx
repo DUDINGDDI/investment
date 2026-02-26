@@ -102,25 +102,9 @@ export default function FloatingMenu() {
 
   return (
     <div className={styles.container}>
-      {/* 서브 메뉴 (열릴 때만 보임) */}
-      <div className={`${styles.subButtons} ${open ? styles.subButtonsOpen : ''}`}>
-        {visibleMenuItems.map((item) => (
-          <div key={item.path} className={styles.subRow}>
-            <span className={styles.subLabel}>{item.label}</span>
-            <button
-              className={`${styles.subButton} ${item.isActive(location.pathname) ? styles.subButtonActive : ''}`}
-              onClick={() => handleNavigate(item.path)}
-              aria-label={item.label}
-            >
-              {item.icon}
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {/* QR 버튼 — 항상 보이고, 열리면 위로 올라감 */}
-      <div className={`${styles.qrRow} ${open ? styles.qrRowOpen : ''}`}>
-        <span className={`${styles.qrLabel} ${open ? styles.qrLabelOpen : ''}`}>{qrItem.label}</span>
+      {/* QR — 항상 보이고, 메뉴 열리면 위로 밀려 올라감 */}
+      <div className={styles.qrRow}>
+        <span className={styles.qrLabel}>{qrItem.label}</span>
         <button
           className={`${styles.subButton} ${qrItem.isActive(location.pathname) ? styles.subButtonActive : ''}`}
           onClick={() => handleNavigate(qrItem.path)}
@@ -128,6 +112,24 @@ export default function FloatingMenu() {
         >
           {qrItem.icon}
         </button>
+      </div>
+
+      {/* 서브 메뉴 — QR과 메인 버튼 사이에서 펼쳐짐 */}
+      <div className={`${styles.subButtons} ${open ? styles.subButtonsOpen : ''}`}>
+        <div className={styles.subInner}>
+          {visibleMenuItems.map((item) => (
+            <div key={item.path} className={styles.subRow}>
+              <span className={styles.subLabel}>{item.label}</span>
+              <button
+                className={`${styles.subButton} ${item.isActive(location.pathname) ? styles.subButtonActive : ''}`}
+                onClick={() => handleNavigate(item.path)}
+                aria-label={item.label}
+              >
+                {item.icon}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* 메인 토글 버튼 */}
