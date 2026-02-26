@@ -129,3 +129,27 @@ INSERT INTO stock_booth_visits (user_id, stock_booth_id)
 SELECT u.id, sb.id
 FROM users u
 CROSS JOIN stock_booths sb;
+
+-- ──────────────────────────────────────────────
+-- 테스트 유저: 하고잡이 (U999) — 모든 부스 방문 완료
+-- ──────────────────────────────────────────────
+INSERT INTO users (unique_code, name, company, balance, belonging_booth_id) VALUES
+('U999', '하고잡이', NULL, 100000000, NULL);
+
+-- 주식 계좌 생성
+INSERT INTO stock_accounts (user_id, balance)
+SELECT id, 100000000 FROM users WHERE unique_code = 'U999';
+
+-- 일반 부스 전체 방문
+INSERT INTO booth_visits (user_id, booth_id)
+SELECT u.id, b.id
+FROM users u
+CROSS JOIN booths b
+WHERE u.unique_code = 'U999';
+
+-- 주식 부스 전체 방문
+INSERT INTO stock_booth_visits (user_id, stock_booth_id)
+SELECT u.id, sb.id
+FROM users u
+CROSS JOIN stock_booths sb
+WHERE u.unique_code = 'U999';

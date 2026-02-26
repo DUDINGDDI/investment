@@ -39,7 +39,8 @@ INSERT INTO users (unique_code, name, company, balance, belonging_booth_id) VALU
 ('U005', '박민지', 'CJ프레시웨이', 100000000, NULL),
 ('U006', '신예린', 'CJ제일제당', 100000000, NULL),
 ('U007', '엄지윤', 'CJ대한통운', 100000000, NULL),
-('U008', '문선우', 'CJ ENM', 100000000, NULL);
+('U008', '문선우', 'CJ ENM', 100000000, NULL),
+('U999', '하고잡이', NULL, 100000000, NULL);
 
 
 -- ──────────────────────────────────────────────
@@ -143,6 +144,12 @@ INSERT INTO stock_booth_visits (user_id, stock_booth_id)
 SELECT u.id, sb.id
 FROM users u
 CROSS JOIN stock_booths sb;
+
+-- ──────────────────────────────────────────────
+-- stock_accounts: 하고잡이 (U999) 주식 계좌 생성
+-- ──────────────────────────────────────────────
+INSERT INTO stock_accounts (user_id, balance)
+SELECT id, 100000000 FROM users WHERE unique_code = 'U999';
 
 -- ──────────────────────────────────────────────
 -- user_missions: U001 김기범 미션 완료 (이용권)
