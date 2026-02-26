@@ -55,8 +55,17 @@ export default function MyPage() {
 
   const [qrMission, setQrMission] = useState<Mission | null>(null)
 
-  const completedMissions = missions.filter(m => m.isCompleted)
-  const ticketCount = completedMissions.length
+  // 이벤트존 이용권 대상 미션 (result 제외, 5개)
+  const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together']
+  const TICKET_IMAGE_MAP: Record<string, { normal: string; complete: string; label: string }> = {
+    renew: { normal: '/image/ticket/new.png', complete: '/image/ticket/new_complete.png', label: '내일더 새롭게' },
+    dream: { normal: '/image/ticket/dream.png', complete: '/image/ticket/dream_complete.png', label: '꿈을 원대하게' },
+    again: { normal: '/image/ticket/retry.png', complete: '/image/ticket/retry_complete.png', label: '안돼도 다시' },
+    sincere: { normal: '/image/ticket/truth.png', complete: '/image/ticket/truth_complete.png', label: '진정성 있게' },
+    together: { normal: '/image/ticket/together.png', complete: '/image/ticket/together_complete.png', label: '함께하는 하고잡이' },
+  }
+  const ticketMissions = missions.filter((m: Mission) => TICKET_MISSIONS.includes(m.id) && m.isCompleted)
+  const ticketCount = ticketMissions.length
   const userId = sessionStorage.getItem('userId') || ''
 
   return (
@@ -125,39 +134,43 @@ export default function MyPage() {
 
       {activeTab === 'tickets' && (
         <>
-          <div className={styles.ticketSummary}>
-            <p className={styles.ticketCount}>{ticketCount}장</p>
-            <p className={styles.ticketLabel}>보유 이용권</p>
+          <div className={styles.ticketHeader}>
+            <span className={styles.ticketHeaderLabel}>보유 이용권</span>
+            <span className={styles.ticketHeaderCount}>{ticketCount}장</span>
           </div>
 
-          {completedMissions.length > 0 ? (
-            <div className={styles.list}>
-              {[...completedMissions].sort((a, b) => Number(a.isUsed ?? false) - Number(b.isUsed ?? false)).map((m, i) => (
-                <div
-                  key={m.id}
-                  className={`${styles.ticketCard} ${m.isUsed ? styles.ticketUsed : ''} stagger-item`}
-                  style={{ animationDelay: `${i * 0.04}s` }}
-                  onClick={() => !m.isUsed && setQrMission(m)}
-                >
-                  <div className={styles.ticketIcon}>
-                    <img src={m.icon} alt={m.title} className={styles.ticketImg} />
+          {ticketMissions.length > 0 ? (
+            <div className={styles.ticketGrid}>
+              {ticketMissions.map((m: Mission, i: number) => {
+                const imgInfo = TICKET_IMAGE_MAP[m.id]
+                if (!imgInfo) return null
+                const isUsed = m.isUsed
+                const imgSrc = isUsed ? imgInfo.complete : imgInfo.normal
+                return (
+                  <div
+                    key={m.id}
+                    className={`${styles.ticketImageCard} ${isUsed ? styles.ticketUsedCard : ''} stagger-item`}
+                    style={{ animationDelay: `${i * 0.06}s` }}
+                    onClick={() => !isUsed && setQrMission(m)}
+                  >
+                    <img
+                      src={imgSrc}
+                      alt={imgInfo.label}
+                      className={styles.ticketFullImg}
+                    />
+                    {isUsed && (
+                      <div className={styles.ticketUsedOverlay}>
+                        <span className={styles.ticketUsedStamp}>사용완료</span>
+                      </div>
+                    )}
                   </div>
-                  <div className={styles.cardBody}>
-                    <p className={styles.cardName}>{m.title}</p>
-                    <p className={styles.cardSub}>{m.isUsed ? '사용 완료' : '미션 완료 보상'}</p>
-                  </div>
-                  <span className={m.isUsed ? styles.ticketTagUsed : styles.ticketTag}>
-                    {m.isUsed ? '사용 완료' : '이용권 1장'}
-                  </span>
-                </div>
-              ))}
+                )
+              })}
             </div>
           ) : (
             <div className={styles.emptyState}>
               <span className={styles.emptyIcon}>🎟️</span>
-              <p className={styles.emptyText}>
-                미션을 완료하면 이벤트존 이용권이 자동 부여됩니다
-              </p>
+              <p className={styles.emptyText}>미션을 완료하면 이용권이 발급됩니다</p>
             </div>
           )}
         </>
