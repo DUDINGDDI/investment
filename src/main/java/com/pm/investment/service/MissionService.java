@@ -76,7 +76,8 @@ public class MissionService {
 
         return new UserMissionResponse(
                 um.getMissionId(), um.getProgress(), um.getTarget(),
-                um.getIsCompleted(), um.getAchievementRate()
+                um.getIsCompleted(), um.getAchievementRate(),
+                um.getIsUsed(), um.getUsedAt()
         );
     }
 
@@ -102,7 +103,8 @@ public class MissionService {
 
         return new UserMissionResponse(
                 um.getMissionId(), um.getProgress(), um.getTarget(),
-                um.getIsCompleted(), um.getAchievementRate()
+                um.getIsCompleted(), um.getAchievementRate(),
+                um.getIsUsed(), um.getUsedAt()
         );
     }
 
@@ -139,14 +141,39 @@ public class MissionService {
                     if (um != null) {
                         return new UserMissionResponse(
                                 um.getMissionId(), um.getProgress(), um.getTarget(),
-                                um.getIsCompleted(), um.getAchievementRate()
+                                um.getIsCompleted(), um.getAchievementRate(),
+                                um.getIsUsed(), um.getUsedAt()
                         );
                     }
                     return new UserMissionResponse(
-                            entry.getKey(), 0, entry.getValue(), false, 0.0
+                            entry.getKey(), 0, entry.getValue(), false, 0.0,
+                            false, null
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public UserMissionResponse useTicket(Long userId, String missionId) {
+        UserMission um = userMissionRepository.findByUser_IdAndMissionId(userId, missionId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 미션 기록을 찾을 수 없습니다"));
+
+        if (!um.getIsCompleted()) {
+            throw new IllegalStateException("완료되지 않은 미션입니다");
+        }
+        if (um.getIsUsed()) {
+            throw new IllegalStateException("이미 사용된 이용권입니다");
+        }
+
+        um.setIsUsed(true);
+        um.setUsedAt(LocalDateTime.now());
+        userMissionRepository.save(um);
+
+        return new UserMissionResponse(
+                um.getMissionId(), um.getProgress(), um.getTarget(),
+                um.getIsCompleted(), um.getAchievementRate(),
+                um.getIsUsed(), um.getUsedAt()
+        );
     }
 
     /**

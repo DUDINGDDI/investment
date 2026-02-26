@@ -8,6 +8,7 @@ import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
 import BadgePage from './pages/BadgePage'
 import AdminPage from './pages/AdminPage'
+import AdminTicketScanPage from './pages/AdminTicketScanPage'
 import IdeaBoardPage from './pages/IdeaBoardPage'
 import MyPage from './pages/MyPage'
 import QrPage from './pages/QrPage'
@@ -84,6 +85,7 @@ export default function App() {
           <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
         </Route>
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/ticket-scan" element={<AdminTicketScanPage />} />
         <Route path="/idea-board/:boothId" element={<IdeaBoardPage />} />
       </Routes>
       </MissionProvider>

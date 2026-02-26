@@ -174,6 +174,8 @@ export interface UserMissionResponse {
   target: number;
   isCompleted: boolean;
   achievementRate: number;
+  isUsed: boolean;
+  usedAt: string | null;
 }
 
 export interface MissionRankingItem {
