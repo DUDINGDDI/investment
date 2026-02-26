@@ -22,6 +22,7 @@ export default function LoginPage() {
     try {
       const { data } = await authApi.login({ uniqueCode: uniqueCode.trim(), name: name.trim() })
       sessionStorage.setItem('token', data.token)
+      sessionStorage.setItem('userId', String(data.userId))
       sessionStorage.setItem('userName', data.name)
       sessionStorage.setItem('userCompany', data.company || '')
       navigate('/home', { replace: true })
