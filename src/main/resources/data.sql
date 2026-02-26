@@ -143,3 +143,19 @@ INSERT INTO stock_booth_visits (user_id, stock_booth_id)
 SELECT u.id, sb.id
 FROM users u
 CROSS JOIN stock_booths sb;
+
+-- ──────────────────────────────────────────────
+-- user_missions: U001 김기범 미션 완료 (이용권)
+-- ──────────────────────────────────────────────
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at, is_used, used_at)
+SELECT u.id, m.mission_id, m.target, m.target, TRUE, CURRENT_TIMESTAMP, FALSE, NULL
+FROM users u
+CROSS JOIN (
+    SELECT 'renew' AS mission_id, 1 AS target UNION ALL
+    SELECT 'dream', 1 UNION ALL
+    SELECT 'result', 1 UNION ALL
+    SELECT 'again', 70 UNION ALL
+    SELECT 'sincere', 12 UNION ALL
+    SELECT 'together', 1
+) m
+WHERE u.unique_code = 'U001';

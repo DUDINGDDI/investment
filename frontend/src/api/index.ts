@@ -134,4 +134,6 @@ export const adminApi = {
   setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),
   clearAnnouncement: () => api.delete('/admin/announcement'),
   getBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/ratings'),
+  useTicket: (userId: number, missionId: string) =>
+    api.post<UserMissionResponse>('/admin/tickets/use', { userId, missionId }),
 };

@@ -9,6 +9,8 @@ export interface Mission {
   progress?: number
   target?: number
   icon: string
+  isUsed?: boolean
+  usedAt?: string | null
 }
 
 interface MissionContextType {
@@ -86,6 +88,8 @@ export function MissionProvider({ children }: { children: ReactNode }) {
             isCompleted: sm.isCompleted,
             progress: sm.progress,
             target: sm.target > 0 ? sm.target : m.target,
+            isUsed: sm.isUsed,
+            usedAt: sm.usedAt,
           }
         }))
       }

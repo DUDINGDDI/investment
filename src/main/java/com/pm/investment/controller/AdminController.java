@@ -3,6 +3,9 @@ package com.pm.investment.controller;
 import com.pm.investment.dto.AdminBoothRatingResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.dto.StockPriceChangeRequest;
+import com.pm.investment.dto.TicketUseRequest;
+import com.pm.investment.dto.UserMissionResponse;
+import com.pm.investment.service.MissionService;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.SettingService;
 import com.pm.investment.service.SseEmitterService;
@@ -26,6 +29,7 @@ public class AdminController {
     private final SseEmitterService sseEmitterService;
     private final StockPriceService stockPriceService;
     private final StockRatingService stockRatingService;
+    private final MissionService missionService;
 
     @GetMapping("/results/status")
     public ResponseEntity<Map<String, Boolean>> getResultsStatus() {
@@ -84,5 +88,11 @@ public class AdminController {
     @GetMapping("/ratings")
     public ResponseEntity<List<AdminBoothRatingResponse>> getBoothRatings() {
         return ResponseEntity.ok(stockRatingService.getAdminRatingResults());
+    }
+
+    @PostMapping("/tickets/use")
+    public ResponseEntity<UserMissionResponse> useTicket(@Valid @RequestBody TicketUseRequest request) {
+        UserMissionResponse response = missionService.useTicket(request.getUserId(), request.getMissionId());
+        return ResponseEntity.ok(response);
     }
 }

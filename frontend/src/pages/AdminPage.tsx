@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { adminApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { RankingResponse, AdminBoothRatingResponse } from '../types'
@@ -19,6 +20,7 @@ const SORT_OPTIONS: { key: RatingSortKey; label: string }[] = [
 ]
 
 export default function AdminPage() {
+  const navigate = useNavigate()
   const [revealed, setRevealed] = useState(false)
   const [investmentEnabled, setInvestmentEnabled] = useState(true)
   const [ranking, setRanking] = useState<RankingResponse[]>([])
@@ -179,6 +181,17 @@ export default function AdminPage() {
             현재 공지: {annCurrent}
           </p>
         )}
+      </div>
+
+      <div className={styles.controlCard}>
+        <p className={styles.statusLabel}>이용권 관리</p>
+        <p className={styles.statusDesc}>참가자의 이벤트존 이용권 QR 코드를 스캔하여 사용 처리합니다.</p>
+        <button
+          className={`${styles.toggleBtn} ${styles.revealBtn}`}
+          onClick={() => navigate('/admin/ticket-scan')}
+        >
+          이용권 스캔
+        </button>
       </div>
 
       <div className={styles.rankingSection}>

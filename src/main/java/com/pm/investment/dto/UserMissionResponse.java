@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 public class UserMissionResponse {
@@ -15,4 +17,9 @@ public class UserMissionResponse {
     private boolean isCompleted;
 
     private double achievementRate;
+
+    @JsonProperty("isUsed")
+    private boolean isUsed;
+
+    private LocalDateTime usedAt;
 }
