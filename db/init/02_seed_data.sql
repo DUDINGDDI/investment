@@ -10,9 +10,11 @@ INSERT INTO app_settings (setting_key, setting_value) VALUES ('investment_enable
 
 INSERT INTO zones (zone_code, name, floor_info, display_order) VALUES
 ('손복남홀', '손복남홀', 'INNOVATION CENTER LL', 1),
-('101', '101호', 'LEADERSHIP CENTER 1F', 2),
-('102', '102호', 'LEADERSHIP CENTER 1F', 3),
-('201', '201호', 'LEADERSHIP CENTER 2F', 4);
+('L01', 'L01', 'INNOVATION CENTER LL', 2),
+('L02', 'L02', 'INNOVATION CENTER LL', 3),
+('101', '101호', 'LEADERSHIP CENTER 1F', 4),
+('102', '102호', 'LEADERSHIP CENTER 1F', 5),
+('201', '201호', 'LEADERSHIP CENTER 2F', 6);
 
 -- ──────────────────────────────────────────────
 -- users (8명)

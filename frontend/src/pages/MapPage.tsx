@@ -7,10 +7,24 @@ import styles from './MapPage.module.css'
 type Hotspot = { zoneId: string; left: number; top: number; width: number; height: number }
 
 /** zoneCode → 지도 이미지 + 핫스팟 매핑 */
+const MAP2_HOTSPOTS: Hotspot[] = [
+  { zoneId: 'L01', left: 26, top: 11, width: 17, height: 29 },
+  { zoneId: 'L02', left: 44, top: 11, width: 16, height: 29 },
+  { zoneId: '손복남홀', left: 60, top: 25, width: 19, height: 58 },
+]
+
 const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
   '손복남홀': {
     image: '/image/map2.png',
-    hotspots: [{ zoneId: '손복남홀', left: 60, top: 25, width: 19, height: 58 }],
+    hotspots: MAP2_HOTSPOTS,
+  },
+  'L01': {
+    image: '/image/map2.png',
+    hotspots: MAP2_HOTSPOTS,
+  },
+  'L02': {
+    image: '/image/map2.png',
+    hotspots: MAP2_HOTSPOTS,
   },
   '101': {
     image: '/image/map1.png',
@@ -34,7 +48,7 @@ const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
 
 const DEFAULT_MAP_IMAGE = '/image/map2.png'
 
-const ZONE_ORDER = ['손복남홀', '101', '102', '201']
+const ZONE_ORDER = ['손복남홀', 'L01', 'L02', '101', '102', '201']
 
 const PAGE_SIZE = 10
 
@@ -105,8 +119,6 @@ export default function MapPage() {
     listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const showBoothList = displayBooths.length > 0 || searchQuery.length > 0
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -155,8 +167,7 @@ export default function MapPage() {
       </div>
 
       {/* 부스 목록 (하단) */}
-      {showBoothList && (
-        <div className={styles.boothSection}>
+      <div className={styles.boothSection}>
           <div className={styles.searchBox}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className={styles.searchIcon}>
               <circle cx="11" cy="11" r="7" stroke="var(--text-secondary)" strokeWidth="2"/>
@@ -243,11 +254,10 @@ export default function MapPage() {
             </>
           ) : (
             <div className={styles.emptyList}>
-              <p>검색 결과가 없습니다.</p>
+              <p>{searchQuery ? '검색 결과가 없습니다.' : '등록된 부스가 없습니다.'}</p>
             </div>
           )}
         </div>
-      )}
     </div>
   )
 }
