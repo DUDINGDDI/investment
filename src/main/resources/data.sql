@@ -36,7 +36,7 @@ INSERT INTO users (unique_code, name, company, balance, belonging_booth_id) VALU
 ('U002', '정민창', 'CJ대한통운', 100000000, NULL),
 ('U003', '오현지', 'CJ ENM', 100000000, NULL),
 ('U004', '임정한', 'CJ올리브영', 100000000, NULL),
-('U005', '박현지', 'CJ프레시웨이', 100000000, NULL),
+('U005', '박민지', 'CJ프레시웨이', 100000000, NULL),
 ('U006', '신예린', 'CJ제일제당', 100000000, NULL),
 ('U007', '엄지윤', 'CJ대한통운', 100000000, NULL),
 ('U008', '문선우', 'CJ ENM', 100000000, NULL);

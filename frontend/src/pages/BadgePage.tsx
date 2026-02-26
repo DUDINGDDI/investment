@@ -30,6 +30,41 @@ function ProgressBar({ progress, target }: { progress: number; target: number })
   )
 }
 
+/** 정량 측정 가능한 미션 ID */
+const QUANTITATIVE_IDS = new Set(['renew', 'dream', 'again', 'sincere'])
+
+/** 미션별 수치 단위 */
+const MISSION_UNIT: Record<string, string> = {
+  renew: '회',
+  dream: '회',
+  again: '명',
+  sincere: '회',
+}
+
+function MiniProgressBar({ mission }: { mission: Mission }) {
+  const progress = mission.progress ?? 0
+  const target = mission.target ?? 1
+  const pct = Math.min((progress / target) * 100, 100)
+  const unit = MISSION_UNIT[mission.id] || ''
+
+  return (
+    <div className={styles.miniProgressGroup}>
+      <span className={`${styles.miniProgressLabel} ${mission.isCompleted ? styles.miniProgressLabelComplete : ''}`}>
+        {QUANTITATIVE_IDS.has(mission.id)
+          ? `${progress}/${target}${unit}`
+          : mission.isCompleted ? '완료' : `${Math.round(pct)}%`
+        }
+      </span>
+      <div className={styles.miniProgressTrack}>
+        <div
+          className={`${styles.miniProgressFill} ${mission.isCompleted ? styles.miniProgressComplete : ''}`}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  )
+}
+
 // 인덱스 기반 결정적 의사 난수 생성 (컴포넌트 순수성 유지)
 function seededRandom(seed: number) {
   const x = Math.sin(seed + 1) * 10000
@@ -64,16 +99,6 @@ function RankChangeIndicator({ change }: { change: number }) {
     return <span className={styles.rankUp}>▲{change}</span>
   }
   return <span className={styles.rankDown}>▼{Math.abs(change)}</span>
-}
-
-/** 정량 측정 가능한 미션 ID */
-const QUANTITATIVE_IDS = new Set(['renew', 'again', 'sincere'])
-
-/** 미션별 수치 단위 */
-const MISSION_UNIT: Record<string, string> = {
-  renew: '회',
-  again: '명',
-  sincere: '회',
 }
 
 export default function BadgePage() {
@@ -146,15 +171,6 @@ export default function BadgePage() {
   const top3 = rankings.slice(0, 3)
   const rest = rankings.slice(3)
 
-  /** 배지 아래 표시할 라벨 */
-  const getBadgeLabel = (mission: Mission) => {
-    if (QUANTITATIVE_IDS.has(mission.id)) {
-      const unit = MISSION_UNIT[mission.id] || ''
-      return `${mission.progress ?? 0}${unit}`
-    }
-    return mission.title
-  }
-
   return (
     <div className={styles.container}>
       {/* 프로필 영역 */}
@@ -193,8 +209,11 @@ export default function BadgePage() {
                   style={{ animationDelay: `${i * 0.08}s` }}
                   onClick={() => handleBadgeTap(mission)}
                 >
-                  <BadgeImage mission={mission} />
-                  <span className={styles.chip}>{getBadgeLabel(mission)}</span>
+                  <div className={styles.badgeWrap}>
+                    <BadgeImage mission={mission} />
+                    <MiniProgressBar mission={mission} />
+                  </div>
+                  <span className={styles.chip}>{mission.title}</span>
                 </button>
               ))}
             </div>
@@ -209,8 +228,11 @@ export default function BadgePage() {
                   style={{ animationDelay: `${(i + 3) * 0.08}s` }}
                   onClick={() => handleBadgeTap(mission)}
                 >
-                  <BadgeImage mission={mission} />
-                  <span className={styles.chip}>{getBadgeLabel(mission)}</span>
+                  <div className={styles.badgeWrap}>
+                    <BadgeImage mission={mission} />
+                    <MiniProgressBar mission={mission} />
+                  </div>
+                  <span className={styles.chip}>{mission.title}</span>
                 </button>
               ))}
             </div>
