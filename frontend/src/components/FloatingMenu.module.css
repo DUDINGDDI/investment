@@ -7,6 +7,7 @@
   align-items: flex-end;
   gap: 10px;
   z-index: 90;
+  pointer-events: none;
 }
 
 /* 서브 버튼 래퍼 */
@@ -32,6 +33,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  pointer-events: auto;
 }
 
 /* 라벨 */
@@ -98,6 +100,7 @@
   box-shadow: 0 4px 12px rgba(245, 200, 66, 0.35);
   transition: transform 0.2s ease, background 0.2s ease;
   align-self: flex-end;
+  pointer-events: auto;
 }
 
 .mainButton:active {
