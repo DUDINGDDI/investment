@@ -520,11 +520,6 @@ export default function MyPage() {
                       alt={imgInfo.label}
                       className={styles.ticketFullImg}
                     />
-                    {isUsed && (
-                      <div className={styles.ticketUsedOverlay}>
-                        <span className={styles.ticketUsedStamp}>사용완료</span>
-                      </div>
-                    )}
                   </div>
                 )
               })}

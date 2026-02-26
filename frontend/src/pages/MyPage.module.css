@@ -137,15 +137,16 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 .ticketImageCard {
   position: relative;
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease;
-  /* SVG viewBox 750x500 중 상하 여백 제거 */
   aspect-ratio: 750 / 220;
 }
 
