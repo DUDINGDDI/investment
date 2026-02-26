@@ -22,11 +22,8 @@ public class UserService {
 
     @Transactional
     public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByUniqueCode(request.getUniqueCode())
-                .orElseGet(() -> {
-                    User newUser = new User(request.getUniqueCode(), request.getName());
-                    return userRepository.save(newUser);
-                });
+        User user = userRepository.findByUniqueCodeAndName(request.getUniqueCode(), request.getName())
+                .orElseThrow(() -> new IllegalArgumentException("사번 또는 이름이 올바르지 않습니다"));
 
         // StockAccount가 없으면 자동 생성
         if (stockAccountRepository.findByUserId(user.getId()).isEmpty()) {
