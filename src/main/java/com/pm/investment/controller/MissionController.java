@@ -2,6 +2,7 @@ package com.pm.investment.controller;
 
 import com.pm.investment.dto.MissionProgressRequest;
 import com.pm.investment.dto.UserMissionResponse;
+import com.pm.investment.dto.VisitRequest;
 import com.pm.investment.service.MissionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -39,6 +40,14 @@ public class MissionController {
             @Valid @RequestBody MissionProgressRequest body) {
         Long userId = (Long) request.getAttribute("userId");
         return ResponseEntity.ok(missionService.completeMission(userId, body.getMissionId()));
+    }
+
+    @PostMapping("/together")
+    public ResponseEntity<UserMissionResponse> completeTogetherMission(
+            HttpServletRequest request,
+            @Valid @RequestBody VisitRequest body) {
+        Long userId = (Long) request.getAttribute("userId");
+        return ResponseEntity.ok(missionService.completeTogetherMission(userId, body.getBoothUuid()));
     }
 
     @GetMapping("/ranking")

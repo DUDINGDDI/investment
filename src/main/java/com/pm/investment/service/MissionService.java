@@ -2,8 +2,10 @@ package com.pm.investment.service;
 
 import com.pm.investment.dto.MissionRankingResponse;
 import com.pm.investment.dto.UserMissionResponse;
+import com.pm.investment.entity.StockAccount;
 import com.pm.investment.entity.User;
 import com.pm.investment.entity.UserMission;
+import com.pm.investment.repository.StockAccountRepository;
 import com.pm.investment.repository.UserMissionRepository;
 import com.pm.investment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,10 @@ public class MissionService {
 
     private final UserMissionRepository userMissionRepository;
     private final UserRepository userRepository;
+    private final StockAccountRepository stockAccountRepository;
+
+    /** 함께하는 하고잡이 미션 전용 고정 UUID */
+    private static final String TOGETHER_SPACE_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
 
     /** 랭킹 스냅샷: missionId → (userId → 이전 순위). 조회 시마다 갱신 */
     private final Map<String, Map<Long, Integer>> previousRankSnapshots = new ConcurrentHashMap<>();
@@ -100,6 +106,27 @@ public class MissionService {
                 um.getIsCompleted(), um.getAchievementRate(),
                 um.getIsUsed(), um.getUsedAt()
         );
+    }
+
+    @Transactional
+    public UserMissionResponse completeTogetherMission(Long userId, String scannedUuid) {
+        if (!TOGETHER_SPACE_UUID.equalsIgnoreCase(scannedUuid)) {
+            throw new IllegalArgumentException("유효하지 않은 QR 코드입니다");
+        }
+
+        Optional<UserMission> existing = userMissionRepository.findByUser_IdAndMissionId(userId, "together");
+        if (existing.isPresent() && existing.get().getIsCompleted()) {
+            throw new IllegalStateException("이미 완료한 미션입니다");
+        }
+
+        UserMissionResponse response = completeMission(userId, "together");
+
+        StockAccount account = stockAccountRepository.findByUserIdWithLock(userId)
+                .orElseThrow(() -> new IllegalArgumentException("주식 계좌를 찾을 수 없습니다"));
+        account.setBalance(account.getBalance() + 100_000_000L);
+        stockAccountRepository.save(account);
+
+        return response;
     }
 
     @Transactional(readOnly = true)

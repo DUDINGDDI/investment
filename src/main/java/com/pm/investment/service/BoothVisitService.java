@@ -30,6 +30,10 @@ public class BoothVisitService {
         Booth booth = boothRepository.findByBoothUuid(boothUuid)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 QR 코드입니다"));
 
+        if (user.getBelongingBooth() != null && user.getBelongingBooth().getId().equals(booth.getId())) {
+            throw new IllegalStateException("자신이 소속된 부스는 방문 기록할 수 없습니다");
+        }
+
         if (boothVisitRepository.existsByUserIdAndBoothId(userId, booth.getId())) {
             throw new IllegalStateException("이미 방문한 부스입니다");
         }
