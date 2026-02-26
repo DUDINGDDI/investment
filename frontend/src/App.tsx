@@ -8,6 +8,7 @@ import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
 import BadgePage from './pages/BadgePage'
 import AdminPage from './pages/AdminPage'
+import IdeaBoardPage from './pages/IdeaBoardPage'
 import MyPage from './pages/MyPage'
 import QrPage from './pages/QrPage'
 import ZoneBoothListPage from './pages/ZoneBoothListPage'
@@ -83,6 +84,7 @@ export default function App() {
           <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
         </Route>
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/idea-board/:boothId" element={<IdeaBoardPage />} />
       </Routes>
       </MissionProvider>
     </ToastProvider>
