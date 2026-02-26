@@ -632,6 +632,10 @@
   justify-content: center;
 }
 
+.star:active {
+  transform: none !important;
+}
+
 .star:hover:not(:disabled) {
   opacity: 0.8;
 }

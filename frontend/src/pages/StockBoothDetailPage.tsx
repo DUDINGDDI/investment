@@ -577,9 +577,9 @@ export default function StockBoothDetailPage() {
                       {[1, 2, 3, 4, 5].map(star => (
                         <button
                           key={star}
+                          type="button"
                           className={`${styles.star} ${ratingScores[key] >= star ? styles.starActive : ''}`}
-                          onPointerDown={(e) => {
-                            e.preventDefault()
+                          onClick={() => {
                             if (!myRating || isEditingRating) {
                               setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))
                             }
