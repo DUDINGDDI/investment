@@ -1,5 +1,6 @@
 package com.pm.investment.service;
 
+import com.pm.investment.dto.CospiResponse;
 import com.pm.investment.dto.StockAccountResponse;
 import com.pm.investment.dto.StockHoldingResponse;
 import com.pm.investment.dto.StockTradeHistoryResponse;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +18,8 @@ import java.util.List;
 public class StockService {
 
     private static final long TRADE_UNIT = 10_000_000L;
+
+    private volatile CospiResponse cospiCache;
 
     private final StockAccountRepository stockAccountRepository;
     private final StockBoothRepository stockBoothRepository;
@@ -57,6 +61,7 @@ public class StockService {
         stockTradeHistoryRepository.save(
                 new StockTradeHistory(account.getUser(), stockBooth, StockTradeHistory.TradeType.BUY, amount, 0L, account.getBalance())
         );
+        cospiCache = null;
     }
 
     @Transactional
@@ -83,6 +88,7 @@ public class StockService {
         stockTradeHistoryRepository.save(
                 new StockTradeHistory(account.getUser(), stockBooth, StockTradeHistory.TradeType.SELL, amount, 0L, account.getBalance())
         );
+        cospiCache = null;
     }
 
     @Transactional(readOnly = true)
@@ -147,6 +153,55 @@ public class StockService {
                 .userId(userId)
                 .balance(account.getBalance())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public CospiResponse getCospiData() {
+        CospiResponse cached = cospiCache;
+        if (cached != null) {
+            return cached;
+        }
+
+        List<StockTradeHistory> trades = stockTradeHistoryRepository.findAllByOrderByCreatedAtAsc();
+
+        List<CospiResponse.CospiPoint> history = new ArrayList<>();
+        long cumulative = 0;
+
+        // 초기 포인트 (0)
+        if (!trades.isEmpty()) {
+            history.add(CospiResponse.CospiPoint.builder()
+                    .price(0L)
+                    .changedAt(trades.get(0).getCreatedAt().minusSeconds(1))
+                    .build());
+        }
+
+        for (StockTradeHistory trade : trades) {
+            if (trade.getType() == StockTradeHistory.TradeType.BUY) {
+                cumulative += trade.getAmount();
+            } else {
+                cumulative -= trade.getAmount();
+            }
+            history.add(CospiResponse.CospiPoint.builder()
+                    .price(cumulative)
+                    .changedAt(trade.getCreatedAt())
+                    .build());
+        }
+
+        long currentTotal = cumulative;
+        long previousTotal = history.size() >= 2 ? history.get(history.size() - 2).getPrice() : 0;
+        long change = currentTotal - previousTotal;
+        double changeRate = previousTotal != 0 ? (double) change / previousTotal * 100 : 0;
+
+        CospiResponse result = CospiResponse.builder()
+                .currentTotal(currentTotal)
+                .previousTotal(previousTotal)
+                .change(change)
+                .changeRate(Math.round(changeRate * 100.0) / 100.0)
+                .history(history)
+                .build();
+
+        cospiCache = result;
+        return result;
     }
 
     private void validateVisitAndRating(Long userId, Long boothId) {

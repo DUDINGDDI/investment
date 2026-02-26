@@ -17,6 +17,7 @@ import type {
   StockAccountResponse,
   StockBoothResponse,
   StockPriceHistoryResponse,
+  CospiResponse,
   StockCommentResponse,
   UserMissionResponse,
   MissionRankingData,
@@ -85,6 +86,7 @@ export const stockApi = {
   getMyRating: (boothId: number) => api.get<StockRatingResponse>(`/stocks/booths/${boothId}/rating`),
   getBoothReviews: (boothId: number) => api.get<BoothReviewResponse[]>(`/stocks/booths/${boothId}/reviews`),
   deleteReview: (boothId: number) => api.delete(`/stocks/booths/${boothId}/rating/review`),
+  getCospi: () => api.get<CospiResponse>('/stocks/cospi'),
 };
 
 export const missionApi = {

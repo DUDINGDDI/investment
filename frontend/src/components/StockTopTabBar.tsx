@@ -7,6 +7,7 @@ import styles from './StockTopTabBar.module.css'
 const tabs = [
   { path: '/stocks', label: '홈' },
   { path: '/stocks/booths', label: '종목' },
+  { path: '/stocks/cospi', label: 'COSPI' },
   { path: '/stocks/history', label: '이력' },
 ]
 

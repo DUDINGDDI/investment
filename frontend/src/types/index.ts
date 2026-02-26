@@ -137,6 +137,19 @@ export interface StockTradeRequest {
   amount: number;
 }
 
+export interface CospiPoint {
+  price: number;
+  changedAt: string;
+}
+
+export interface CospiResponse {
+  currentTotal: number;
+  previousTotal: number;
+  change: number;
+  changeRate: number;
+  history: CospiPoint[];
+}
+
 export interface StockPricePoint {
   price: number;
   changedAt: string;

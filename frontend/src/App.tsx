@@ -17,6 +17,7 @@ import StockHomePage from './pages/StockHomePage'
 import StockBoothListPage from './pages/StockBoothListPage'
 import StockBoothDetailPage from './pages/StockBoothDetailPage'
 import StockHistoryPage from './pages/StockHistoryPage'
+import CospiPage from './pages/CospiPage'
 import TopTabBar from './components/TopTabBar'
 import StockTopTabBar from './components/StockTopTabBar'
 import FloatingMenu from './components/FloatingMenu'
@@ -80,6 +81,7 @@ export default function App() {
           <Route element={<WithStockTopTabBar />}>
             <Route path="/stocks" element={<StockHomePage />} />
             <Route path="/stocks/booths" element={<StockBoothListPage />} />
+            <Route path="/stocks/cospi" element={<CospiPage />} />
             <Route path="/stocks/history" element={<StockHistoryPage />} />
           </Route>
           <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />

@@ -62,6 +62,11 @@ public class StockController {
         return ResponseEntity.ok(stockService.getMyAccount(userId));
     }
 
+    @GetMapping("/cospi")
+    public ResponseEntity<CospiResponse> getCospi() {
+        return ResponseEntity.ok(stockService.getCospiData());
+    }
+
     @GetMapping("/booths")
     public ResponseEntity<List<StockBoothResponse>> getAllStockBooths(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
