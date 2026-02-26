@@ -9,6 +9,7 @@ public class MissionRankingResponse {
     private int rank;
     private Long userId;
     private String name;
+    private String company;
     private int progress;
     private int rankChange;
 }

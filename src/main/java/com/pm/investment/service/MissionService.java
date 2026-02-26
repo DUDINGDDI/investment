@@ -150,6 +150,7 @@ public class MissionService {
                     rank,
                     um.getUser().getId(),
                     um.getUser().getName(),
+                    um.getUser().getCompany(),
                     um.getProgress(),
                     rankChange
             ));

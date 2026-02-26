@@ -13,8 +13,10 @@ public class NoteResponse {
     private Long id;
     private Long senderId;
     private String senderName;
+    private String senderCompany;
     private Long receiverId;
     private String receiverName;
+    private String receiverCompany;
     private String content;
     private Boolean isRead;
     private LocalDateTime createdAt;

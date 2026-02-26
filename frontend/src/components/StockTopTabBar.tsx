@@ -16,6 +16,7 @@ export default function StockTopTabBar() {
   const [balance, setBalance] = useState<number | null>(null)
   const [totalHolding, setTotalHolding] = useState(0)
   const userName = sessionStorage.getItem('userName') || ''
+  const userCompany = sessionStorage.getItem('userCompany') || ''
 
   const fetchData = useCallback(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -48,7 +49,7 @@ export default function StockTopTabBar() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <p className={styles.greeting}>{userName}님의 주식</p>
+        <p className={styles.greeting}>{userCompany ? `${userCompany} · ` : ''}{userName}님의 주식</p>
         <p className={styles.balanceValue}>
           {balance !== null ? formatKorean(balance) : '-'}
           <span className={styles.unit}> 원</span>

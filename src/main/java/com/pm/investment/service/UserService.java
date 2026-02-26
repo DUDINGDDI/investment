@@ -36,14 +36,14 @@ public class UserService {
 
         String token = generateToken(user.getId());
 
-        return new LoginResponse(user.getId(), user.getName(), user.getBalance(), token);
+        return new LoginResponse(user.getId(), user.getName(), user.getCompany(), user.getBalance(), token);
     }
 
     @Transactional(readOnly = true)
     public UserResponse getUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
-        return new UserResponse(user.getId(), user.getUniqueCode(), user.getName(), user.getBalance());
+        return new UserResponse(user.getId(), user.getUniqueCode(), user.getName(), user.getCompany(), user.getBalance());
     }
 
     @Transactional(readOnly = true)

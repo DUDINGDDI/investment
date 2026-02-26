@@ -8,6 +8,7 @@ import styles from './MyPage.module.css'
 export default function MyPage() {
   const navigate = useNavigate()
   const userName = sessionStorage.getItem('userName') || ''
+  const userCompany = sessionStorage.getItem('userCompany') || ''
   const [activeTab, setActiveTab] = useState<'visits' | 'tickets' | 'mybooth'>('visits')
   const [visits, setVisits] = useState<BoothVisitResponse[]>([])
   const [visitsLoaded, setVisitsLoaded] = useState(false)
@@ -40,7 +41,7 @@ export default function MyPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>마이페이지</h2>
-        <p className={styles.subtitle}>{userName}님, 안녕하세요</p>
+        <p className={styles.subtitle}>{userCompany ? `${userCompany} · ` : ''}{userName}님, 안녕하세요</p>
       </div>
 
       <div className={styles.tabBar}>

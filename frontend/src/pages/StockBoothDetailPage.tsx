@@ -488,7 +488,7 @@ export default function StockBoothDetailPage() {
                     }}
                   >
                     <div className={styles.commentHeader}>
-                      <span className={styles.commentAuthor}>{comment.userName}</span>
+                      <span className={styles.commentAuthor}>{comment.userName}{comment.userCompany ? ` · ${comment.userCompany}` : ''}</span>
                       <span className={styles.commentTime}>{formatCommentTime(comment.createdAt)}</span>
                     </div>
                     <span
@@ -507,46 +507,54 @@ export default function StockBoothDetailPage() {
             </div>
 
             {/* 입력 영역 */}
-            <div className={styles.commentInputArea}>
-              <div className={styles.inputTagRow}>
-                {TAG_CONFIG.map(tag => (
+            {!booth.hasVisited ? (
+              <div className={styles.commentInputLocked}>
+                <span className={styles.lockIcon}>&#x1F512;</span>
+                <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
+                <p className={styles.lockHint}>QR 코드를 스캔하여 방문을 기록하세요</p>
+              </div>
+            ) : (
+              <div className={styles.commentInputArea}>
+                <div className={styles.inputTagRow}>
+                  {TAG_CONFIG.map(tag => (
+                    <button
+                      key={tag.key}
+                      className={`${styles.inputTagChip} ${inputTag === tag.key ? styles.inputTagChipActive : ''}`}
+                      onClick={() => setInputTag(tag.key)}
+                      style={inputTag === tag.key
+                        ? { borderColor: tag.color, background: tag.color + '20', color: tag.color }
+                        : {}
+                      }
+                    >
+                      {tag.label}
+                    </button>
+                  ))}
+                </div>
+                <div className={styles.inputRow}>
+                  <textarea
+                    className={styles.commentTextarea}
+                    placeholder="이 아이디어의 개선 아이디어를 제안해주세요."
+                    value={commentInput}
+                    onChange={e => setCommentInput(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        handleAddComment()
+                      }
+                    }}
+                    disabled={submitting}
+                    rows={1}
+                  />
                   <button
-                    key={tag.key}
-                    className={`${styles.inputTagChip} ${inputTag === tag.key ? styles.inputTagChipActive : ''}`}
-                    onClick={() => setInputTag(tag.key)}
-                    style={inputTag === tag.key
-                      ? { borderColor: tag.color, background: tag.color + '20', color: tag.color }
-                      : {}
-                    }
+                    className={styles.commentSendBtn}
+                    onClick={handleAddComment}
+                    disabled={!commentInput.trim() || submitting}
                   >
-                    {tag.label}
+                    제안
                   </button>
-                ))}
+                </div>
               </div>
-              <div className={styles.inputRow}>
-                <textarea
-                  className={styles.commentTextarea}
-                  placeholder="이 아이디어의 개선 아이디어를 제안해주세요."
-                  value={commentInput}
-                  onChange={e => setCommentInput(e.target.value)}
-                  onKeyDown={e => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault()
-                      handleAddComment()
-                    }
-                  }}
-                  disabled={submitting}
-                  rows={1}
-                />
-                <button
-                  className={styles.commentSendBtn}
-                  onClick={handleAddComment}
-                  disabled={!commentInput.trim() || submitting}
-                >
-                  제안
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         )}
 
@@ -662,7 +670,7 @@ export default function StockBoothDetailPage() {
                       >
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                           <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary, #E8E8ED)' }}>
-                            {r.userName}
+                            {r.userName}{r.userCompany ? ` · ${r.userCompany}` : ''}
                           </span>
                           <span style={{ fontSize: '11px', color: 'var(--text-tertiary, #5C5C66)' }}>
                             {formatCommentTime(r.updatedAt)}

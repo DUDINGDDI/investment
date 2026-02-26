@@ -23,6 +23,7 @@ export default function LoginPage() {
       const { data } = await authApi.login({ uniqueCode: uniqueCode.trim(), name: name.trim() })
       sessionStorage.setItem('token', data.token)
       sessionStorage.setItem('userName', data.name)
+      sessionStorage.setItem('userCompany', data.company || '')
       navigate('/home', { replace: true })
     } catch {
       showToast('로그인에 실패했습니다', 'error')

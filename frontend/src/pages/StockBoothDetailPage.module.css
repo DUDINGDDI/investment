@@ -465,6 +465,18 @@
   color: var(--text-disabled);
 }
 
+/* 입력 잠금 (미방문) */
+.commentInputLocked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  margin-top: 12px;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
 /* 입력 영역 */
 .commentInputArea {
   margin-top: 12px;

@@ -30,6 +30,7 @@ export default function AppHeader() {
   const handleLogout = () => {
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('userName')
+    sessionStorage.removeItem('userCompany')
     navigate('/')
   }
 

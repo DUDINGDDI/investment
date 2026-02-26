@@ -10,6 +10,7 @@ CREATE TABLE users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     unique_code VARCHAR(20) NOT NULL UNIQUE COMMENT '학번/사번 등 고유 코드',
     name VARCHAR(50) NOT NULL COMMENT '사용자 이름',
+    company VARCHAR(100) NULL COMMENT '계열사',
     balance BIGINT NOT NULL DEFAULT 100000000 COMMENT '보유 코인 잔액',
     belonging_booth_id BIGINT NULL COMMENT '소속 부스 ID',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

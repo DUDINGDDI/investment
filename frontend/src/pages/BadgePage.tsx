@@ -291,7 +291,7 @@ export default function BadgePage() {
                       <div className={styles.podiumAvatar}>
                         {item.name.charAt(0)}
                       </div>
-                      <p className={styles.podiumName}>{item.name}</p>
+                      <p className={styles.podiumName}>{item.name}{item.company ? ` · ${item.company}` : ''}</p>
                       <div className={styles.podiumScoreRow}>
                         <span className={styles.podiumRate}>{item.progress}</span>
                         <span className={styles.podiumRateUnit}>{currentUnit}</span>
@@ -320,7 +320,7 @@ export default function BadgePage() {
                         {item.name.charAt(0)}
                       </div>
                       <div className={styles.rankListInfo}>
-                        <p className={styles.rankListName}>{item.name}</p>
+                        <p className={styles.rankListName}>{item.name}{item.company ? ` · ${item.company}` : ''}</p>
                       </div>
                       <div className={styles.rankListScoreArea}>
                         <span className={styles.rankListRate}>{item.progress}{currentUnit}</span>

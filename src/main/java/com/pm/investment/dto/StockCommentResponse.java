@@ -13,6 +13,7 @@ public class StockCommentResponse {
     private Long id;
     private Long userId;
     private String userName;
+    private String userCompany;
     private String content;
     private String tag;
     private LocalDateTime createdAt;

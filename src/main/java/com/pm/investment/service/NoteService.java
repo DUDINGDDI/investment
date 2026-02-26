@@ -74,6 +74,7 @@ public class NoteService {
                 .map(u -> UserSearchResponse.builder()
                         .userId(u.getId())
                         .name(u.getName())
+                        .company(u.getCompany())
                         .uniqueCode(u.getUniqueCode())
                         .build())
                 .toList();
@@ -84,8 +85,10 @@ public class NoteService {
                 .id(note.getId())
                 .senderId(note.getSender().getId())
                 .senderName(note.getSender().getName())
+                .senderCompany(note.getSender().getCompany())
                 .receiverId(note.getReceiver().getId())
                 .receiverName(note.getReceiver().getName())
+                .receiverCompany(note.getReceiver().getCompany())
                 .content(note.getContent())
                 .isRead(note.getIsRead())
                 .createdAt(note.getCreatedAt())

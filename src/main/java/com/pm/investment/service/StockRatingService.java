@@ -78,6 +78,7 @@ public class StockRatingService {
                         .id(r.getId())
                         .userId(r.getUser().getId())
                         .userName(r.getUser().getName())
+                        .userCompany(r.getUser().getCompany())
                         .review(r.getReview())
                         .updatedAt(r.getUpdatedAt())
                         .build())

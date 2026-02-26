@@ -6,6 +6,7 @@ export interface LoginRequest {
 export interface LoginResponse {
   userId: number;
   name: string;
+  company: string | null;
   balance: number;
   token: string;
 }
@@ -14,6 +15,7 @@ export interface UserResponse {
   userId: number;
   uniqueCode: string;
   name: string;
+  company: string | null;
   balance: number;
 }
 
@@ -151,6 +153,7 @@ export interface StockCommentResponse {
   id: number;
   userId: number;
   userName: string;
+  userCompany: string | null;
   content: string;
   tag: string;
   createdAt: string;
@@ -168,6 +171,7 @@ export interface MissionRankingItem {
   rank: number;
   userId: number;
   name: string;
+  company: string | null;
   progress: number;
   rankChange: number;
 }
@@ -242,6 +246,7 @@ export interface BoothReviewResponse {
   id: number;
   userId: number;
   userName: string;
+  userCompany: string | null;
   review: string;
   updatedAt: string;
 }
@@ -256,8 +261,10 @@ export interface NoteResponse {
   id: number;
   senderId: number;
   senderName: string;
+  senderCompany: string | null;
   receiverId: number;
   receiverName: string;
+  receiverCompany: string | null;
   content: string;
   isRead: boolean;
   createdAt: string;
@@ -266,5 +273,6 @@ export interface NoteResponse {
 export interface UserSearchResponse {
   userId: number;
   name: string;
+  company: string | null;
   uniqueCode: string;
 }
