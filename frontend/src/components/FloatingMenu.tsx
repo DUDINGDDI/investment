@@ -3,23 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { resultApi } from '../api'
 import styles from './FloatingMenu.module.css'
 
-const qrItem = {
-  label: 'QR',
-  path: '/qr',
-  icon: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
-      <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
-      <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
-      <rect x="16" y="16" width="3" height="3" fill="white" />
-      <rect x="14" y="14" width="2" height="2" fill="white" />
-      <rect x="19" y="14" width="2" height="2" fill="white" />
-      <rect x="14" y="19" width="2" height="2" fill="white" />
-    </svg>
-  ),
-  isActive: (p: string) => p === '/qr',
-}
-
 const menuItems = [
   {
     label: '마이',
@@ -92,19 +75,7 @@ export default function FloatingMenu() {
 
   return (
     <div className={styles.container}>
-      {/* QR — 항상 보이고, 메뉴 열리면 위로 밀려 올라감 */}
-      <div className={styles.qrRow}>
-        <span className={styles.qrLabel}>{qrItem.label}</span>
-        <button
-          className={`${styles.subButton} ${qrItem.isActive(location.pathname) ? styles.subButtonActive : ''}`}
-          onClick={() => handleNavigate(qrItem.path)}
-          aria-label={qrItem.label}
-        >
-          {qrItem.icon}
-        </button>
-      </div>
-
-      {/* 서브 메뉴 — QR과 메인 버튼 사이에서 펼쳐짐 */}
+      {/* 서브 메뉴 */}
       <div className={`${styles.subButtons} ${open ? styles.subButtonsOpen : ''}`}>
         <div className={styles.subInner}>
           {visibleMenuItems.map((item) => (

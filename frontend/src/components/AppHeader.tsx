@@ -37,6 +37,17 @@ export default function AppHeader() {
         </button>
         <img src={cjLogo} alt="CJ" className={styles.logo} />
         <h1 className={styles.title}>ONLYONE FAIR</h1>
+        <button className={styles.noteBtn} onClick={() => navigate('/qr')} aria-label="QR">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke="var(--text-primary)" strokeWidth="2" />
+            <rect x="14" y="3" width="7" height="7" rx="1" stroke="var(--text-primary)" strokeWidth="2" />
+            <rect x="3" y="14" width="7" height="7" rx="1" stroke="var(--text-primary)" strokeWidth="2" />
+            <rect x="16" y="16" width="3" height="3" fill="var(--text-primary)" />
+            <rect x="14" y="14" width="2" height="2" fill="var(--text-primary)" />
+            <rect x="19" y="14" width="2" height="2" fill="var(--text-primary)" />
+            <rect x="14" y="19" width="2" height="2" fill="var(--text-primary)" />
+          </svg>
+        </button>
         <button className={styles.noteBtn} onClick={() => setNoteOpen(true)} aria-label="쪽지">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="var(--text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
