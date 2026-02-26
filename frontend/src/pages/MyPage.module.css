@@ -219,6 +219,46 @@
   margin-top: 4px;
 }
 
+/* 메모 리스트 */
+.memoList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 메모 카드 */
+.memoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.memoCard:active {
+  background: var(--bg-primary);
+}
+
+.memoCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.memoText {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 /* 빈 상태 */
 .emptyState {
   display: flex;

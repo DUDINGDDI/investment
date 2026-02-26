@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { visitApi, userApi } from '../api'
+import { visitApi, userApi, stockApi } from '../api'
 import { useMissions } from '../components/MissionContext'
-import type { BoothVisitResponse, MyBoothVisitorResponse } from '../types'
+import type { BoothVisitResponse, MyBoothVisitorResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
 
 export default function MyPage() {
   const navigate = useNavigate()
   const userName = sessionStorage.getItem('userName') || ''
   const userCompany = sessionStorage.getItem('userCompany') || ''
-  const [activeTab, setActiveTab] = useState<'visits' | 'tickets' | 'mybooth'>('visits')
+  const [activeTab, setActiveTab] = useState<'visits' | 'tickets' | 'mybooth' | 'memos'>('visits')
   const [visits, setVisits] = useState<BoothVisitResponse[]>([])
   const [visitsLoaded, setVisitsLoaded] = useState(false)
   const [boothVisitors, setBoothVisitors] = useState<MyBoothVisitorResponse | null>(null)
   const [boothVisitorsLoaded, setBoothVisitorsLoaded] = useState(false)
   const { missions } = useMissions()
+  const [memos, setMemos] = useState<{ boothId: number; boothName: string; logoEmoji: string; memo: string }[]>([])
+  const [memosLoaded, setMemosLoaded] = useState(false)
 
   useEffect(() => {
     if (activeTab === 'visits' && !visitsLoaded) {
@@ -33,6 +35,22 @@ export default function MyPage() {
       }).catch(() => setBoothVisitorsLoaded(true))
     }
   }, [activeTab, boothVisitorsLoaded])
+
+  useEffect(() => {
+    if (activeTab === 'memos' && !memosLoaded) {
+      stockApi.getBooths().then(res => {
+        const boothList: StockBoothResponse[] = res.data
+        const memoList = boothList
+          .map(b => {
+            const memo = localStorage.getItem(`stock_memo_${b.id}`) || ''
+            return { boothId: b.id, boothName: b.name, logoEmoji: b.logoEmoji, memo }
+          })
+          .filter(m => m.memo)
+        setMemos(memoList)
+        setMemosLoaded(true)
+      }).catch(() => setMemosLoaded(true))
+    }
+  }, [activeTab, memosLoaded])
 
   const completedMissions = missions.filter(m => m.isCompleted)
   const ticketCount = completedMissions.length
@@ -57,6 +75,12 @@ export default function MyPage() {
         >
           이벤트존 이용권
           {ticketCount > 0 && <span className={styles.ticketBadge}>{ticketCount}</span>}
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'memos' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('memos')}
+        >
+          메모
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'mybooth' ? styles.tabActive : ''}`}
@@ -128,6 +152,36 @@ export default function MyPage() {
               <p className={styles.emptyText}>
                 미션을 완료하면 이벤트존 이용권이 자동 부여됩니다
               </p>
+            </div>
+          )}
+        </>
+      )}
+
+      {activeTab === 'memos' && (
+        <>
+          {memos.length > 0 ? (
+            <div className={styles.memoList}>
+              {memos.map((m, i) => (
+                <div
+                  key={m.boothId}
+                  className={`${styles.memoCard} stagger-item`}
+                  style={{ animationDelay: `${i * 0.04}s` }}
+                  onClick={() => navigate(`/stocks/booths/${m.boothId}`)}
+                >
+                  <div className={styles.memoCardHeader}>
+                    <div className={styles.cardIcon}>
+                      <span>{m.logoEmoji}</span>
+                    </div>
+                    <p className={styles.cardName}>{m.boothName}</p>
+                  </div>
+                  <p className={styles.memoText}>{m.memo}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <span className={styles.emptyIcon}>📝</span>
+              <p className={styles.emptyText}>작성한 메모가 없습니다</p>
             </div>
           )}
         </>
