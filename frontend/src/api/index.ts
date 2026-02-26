@@ -92,6 +92,8 @@ export const missionApi = {
     api.post<UserMissionResponse>('/missions/progress', { missionId, progress }),
   completeMission: (missionId: string) =>
     api.post<UserMissionResponse>('/missions/complete', { missionId }),
+  completeTogether: (uuid: string) =>
+    api.post<UserMissionResponse>('/missions/together', { boothUuid: uuid }),
   getRanking: (missionId: string) =>
     api.get<MissionRankingData>('/missions/ranking', { params: { missionId } }),
 };

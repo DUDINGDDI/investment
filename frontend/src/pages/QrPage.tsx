@@ -1,17 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Html5Qrcode } from 'html5-qrcode'
-import { visitApi } from '../api'
+import { visitApi, missionApi } from '../api'
 import { useToast } from '../components/ToastContext'
+import { useMissions } from '../components/MissionContext'
 import styles from './QrPage.module.css'
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const TOGETHER_SPACE_UUID = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890'
 
 export default function QrPage() {
   const navigate = useNavigate()
   const { showToast } = useToast()
+  const { syncFromServer } = useMissions()
   const [isScanning, setIsScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showTogetherSuccess, setShowTogetherSuccess] = useState(false)
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const isProcessingRef = useRef(false)
 
@@ -50,27 +54,37 @@ export default function QrPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleScan = async (boothUuid: string) => {
+  const handleScan = async (scannedUuid: string) => {
     try {
       if (scannerRef.current?.isScanning) {
         await scannerRef.current.stop()
         setIsScanning(false)
       }
 
-      if (!UUID_REGEX.test(boothUuid)) {
+      if (!UUID_REGEX.test(scannedUuid)) {
         showToast('유효하지 않은 QR 코드입니다', 'error')
         isProcessingRef.current = false
         restartScanner()
         return
       }
 
-      const res = await visitApi.visit({ boothUuid })
+      // 특별 공간 QR: together 미션 완료
+      if (scannedUuid.toLowerCase() === TOGETHER_SPACE_UUID.toLowerCase()) {
+        await missionApi.completeTogether(scannedUuid)
+        await syncFromServer()
+        window.dispatchEvent(new Event('balance-changed'))
+        setShowTogetherSuccess(true)
+        return
+      }
+
+      // 일반 부스 QR: 부스 방문 처리
+      const res = await visitApi.visit({ boothUuid: scannedUuid })
       showToast(res.data.message, 'success')
       navigate(`/stocks/booths/${res.data.boothId}?tab=review`)
     } catch (err: unknown) {
       const errorMsg =
         (err as { response?: { data?: { error?: string } } }).response?.data?.error ||
-        '방문 기록에 실패했습니다'
+        '처리에 실패했습니다'
       showToast(errorMsg, 'error')
       isProcessingRef.current = false
       restartScanner()
@@ -111,6 +125,27 @@ export default function QrPage() {
           {isScanning && (
             <p className={styles.guideText}>QR 코드를 프레임 안에 맞춰주세요</p>
           )}
+        </div>
+      )}
+
+      {/* together 미션 성공 모달 */}
+      {showTogetherSuccess && (
+        <div className={styles.overlay} onClick={() => { setShowTogetherSuccess(false); navigate('/badges') }}>
+          <div className={styles.successModal} onClick={e => e.stopPropagation()}>
+            <h3 className={styles.successTitle}>미션 완료!</h3>
+            <p className={styles.successDesc}>
+              '함께하는 하고잡이' 미션을 완료했습니다
+            </p>
+            <p className={styles.rewardText}>
+              투자금 +1억원이 추가 지급되었습니다!
+            </p>
+            <button
+              className={styles.successButton}
+              onClick={() => { setShowTogetherSuccess(false); navigate('/badges') }}
+            >
+              배지 확인하기
+            </button>
+          </div>
         </div>
       )}
     </div>

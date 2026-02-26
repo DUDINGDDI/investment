@@ -23,21 +23,21 @@ const DEFAULT_MISSIONS: Mission[] = [
     title: '내일 더 새롭게',
     description: '방문한 부스의 토론방에서 아이디어 개선점을 1건 이상 제안해주세요',
     isCompleted: false,
-    icon: '/image/badge/01_new.svg',
+    icon: '/image/badge/new.svg',
   },
   {
     id: 'dream',
     title: '꿈을 원대하게',
     description: '명예의 전당 방문 후 대표작 1개 이상 질문 작성',
     isCompleted: false,
-    icon: '/image/badge/02_dream.svg',
+    icon: '/image/badge/dream.svg',
   },
   {
     id: 'result',
     title: '반드시 결과로',
     description: '⇒ 투자',
     isCompleted: false,
-    icon: '/image/badge/03_result.svg',
+    icon: '/image/badge/result.svg',
   },
   {
     id: 'again',
@@ -46,7 +46,7 @@ const DEFAULT_MISSIONS: Mission[] = [
     isCompleted: false,
     progress: 0,
     target: 70,
-    icon: '/image/badge/04_retry.svg',
+    icon: '/image/badge/retry.svg',
   },
   {
     id: 'sincere',
@@ -55,14 +55,14 @@ const DEFAULT_MISSIONS: Mission[] = [
     isCompleted: false,
     progress: 0,
     target: 12,
-    icon: '/image/badge/05_truth.svg',
+    icon: '/image/badge/truth.svg',
   },
   {
     id: 'together',
     title: '(+) 함께하는 하고잡이',
     description: '지구본 콘텐츠 방문',
     isCompleted: false,
-    icon: '/image/badge/06_together.svg',
+    icon: '/image/badge/together.svg',
   },
 ]
 
