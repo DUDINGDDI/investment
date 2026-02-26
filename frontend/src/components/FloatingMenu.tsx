@@ -3,6 +3,23 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { resultApi } from '../api'
 import styles from './FloatingMenu.module.css'
 
+const qrItem = {
+  label: 'QR',
+  path: '/qr',
+  icon: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
+      <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
+      <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
+      <rect x="16" y="16" width="3" height="3" fill="white" />
+      <rect x="14" y="14" width="2" height="2" fill="white" />
+      <rect x="19" y="14" width="2" height="2" fill="white" />
+      <rect x="14" y="19" width="2" height="2" fill="white" />
+    </svg>
+  ),
+  isActive: (p: string) => p === '/qr',
+}
+
 const menuItems = [
   {
     label: '미션',
@@ -13,22 +30,6 @@ const menuItems = [
       </svg>
     ),
     isActive: (p: string) => p === '/badges',
-  },
-  {
-    label: 'QR',
-    path: '/qr',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
-        <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
-        <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" />
-        <rect x="16" y="16" width="3" height="3" fill="white" />
-        <rect x="14" y="14" width="2" height="2" fill="white" />
-        <rect x="19" y="14" width="2" height="2" fill="white" />
-        <rect x="14" y="19" width="2" height="2" fill="white" />
-      </svg>
-    ),
-    isActive: (p: string) => p === '/qr',
   },
   {
     label: '마이',
@@ -112,6 +113,17 @@ export default function FloatingMenu() {
             </button>
           </div>
         ))}
+      </div>
+
+      <div className={styles.subRow}>
+        <span className={styles.qrLabel}>{qrItem.label}</span>
+        <button
+          className={`${styles.subButton} ${qrItem.isActive(location.pathname) ? styles.subButtonActive : ''}`}
+          onClick={() => handleNavigate(qrItem.path)}
+          aria-label={qrItem.label}
+        >
+          {qrItem.icon}
+        </button>
       </div>
 
       <button

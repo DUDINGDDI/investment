@@ -14,6 +14,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUniqueCode(String uniqueCode);
 
+    Optional<User> findByUniqueCodeAndName(String uniqueCode, String name);
+
     List<User> findByBelongingBooth_Id(Long boothId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

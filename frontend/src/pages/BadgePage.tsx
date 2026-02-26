@@ -165,7 +165,6 @@ export default function BadgePage() {
           </span>
         </div>
         <h2 className={styles.userName}>{userName || '-'}</h2>
-        <p className={styles.userRole}>참가자</p>
       </div>
 
       {/* 탭 바 */}
@@ -186,7 +185,6 @@ export default function BadgePage() {
           <p className={styles.badgeCount}>{completedCount} / {missions.length} 완료</p>
 
           <div className={styles.section}>
-            <h3 className={styles.categoryTitle}>핵심 미션</h3>
             <div className={styles.badgeRow}>
               {row1.map((mission, i) => (
                 <button
@@ -203,7 +201,6 @@ export default function BadgePage() {
           </div>
 
           <div className={styles.section}>
-            <h3 className={styles.categoryTitle}>도전 미션</h3>
             <div className={styles.badgeRow}>
               {row2.map((mission, i) => (
                 <button
@@ -294,7 +291,7 @@ export default function BadgePage() {
                       <div className={styles.podiumAvatar}>
                         {item.name.charAt(0)}
                       </div>
-                      <p className={styles.podiumName}>{item.name}</p>
+                      <p className={styles.podiumName}>{item.name}{item.company ? ` · ${item.company}` : ''}</p>
                       <div className={styles.podiumScoreRow}>
                         <span className={styles.podiumRate}>{item.progress}</span>
                         <span className={styles.podiumRateUnit}>{currentUnit}</span>
@@ -323,7 +320,7 @@ export default function BadgePage() {
                         {item.name.charAt(0)}
                       </div>
                       <div className={styles.rankListInfo}>
-                        <p className={styles.rankListName}>{item.name}</p>
+                        <p className={styles.rankListName}>{item.name}{item.company ? ` · ${item.company}` : ''}</p>
                       </div>
                       <div className={styles.rankListScoreArea}>
                         <span className={styles.rankListRate}>{item.progress}{currentUnit}</span>

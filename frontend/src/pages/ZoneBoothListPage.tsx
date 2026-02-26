@@ -67,7 +67,7 @@ export default function ZoneBoothListPage() {
               key={booth.id}
               className={`${styles.card} stagger-item`}
               style={{ animationDelay: `${i * 0.06}s` }}
-              onClick={() => navigate(`/booths/${booth.id}`)}
+              onClick={() => navigate(`/stocks/booths/${booth.id}`)}
             >
               <div className={styles.cardIcon}>
                 <span>🏪</span>

@@ -9,5 +9,6 @@ public class UserResponse {
     private Long userId;
     private String uniqueCode;
     private String name;
+    private String company;
     private Long balance;
 }

@@ -27,6 +27,13 @@ export default function AppHeader() {
     fetchUnreadCount()
   }
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('userName')
+    sessionStorage.removeItem('userCompany')
+    navigate('/')
+  }
+
   return (
     <>
       <header className={styles.header}>
@@ -47,6 +54,13 @@ export default function AppHeader() {
               {unreadCount > 99 ? '99+' : unreadCount}
             </span>
           )}
+        </button>
+        <button className={styles.logoutBtn} onClick={handleLogout} aria-label="로그아웃">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="var(--text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M16 17L21 12L16 7" stroke="var(--text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M21 12H9" stroke="var(--text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
       </header>
 

@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react'
-import { visitApi } from '../api'
+import { useNavigate } from 'react-router-dom'
+import { visitApi, userApi } from '../api'
 import { useMissions } from '../components/MissionContext'
-import type { BoothVisitResponse } from '../types'
+import type { BoothVisitResponse, MyBoothVisitorResponse } from '../types'
 import styles from './MyPage.module.css'
 
 export default function MyPage() {
+  const navigate = useNavigate()
   const userName = sessionStorage.getItem('userName') || ''
-  const [activeTab, setActiveTab] = useState<'visits' | 'tickets'>('visits')
+  const userCompany = sessionStorage.getItem('userCompany') || ''
+  const [activeTab, setActiveTab] = useState<'visits' | 'tickets' | 'mybooth'>('visits')
   const [visits, setVisits] = useState<BoothVisitResponse[]>([])
   const [visitsLoaded, setVisitsLoaded] = useState(false)
+  const [boothVisitors, setBoothVisitors] = useState<MyBoothVisitorResponse | null>(null)
+  const [boothVisitorsLoaded, setBoothVisitorsLoaded] = useState(false)
   const { missions } = useMissions()
 
   useEffect(() => {
@@ -20,6 +25,15 @@ export default function MyPage() {
     }
   }, [activeTab, visitsLoaded])
 
+  useEffect(() => {
+    if (activeTab === 'mybooth' && !boothVisitorsLoaded) {
+      userApi.getMyBoothVisitors().then(res => {
+        setBoothVisitors(res.data)
+        setBoothVisitorsLoaded(true)
+      }).catch(() => setBoothVisitorsLoaded(true))
+    }
+  }, [activeTab, boothVisitorsLoaded])
+
   const completedMissions = missions.filter(m => m.isCompleted)
   const ticketCount = completedMissions.length
 
@@ -27,7 +41,7 @@ export default function MyPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>마이페이지</h2>
-        <p className={styles.subtitle}>{userName}님, 안녕하세요</p>
+        <p className={styles.subtitle}>{userCompany ? `${userCompany} · ` : ''}{userName}님, 안녕하세요</p>
       </div>
 
       <div className={styles.tabBar}>
@@ -44,6 +58,12 @@ export default function MyPage() {
           이벤트존 이용권
           {ticketCount > 0 && <span className={styles.ticketBadge}>{ticketCount}</span>}
         </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'mybooth' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('mybooth')}
+        >
+          우리 부스
+        </button>
       </div>
 
       {activeTab === 'visits' && (
@@ -55,6 +75,7 @@ export default function MyPage() {
                   key={`${v.boothId}-${v.visitedAt}`}
                   className={`${styles.card} stagger-item`}
                   style={{ animationDelay: `${i * 0.04}s` }}
+                  onClick={() => navigate(`/stocks/booths/${v.boothId}`)}
                 >
                   <div className={styles.cardIcon}>
                     <span>{v.logoEmoji}</span>
@@ -107,6 +128,30 @@ export default function MyPage() {
               <p className={styles.emptyText}>
                 미션을 완료하면 이벤트존 이용권이 자동 부여됩니다
               </p>
+            </div>
+          )}
+        </>
+      )}
+
+      {activeTab === 'mybooth' && (
+        <>
+          {boothVisitors && boothVisitors.boothId ? (
+            <>
+              <div className={styles.myBoothInfo}>
+                <div className={styles.myBoothIcon}>
+                  <span>{boothVisitors.logoEmoji}</span>
+                </div>
+                <p className={styles.myBoothName}>{boothVisitors.boothName}</p>
+              </div>
+              <div className={styles.visitorSummary}>
+                <p className={styles.visitorCount}>{boothVisitors.visitorCount}명</p>
+                <p className={styles.visitorLabel}>총 방문자 수</p>
+              </div>
+            </>
+          ) : (
+            <div className={styles.emptyState}>
+              <span className={styles.emptyIcon}>🏢</span>
+              <p className={styles.emptyText}>소속된 부스가 없습니다</p>
             </div>
           )}
         </>

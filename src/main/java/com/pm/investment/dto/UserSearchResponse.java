@@ -10,5 +10,6 @@ import lombok.Getter;
 public class UserSearchResponse {
     private Long userId;
     private String name;
+    private String company;
     private String uniqueCode;
 }

@@ -83,7 +83,7 @@ export default function HomePage() {
                   key={inv.boothId}
                   className={`${styles.investItem} stagger-item`}
                   style={{ animationDelay: `${i * 0.05}s` }}
-                  onClick={() => navigate(`/booths/${inv.boothId}`)}
+                  onClick={() => navigate(`/stocks/booths/${inv.boothId}`)}
                 >
                   <div className={styles.colorDot} style={{ background: inv.themeColor }} />
                   <div className={styles.boothIcon} style={{ background: inv.themeColor + '30' }}>

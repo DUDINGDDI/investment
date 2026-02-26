@@ -79,7 +79,7 @@ export default function NotePopup({ onClose }: Props) {
 
   const handleReply = (note: NoteResponse) => {
     handleMarkAsRead(note.id)
-    setSelectedUser({ userId: note.senderId, name: note.senderName, uniqueCode: '' })
+    setSelectedUser({ userId: note.senderId, name: note.senderName, company: note.senderCompany, uniqueCode: '' })
     setContent('')
     setTab('compose')
   }
@@ -133,7 +133,7 @@ export default function NotePopup({ onClose }: Props) {
                   onClick={() => handleMarkAsRead(note.id)}
                 >
                   <div className={styles.noteTop}>
-                    <span className={styles.noteSender}>{note.senderName}</span>
+                    <span className={styles.noteSender}>from {note.senderName}{note.senderCompany ? ` · ${note.senderCompany}` : ''}</span>
                     <span className={styles.noteTime}>{formatTime(note.createdAt)}</span>
                   </div>
                   <p className={styles.noteContent}>{note.content}</p>
@@ -153,7 +153,7 @@ export default function NotePopup({ onClose }: Props) {
               sentNotes.map(note => (
                 <div key={note.id} className={styles.noteItem}>
                   <div className={styles.noteTop}>
-                    <span className={styles.noteSender}>To. {note.receiverName}</span>
+                    <span className={styles.noteSender}>To. {note.receiverName}{note.receiverCompany ? ` · ${note.receiverCompany}` : ''}</span>
                     <span className={styles.noteTime}>{formatTime(note.createdAt)}</span>
                   </div>
                   <p className={styles.noteContent}>{note.content}</p>
@@ -166,7 +166,7 @@ export default function NotePopup({ onClose }: Props) {
             <div className={styles.composeArea}>
               {selectedUser ? (
                 <div className={styles.selectedUser}>
-                  <span>To: {selectedUser.name}</span>
+                  <span>To: {selectedUser.name}{selectedUser.company ? ` · ${selectedUser.company}` : ''}</span>
                   <button onClick={() => setSelectedUser(null)} className={styles.clearBtn}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -194,7 +194,7 @@ export default function NotePopup({ onClose }: Props) {
                       className={styles.userItem}
                       onClick={() => handleSelectUser(user)}
                     >
-                      <span className={styles.userName}>{user.name}</span>
+                      <span className={styles.userName}>{user.name}{user.company ? ` · ${user.company}` : ''}</span>
                       <span className={styles.userCode}>{user.uniqueCode}</span>
                     </button>
                   ))}

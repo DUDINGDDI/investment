@@ -52,6 +52,20 @@
   transform: none;
 }
 
+.logoutBtn {
+  background: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logoutBtn:active {
+  opacity: 0.5;
+  transform: none;
+}
+
 .noteBadge {
   position: absolute;
   top: -4px;

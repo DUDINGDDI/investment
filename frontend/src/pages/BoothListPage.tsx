@@ -26,7 +26,7 @@ export default function BoothListPage() {
             key={booth.id}
             className={`${styles.item} stagger-item`}
             style={{ animationDelay: `${i * 0.04}s` }}
-            onClick={() => navigate(`/booths/${booth.id}`)}
+            onClick={() => navigate(`/stocks/booths/${booth.id}`)}
           >
             <div className={styles.icon} style={{ background: booth.themeColor + '30' }}>
               <span>{booth.logoEmoji}</span>

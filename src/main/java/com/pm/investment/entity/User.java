@@ -25,6 +25,9 @@ public class User {
     @Column(nullable = false, length = 50)
     private String name;
 
+    @Column(length = 100)
+    private String company;
+
     @Column(nullable = false)
     private Long balance = 100_000_000L;
 

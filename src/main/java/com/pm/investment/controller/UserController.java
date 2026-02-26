@@ -1,5 +1,6 @@
 package com.pm.investment.controller;
 
+import com.pm.investment.dto.MyBoothVisitorResponse;
 import com.pm.investment.dto.UserResponse;
 import com.pm.investment.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,5 +19,11 @@ public class UserController {
     public ResponseEntity<UserResponse> getMe(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         return ResponseEntity.ok(userService.getUser(userId));
+    }
+
+    @GetMapping("/me/booth-visitors")
+    public ResponseEntity<MyBoothVisitorResponse> getMyBoothVisitors(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        return ResponseEntity.ok(userService.getMyBoothVisitors(userId));
     }
 }

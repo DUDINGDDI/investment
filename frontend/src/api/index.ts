@@ -3,6 +3,7 @@ import type {
   LoginRequest,
   LoginResponse,
   UserResponse,
+  MyBoothVisitorResponse,
   BoothResponse,
   InvestRequest,
   InvestmentResponse,
@@ -37,6 +38,7 @@ export const authApi = {
 
 export const userApi = {
   getMe: () => api.get<UserResponse>('/users/me'),
+  getMyBoothVisitors: () => api.get<MyBoothVisitorResponse>('/users/me/booth-visitors'),
 };
 
 export const boothApi = {

@@ -5,6 +5,7 @@ import com.pm.investment.entity.StockBooth;
 import com.pm.investment.entity.StockComment;
 import com.pm.investment.entity.User;
 import com.pm.investment.repository.StockBoothRepository;
+import com.pm.investment.repository.StockBoothVisitRepository;
 import com.pm.investment.repository.StockCommentRepository;
 import com.pm.investment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class StockCommentService {
     private final StockCommentRepository stockCommentRepository;
     private final UserRepository userRepository;
     private final StockBoothRepository stockBoothRepository;
+    private final StockBoothVisitRepository stockBoothVisitRepository;
     private final MissionService missionService;
 
     @Transactional(readOnly = true)
@@ -33,6 +35,7 @@ public class StockCommentService {
                         .id(c.getId())
                         .userId(c.getUser().getId())
                         .userName(c.getUser().getName())
+                        .userCompany(c.getUser().getCompany())
                         .content(c.getContent())
                         .tag(c.getTag())
                         .createdAt(c.getCreatedAt())
@@ -42,6 +45,10 @@ public class StockCommentService {
 
     @Transactional
     public StockCommentResponse addComment(Long userId, Long boothId, String content, String tag) {
+        if (!stockBoothVisitRepository.existsByUserIdAndStockBoothId(userId, boothId)) {
+            throw new IllegalStateException("부스를 방문한 후에 제안을 남길 수 있습니다");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다"));
 
@@ -59,6 +66,7 @@ public class StockCommentService {
                 .id(comment.getId())
                 .userId(user.getId())
                 .userName(user.getName())
+                .userCompany(user.getCompany())
                 .content(comment.getContent())
                 .tag(comment.getTag())
                 .createdAt(comment.getCreatedAt())

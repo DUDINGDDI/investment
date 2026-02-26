@@ -59,6 +59,8 @@ export default function StockHomePage() {
   const totalHolding = holdings.reduce((sum, h) => sum + h.amount, 0)
   const sorted = [...holdings].sort((a, b) => b.amount - a.amount)
 
+  const getMemo = (boothId: number) => localStorage.getItem(`stock_memo_${boothId}`) || ''
+
   return (
     <div className={styles.container}>
       {sorted.length > 0 && <DonutChart holdings={sorted} />}
@@ -79,6 +81,7 @@ export default function StockHomePage() {
           <div className={styles.investList}>
             {sorted.map((h, i) => {
               const ratio = totalHolding > 0 ? ((h.amount / totalHolding) * 100).toFixed(1) : '0'
+              const memo = getMemo(h.boothId)
               return (
                 <div
                   key={h.boothId}
@@ -94,7 +97,10 @@ export default function StockHomePage() {
                     <p className={styles.boothName}>{h.boothName}</p>
                     <p className={styles.ratio}>{ratio}%</p>
                   </div>
-                  <p className={styles.investAmount}>{formatKorean(h.amount)}원</p>
+                  <div className={styles.investRight}>
+                    {memo && <p className={styles.memoText}>{memo}</p>}
+                    <p className={styles.investAmount}>{formatKorean(h.amount)}원</p>
+                  </div>
                 </div>
               )
             })}

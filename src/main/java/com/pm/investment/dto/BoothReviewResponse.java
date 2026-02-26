@@ -13,6 +13,7 @@ public class BoothReviewResponse {
     private Long id;
     private Long userId;
     private String userName;
+    private String userCompany;
     private String review;
     private LocalDateTime updatedAt;
 }
