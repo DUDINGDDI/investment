@@ -605,7 +605,7 @@
 
 .stars {
   display: flex;
-  gap: 4px;
+  gap: 0;
 }
 
 .star {
@@ -614,9 +614,12 @@
   font-size: 28px;
   color: var(--text-disabled);
   cursor: pointer;
-  padding: 2px;
+  padding: 8px 6px;
   transition: color 0.15s, transform 0.15s;
   line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 .star:hover:not(:disabled) {

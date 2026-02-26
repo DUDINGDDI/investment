@@ -578,7 +578,12 @@ export default function StockBoothDetailPage() {
                         <button
                           key={star}
                           className={`${styles.star} ${ratingScores[key] >= star ? styles.starActive : ''}`}
-                          onClick={() => (!myRating || isEditingRating) && setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))}
+                          onPointerDown={(e) => {
+                            e.preventDefault()
+                            if (!myRating || isEditingRating) {
+                              setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))
+                            }
+                          }}
                           disabled={!!myRating && !isEditingRating}
                         >
                           &#9733;
