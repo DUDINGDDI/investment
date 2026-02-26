@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Html5Qrcode } from 'html5-qrcode'
 import { adminApi } from '../api'
 import { useToast } from '../components/ToastContext'
@@ -6,11 +7,17 @@ import styles from './AdminTicketScanPage.module.css'
 
 const TICKET_REGEX = /^ticket:(\d+):(\w+)$/
 
+interface ScanResult {
+  missionId: string
+  userName?: string
+}
+
 export default function AdminTicketScanPage() {
+  const navigate = useNavigate()
   const { showToast } = useToast()
   const [isScanning, setIsScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [lastResult, setLastResult] = useState<string | null>(null)
+  const [scanResult, setScanResult] = useState<ScanResult | null>(null)
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const isProcessingRef = useRef(false)
 
@@ -66,14 +73,12 @@ export default function AdminTicketScanPage() {
       const missionId = match[2]
 
       const res = await adminApi.useTicket(userId, missionId)
-      setLastResult(`사용 처리 완료: ${res.data.missionId}`)
-      showToast('이용권이 사용 처리되었습니다', 'success')
+      setScanResult({ missionId: res.data.missionId })
     } catch (err: unknown) {
       const errorMsg =
         (err as { response?: { data?: { error?: string } } }).response?.data?.error ||
         '이용권 사용 처리에 실패했습니다'
       showToast(errorMsg, 'error')
-    } finally {
       isProcessingRef.current = false
       restartScanner()
     }
@@ -95,9 +100,18 @@ export default function AdminTicketScanPage() {
     }).catch(() => {})
   }
 
+  const handleCloseResult = () => {
+    setScanResult(null)
+    isProcessingRef.current = false
+    restartScanner()
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        <button className={styles.backBtn} onClick={() => navigate('/admin')}>
+          ← 돌아가기
+        </button>
         <h2 className={styles.title}>이용권 스캔</h2>
         <p className={styles.subtitle}>참가자의 이용권 QR 코드를 스캔하세요</p>
       </div>
@@ -116,9 +130,18 @@ export default function AdminTicketScanPage() {
         </div>
       )}
 
-      {lastResult && (
-        <div className={styles.resultCard}>
-          <p className={styles.resultText}>{lastResult}</p>
+      {scanResult && (
+        <div className={styles.overlay} onClick={handleCloseResult}>
+          <div className={styles.successModal} onClick={e => e.stopPropagation()}>
+            <div className={styles.successIcon}>✅</div>
+            <h3 className={styles.successTitle}>사용 처리 완료</h3>
+            <p className={styles.successDesc}>
+              이용권 [{scanResult.missionId}] 이(가) 정상적으로 사용 처리되었습니다.
+            </p>
+            <button className={styles.successButton} onClick={handleCloseResult}>
+              다음 스캔
+            </button>
+          </div>
         </div>
       )}
     </div>

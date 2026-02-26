@@ -7,6 +7,17 @@
   padding: 24px 0 20px;
 }
 
+.backBtn {
+  background: none;
+  border: none;
+  color: #6C5CE7;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+}
+
 .title {
   font-size: 22px;
   font-weight: 700;
@@ -59,17 +70,57 @@
   line-height: 1.5;
 }
 
-.resultCard {
-  margin-top: 20px;
-  padding: 16px;
-  background: rgba(22, 163, 74, 0.1);
-  border: 1px solid rgba(22, 163, 74, 0.3);
-  border-radius: 12px;
-  text-align: center;
+/* 완료 팝업 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
 }
 
-.resultText {
-  font-size: 14px;
-  font-weight: 600;
+.successModal {
+  background: #1E1E24;
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.successIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.successTitle {
+  font-size: 20px;
+  font-weight: 700;
   color: #34D399;
+  margin-bottom: 8px;
+}
+
+.successDesc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.successButton {
+  width: 100%;
+  padding: 14px;
+  background: #6C5CE7;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
 }
