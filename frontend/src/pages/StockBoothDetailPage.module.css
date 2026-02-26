@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 10px;
+  padding: 8px 14px;
   border-radius: 14px;
   border: 1px solid var(--border-color);
   background: var(--bg-secondary);
@@ -69,6 +69,7 @@
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
+  min-height: 36px;
 }
 
 .memoBtnActive {
@@ -336,7 +337,7 @@
 }
 
 .tagChip {
-  padding: 6px 14px;
+  padding: 10px 16px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-color);
   background: transparent;
@@ -491,7 +492,7 @@
 }
 
 .inputTagChip {
-  padding: 5px 12px;
+  padding: 10px 14px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-color);
   background: transparent;
@@ -513,14 +514,14 @@
 
 .commentTextarea {
   flex: 1;
-  min-height: 40px;
+  min-height: 44px;
   max-height: 120px;
   padding: 10px 14px;
   border-radius: 16px;
   border: 1px solid var(--border-color);
   background: var(--bg-secondary);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
   outline: none;
   resize: none;
@@ -536,8 +537,8 @@
 }
 
 .commentSendBtn {
-  height: 40px;
-  padding: 0 16px;
+  height: 44px;
+  padding: 0 18px;
   border-radius: 16px;
   background: var(--accent-blue);
   color: white;
@@ -651,7 +652,7 @@
   border: 1px solid var(--border-color);
   background: var(--bg-secondary);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   resize: vertical;
   box-sizing: border-box;

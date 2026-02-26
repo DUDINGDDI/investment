@@ -39,6 +39,8 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #root {
@@ -55,21 +57,28 @@ button {
   border: none;
   outline: none;
   transition: transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 button:active {
   transform: scale(0.97);
 }
 
-input {
+input, textarea, select {
   font-family: inherit;
   outline: none;
   border: none;
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* 토스트 메시지 */

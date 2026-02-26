@@ -77,7 +77,7 @@ export default function MyPage() {
           className={`${styles.tab} ${activeTab === 'tickets' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('tickets')}
         >
-          이벤트존 이용권
+          이벤트존<br />이용권
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'memos' ? styles.tabActive : ''}`}

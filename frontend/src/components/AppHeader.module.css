@@ -12,10 +12,13 @@
 
 .backBtn {
   background: none;
-  padding: 0;
+  padding: 8px;
+  margin: -8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .backBtn:active {
@@ -41,11 +44,13 @@
 .noteBtn {
   position: relative;
   background: none;
-  padding: 4px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .noteBtn:active {
@@ -55,11 +60,13 @@
 
 .logoutBtn {
   background: none;
-  padding: 4px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .logoutBtn:active {
