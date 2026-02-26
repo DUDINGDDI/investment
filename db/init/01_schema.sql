@@ -80,6 +80,8 @@ CREATE TABLE user_missions (
     target INT NOT NULL DEFAULT 0 COMMENT '목표 수치',
     is_completed BOOLEAN NOT NULL DEFAULT FALSE,
     completed_at DATETIME NULL,
+    is_used BOOLEAN NOT NULL DEFAULT FALSE,
+    used_at DATETIME NULL,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE KEY uk_user_mission (user_id, mission_id),

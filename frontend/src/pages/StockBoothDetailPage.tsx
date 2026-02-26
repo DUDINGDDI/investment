@@ -709,7 +709,7 @@ export default function StockBoothDetailPage() {
           <button
             className={styles.buyBtn}
             onClick={() => setModal('buy')}
-            disabled={!canTrade || balance === 0}
+            disabled={!canTrade || balance === 0 || booth.myHolding >= 40_000_000}
           >
             투자하기
           </button>
@@ -720,7 +720,7 @@ export default function StockBoothDetailPage() {
         <StockTradeModal
           type="buy"
           boothName={booth.name}
-          maxAmount={balance}
+          maxAmount={Math.min(balance, 40_000_000 - booth.myHolding)}
           onConfirm={handleBuy}
           onClose={() => setModal(null)}
         />

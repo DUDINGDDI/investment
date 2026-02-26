@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      reset_db:
+        description: 'DB 볼륨 삭제 후 초기화 (스키마 변경 시 사용)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   test-backend:
@@ -82,7 +88,12 @@ jobs:
             docker ps -q --filter "publish=80" | xargs -r docker stop | xargs -r docker rm || true
 
             echo "=== Docker Compose Down ==="
-            docker compose -f docker-compose.prod.yml down --remove-orphans
+            if [ "${{ github.event.inputs.reset_db }}" = "true" ]; then
+              echo "DB 볼륨 삭제 및 초기화 모드"
+              docker compose -f docker-compose.prod.yml down --remove-orphans -v
+            else
+              docker compose -f docker-compose.prod.yml down --remove-orphans
+            fi
 
             echo "=== Docker Compose Up ==="
             docker compose -f docker-compose.prod.yml up -d --build

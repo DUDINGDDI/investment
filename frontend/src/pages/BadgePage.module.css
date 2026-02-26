@@ -174,14 +174,65 @@
   50% { filter: drop-shadow(0 0 12px rgba(108, 99, 255, 0.45)); }
 }
 
+/* ── 배지 + 프로그레스바 래퍼 ── */
+.badgeWrap {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+/* ── 미니 프로그레스바 ── */
+.miniProgressGroup {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 85%;
+}
+
+.miniProgressTrack {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.miniProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6C63FF, #4593FC);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.miniProgressComplete {
+  background: linear-gradient(90deg, #00D68F, #00B87A);
+}
+
+.miniProgressLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.miniProgressLabelComplete {
+  color: var(--color-success);
+}
+
 /* ── 배지 아래 칩 라벨 ── */
 .chip {
   display: inline-block;
-  padding: 3px 10px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  padding: 2px 8px;
+  background: none;
+  border: none;
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--text-secondary);
   white-space: nowrap;

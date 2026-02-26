@@ -1,0 +1,75 @@
+.container {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 24px 0 20px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.scannerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.scanner {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.guideText {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 12px;
+}
+
+.errorIcon {
+  font-size: 48px;
+}
+
+.errorText {
+  font-size: 15px;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.resultCard {
+  margin-top: 20px;
+  padding: 16px;
+  background: rgba(22, 163, 74, 0.1);
+  border: 1px solid rgba(22, 163, 74, 0.3);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.resultText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #34D399;
+}
