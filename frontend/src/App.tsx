@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
@@ -59,6 +60,24 @@ function WithStockTopTabBar() {
 }
 
 export default function App() {
+  useEffect(() => {
+    const root = document.getElementById('root')
+    if (!root) return
+
+    const updateZoom = () => {
+      const vw = window.innerWidth
+      if (vw < 480) {
+        (root.style as CSSStyleDeclaration & { zoom: string }).zoom = String(vw / 480)
+      } else {
+        (root.style as CSSStyleDeclaration & { zoom: string }).zoom = ''
+      }
+    }
+
+    updateZoom()
+    window.addEventListener('resize', updateZoom)
+    return () => window.removeEventListener('resize', updateZoom)
+  }, [])
+
   return (
     <ToastProvider>
       <MissionProvider>

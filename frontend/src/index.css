@@ -25,15 +25,11 @@
   --color-invest: #F04452;
   --color-withdraw: #4593FC;
   --color-success: #00D68F;
-  --radius-card: 1rem;
-  --radius-button: 0.75rem;
-  --radius-pill: 1.25rem;
-  --nav-height: 3.75rem;
+  --radius-card: 16px;
+  --radius-button: 12px;
+  --radius-pill: 20px;
+  --nav-height: 60px;
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-html {
-  font-size: clamp(14px, 3.333vw, 16px);
 }
 
 html, body {
@@ -48,13 +44,12 @@ html, body {
 }
 
 #root {
-  max-width: 480px;
+  width: 480px;
   margin: 0 auto;
   min-height: 100vh;
   min-height: 100dvh;
   background: var(--bg-primary);
   position: relative;
-  overflow-x: hidden;
 }
 
 button {
@@ -90,17 +85,17 @@ a {
 /* 토스트 메시지 */
 .toast {
   position: fixed;
-  top: 1.25rem;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  font-size: 0.875rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
   font-weight: 500;
   animation: toastIn 0.3s ease, toastOut 0.3s ease 2.2s forwards;
-  max-width: calc(100% - 2.5rem);
-  width: auto;
+  max-width: 440px;
+  width: calc(100% - 40px);
   text-align: center;
 }
 
