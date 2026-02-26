@@ -22,16 +22,6 @@ const qrItem = {
 
 const menuItems = [
   {
-    label: '미션',
-    path: '/badges',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
-      </svg>
-    ),
-    isActive: (p: string) => p === '/badges',
-  },
-  {
     label: '마이',
     path: '/mypage',
     icon: (
@@ -41,6 +31,16 @@ const menuItems = [
       </svg>
     ),
     isActive: (p: string) => p === '/mypage',
+  },
+  {
+    label: '미션',
+    path: '/badges',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+      </svg>
+    ),
+    isActive: (p: string) => p === '/badges',
   },
   {
     label: '지도',
@@ -98,24 +98,12 @@ export default function FloatingMenu() {
     navigate(path)
   }
 
+  const visibleMenuItems = menuItems.filter(item => investmentEnabled || item.path !== '/home')
+
   return (
     <div className={styles.container}>
-      <div className={`${styles.subButtons} ${open ? styles.subButtonsOpen : ''}`}>
-        {menuItems.filter(item => investmentEnabled || item.path !== '/home').map((item) => (
-          <div key={item.path} className={styles.subRow}>
-            <span className={styles.subLabel}>{item.label}</span>
-            <button
-              className={`${styles.subButton} ${item.isActive(location.pathname) ? styles.subButtonActive : ''}`}
-              onClick={() => handleNavigate(item.path)}
-              aria-label={item.label}
-            >
-              {item.icon}
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <div className={styles.subRow}>
+      {/* QR — 항상 보이고, 메뉴 열리면 위로 밀려 올라감 */}
+      <div className={styles.qrRow}>
         <span className={styles.qrLabel}>{qrItem.label}</span>
         <button
           className={`${styles.subButton} ${qrItem.isActive(location.pathname) ? styles.subButtonActive : ''}`}
@@ -126,6 +114,25 @@ export default function FloatingMenu() {
         </button>
       </div>
 
+      {/* 서브 메뉴 — QR과 메인 버튼 사이에서 펼쳐짐 */}
+      <div className={`${styles.subButtons} ${open ? styles.subButtonsOpen : ''}`}>
+        <div className={styles.subInner}>
+          {visibleMenuItems.map((item) => (
+            <div key={item.path} className={styles.subRow}>
+              <span className={styles.subLabel}>{item.label}</span>
+              <button
+                className={`${styles.subButton} ${item.isActive(location.pathname) ? styles.subButtonActive : ''}`}
+                onClick={() => handleNavigate(item.path)}
+                aria-label={item.label}
+              >
+                {item.icon}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 메인 토글 버튼 */}
       <button
         className={`${styles.mainButton} ${open ? styles.mainButtonOpen : ''}`}
         onClick={() => setOpen(prev => !prev)}

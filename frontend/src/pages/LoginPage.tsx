@@ -25,7 +25,7 @@ export default function LoginPage() {
       sessionStorage.setItem('userId', String(data.userId))
       sessionStorage.setItem('userName', data.name)
       sessionStorage.setItem('userCompany', data.company || '')
-      navigate('/home', { replace: true })
+      navigate('/stocks', { replace: true })
     } catch {
       showToast('로그인에 실패했습니다', 'error')
     } finally {

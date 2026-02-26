@@ -4,12 +4,6 @@ import { ideaBoardApi } from '../api'
 import type { IdeaBoardResponse, StockCommentResponse } from '../types'
 import styles from './IdeaBoardPage.module.css'
 
-const TAG_CONFIG: Record<string, { label: string; color: string }> = {
-  PROFITABILITY: { label: '수익성', color: '#D4A843' },
-  TECHNOLOGY: { label: '기술력', color: '#5A9E6F' },
-  GROWTH: { label: '성장가능성', color: '#2F6F3C' },
-}
-
 /* 포스트잇 4색 + 텍스트 색상 */
 const POSTIT_COLORS = [
   { bg: '#E3F2E2', text: '#0F1C14', sub: '#2F6F3C' },
@@ -101,8 +95,10 @@ export default function IdeaBoardPage() {
   const [error, setError] = useState<string | null>(null)
   const [countdown, setCountdown] = useState(REFRESH_INTERVAL)
   const [newIds, setNewIds] = useState<Set<number>>(new Set())
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const knownIdsRef = useRef<Set<number>>(new Set())
   const isFirstLoad = useRef(true)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const windowWidth = useWindowWidth()
 
   const fetchBoard = useCallback(async () => {
@@ -157,10 +153,30 @@ export default function IdeaBoardPage() {
   useEffect(() => {
     const root = document.getElementById('root')
     if (!root) return
-    const original = root.style.maxWidth
+    const originalMaxWidth = root.style.maxWidth
+    const originalZoom = (root.style as CSSStyleDeclaration & { zoom: string }).zoom
     root.style.maxWidth = 'none'
+    ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = ''
     return () => {
-      root.style.maxWidth = original
+      root.style.maxWidth = originalMaxWidth
+      ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = originalZoom
+    }
+  }, [])
+
+  /* 브라우저 Fullscreen API */
+  useEffect(() => {
+    const handleChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    document.addEventListener('fullscreenchange', handleChange)
+    return () => document.removeEventListener('fullscreenchange', handleChange)
+  }, [])
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      wrapperRef.current?.requestFullscreen?.()
+    } else {
+      document.exitFullscreen?.()
     }
   }, [])
 
@@ -182,7 +198,7 @@ export default function IdeaBoardPage() {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={wrapperRef}>
       <div className={styles.header}>
         <span className={styles.boothEmoji}>{board.logoEmoji}</span>
         <div className={styles.headerText}>
@@ -202,7 +218,6 @@ export default function IdeaBoardPage() {
       ) : (
         <div className={styles.board} style={{ height: boardHeight }}>
           {board.comments.map((comment, i) => {
-            const tag = TAG_CONFIG[comment.tag]
             const pos = positions[i]
             const isNew = newIds.has(comment.id)
 
@@ -240,14 +255,6 @@ export default function IdeaBoardPage() {
                 {/* 내용 */}
                 <div className={styles.cardHeader}>
                   <span className={styles.cardAuthor}>{comment.userName}</span>
-                  {tag && (
-                    <span
-                      className={styles.cardTag}
-                      style={{ background: tag.color }}
-                    >
-                      {tag.label}
-                    </span>
-                  )}
                 </div>
                 <p className={styles.cardContent}>{comment.content}</p>
                 <div className={styles.cardTime}>{formatTime(comment.createdAt)}</div>
@@ -257,9 +264,14 @@ export default function IdeaBoardPage() {
         </div>
       )}
 
-      <div className={styles.countdown}>
-        <span className={styles.countdownDot} />
-        {countdown}초 후 새로고침
+      <div className={styles.bottomBar}>
+        <div className={styles.countdown}>
+          <span className={styles.countdownDot} />
+          {countdown}초 후 새로고침
+        </div>
+        <button className={styles.fullscreenBtn} onClick={toggleFullscreen}>
+          {isFullscreen ? '⛶' : '⛶'} {isFullscreen ? '축소' : '전체화면'}
+        </button>
       </div>
     </div>
   )

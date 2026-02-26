@@ -9,7 +9,5 @@ public interface StockCommentRepository extends JpaRepository<StockComment, Long
 
     List<StockComment> findByStockBoothIdOrderByCreatedAtDesc(Long stockBoothId);
 
-    List<StockComment> findByStockBoothIdAndTagOrderByCreatedAtDesc(Long stockBoothId, String tag);
-
     long countByUserId(Long userId);
 }

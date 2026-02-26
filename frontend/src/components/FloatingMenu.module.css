@@ -7,24 +7,41 @@
   align-items: flex-end;
   gap: 10px;
   z-index: 90;
+  pointer-events: none;
 }
 
-/* 서브 버튼 래퍼 */
+/* QR 행 — 항상 보임, 메뉴 열리면 아래 항목이 펼쳐지며 자연스럽게 위로 밀려남 */
+.qrRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+/* 서브 버튼 래퍼 — grid로 높이 애니메이션 */
 .subButtons {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.subButtonsOpen {
+  grid-template-rows: 1fr;
+}
+
+/* 서브 내부 래퍼 — overflow hidden으로 높이 제어 */
+.subInner {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  min-height: 0;
 }
 
-.subButtonsOpen {
+.subButtonsOpen .subInner {
   pointer-events: auto;
-  opacity: 1;
-  transform: translateY(0);
+  padding-bottom: 0;
 }
 
 /* 서브 버튼 행 (라벨 + 버튼) */
@@ -32,6 +49,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  pointer-events: auto;
 }
 
 /* 라벨 */
@@ -47,7 +65,20 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* 서브 버튼 — 메인과 동일 크기 */
+/* QR 라벨 — 항상 표시 */
+.qrLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 서브 버튼 */
 .subButton {
   width: 48px;
   height: 48px;
@@ -72,20 +103,7 @@
   border-color: var(--accent-blue);
 }
 
-/* QR 라벨 — 항상 표시 */
-.qrLabel {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-primary);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  padding: 4px 10px;
-  border-radius: 8px;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* 메인 토글 버튼 — 서브와 동일 크기 */
+/* 메인 토글 버튼 */
 .mainButton {
   width: 48px;
   height: 48px;
@@ -98,6 +116,7 @@
   box-shadow: 0 4px 12px rgba(245, 200, 66, 0.35);
   transition: transform 0.2s ease, background 0.2s ease;
   align-self: flex-end;
+  pointer-events: auto;
 }
 
 .mainButton:active {

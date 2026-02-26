@@ -322,41 +322,6 @@
   color: var(--text-primary);
 }
 
-/* 태그 필터 */
-.tagFilter {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.tagFilter::-webkit-scrollbar {
-  display: none;
-}
-
-.tagChip {
-  padding: 10px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-color);
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: all 0.2s;
-}
-
-.tagChipActive {
-  border-color: var(--text-primary);
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  font-weight: 600;
-}
-
 /* 댓글 리스트 */
 .commentList {
   flex: 1;
@@ -386,16 +351,6 @@
 .commentTime {
   font-size: 12px;
   color: var(--text-disabled);
-}
-
-.commentTagBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 6px;
 }
 
 .commentContent {
@@ -485,28 +440,6 @@
   padding-top: 12px;
 }
 
-.inputTagRow {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.inputTagChip {
-  padding: 10px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-color);
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.inputTagChipActive {
-  font-weight: 600;
-}
-
 .inputRow {
   display: flex;
   gap: 8px;
@@ -589,9 +522,10 @@
 .criteriaRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   padding: 14px 0;
   border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
 }
 
 .criteriaRow:last-of-type {
@@ -601,35 +535,42 @@
 .criteriaLabel {
   font-size: 15px;
   font-weight: 600;
-  min-width: 60px;
+  flex-shrink: 0;
+  width: 60px;
 }
 
 .stars {
   display: flex;
-  gap: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .star {
   background: none;
   border: none;
-  font-size: 32px;
+  font-size: 28px;
   color: var(--text-disabled);
   cursor: pointer;
-  padding: 10px 8px;
-  transition: color 0.15s, transform 0.15s;
+  padding: 0;
+  transition: color 0.15s;
   line-height: 1;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
-  min-width: 44px;
-  min-height: 44px;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.star:active {
+  transform: none !important;
+}
+
 .star:hover:not(:disabled) {
-  transform: scale(1.15);
+  opacity: 0.8;
 }
 
 .starActive {

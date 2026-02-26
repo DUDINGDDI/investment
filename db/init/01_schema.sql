@@ -199,12 +199,10 @@ CREATE TABLE stock_comments (
     user_id BIGINT NOT NULL,
     stock_booth_id BIGINT NOT NULL,
     content VARCHAR(500) NOT NULL COMMENT '댓글 내용',
-    tag VARCHAR(20) NOT NULL COMMENT '태그 (PROFITABILITY, TECHNOLOGY, GROWTH)',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (stock_booth_id) REFERENCES stock_booths(id) ON DELETE CASCADE,
-    INDEX idx_stock_booth_created (stock_booth_id, created_at DESC),
-    INDEX idx_stock_booth_tag (stock_booth_id, tag)
+    INDEX idx_stock_booth_created (stock_booth_id, created_at DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 부스 평가 테이블

@@ -286,14 +286,6 @@
   letter-spacing: -0.2px;
 }
 
-.cardTag {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 8px;
-  color: #fff;
-}
-
 .cardContent {
   font-size: 14px;
   line-height: 1.7;
@@ -311,11 +303,25 @@
   text-align: right;
 }
 
-/* ───── Countdown ───── */
-.countdown {
+/* ───── Fullscreen ───── */
+.wrapper:fullscreen {
+  background: #ffffff;
+  overflow-y: auto;
+}
+
+/* ───── Bottom Bar ───── */
+.bottomBar {
   position: fixed;
   bottom: 24px;
   right: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 200;
+}
+
+/* ───── Countdown ───── */
+.countdown {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(47, 111, 60, 0.15);
@@ -326,7 +332,23 @@
   gap: 8px;
   font-size: 13px;
   color: #2F6F3C;
-  z-index: 200;
+}
+
+.fullscreenBtn {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(47, 111, 60, 0.15);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #2F6F3C;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.fullscreenBtn:hover {
+  background: rgba(47, 111, 60, 0.1);
 }
 
 .countdownDot {

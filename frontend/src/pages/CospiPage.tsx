@@ -64,7 +64,7 @@ export default function CospiPage() {
 
       <div className={styles.chartSection}>
         <h3 className={styles.chartTitle}>지수 추이</h3>
-        <PriceChart priceHistory={history} themeColor="#6C5CE7" />
+        <PriceChart priceHistory={history} themeColor={change >= 0 ? '#ef4444' : '#3b82f6'} />
       </div>
     </div>
   )
