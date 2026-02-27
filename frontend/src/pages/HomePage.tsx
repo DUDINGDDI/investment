@@ -1,104 +1,62 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { investmentApi } from '../api'
+import { userApi, investmentApi } from '../api'
 import { formatKorean } from '../utils/format'
-import type { InvestmentResponse } from '../types'
 import styles from './HomePage.module.css'
 
-function DonutChart({ investments }: { investments: InvestmentResponse[] }) {
-  const total = investments.reduce((sum, inv) => sum + inv.amount, 0)
-  if (total === 0) return null
-
-  const size = 180
-  const strokeWidth = 32
-  const radius = (size - strokeWidth) / 2
-  const circumference = 2 * Math.PI * radius
-
-  const segments = investments.reduce<(InvestmentResponse & { ratio: number; offset: number })[]>((acc, inv) => {
-    const ratio = inv.amount / total
-    const offset = acc.length > 0 ? acc[acc.length - 1].offset + acc[acc.length - 1].ratio : 0
-    acc.push({ ...inv, ratio, offset })
-    return acc
-  }, [])
-
-  return (
-    <div className={styles.chartContainer}>
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        {segments.map((seg, i) => (
-          <circle
-            key={i}
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke={seg.themeColor}
-            strokeWidth={strokeWidth}
-            strokeDasharray={`${seg.ratio * circumference} ${circumference}`}
-            strokeDashoffset={-seg.offset * circumference}
-            transform={`rotate(-90 ${size / 2} ${size / 2})`}
-            style={{ transition: 'stroke-dasharray 0.5s ease' }}
-          />
-        ))}
-      </svg>
-      <div className={styles.chartCenter}>
-        <p className={styles.chartTotal}>{formatKorean(total)}</p>
-        <p className={styles.chartLabel}>총 투자</p>
-      </div>
-    </div>
-  )
-}
-
 export default function HomePage() {
-  const [investments, setInvestments] = useState<InvestmentResponse[]>([])
   const navigate = useNavigate()
+  const userName = sessionStorage.getItem('userName') || ''
+  const userCompany = sessionStorage.getItem('userCompany') || ''
+  const [balance, setBalance] = useState<number | null>(null)
+  const [totalInvested, setTotalInvested] = useState(0)
+
   useEffect(() => {
-    investmentApi.getMy().then(res => setInvestments(res.data))
+    userApi.getMe().then(res => setBalance(res.data.balance)).catch(() => {})
+    investmentApi.getMy().then(res => {
+      const total = res.data.reduce((sum: number, inv: { amount: number }) => sum + inv.amount, 0)
+      setTotalInvested(total)
+    }).catch(() => {})
   }, [])
 
-  const totalInvested = investments.reduce((sum, inv) => sum + inv.amount, 0)
-  const sorted = [...investments].sort((a, b) => b.amount - a.amount)
+  useEffect(() => {
+    const handler = () => {
+      userApi.getMe().then(res => setBalance(res.data.balance)).catch(() => {})
+      investmentApi.getMy().then(res => {
+        const total = res.data.reduce((sum: number, inv: { amount: number }) => sum + inv.amount, 0)
+        setTotalInvested(total)
+      }).catch(() => {})
+    }
+    window.addEventListener('balance-changed', handler)
+    return () => window.removeEventListener('balance-changed', handler)
+  }, [])
+
+  const totalAsset = (balance || 0) + totalInvested
 
   return (
     <div className={styles.container}>
-      {sorted.length > 0 && <DonutChart investments={sorted} />}
-
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <h3 className={styles.sectionTitle}>내 투자 현황</h3>
+      {/* 유저 정보 + 투자 금액 카드 */}
+      <div className={styles.investCard}>
+        <div className={styles.cardTop}>
+          <p className={styles.cardCompany}>{userCompany || 'ONLYONE FAIR'}</p>
+          <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
+          <div className={styles.cardAmountRow}>
+            <p className={styles.cardAmount}>{formatKorean(totalInvested)}원</p>
+            <button className={styles.cardBtn} onClick={() => navigate('/booths')}>주식 종목 보기</button>
+          </div>
         </div>
-
-        {sorted.length === 0 ? (
-          <div className={styles.emptyState}>
-            <p className={styles.emptyText}>아직 투자한 부스가 없어요</p>
-            <button className={styles.startBtn} onClick={() => navigate('/booths')}>
-              부스 둘러보기
-            </button>
+        <div className={styles.cardBottom}>
+          <div className={styles.cardBottomItem}>
+            <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
+            <span className={styles.cardAssetLabel}>총 보유 자산</span>
+            <span className={styles.cardAssetValue}>{formatKorean(totalAsset)}원</span>
           </div>
-        ) : (
-          <div className={styles.investList}>
-            {sorted.map((inv, i) => {
-              const ratio = totalInvested > 0 ? ((inv.amount / totalInvested) * 100).toFixed(1) : '0'
-              return (
-                <div
-                  key={inv.boothId}
-                  className={`${styles.investItem} stagger-item`}
-                  style={{ animationDelay: `${i * 0.05}s` }}
-                  onClick={() => navigate(`/stocks/booths/${inv.boothId}`)}
-                >
-                  <div className={styles.colorDot} style={{ background: inv.themeColor }} />
-                  <div className={styles.boothIcon} style={{ background: inv.themeColor + '30' }}>
-                    <span>{inv.logoEmoji}</span>
-                  </div>
-                  <div className={styles.investInfo}>
-                    <p className={styles.boothName}>{inv.boothName}</p>
-                    <p className={styles.ratio}>{ratio}%</p>
-                  </div>
-                  <p className={styles.investAmount}>{formatKorean(inv.amount)}원</p>
-                </div>
-              )
-            })}
+          <div className={styles.cardBottomItem}>
+            <div className={styles.cardAssetDot} style={{ background: '#FFB74D' }} />
+            <span className={styles.cardAssetLabel}>투자 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(totalInvested)}원</span>
           </div>
-        )}
+        </div>
       </div>
     </div>
   )

@@ -214,9 +214,6 @@ export default function MapPage() {
                     style={{ animationDelay: `${i * 0.04}s` }}
                     onClick={() => navigate(`/stocks/booths/${booth.id}`)}
                   >
-                    <div className={styles.boothIcon} style={{ background: booth.themeColor + '30' }}>
-                      <span>{booth.logoEmoji}</span>
-                    </div>
                     <div className={styles.boothBody}>
                       <p className={styles.boothName}>{booth.name}</p>
                       <p className={styles.boothDesc}>

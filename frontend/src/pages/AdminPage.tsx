@@ -202,9 +202,6 @@ export default function AdminPage() {
               <span className={`${styles.rank} ${i < 3 ? styles.topRank : ''}`}>
                 {item.rank}
               </span>
-              <div className={styles.icon} style={{ background: item.themeColor + '30' }}>
-                <span>{item.logoEmoji}</span>
-              </div>
               <div className={styles.info}>
                 <p className={styles.name}>{item.boothName}</p>
                 <p className={styles.meta}>{item.category} · 투자자 {item.investorCount}명</p>
@@ -238,9 +235,6 @@ export default function AdminPage() {
                   <span className={`${styles.rank} ${i < 3 ? styles.topRank : ''}`}>
                     {i + 1}
                   </span>
-                  <div className={styles.icon} style={{ background: item.themeColor + '30' }}>
-                    <span>{item.logoEmoji}</span>
-                  </div>
                   <div className={styles.info}>
                     <p className={styles.name}>{item.boothName}</p>
                     <p className={styles.meta}>참여자 {item.ratingCount}명 · 총점 {item.totalScoreSum}</p>

@@ -200,7 +200,6 @@ export default function IdeaBoardPage() {
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
       <div className={styles.header}>
-        <span className={styles.boothEmoji}>{board.logoEmoji}</span>
         <div className={styles.headerText}>
           <span className={styles.boothName}>{board.boothName}</span>
           <span className={styles.boothCategory}>{board.category}</span>
