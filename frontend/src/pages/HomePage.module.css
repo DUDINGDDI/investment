@@ -106,17 +106,56 @@
 }
 
 .rankingLink {
-  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--text-secondary);
-  background: none;
+  color: #fff;
+  background: linear-gradient(135deg, #6C63FF, #4593FC);
   border: none;
+  border-radius: 16px;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 6px 14px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .rankingLink:active {
-  opacity: 0.6;
+  transform: scale(0.95);
+  box-shadow: 0 1px 4px rgba(108, 99, 255, 0.2);
+}
+
+.missionToggleLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6C63FF;
+  background: rgba(108, 99, 255, 0.1);
+  border: 1px solid rgba(108, 99, 255, 0.25);
+  border-radius: 16px;
+  cursor: pointer;
+  padding: 6px 14px 6px 10px;
+  white-space: nowrap;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.missionToggleLink:active {
+  transform: scale(0.95);
+  background: rgba(108, 99, 255, 0.18);
+}
+
+.missionHeaderSpacer {
+  width: 70px;
+  flex-shrink: 0;
+}
+
+/* ── 인라인 랭킹 영역 ── */
+.rankingInline {
+  width: 100%;
 }
 
 .missionSubtitle {

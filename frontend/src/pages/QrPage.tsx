@@ -130,7 +130,7 @@ export default function QrPage() {
 
       {/* together 미션 성공 모달 */}
       {showTogetherSuccess && (
-        <div className={styles.overlay} onClick={() => { setShowTogetherSuccess(false); navigate('/badges') }}>
+        <div className={styles.overlay} onClick={() => { setShowTogetherSuccess(false); navigate('/stocks') }}>
           <div className={styles.successModal} onClick={e => e.stopPropagation()}>
             <h3 className={styles.successTitle}>미션 완료!</h3>
             <p className={styles.successDesc}>
@@ -141,9 +141,9 @@ export default function QrPage() {
             </p>
             <button
               className={styles.successButton}
-              onClick={() => { setShowTogetherSuccess(false); navigate('/badges') }}
+              onClick={() => { setShowTogetherSuccess(false); navigate('/stocks') }}
             >
-              배지 확인하기
+              확인
             </button>
           </div>
         </div>
