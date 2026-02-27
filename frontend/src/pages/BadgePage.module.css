@@ -55,40 +55,35 @@
   font-weight: 700;
 }
 
-/* ── 탭 바 ── */
-.tabBar {
+/* ── 섹션 헤더 (토글 버튼 포함) ── */
+.sectionHeader {
   display: flex;
-  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 
-.tab {
-  flex: 1;
-  padding: 14px 0;
-  font-size: 13px;
+.toggleButton {
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  color: var(--text-secondary);
-  background: none;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  background: rgba(108, 99, 255, 0.15);
+  color: #6C63FF;
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  transition: all 0.2s;
+  margin-left: auto;
 }
 
-.tab:active {
-  transform: none;
-}
-
-.tabActive {
-  color: var(--accent-blue);
-  border-bottom-color: var(--accent-blue);
+.toggleButton:active {
+  opacity: 0.8;
+  transform: scale(0.96);
 }
 
 /* ── 배지 카운트 ── */
 .badgeCount {
-  text-align: center;
   font-size: 13px;
   color: var(--text-secondary);
-  margin-bottom: 16px;
 }
 
 /* ── 섹션 ── */

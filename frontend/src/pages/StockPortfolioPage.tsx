@@ -42,7 +42,10 @@ export default function StockPortfolioPage() {
   // SVG 도넛 차트 계산
   const radius = 70
   const circumference = 2 * Math.PI * radius
-  let cumulativeOffset = 0
+  const segmentOffsets: number[] = []
+  for (let i = 0; i < donutSegments.length; i++) {
+    segmentOffsets.push(i === 0 ? 0 : segmentOffsets[i - 1] + (donutSegments[i - 1].pct / 100) * circumference)
+  }
 
   return (
     <div className={styles.container}>
@@ -67,11 +70,10 @@ export default function StockPortfolioPage() {
                 strokeWidth="16"
               />
               {/* 투자 세그먼트 */}
-              {donutSegments.map((seg) => {
+              {donutSegments.map((seg, i) => {
                 const dashLength = (seg.pct / 100) * circumference
                 const dashGap = circumference - dashLength
-                const offset = cumulativeOffset
-                cumulativeOffset += dashLength
+                const offset = segmentOffsets[i]
 
                 return (
                   <circle

@@ -220,54 +220,70 @@ export default function StockHomePage() {
       {/* Mission 섹션 */}
       <div className={styles.missionSection}>
         <div className={styles.missionHeader}>
-          <h2 className={styles.missionTitle}>하고잡이 미션</h2>
-          <button className={styles.rankingLink} onClick={() => setShowRanking(true)}>
-            랭킹 보기 &gt;
-          </button>
+          {showRanking ? (
+            <>
+              <button className={styles.missionToggleLink} onClick={() => setShowRanking(false)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
+                </svg>
+                미션 보기
+              </button>
+              <h2 className={styles.missionTitle}>미션 랭킹</h2>
+              <div className={styles.missionHeaderSpacer} />
+            </>
+          ) : (
+            <>
+              <h2 className={styles.missionTitle}>하고잡이 미션</h2>
+              <button className={styles.rankingLink} onClick={() => setShowRanking(true)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2 20h20v2H2v-2zm2-7h3v6H4v-6zm5-4h3v10H9V9zm5-4h3v14h-3V5zm5-4h3v18h-3V1z" />
+                </svg>
+                랭킹 보기
+              </button>
+            </>
+          )}
         </div>
-        <p className={styles.missionSubtitle}>부스를 돌아다니며 아래의 미션을 수행하세요!</p>
 
-        <div className={styles.badgeGrid}>
-          {row1.map((mission: Mission, i: number) => (
-            <button
-              key={mission.id}
-              className={`${styles.badgeCell} stagger-item`}
-              style={{ animationDelay: `${i * 0.08}s` }}
-              onClick={() => handleBadgeTap(mission)}
-            >
-              <div className={styles.badgeWrap}>
-                <BadgeImage mission={mission} />
-                <MiniProgressBar mission={mission} />
-              </div>
-              <span className={styles.badgeLabel}>{mission.title}</span>
-            </button>
-          ))}
-        </div>
+        {!showRanking ? (
+          <>
+            <p className={styles.missionSubtitle}>부스를 돌아다니며 아래의 미션을 수행하세요!</p>
 
-        <div className={styles.badgeGrid}>
-          {row2.map((mission: Mission, i: number) => (
-            <button
-              key={mission.id}
-              className={`${styles.badgeCell} stagger-item`}
-              style={{ animationDelay: `${(i + 3) * 0.08}s` }}
-              onClick={() => handleBadgeTap(mission)}
-            >
-              <div className={styles.badgeWrap}>
-                <BadgeImage mission={mission} />
-                <MiniProgressBar mission={mission} />
-              </div>
-              <span className={styles.badgeLabel}>{mission.title}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+            <div className={styles.badgeGrid}>
+              {row1.map((mission: Mission, i: number) => (
+                <button
+                  key={mission.id}
+                  className={`${styles.badgeCell} stagger-item`}
+                  style={{ animationDelay: `${i * 0.08}s` }}
+                  onClick={() => handleBadgeTap(mission)}
+                >
+                  <div className={styles.badgeWrap}>
+                    <BadgeImage mission={mission} />
+                    <MiniProgressBar mission={mission} />
+                  </div>
+                  <span className={styles.badgeLabel}>{mission.title}</span>
+                </button>
+              ))}
+            </div>
 
-      {/* 랭킹 오버레이 */}
-      {showRanking && (
-        <div className={badgeStyles.overlay} onClick={() => setShowRanking(false)}>
-          <div className={badgeStyles.bottomSheet} onClick={e => e.stopPropagation()} style={{ maxHeight: '85vh', overflowY: 'auto' }}>
-            <div className={badgeStyles.sheetHandle} />
-
+            <div className={styles.badgeGrid}>
+              {row2.map((mission: Mission, i: number) => (
+                <button
+                  key={mission.id}
+                  className={`${styles.badgeCell} stagger-item`}
+                  style={{ animationDelay: `${(i + 3) * 0.08}s` }}
+                  onClick={() => handleBadgeTap(mission)}
+                >
+                  <div className={styles.badgeWrap}>
+                    <BadgeImage mission={mission} />
+                    <MiniProgressBar mission={mission} />
+                  </div>
+                  <span className={styles.badgeLabel}>{mission.title}</span>
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className={styles.rankingInline}>
             {/* 미션 필터 바 */}
             <div className={badgeStyles.filterBar}>
               {missions.map((m: Mission) => (
@@ -307,7 +323,6 @@ export default function StockHomePage() {
 
             {/* 랭킹 헤더 */}
             <div className={badgeStyles.rankingHeader}>
-              <h3 className={badgeStyles.rankingTitle}>미션 랭킹</h3>
               <p className={badgeStyles.rankingSubtitle}>
                 {currentFilterMission?.title} 순위
               </p>
@@ -377,11 +392,9 @@ export default function StockHomePage() {
                 )}
               </>
             )}
-
-            <button className={badgeStyles.closeButton} onClick={() => setShowRanking(false)}>닫기</button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* 미션 정보 바텀시트 */}
       {freshMission && !showSuccess && (

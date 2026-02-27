@@ -7,7 +7,7 @@ import BoothDetailPage from './pages/BoothDetailPage'
 import HistoryPage from './pages/HistoryPage'
 import ResultPage from './pages/ResultPage'
 import MapPage from './pages/MapPage'
-import BadgePage from './pages/BadgePage'
+
 import AdminPage from './pages/AdminPage'
 import AdminTicketScanPage from './pages/AdminTicketScanPage'
 import IdeaBoardPage from './pages/IdeaBoardPage'
@@ -18,7 +18,7 @@ import StockHomePage from './pages/StockHomePage'
 import StockBoothListPage from './pages/StockBoothListPage'
 import StockBoothDetailPage from './pages/StockBoothDetailPage'
 import StockHistoryPage from './pages/StockHistoryPage'
-import CospiPage from './pages/CospiPage'
+
 import BottomNavBar from './components/BottomNavBar'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import AppHeader from './components/AppHeader'
@@ -87,7 +87,7 @@ export default function App() {
             <Route path="/booths/:id" element={<BoothDetailPage />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/map/:zoneId" element={<ZoneBoothListPage />} />
-            <Route path="/badges" element={<BadgePage />} />
+
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/result" element={<ResultPage />} />
             <Route path="/mypage" element={<MyPage />} />
@@ -96,7 +96,7 @@ export default function App() {
           <Route element={<WithStockTopTabBar />}>
             <Route path="/stocks" element={<StockHomePage />} />
             <Route path="/stocks/booths" element={<StockBoothListPage />} />
-            <Route path="/stocks/cospi" element={<CospiPage />} />
+
             <Route path="/stocks/history" element={<StockHistoryPage />} />
           </Route>
           <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />

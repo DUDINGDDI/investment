@@ -17,8 +17,9 @@ export default function BoothDetailPage() {
 
   // 메모
   const [memoOpen, setMemoOpen] = useState(false)
-  const [memo, setMemo] = useState('')
-  const [memoSaved, setMemoSaved] = useState('')
+  const initialMemo = id ? (localStorage.getItem(`booth_memo_${id}`) || '') : ''
+  const [memo, setMemo] = useState(initialMemo)
+  const [memoSaved, setMemoSaved] = useState(initialMemo)
 
   const loadData = useCallback(() => {
     if (!id) return
@@ -30,13 +31,7 @@ export default function BoothDetailPage() {
     loadData()
   }, [loadData])
 
-  // 메모 로드
-  useEffect(() => {
-    if (!id) return
-    const saved = localStorage.getItem(`booth_memo_${id}`) || ''
-    setMemo(saved)
-    setMemoSaved(saved)
-  }, [id])
+
 
   const handleMemoSave = () => {
     if (!id) return
