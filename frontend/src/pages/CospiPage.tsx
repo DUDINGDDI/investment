@@ -43,7 +43,7 @@ export default function CospiPage() {
         <div className={styles.bannerIcon}>📈</div>
         <div className={styles.bannerContent}>
           <div className={styles.bannerTitle}>COSPI</div>
-          <div className={styles.bannerFull}>CJ One Stock Price Index</div>
+          <div className={styles.bannerFull}>CJ OnlyOne Stock Price Index</div>
           <div className={styles.bannerDesc}>
             모든 부스의 투자금 총합을 나타내는 지수입니다.
             시장 전체의 흐름을 한눈에 확인하세요.

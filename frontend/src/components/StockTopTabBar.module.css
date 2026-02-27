@@ -72,33 +72,31 @@
   font-weight: 600;
 }
 
-.tabs {
+.tabsChip {
   display: flex;
-  gap: 4px;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--border-color);
+  gap: 8px;
+  padding: 12px 20px;
 }
 
-.tab {
-  flex: 1;
-  padding: 14px 0;
+.chipTab {
+  padding: 8px 16px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-secondary);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-  text-align: center;
+  transition: all 0.15s;
+  white-space: nowrap;
 }
 
-.tab:active {
-  transform: none;
+.chipTab:active {
+  transform: scale(0.96);
 }
 
-.active {
-  color: var(--text-primary);
-  font-weight: 700;
-  border-bottom-color: var(--accent-blue);
+.chipActive {
+  color: #fff;
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
 }

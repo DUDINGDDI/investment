@@ -1,130 +1,176 @@
 .container {
-  padding: 20px;
-  padding-bottom: 100px;
+  padding-bottom: 20px;
+}
+
+/* ── 종목 헤더 ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .backBtn {
   background: none;
-  padding: 12px;
-  margin: 4px 0 0 -12px;
-  min-width: 44px;
-  min-height: 44px;
+  border: none;
+  padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0 24px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .iconLarge {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
-  margin-bottom: 12px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
 }
 
 .name {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 8px;
+  line-height: 1.2;
 }
 
-.badge {
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.investSection {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-card);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.investRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.investRow:first-child {
-  padding-top: 0;
-}
-
-.investRow:last-child {
-  padding-bottom: 0;
-}
-
-.investLabel {
-  font-size: 14px;
+.category {
+  font-size: 12px;
   color: var(--text-secondary);
 }
 
-.investValueLarge {
-  font-size: 20px;
-  font-weight: 700;
+.memoBtn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
-.investValueMy {
-  font-size: 17px;
-  font-weight: 600;
+.memoBtnActive {
+  border-color: var(--accent-blue);
   color: var(--accent-blue);
 }
 
+/* ── 설명 ── */
 .description {
-  margin-bottom: 24px;
-}
-
-.descTitle {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 8px;
+  padding: 0 20px 12px;
 }
 
 .descText {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--text-secondary);
 }
 
-.actions {
-  position: fixed;
-  bottom: var(--safe-area-bottom);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 480px;
-  padding: 12px 20px;
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border-color);
-  z-index: 20;
+/* ── 내 투자금 행 ── */
+.myInvestRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  margin: 0 20px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
 }
 
-.actionBtns {
+.myInvestLabel {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.myInvestValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-blue);
+}
+
+.myInvestArrow {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ── 투자/철회 버튼 영역 ── */
+.tradeSection {
+  padding: 12px 20px 16px;
+}
+
+.investBtnFull {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-button);
+  background: var(--accent-blue);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.investBtnFull:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tradeBtnRow {
   display: flex;
   gap: 8px;
 }
 
+.withdrawBtn {
+  flex: 1;
+  height: 48px;
+  border-radius: var(--radius-button);
+  background: var(--color-withdraw);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.withdrawBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .investBtn {
   flex: 1;
-  height: 52px;
+  height: 48px;
   border-radius: var(--radius-button);
   background: var(--color-invest);
   color: white;
   font-size: 16px;
   font-weight: 600;
+  border: none;
+  cursor: pointer;
 }
 
 .investBtn:disabled {
@@ -132,17 +178,103 @@
   cursor: not-allowed;
 }
 
-.withdrawBtn {
-  flex: 1;
-  height: 52px;
-  border-radius: var(--radius-button);
-  background: var(--color-withdraw);
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
+/* ── 메모 팝업 ── */
+.memoOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
 }
 
-.withdrawBtn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.memoPopup {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.memoPopupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.memoPopupTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.memoCloseBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.memoTextarea {
+  width: 100%;
+  min-height: 160px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.memoTextarea:focus {
+  border-color: var(--accent-blue);
+}
+
+.memoTextarea::placeholder {
+  color: var(--text-disabled);
+}
+
+.memoActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.memoDeleteBtn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: 1px solid var(--color-withdraw);
+  background: transparent;
+  color: var(--color-withdraw);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.memoSaveBtn {
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent-blue);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
 }

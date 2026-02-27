@@ -19,9 +19,7 @@ import StockBoothListPage from './pages/StockBoothListPage'
 import StockBoothDetailPage from './pages/StockBoothDetailPage'
 import StockHistoryPage from './pages/StockHistoryPage'
 import CospiPage from './pages/CospiPage'
-import TopTabBar from './components/TopTabBar'
-import StockTopTabBar from './components/StockTopTabBar'
-import FloatingMenu from './components/FloatingMenu'
+import BottomNavBar from './components/BottomNavBar'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import AppHeader from './components/AppHeader'
 import Toast from './components/Toast'
@@ -36,7 +34,7 @@ function PrivateLayout() {
       <AppHeader />
       <AnnouncementBanner />
       <Outlet />
-      <FloatingMenu />
+      <BottomNavBar />
     </div>
   )
 }
@@ -44,7 +42,6 @@ function PrivateLayout() {
 function WithTopTabBar() {
   return (
     <>
-      <TopTabBar />
       <Outlet />
     </>
   )
@@ -53,7 +50,6 @@ function WithTopTabBar() {
 function WithStockTopTabBar() {
   return (
     <>
-      <StockTopTabBar />
       <Outlet />
     </>
   )

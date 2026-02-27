@@ -71,9 +71,6 @@ export default function ResultPage() {
               <div className={styles.podiumRank}>
                 <RankBadge rank={item.rank} />
               </div>
-              <div className={styles.podiumIcon} style={{ background: item.themeColor + '30', borderColor: item.themeColor }}>
-                <span>{item.logoEmoji}</span>
-              </div>
               <p className={styles.podiumName}>{item.boothName}</p>
               <p className={styles.podiumCategory}>{item.category}</p>
               <p className={styles.podiumAmount}>{formatKorean(item.totalInvestment)}</p>
@@ -93,9 +90,6 @@ export default function ResultPage() {
               style={{ animationDelay: `${(i + 3) * 0.06}s` }}
             >
               <span className={styles.listRank}>{item.rank}</span>
-              <div className={styles.listIcon} style={{ background: item.themeColor + '30' }}>
-                <span>{item.logoEmoji}</span>
-              </div>
               <div className={styles.listInfo}>
                 <p className={styles.listName}>{item.boothName}</p>
                 <p className={styles.listCategory}>{item.category} · {item.investorCount}명</p>

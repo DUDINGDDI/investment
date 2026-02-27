@@ -72,9 +72,6 @@ export default function HistoryPage() {
                   className={`${styles.item} stagger-item`}
                   style={{ animationDelay: `${(gi * 3 + i) * 0.04}s` }}
                 >
-                  <div className={styles.icon} style={{ background: item.themeColor + '30' }}>
-                    <span>{item.logoEmoji}</span>
-                  </div>
                   <div className={styles.info}>
                     <p className={styles.name}>{item.boothName}</p>
                     <div className={styles.meta}>

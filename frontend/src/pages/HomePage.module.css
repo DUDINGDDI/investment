@@ -2,119 +2,164 @@
   padding: 20px;
 }
 
-.chartContainer {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 24px;
+/* ── 투자 금액 카드 (파란 그라데이션) ── */
+.investCard {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2B5EA7 50%, #3B7DDD 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
 }
 
-.chartCenter {
-  position: absolute;
-  text-align: center;
+.cardTop {
+  padding: 24px 20px 16px;
 }
 
-.chartTotal {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.chartLabel {
+.cardCompany {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
 }
 
-.section {
-  margin-top: 8px;
-}
-
-.sectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.cardGreeting {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 12px;
 }
 
-.sectionTitle {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.emptyState {
-  text-align: center;
-  padding: 40px 0;
-}
-
-.emptyText {
-  font-size: 15px;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-}
-
-.startBtn {
-  padding: 10px 24px;
-  border-radius: var(--radius-pill);
-  background: var(--accent-blue);
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.investList {
-  display: flex;
-  flex-direction: column;
-}
-
-.investItem {
+.cardAmountRow {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border-color);
+  justify-content: space-between;
+}
+
+.cardAmount {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cardBtn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
 }
 
-.investItem:last-child {
-  border-bottom: none;
+.cardBtn:active {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-.colorDot {
-  width: 8px;
-  height: 8px;
+.cardBottom {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.cardBottomItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cardAssetDot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.boothIcon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+.cardAssetLabel {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.cardAssetValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Mission 섹션 ── */
+.missionSection {
+  margin-bottom: 24px;
+}
+
+.missionHeader {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }
 
-.investInfo {
-  flex: 1;
-  min-width: 0;
+.missionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.boothName {
-  font-size: 15px;
+.rankingLink {
+  font-size: 13px;
   font-weight: 600;
-  margin-bottom: 2px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
 }
 
-.ratio {
+.rankingLink:active {
+  opacity: 0.6;
+}
+
+.missionSubtitle {
   font-size: 13px;
   color: var(--text-secondary);
+  margin-bottom: 20px;
 }
 
-.investAmount {
-  font-size: 15px;
+/* ── 배지 그리드 (3열) ── */
+.badgeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  justify-items: center;
+  margin-bottom: 12px;
+}
+
+.badgeCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.badgeCell:active {
+  transform: scale(0.95);
+}
+
+.badgeWrap {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.badgeLabel {
+  font-size: 11px;
   font-weight: 600;
-  flex-shrink: 0;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
 }
