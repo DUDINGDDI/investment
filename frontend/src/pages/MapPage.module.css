@@ -3,7 +3,7 @@
 }
 
 .header {
-  padding: 24px 0 8px;
+  padding: 1px 0 8px;
 }
 
 .title {
@@ -121,6 +121,7 @@
 .imageWrapper {
   position: relative;
   width: 100%;
+  transform: scale(1.12);
 }
 
 .image {
@@ -134,18 +135,14 @@
 /* 핫스팟 */
 .hotspot {
   position: absolute;
-  background: rgba(69, 147, 252, 0.2);
-  border: 2px solid rgba(69, 147, 252, 0.6);
+  background: rgba(69, 147, 252, 0.15);
+  border: 2px solid rgba(69, 147, 252, 0.5);
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
   padding: 0;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.hotspot:hover,
 .hotspot:active {
   background: rgba(69, 147, 252, 0.35);
   border-color: var(--accent-blue);
@@ -153,18 +150,10 @@
 }
 
 .hotspotSelected {
-  background: rgba(69, 147, 252, 0.4);
+  background: rgba(69, 147, 252, 0.35);
   border-color: var(--accent-blue);
   border-width: 3px;
   box-shadow: 0 0 12px rgba(69, 147, 252, 0.5);
-}
-
-.hotspotLabel {
-  font-size: 12px;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  pointer-events: none;
 }
 
 /* 부스 목록 섹션 */
@@ -297,6 +286,25 @@
   color: var(--text-secondary);
   min-width: 50px;
   text-align: center;
+}
+
+/* 정적 구역 안내 카드 */
+.staticZoneCard {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+}
+
+.staticZoneName {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.staticZoneDesc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 /* 빈 상태 */
