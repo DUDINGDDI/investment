@@ -4,18 +4,24 @@ import { ideaBoardApi } from '../api'
 import type { IdeaBoardResponse, StockCommentResponse } from '../types'
 import styles from './IdeaBoardPage.module.css'
 
-/* 포스트잇 4색 + 텍스트 색상 */
+/* 포스트잇 6색 */
 const POSTIT_COLORS = [
-  { bg: '#E3F2E2', text: '#0F1C14', sub: '#2F6F3C' },
-  { bg: '#A7D7A5', text: '#0F1C14', sub: '#1a3a20' },
-  { bg: '#70BE6D', text: '#0F1C14', sub: '#0F1C14' },
-  { bg: '#2F6F3C', text: '#E3F2E2', sub: '#A7D7A5' },
+  { from: '#E8695A', to: '#D64630', text: '#fff5f3', sub: 'rgba(255,255,255,0.75)' },
+  { from: '#F99B80', to: '#F47655', text: '#fff5f3', sub: 'rgba(255,255,255,0.7)' },
+  { from: '#F7D06B', to: '#F2BA34', text: '#3a2800', sub: 'rgba(0,0,0,0.45)' },
+  { from: '#FB8DB3', to: '#F96390', text: '#fff5f5', sub: 'rgba(255,255,255,0.75)' },
+  { from: '#A8E4E9', to: '#7FD3D9', text: '#0a2e30', sub: 'rgba(0,0,0,0.45)' },
+  { from: '#A5F7DE', to: '#7AF2CA', text: '#0a2e1a', sub: 'rgba(0,0,0,0.45)' },
 ]
 
+/** 클립 위치 */
+type ClipPos = 'left' | 'center' | 'right'
+const CLIP_POSITIONS: ClipPos[] = ['left', 'center', 'right']
+
 const REFRESH_INTERVAL = 60
-const CARD_W = 260
+const CARD_W = 250
 const CARD_ESTIMATED_H = 200
-const BOARD_PAD = 50
+const BOARD_PAD = 40
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed * 9301 + 49297) * 49297
@@ -46,10 +52,14 @@ interface CardPos {
   top: number
   rotation: number
   zIndex: number
-  bg: string
+  from: string
+  to: string
   text: string
   sub: string
-  pinOffsetX: number
+  clipPos: ClipPos
+  clipRotation: number
+  flutterDelay: number
+  flutterDuration: number
 }
 
 function computePositions(
@@ -57,35 +67,45 @@ function computePositions(
   boardWidth: number
 ): { positions: CardPos[]; boardHeight: number } {
   const usableW = boardWidth - BOARD_PAD * 2
-  const cols = Math.max(1, Math.floor(usableW / (CARD_W + 24)))
+  const cols = Math.max(1, Math.floor(usableW / (CARD_W + 30)))
   const cellW = usableW / cols
-  const cellH = CARD_ESTIMATED_H + 70
+  const cellH = CARD_ESTIMATED_H + 90
   const rows = Math.ceil(comments.length / cols)
 
   const positions = comments.map((c, i) => {
     const col = i % cols
     const row = Math.floor(i / cols)
 
-    const jitterX = (seededRandom(c.id * 3) - 0.5) * (cellW - CARD_W - 10)
-    const jitterY = (seededRandom(c.id * 7) - 0.5) * 50
-    const rotation = (seededRandom(c.id * 11) - 0.5) * 16
-    const zIndex = Math.floor(seededRandom(c.id * 13) * 10)
+    const jitterX = (seededRandom(c.id * 3) - 0.5) * (cellW - CARD_W + 60)
+    const jitterY = (seededRandom(c.id * 7) - 0.5) * 80
+    const rotation = (seededRandom(c.id * 11) - 0.5) * 14
+    const zIndex = Math.floor(seededRandom(c.id * 13) * 20)
     const color = POSTIT_COLORS[Math.floor(seededRandom(c.id * 17) * POSTIT_COLORS.length)]
-    const pinOffsetX = (seededRandom(c.id * 23) - 0.5) * 60
+    const clipPos = CLIP_POSITIONS[Math.floor(seededRandom(c.id * 29) * CLIP_POSITIONS.length)]
+    const clipRotation = (seededRandom(c.id * 43) - 0.5) * 20
+    const flutterDelay = seededRandom(c.id * 31) * -8
+    const flutterDuration = 3 + seededRandom(c.id * 37) * 3
 
     return {
-      left: BOARD_PAD + col * cellW + cellW / 2 - CARD_W / 2 + jitterX,
-      top: row * cellH + jitterY + 20,
+      left: Math.max(10, Math.min(
+        boardWidth - CARD_W - 10,
+        BOARD_PAD + col * cellW + cellW / 2 - CARD_W / 2 + jitterX
+      )),
+      top: row * cellH + jitterY + 30,
       rotation,
       zIndex,
-      bg: color.bg,
+      from: color.from,
+      to: color.to,
       text: color.text,
       sub: color.sub,
-      pinOffsetX,
+      clipPos,
+      clipRotation,
+      flutterDelay,
+      flutterDuration,
     }
   })
 
-  return { positions, boardHeight: rows * cellH + 100 }
+  return { positions, boardHeight: rows * cellH + 120 }
 }
 
 export default function IdeaBoardPage() {
@@ -133,17 +153,12 @@ export default function IdeaBoardPage() {
     }
   }, [boothId])
 
-  useEffect(() => {
-    fetchBoard()
-  }, [fetchBoard])
+  useEffect(() => { fetchBoard() }, [fetchBoard])
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown(prev => {
-        if (prev <= 1) {
-          fetchBoard()
-          return REFRESH_INTERVAL
-        }
+        if (prev <= 1) { fetchBoard(); return REFRESH_INTERVAL }
         return prev - 1
       })
     }, 1000)
@@ -163,21 +178,15 @@ export default function IdeaBoardPage() {
     }
   }, [])
 
-  /* 브라우저 Fullscreen API */
   useEffect(() => {
-    const handleChange = () => {
-      setIsFullscreen(!!document.fullscreenElement)
-    }
+    const handleChange = () => setIsFullscreen(!!document.fullscreenElement)
     document.addEventListener('fullscreenchange', handleChange)
     return () => document.removeEventListener('fullscreenchange', handleChange)
   }, [])
 
   const toggleFullscreen = useCallback(() => {
-    if (!document.fullscreenElement) {
-      wrapperRef.current?.requestFullscreen?.()
-    } else {
-      document.exitFullscreen?.()
-    }
+    if (!document.fullscreenElement) wrapperRef.current?.requestFullscreen?.()
+    else document.exitFullscreen?.()
   }, [])
 
   const { positions, boardHeight } = useMemo(() => {
@@ -185,16 +194,9 @@ export default function IdeaBoardPage() {
     return computePositions(board.comments, windowWidth)
   }, [board, windowWidth])
 
-  if (loading) {
-    return <div className={styles.loading}>로딩 중...</div>
-  }
-
+  if (loading) return <div className={styles.loading}>로딩 중...</div>
   if (error || !board) {
-    return (
-      <div className={styles.error}>
-        <span>{error || '데이터를 불러올 수 없습니다'}</span>
-      </div>
-    )
+    return <div className={styles.error}><span>{error || '데이터를 불러올 수 없습니다'}</span></div>
   }
 
   return (
@@ -205,13 +207,13 @@ export default function IdeaBoardPage() {
           <span className={styles.boothCategory}>{board.category}</span>
         </div>
         <span className={styles.commentCount}>
-          💡 {board.comments.length}개의 아이디어
+          {board.comments.length}개의 아이디어
         </span>
       </div>
 
       {board.comments.length === 0 ? (
         <div className={styles.empty}>
-          <span className={styles.emptyIcon}>💡</span>
+          <span className={styles.emptyIcon}>📌</span>
           <span>아직 등록된 아이디어가 없습니다</span>
         </div>
       ) : (
@@ -219,6 +221,10 @@ export default function IdeaBoardPage() {
           {board.comments.map((comment, i) => {
             const pos = positions[i]
             const isNew = newIds.has(comment.id)
+            const clipPosClass =
+              pos.clipPos === 'left' ? styles.clipLeft :
+              pos.clipPos === 'right' ? styles.clipRight :
+              styles.clipCenter
 
             return (
               <div
@@ -227,33 +233,30 @@ export default function IdeaBoardPage() {
                 style={{
                   left: pos.left,
                   top: pos.top,
-                  transform: `rotate(${pos.rotation}deg)`,
                   zIndex: pos.zIndex,
-                  backgroundColor: pos.bg,
                   width: CARD_W,
+                  '--card-from': pos.from,
+                  '--card-to': pos.to,
                   '--card-text': pos.text,
                   '--card-sub': pos.sub,
+                  '--rotation': `${pos.rotation}deg`,
+                  '--flutter-delay': `${pos.flutterDelay}s`,
+                  '--flutter-duration': `${pos.flutterDuration}s`,
                 } as React.CSSProperties}
               >
-                {/* 상단 접착면 */}
-                <div className={styles.stickyStrip} />
-
-                {/* 3D 압정 */}
+                {/* 클립 */}
                 <div
-                  className={styles.pinWrapper}
-                  style={{ left: `calc(50% + ${pos.pinOffsetX}px)` }}
+                  className={`${styles.clip} ${clipPosClass}`}
+                  style={{ transform: `rotate(${pos.clipRotation}deg)` }}
                 >
-                  <div className={styles.pinOuter}>
-                    <div className={styles.pinRim} />
-                    <div className={styles.pinHead} />
-                  </div>
-                  <div className={styles.pinNeedle} />
-                  <div className={styles.pinShadow} />
+                  <div className={styles.clipOuter} />
+                  <div className={styles.clipInner} />
                 </div>
 
                 {/* 내용 */}
                 <div className={styles.cardHeader}>
                   <span className={styles.cardAuthor}>{comment.userName}</span>
+                  {comment.tag && <span className={styles.cardTag}>{comment.tag}</span>}
                 </div>
                 <p className={styles.cardContent}>{comment.content}</p>
                 <div className={styles.cardTime}>{formatTime(comment.createdAt)}</div>
@@ -269,7 +272,7 @@ export default function IdeaBoardPage() {
           {countdown}초 후 새로고침
         </div>
         <button className={styles.fullscreenBtn} onClick={toggleFullscreen}>
-          {isFullscreen ? '⛶' : '⛶'} {isFullscreen ? '축소' : '전체화면'}
+          {isFullscreen ? '⛶ 축소' : '⛶ 전체화면'}
         </button>
       </div>
     </div>
