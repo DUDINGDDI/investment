@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { stockApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { StockBoothResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
@@ -37,6 +37,7 @@ function formatCommentTime(dateStr: string) {
 export default function StockBoothDetailPage() {
   const { id } = useParams<{ id: string }>()
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const { showToast } = useToast()
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
@@ -190,6 +191,10 @@ export default function StockBoothDetailPage() {
 
   const handleAddComment = async () => {
     if (!id || !commentInput.trim() || submitting) return
+    if (commentInput.trim().length < 20) {
+      showToast('최소 20자 이상 입력해주세요', 'error')
+      return
+    }
     setSubmitting(true)
     try {
       const tag = getActiveTag()
@@ -212,6 +217,10 @@ export default function StockBoothDetailPage() {
     const allScored = (Object.values(ratingScores) as number[]).every(v => v >= 1 && v <= 5)
     if (!allScored) {
       showToast('모든 평가 항목을 입력해주세요', 'error')
+      return
+    }
+    if (reviewText.trim().length > 0 && reviewText.trim().length < 20) {
+      showToast('리뷰는 최소 20자 이상 입력해주세요', 'error')
       return
     }
     setRatingSubmitting(true)
@@ -299,7 +308,7 @@ export default function StockBoothDetailPage() {
       )}
 
       {/* 내 투자금 행 */}
-      <div className={styles.myInvestRow}>
+      <div className={styles.myInvestRow} onClick={() => navigate('/stocks/history')} style={{ cursor: 'pointer' }}>
         <span className={styles.myInvestLabel}>내 투자금</span>
         <span className={styles.myInvestValue}>
           {formatKorean(booth.myHolding)}원
@@ -367,7 +376,7 @@ export default function StockBoothDetailPage() {
           <div className={styles.discussionContainer}>
             {/* 안내 배너 */}
             <div className={styles.discussionBanner}>
-              <span className={styles.discussionBannerIcon}>&#x2139;&#xFE0F;</span>
+              <span className={styles.discussionBannerIcon}>&#x1F4A1;</span>
               <p className={styles.discussionBannerText}>
                 아이디어를 발전시킬 제안을 남기고 미션을 완료하세요.
               </p>
@@ -459,9 +468,11 @@ export default function StockBoothDetailPage() {
                   <button
                     className={styles.commentSendBtn}
                     onClick={handleAddComment}
-                    disabled={!commentInput.trim() || submitting}
+                    disabled={!commentInput.trim() || commentInput.trim().length < 20 || submitting}
                   >
-                    아이디어 제안하기
+                    {commentInput.trim().length > 0 && commentInput.trim().length < 20
+                      ? `아이디어 제안하기 (${commentInput.trim().length}/20)`
+                      : '아이디어 제안하기'}
                   </button>
                 </div>
               </div>
@@ -481,7 +492,7 @@ export default function StockBoothDetailPage() {
               <>
                 {/* 안내 배너 */}
                 <div className={styles.discussionBanner}>
-                  <span className={styles.discussionBannerIcon}>&#x2139;&#xFE0F;</span>
+                  <span className={styles.discussionBannerIcon}>&#x1F4A1;</span>
                   <p className={styles.discussionBannerText}>
                     투자자의 관점에서 아이디어를 평가하고 미션을 완료하세요.
                   </p>
@@ -535,7 +546,11 @@ export default function StockBoothDetailPage() {
                     maxLength={500}
                     disabled={!!myRating && !isEditingRating}
                   />
-                  <div className={styles.charCount}>{reviewText.length} / 500</div>
+                  <div className={styles.charCount}>
+                    {reviewText.trim().length > 0 && reviewText.trim().length < 20
+                      ? `${reviewText.trim().length}/20 (최소 20자)`
+                      : `${reviewText.length} / 500`}
+                  </div>
                 </div>
 
                 {/* 제출/수정 버튼 */}

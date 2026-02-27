@@ -101,7 +101,7 @@ export default function BoothDetailPage() {
       )}
 
       {/* 내 투자금 행 */}
-      <div className={styles.myInvestRow}>
+      <div className={styles.myInvestRow} onClick={() => navigate('/history')} style={{ cursor: 'pointer' }}>
         <span className={styles.myInvestLabel}>내 투자금</span>
         <span className={styles.myInvestValue}>
           {formatKorean(booth.myInvestment)}원

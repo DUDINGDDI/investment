@@ -9,7 +9,7 @@ import styles from './BoothListPage.module.css'
 const COLORS = ['#6C5CE7', '#4593FC', '#00D68F', '#F5C842', '#F04452', '#FF8A65', '#a855f7', '#14b8a6', '#f97316', '#ec4899', '#8b5cf6']
 
 export default function BoothListPage() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const activeTab = searchParams.get('tab') === 'portfolio' ? 'portfolio' : 'all'
   const [booths, setBooths] = useState<BoothResponse[]>([])
   const [cospi, setCospi] = useState<CospiResponse | null>(null)
@@ -39,10 +39,6 @@ export default function BoothListPage() {
     window.addEventListener('balance-changed', handler)
     return () => window.removeEventListener('balance-changed', handler)
   }, [])
-
-  const switchTab = (tab: 'all' | 'portfolio') => {
-    setSearchParams(tab === 'portfolio' ? { tab: 'portfolio' } : {})
-  }
 
   const getChangeClass = () => {
     if (!cospi) return styles.changeNeutral
