@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { userApi, investmentApi, boothApi, stockApi } from '../api'
+import { userApi, investmentApi, boothApi } from '../api'
 import { formatKorean } from '../utils/format'
-import PriceChart from '../components/PriceChart'
-import type { BoothResponse, CospiResponse } from '../types'
+import type { BoothResponse } from '../types'
 import styles from './HomePage.module.css'
 
 export default function HomePage() {
@@ -13,7 +12,6 @@ export default function HomePage() {
   const [balance, setBalance] = useState<number | null>(null)
   const [totalInvested, setTotalInvested] = useState(0)
   const [booths, setBooths] = useState<BoothResponse[]>([])
-  const [cospi, setCospi] = useState<CospiResponse | null>(null)
 
   useEffect(() => {
     userApi.getMe().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -22,7 +20,6 @@ export default function HomePage() {
       setTotalInvested(total)
     }).catch(() => {})
     boothApi.getAll().then(res => setBooths(res.data)).catch(() => {})
-    stockApi.getCospi().then(res => setCospi(res.data)).catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -41,20 +38,6 @@ export default function HomePage() {
   const PAGE_SIZE = 10
 
   const totalAsset = (balance || 0) + totalInvested
-
-  const getChangeClass = () => {
-    if (!cospi) return styles.changeNeutral
-    if (cospi.change > 0) return styles.changeUp
-    if (cospi.change < 0) return styles.changeDown
-    return styles.changeNeutral
-  }
-
-  const getChangeText = () => {
-    if (!cospi) return ''
-    if (cospi.change > 0) return `▲ ${formatKorean(cospi.change)}원(+${cospi.changeRate}%)`
-    if (cospi.change < 0) return `▼ ${formatKorean(Math.abs(cospi.change))}원(${cospi.changeRate}%)`
-    return '변동 없음'
-  }
 
   return (
     <div className={styles.container}>
@@ -82,42 +65,11 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 주식 종목 전체 (인라인) */}
+      {/* 투자 종목 전체 */}
       <div className={styles.boothSection}>
-        {/* COSPI 배너 */}
-        <div className={styles.cospiBanner}>
-          <div className={styles.cospiIcon}>📈</div>
-          <div className={styles.cospiContent}>
-            <p className={styles.cospiFull}>CJ ONLYONE Stock Price Index</p>
-            <p className={styles.cospiTitle}>COSPI</p>
-            <p className={styles.cospiDesc}>
-              모든 부스의 투자금 총합을 나타내는 지수입니다. 시장 전체의 흐름을 한눈에 확인하세요.
-            </p>
-          </div>
-        </div>
-
-        {/* COSPI 지수 + 차트 */}
-        {cospi && (
-          <>
-            <div className={styles.cospiPriceRow}>
-              <span className={styles.cospiLabel}>COSPI 지수</span>
-              <span className={styles.cospiValue}>{formatKorean(cospi.currentTotal)}원</span>
-              <span className={getChangeClass()}>{getChangeText()}</span>
-            </div>
-
-            <div className={styles.chartArea}>
-              <PriceChart
-                priceHistory={cospi.history}
-                themeColor={cospi.change >= 0 ? '#ef4444' : '#3b82f6'}
-              />
-            </div>
-          </>
-        )}
-
-        {/* 주식 종목 리스트 */}
         <div className={styles.stockSection}>
-          <h3 className={styles.stockSectionTitle}>주식 종목</h3>
-          <p className={styles.stockSectionSubtitle}>여러 주식 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
+          <h3 className={styles.stockSectionTitle}>투자 종목</h3>
+          <p className={styles.stockSectionSubtitle}>여러 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
 
           <div className={styles.list}>
             {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (

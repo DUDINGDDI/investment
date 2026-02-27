@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { boothApi, stockApi, investmentApi, userApi } from '../api'
+import { boothApi, investmentApi, userApi } from '../api'
 import { formatKorean } from '../utils/format'
-import PriceChart from '../components/PriceChart'
-import type { BoothResponse, CospiResponse, InvestmentResponse } from '../types'
+import type { BoothResponse, InvestmentResponse } from '../types'
 import styles from './BoothListPage.module.css'
 
 const COLORS = ['#6C5CE7', '#4593FC', '#00D68F', '#F5C842', '#F04452', '#FF8A65', '#a855f7', '#14b8a6', '#f97316', '#ec4899', '#8b5cf6']
@@ -12,7 +11,6 @@ export default function BoothListPage() {
   const [searchParams] = useSearchParams()
   const activeTab = searchParams.get('tab') === 'portfolio' ? 'portfolio' : 'all'
   const [booths, setBooths] = useState<BoothResponse[]>([])
-  const [cospi, setCospi] = useState<CospiResponse | null>(null)
   const [balance, setBalance] = useState<number>(0)
   const [holdings, setHoldings] = useState<InvestmentResponse[]>([])
   const [boothPage, setBoothPage] = useState(0)
@@ -21,7 +19,6 @@ export default function BoothListPage() {
 
   useEffect(() => {
     boothApi.getAll().then(res => setBooths(res.data))
-    stockApi.getCospi().then(res => setCospi(res.data)).catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -39,20 +36,6 @@ export default function BoothListPage() {
     window.addEventListener('balance-changed', handler)
     return () => window.removeEventListener('balance-changed', handler)
   }, [])
-
-  const getChangeClass = () => {
-    if (!cospi) return styles.changeNeutral
-    if (cospi.change > 0) return styles.changeUp
-    if (cospi.change < 0) return styles.changeDown
-    return styles.changeNeutral
-  }
-
-  const getChangeText = () => {
-    if (!cospi) return ''
-    if (cospi.change > 0) return `▲ ${formatKorean(cospi.change)}원(+${cospi.changeRate}%)`
-    if (cospi.change < 0) return `▼ ${formatKorean(Math.abs(cospi.change))}원(${cospi.changeRate}%)`
-    return '변동 없음'
-  }
 
   // 포트폴리오 계산
   const totalHolding = holdings.reduce((sum, h) => sum + h.amount, 0)
@@ -78,40 +61,10 @@ export default function BoothListPage() {
     <div className={styles.container}>
       {activeTab === 'all' ? (
         <>
-          {/* COSPI 배너 */}
-          <div className={styles.cospiBanner}>
-            <div className={styles.cospiIcon}>📈</div>
-            <div className={styles.cospiContent}>
-              <p className={styles.cospiFull}>CJ ONLYONE Stock Price Index</p>
-              <p className={styles.cospiTitle}>COSPI</p>
-              <p className={styles.cospiDesc}>
-                모든 부스의 투자금 총합을 나타내는 지수입니다. 시장 전체의 흐름을 한눈에 확인하세요.
-              </p>
-            </div>
-          </div>
-
-          {/* COSPI 지수 + 차트 */}
-          {cospi && (
-            <>
-              <div className={styles.cospiPriceRow}>
-                <span className={styles.cospiLabel}>COSPI 지수</span>
-                <span className={styles.cospiValue}>{formatKorean(cospi.currentTotal)}원</span>
-                <span className={getChangeClass()}>{getChangeText()}</span>
-              </div>
-
-              <div className={styles.chartArea}>
-                <PriceChart
-                  priceHistory={cospi.history}
-                  themeColor={cospi.change >= 0 ? '#ef4444' : '#3b82f6'}
-                />
-              </div>
-            </>
-          )}
-
-          {/* 주식 종목 리스트 */}
+          {/* 투자 종목 리스트 */}
           <div className={styles.stockSection}>
-            <h3 className={styles.stockSectionTitle}>주식 종목</h3>
-            <p className={styles.stockSectionSubtitle}>여러 주식 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
+            <h3 className={styles.stockSectionTitle}>투자 종목</h3>
+            <p className={styles.stockSectionSubtitle}>여러 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
 
             <div className={styles.list}>
               {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (
