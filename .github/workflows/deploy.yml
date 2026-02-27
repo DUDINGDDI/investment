@@ -99,6 +99,11 @@ jobs:
               docker compose -f docker-compose.prod.yml down --remove-orphans
             fi
 
+            echo "=== Docker Cleanup ==="
+            docker image prune -f || true
+            docker builder prune -f --keep-storage=2GB || true
+            docker volume prune -f || true
+
             echo "=== Docker Compose Up ==="
             docker compose -f docker-compose.prod.yml up -d --build
 
