@@ -100,7 +100,7 @@ export default function BoothListPage() {
           <div className={styles.cospiBanner}>
             <div className={styles.cospiIcon}>📈</div>
             <div className={styles.cospiContent}>
-              <p className={styles.cospiFull}>CJ OnlyOne Stock Price Index</p>
+              <p className={styles.cospiFull}>CJ ONLYONE Stock Price Index</p>
               <p className={styles.cospiTitle}>COSPI</p>
               <p className={styles.cospiDesc}>
                 모든 부스의 투자금 총합을 나타내는 지수입니다. 시장 전체의 흐름을 한눈에 확인하세요.

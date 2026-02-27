@@ -328,7 +328,7 @@ export default function StockBoothDetailPage() {
             <button
               className={styles.investBtn}
               onClick={() => setModal('buy')}
-              disabled={!canTrade || balance === 0 || booth.myHolding >= 40_000_000}
+              disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
             >
               투자하기
             </button>
@@ -612,7 +612,7 @@ export default function StockBoothDetailPage() {
         <StockTradeModal
           type="buy"
           boothName={booth.name}
-          maxAmount={Math.min(balance, 40_000_000 - booth.myHolding)}
+          maxAmount={Math.min(balance, 30_000_000 - booth.myHolding)}
           onConfirm={handleBuy}
           onClose={() => setModal(null)}
         />

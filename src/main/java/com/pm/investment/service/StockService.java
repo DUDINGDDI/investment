@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StockService {
 
-    private static final long TRADE_UNIT = 10_000_000L;
+    private static final long TRADE_UNIT = 5_000_000L;
 
     private volatile CospiResponse cospiCache;
 
@@ -50,9 +50,9 @@ public class StockService {
                     return stockHoldingRepository.save(newHolding);
                 });
 
-        long maxPerBooth = 40_000_000L;
+        long maxPerBooth = 30_000_000L;
         if (holding.getAmount() + amount > maxPerBooth) {
-            throw new IllegalStateException("부스당 최대 투자 금액은 4,000만원입니다");
+            throw new IllegalStateException("부스당 최대 투자 금액은 3,000만원입니다");
         }
 
         account.setBalance(account.getBalance() - amount);
@@ -218,7 +218,7 @@ public class StockService {
             throw new IllegalArgumentException("금액은 0보다 커야 합니다");
         }
         if (amount % TRADE_UNIT != 0) {
-            throw new IllegalArgumentException("금액은 10,000,000원 단위여야 합니다");
+            throw new IllegalArgumentException("금액은 5,000,000원 단위여야 합니다");
         }
     }
 }

@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void
 }
 
-const UNIT = 10_000_000
+const UNIT = 5_000_000
 
 export default function StockTradeModal({ type, boothName, maxAmount, onConfirm, onClose }: Props) {
   const maxSteps = Math.floor(maxAmount / UNIT)
