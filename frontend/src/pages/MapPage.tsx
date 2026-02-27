@@ -92,33 +92,21 @@ export default function MapPage() {
   }, [zones])
 
   const displayBooths = useMemo(() => {
-    let filtered = allBooths.filter(b => b.zoneCode === filterZoneCode)
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase()
-      filtered = filtered.filter(b => b.name.toLowerCase().includes(q))
-    }
-    return filtered
-  }, [searchQuery, filterZoneCode, allBooths])
+    return allBooths.filter(b => b.zoneCode === filterZoneCode)
+  }, [filterZoneCode, allBooths])
 
   const totalPages = Math.ceil(displayBooths.length / PAGE_SIZE)
   const pagedBooths = displayBooths.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   const selectedZone = zones.find(z => z.zoneCode === filterZoneCode)
 
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value)
-    setPage(1)
-  }
-
   const handleFilterChange = (value: string) => {
     setFilterZoneCode(value)
-    setSearchQuery('')
     setPage(1)
   }
 
   const handleHotspotClick = (zoneId: string) => {
     setFilterZoneCode(zoneId)
-    setSearchQuery('')
     setPage(1)
   }
 
@@ -180,9 +168,7 @@ export default function MapPage() {
             <h3 className={styles.boothTitle}>
               {STATIC_ZONE_INFO[filterZoneCode]
                 ? `${selectedZone?.name ?? ''} 구역 안내`
-                : searchQuery
-                  ? `검색 결과 (${displayBooths.length}개)`
-                  : `${selectedZone?.name ?? ''} 구역 부스`
+                : `${selectedZone?.name ?? ''} 구역 부스`
               }
             </h3>
             {selectedZone && (
@@ -208,7 +194,6 @@ export default function MapPage() {
                     <div className={styles.boothBody}>
                       <p className={styles.boothName}>{booth.name}</p>
                       <p className={styles.boothDesc}>
-                        {searchQuery && <span className={styles.boothZoneTag}>{booth.zoneName}</span>}
                         {booth.shortDescription}
                       </p>
                     </div>
@@ -242,7 +227,7 @@ export default function MapPage() {
             </>
           ) : (
             <div className={styles.emptyList}>
-              <p>{searchQuery ? '검색 결과가 없습니다.' : '등록된 부스가 없습니다.'}</p>
+              <p>등록된 부스가 없습니다.</p>
             </div>
           )}
         </div>
