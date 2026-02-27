@@ -15,6 +15,8 @@ export default function StockBoothListPage() {
   const [cospi, setCospi] = useState<CospiResponse | null>(null)
   const [balance, setBalance] = useState<number>(0)
   const [holdings, setHoldings] = useState<StockHoldingResponse[]>([])
+  const [boothPage, setBoothPage] = useState(0)
+  const PAGE_SIZE = 10
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -128,11 +130,11 @@ export default function StockBoothListPage() {
 
           {/* 주식 종목 리스트 */}
           <div className={styles.stockSection}>
-            <h3 className={styles.stockSectionTitle}>주식 종목</h3>
-            <p className={styles.stockSectionSubtitle}>여러 주식 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
+            <h3 className={styles.stockSectionTitle}>투자 종목</h3>
+            <p className={styles.stockSectionSubtitle}>여러 투자 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
 
             <div className={styles.list}>
-              {booths.map((booth, i) => (
+              {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (
                 <div
                   key={booth.id}
                   className={`${styles.item} stagger-item`}
@@ -147,6 +149,28 @@ export default function StockBoothListPage() {
                 </div>
               ))}
             </div>
+
+            {(
+              <div className={styles.pagination}>
+                <button
+                  className={styles.pageBtn}
+                  disabled={boothPage === 0}
+                  onClick={() => setBoothPage(boothPage - 1)}
+                >
+                  ‹ 이전
+                </button>
+                <span className={styles.pageInfo}>
+                  {boothPage + 1} / {Math.ceil(booths.length / PAGE_SIZE) || 1}
+                </span>
+                <button
+                  className={styles.pageBtn}
+                  disabled={(boothPage + 1) * PAGE_SIZE >= booths.length}
+                  onClick={() => setBoothPage(boothPage + 1)}
+                >
+                  다음 ›
+                </button>
+              </div>
+            )}
           </div>
         </>
       ) : (

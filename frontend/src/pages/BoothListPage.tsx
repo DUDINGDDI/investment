@@ -15,6 +15,8 @@ export default function BoothListPage() {
   const [cospi, setCospi] = useState<CospiResponse | null>(null)
   const [balance, setBalance] = useState<number>(0)
   const [holdings, setHoldings] = useState<InvestmentResponse[]>([])
+  const [boothPage, setBoothPage] = useState(0)
+  const PAGE_SIZE = 10
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -78,16 +80,6 @@ export default function BoothListPage() {
 
   return (
     <div className={styles.container}>
-      {/* 탭 */}
-      <div className={styles.tabsChip}>
-        <button
-          className={`${styles.chipTab} ${activeTab === 'portfolio' ? styles.chipActive : ''}`}
-          onClick={() => switchTab('portfolio')}
-        >
-          나의 투자 정보
-        </button>
-      </div>
-
       {activeTab === 'all' ? (
         <>
           {/* COSPI 배너 */}
@@ -126,7 +118,7 @@ export default function BoothListPage() {
             <p className={styles.stockSectionSubtitle}>여러 주식 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
 
             <div className={styles.list}>
-              {booths.map((booth, i) => (
+              {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (
                 <div
                   key={booth.id}
                   className={`${styles.item} stagger-item`}
@@ -141,6 +133,28 @@ export default function BoothListPage() {
                 </div>
               ))}
             </div>
+
+            {(
+              <div className={styles.pagination}>
+                <button
+                  className={styles.pageBtn}
+                  disabled={boothPage === 0}
+                  onClick={() => setBoothPage(boothPage - 1)}
+                >
+                  ‹ 이전
+                </button>
+                <span className={styles.pageInfo}>
+                  {boothPage + 1} / {Math.ceil(booths.length / PAGE_SIZE)}
+                </span>
+                <button
+                  className={styles.pageBtn}
+                  disabled={(boothPage + 1) * PAGE_SIZE >= booths.length}
+                  onClick={() => setBoothPage(boothPage + 1)}
+                >
+                  다음 ›
+                </button>
+              </div>
+            )}
           </div>
         </>
       ) : (

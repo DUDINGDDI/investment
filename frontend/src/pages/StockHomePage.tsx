@@ -200,7 +200,7 @@ export default function StockHomePage() {
           <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
             <p className={styles.cardAmount}>{formatKorean(totalHolding)}원</p>
-            <button className={styles.cardBtn} onClick={() => navigate('/stocks/booths')}>주식 종목 보기</button>
+            <button className={styles.cardBtn} onClick={() => navigate('/stocks/booths')}>투자 종목 보기</button>
           </div>
         </div>
         <div className={styles.cardBottom}>

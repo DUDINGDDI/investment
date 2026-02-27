@@ -205,22 +205,22 @@ export default function MapPage() {
               </div>
 
               {/* 페이지네이션 */}
-              {totalPages > 1 && (
+              {(
                 <div className={styles.pagination}>
                   <button
                     className={styles.pageBtn}
                     disabled={page <= 1}
                     onClick={() => handlePageChange(page - 1)}
                   >
-                    이전
+                    ‹ 이전
                   </button>
-                  <span className={styles.pageInfo}>{page} / {totalPages}</span>
+                  <span className={styles.pageInfo}>{page} / {totalPages || 1}</span>
                   <button
                     className={styles.pageBtn}
                     disabled={page >= totalPages}
                     onClick={() => handlePageChange(page + 1)}
                   >
-                    다음
+                    다음 ›
                   </button>
                 </div>
               )}

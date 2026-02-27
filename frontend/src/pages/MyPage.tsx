@@ -29,6 +29,9 @@ export default function MyPage() {
   const [memos, setMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
   const [memosLoaded, setMemosLoaded] = useState(false)
   const [qrMission, setQrMission] = useState<Mission | null>(null)
+  const [visitPage, setVisitPage] = useState(0)
+  const [memoPage, setMemoPage] = useState(0)
+  const PAGE_SIZE = 10
 
   // 부스 탭: 방문부스 + 우리부스 데이터 동시 로드
   useEffect(() => {
@@ -130,21 +133,42 @@ export default function MyPage() {
             <span className={styles.sectionCount}>{visits.length}곳</span>
           </div>
           {visits.length > 0 ? (
-            <div className={styles.list}>
-              {visits.map((v, i) => (
-                <div
-                  key={`${v.boothId}-${v.visitedAt}`}
-                  className={`${styles.card} stagger-item`}
-                  style={{ animationDelay: `${i * 0.04}s` }}
-                  onClick={() => navigate(`/stocks/booths/${v.boothId}`)}
-                >
-                  <div className={styles.cardBody}>
-                    <p className={styles.cardName}>{v.boothName}</p>
-                    <p className={styles.cardSub}>{new Date(v.visitedAt).toLocaleDateString('ko-KR')}</p>
+            <>
+              <div className={styles.list}>
+                {visits.slice(visitPage * PAGE_SIZE, (visitPage + 1) * PAGE_SIZE).map((v, i) => (
+                  <div
+                    key={`${v.boothId}-${v.visitedAt}`}
+                    className={`${styles.card} stagger-item`}
+                    style={{ animationDelay: `${i * 0.04}s` }}
+                    onClick={() => navigate(`/stocks/booths/${v.boothId}`)}
+                  >
+                    <div className={styles.cardBody}>
+                      <p className={styles.cardName}>{v.boothName}</p>
+                      <p className={styles.cardSub}>{new Date(v.visitedAt).toLocaleDateString('ko-KR')}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              <div className={styles.pagination}>
+                <button
+                  className={styles.pageBtn}
+                  disabled={visitPage === 0}
+                  onClick={() => setVisitPage(visitPage - 1)}
+                >
+                  ‹ 이전
+                </button>
+                <span className={styles.pageInfo}>
+                  {visitPage + 1} / {Math.ceil(visits.length / PAGE_SIZE) || 1}
+                </span>
+                <button
+                  className={styles.pageBtn}
+                  disabled={(visitPage + 1) * PAGE_SIZE >= visits.length}
+                  onClick={() => setVisitPage(visitPage + 1)}
+                >
+                  다음 ›
+                </button>
+              </div>
+            </>
           ) : (
             <div className={styles.emptyState}>
               <span className={styles.emptyIcon}>📍</span>
@@ -196,21 +220,42 @@ export default function MyPage() {
       {activeTab === 'memos' && (
         <>
           {memos.length > 0 ? (
-            <div className={styles.memoList}>
-              {memos.map((m: { boothId: number; boothName: string; memo: string }, i: number) => (
-                <div
-                  key={m.boothId}
-                  className={`${styles.memoCard} stagger-item`}
-                  style={{ animationDelay: `${i * 0.04}s` }}
-                  onClick={() => navigate(`/stocks/booths/${m.boothId}`)}
-                >
-                  <div className={styles.memoCardHeader}>
-                    <p className={styles.cardName}>{m.boothName}</p>
+            <>
+              <div className={styles.memoList}>
+                {memos.slice(memoPage * PAGE_SIZE, (memoPage + 1) * PAGE_SIZE).map((m: { boothId: number; boothName: string; memo: string }, i: number) => (
+                  <div
+                    key={m.boothId}
+                    className={`${styles.memoCard} stagger-item`}
+                    style={{ animationDelay: `${i * 0.04}s` }}
+                    onClick={() => navigate(`/stocks/booths/${m.boothId}`)}
+                  >
+                    <div className={styles.memoCardHeader}>
+                      <p className={styles.cardName}>{m.boothName}</p>
+                    </div>
+                    <p className={styles.memoText}>{m.memo}</p>
                   </div>
-                  <p className={styles.memoText}>{m.memo}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              <div className={styles.pagination}>
+                <button
+                  className={styles.pageBtn}
+                  disabled={memoPage === 0}
+                  onClick={() => setMemoPage(memoPage - 1)}
+                >
+                  ‹ 이전
+                </button>
+                <span className={styles.pageInfo}>
+                  {memoPage + 1} / {Math.ceil(memos.length / PAGE_SIZE) || 1}
+                </span>
+                <button
+                  className={styles.pageBtn}
+                  disabled={(memoPage + 1) * PAGE_SIZE >= memos.length}
+                  onClick={() => setMemoPage(memoPage + 1)}
+                >
+                  다음 ›
+                </button>
+              </div>
+            </>
           ) : (
             <div className={styles.emptyState}>
               <span className={styles.emptyIcon}>📝</span>
