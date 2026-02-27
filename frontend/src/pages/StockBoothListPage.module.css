@@ -155,7 +155,7 @@
 .tabsChip {
   display: flex;
   gap: 8px;
-  padding: 0 0 16px;
+  padding: 12px 0 16px;
 }
 
 .chipTab {
@@ -221,9 +221,17 @@
   gap: 20px;
 }
 
+@media (max-width: 360px) {
+  .statusBody {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 /* ── 도넛 차트 ── */
 .chartWrap {
   width: 120px;
+  min-width: 120px;
   height: 120px;
   flex-shrink: 0;
 }
