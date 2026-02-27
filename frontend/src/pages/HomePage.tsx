@@ -44,7 +44,7 @@ export default function HomePage() {
       {/* 유저 정보 + 투자 금액 카드 */}
       <div className={styles.investCard}>
         <div className={styles.cardTop}>
-          <p className={styles.cardCompany}>{userCompany || 'ONLYONE FAIR'}</p>
+          <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
           <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
             <p className={styles.cardAmount}>{formatKorean(totalInvested)}원</p>

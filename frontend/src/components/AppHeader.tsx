@@ -36,7 +36,7 @@ export default function AppHeader() {
           </svg>
         </button>
         <img src={cjLogo} alt="CJ" className={styles.logo} />
-        <h1 className={styles.title}>ONLYONE FAIR</h1>
+        <h1 className={styles.title}>2026 ONLYONE FAIR</h1>
         <button className={styles.noteBtn} onClick={() => setNoteOpen(true)} aria-label="쪽지">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="var(--text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

@@ -41,7 +41,7 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <img src={cjLogo} alt="CJ" className={styles.logo} />
-        <h1 className={styles.title}>ONLYONE FAIR</h1>
+        <h1 className={styles.title}>2026 ONLYONE FAIR</h1>
         <p className={styles.subtitle}>나만의 투자 포트폴리오를 만들어보세요</p>
       </div>
 
