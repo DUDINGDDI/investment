@@ -16,7 +16,7 @@
   background: var(--bg-primary);
   border-radius: 20px 20px 0 0;
   width: 100%;
-  max-width: 480px;
+  max-width: var(--app-max-width);
   padding: 20px 24px calc(24px + var(--safe-area-bottom));
   animation: slideUp 0.3s ease;
 }

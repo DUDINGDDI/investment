@@ -61,9 +61,10 @@ export default function App() {
     if (!root) return
 
     const updateZoom = () => {
+      const maxWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--app-max-width'))
       const vw = window.innerWidth
-      if (vw < 480) {
-        (root.style as CSSStyleDeclaration & { zoom: string }).zoom = String(vw / 480)
+      if (vw < maxWidth) {
+        (root.style as CSSStyleDeclaration & { zoom: string }).zoom = String(vw / maxWidth)
       } else {
         (root.style as CSSStyleDeclaration & { zoom: string }).zoom = ''
       }
