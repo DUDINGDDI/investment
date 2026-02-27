@@ -6,8 +6,8 @@ import styles from './HomePage.module.css'
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const userName = sessionStorage.getItem('userName') || ''
-  const userCompany = sessionStorage.getItem('userCompany') || ''
+  const userName = localStorage.getItem('userName') || ''
+  const userCompany = localStorage.getItem('userCompany') || ''
   const [balance, setBalance] = useState<number | null>(null)
   const [totalInvested, setTotalInvested] = useState(0)
 

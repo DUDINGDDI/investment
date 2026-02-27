@@ -17,9 +17,9 @@ const TICKET_IMAGE_MAP: Record<string, { normal: string; complete: string; label
 
 export default function MyPage() {
   const navigate = useNavigate()
-  const userName = sessionStorage.getItem('userName') || ''
-  const userCompany = sessionStorage.getItem('userCompany') || ''
-  const userId = sessionStorage.getItem('userId') || ''
+  const userName = localStorage.getItem('userName') || ''
+  const userCompany = localStorage.getItem('userCompany') || ''
+  const userId = localStorage.getItem('userId') || ''
   const [activeTab, setActiveTab] = useState<'booths' | 'tickets' | 'memos'>('booths')
   const [visits, setVisits] = useState<BoothVisitResponse[]>([])
   const [visitsLoaded, setVisitsLoaded] = useState(false)
@@ -68,9 +68,10 @@ export default function MyPage() {
   const ticketCount = ticketMissions.length
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token')
-    sessionStorage.removeItem('userName')
-    sessionStorage.removeItem('userCompany')
+    localStorage.removeItem('token')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('userName')
+    localStorage.removeItem('userCompany')
     navigate('/')
   }
 

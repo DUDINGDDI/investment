@@ -21,10 +21,10 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const { data } = await authApi.login({ uniqueCode: uniqueCode.trim(), name: name.trim() })
-      sessionStorage.setItem('token', data.token)
-      sessionStorage.setItem('userId', String(data.userId))
-      sessionStorage.setItem('userName', data.name)
-      sessionStorage.setItem('userCompany', data.company || '')
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('userId', String(data.userId))
+      localStorage.setItem('userName', data.name)
+      localStorage.setItem('userCompany', data.company || '')
       navigate('/stocks', { replace: true })
     } catch {
       showToast('로그인에 실패했습니다', 'error')

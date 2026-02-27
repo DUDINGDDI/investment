@@ -27,7 +27,7 @@ import { ToastProvider } from './components/ToastContext'
 import { MissionProvider } from './components/MissionContext'
 
 function PrivateLayout() {
-  const token = sessionStorage.getItem('token')
+  const token = localStorage.getItem('token')
   if (!token) return <Navigate to="/" replace />
   return (
     <div style={{ paddingBottom: '80px' }}>

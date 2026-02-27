@@ -102,7 +102,7 @@ export function MissionProvider({ children }: { children: ReactNode }) {
 
   // 마운트 시 자동으로 서버에서 동기화
   useEffect(() => {
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
     if (token) {
       syncFromServer()
     }
