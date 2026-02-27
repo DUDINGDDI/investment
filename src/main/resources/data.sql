@@ -28,7 +28,12 @@ INSERT INTO zones (zone_code, name, floor_info, display_order) VALUES
 ('L02', 'L02', 'INNOVATION CENTER LL', 3),
 ('101', '101호', 'LEADERSHIP CENTER 1F', 4),
 ('102', '102호', 'LEADERSHIP CENTER 1F', 5),
-('201', '201호', 'LEADERSHIP CENTER 2F', 6);
+('201', '201호', 'LEADERSHIP CENTER 2F', 6),
+('202', '202호', 'LEADERSHIP CENTER 2F', 7),
+('203', '203호', 'LEADERSHIP CENTER 2F', 8),
+('204', '204호', 'LEADERSHIP CENTER 2F', 9),
+('301', '301호', 'LEADERSHIP CENTER 3F', 10),
+('302', '302호', 'LEADERSHIP CENTER 3F', 11);
 
 -- ──────────────────────────────────────────────
 -- users (8명)

@@ -6,49 +6,58 @@ import styles from './MapPage.module.css'
 
 type Hotspot = { zoneId: string; left: number; top: number; width: number; height: number }
 
-/** zoneCode → 지도 이미지 + 핫스팟 매핑 */
-const MAP2_HOTSPOTS: Hotspot[] = [
-  { zoneId: 'L01', left: 26, top: 11, width: 17, height: 29 },
-  { zoneId: 'L02', left: 44, top: 11, width: 16, height: 29 },
+/** 이미지별 핫스팟 좌표 (% 기준) */
+const INNOVATION_LL_HOTSPOTS: Hotspot[] = [
+  { zoneId: 'L01', left: 26, top: 10, width: 17, height: 30 },
+  { zoneId: 'L02', left: 43, top: 10, width: 17, height: 30 },
   { zoneId: '손복남홀', left: 60, top: 25, width: 19, height: 58 },
 ]
 
+const LEARNING_1F_HOTSPOTS: Hotspot[] = [
+  { zoneId: '101', left: 21, top: 14, width: 26, height: 49 },
+  { zoneId: '102', left: 53, top: 14, width: 26, height: 49 },
+]
+
+const LEARNING_2F_HOTSPOTS: Hotspot[] = [
+  { zoneId: '204', left: 21, top: 14, width: 16, height: 18 },
+  { zoneId: '203', left: 21, top: 32, width: 16, height: 18 },
+  { zoneId: '202', left: 21, top: 51, width: 16, height: 18 },
+  { zoneId: '201', left: 53, top: 14, width: 26, height: 42 },
+]
+
+const LEARNING_3F_HOTSPOTS: Hotspot[] = [
+  { zoneId: '301', left: 21, top: 28, width: 25, height: 51 },
+  { zoneId: '302', left: 54, top: 28, width: 25, height: 51 },
+]
+
+/** zoneCode → 지도 이미지 + 핫스팟 매핑 */
 const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
-  '손복남홀': {
-    image: '/image/map2.png',
-    hotspots: MAP2_HOTSPOTS,
-  },
-  'L01': {
-    image: '/image/map2.png',
-    hotspots: MAP2_HOTSPOTS,
-  },
-  'L02': {
-    image: '/image/map2.png',
-    hotspots: MAP2_HOTSPOTS,
-  },
-  '101': {
-    image: '/image/map1.png',
-    hotspots: [
-      { zoneId: '101', left: 21, top: 13, width: 27, height: 50 },
-      { zoneId: '102', left: 53, top: 13, width: 27, height: 50 },
-    ],
-  },
-  '102': {
-    image: '/image/map1.png',
-    hotspots: [
-      { zoneId: '101', left: 21, top: 13, width: 27, height: 50 },
-      { zoneId: '102', left: 53, top: 13, width: 27, height: 50 },
-    ],
-  },
-  '201': {
-    image: '/image/map3.png',
-    hotspots: [{ zoneId: '201', left: 53, top: 13, width: 26, height: 43 }],
-  },
+  '손복남홀': { image: '/image/map/innovation_ll.png', hotspots: INNOVATION_LL_HOTSPOTS },
+  'L01': { image: '/image/map/innovation_ll.png', hotspots: INNOVATION_LL_HOTSPOTS },
+  'L02': { image: '/image/map/innovation_ll.png', hotspots: INNOVATION_LL_HOTSPOTS },
+  '101': { image: '/image/map/learning_1f.png', hotspots: LEARNING_1F_HOTSPOTS },
+  '102': { image: '/image/map/learning_1f.png', hotspots: LEARNING_1F_HOTSPOTS },
+  '201': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
+  '202': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
+  '203': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
+  '204': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
+  '301': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
+  '302': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
 }
 
-const DEFAULT_MAP_IMAGE = '/image/map2.png'
+/** 부스 미매핑 구역 — 정적 상세 설명 */
+const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = {
+  '201': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
+  '202': { name: '가챠 존', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
+  '203': { name: '가챠 존', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
+  '204': { name: '가챠 존', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
+  '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
+  '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
+}
 
-const ZONE_ORDER = ['손복남홀', 'L01', 'L02', '101', '102', '201']
+const DEFAULT_MAP_IMAGE = '/image/map/leadership_b1f.png'
+
+const ZONE_ORDER = ['손복남홀', 'L01', 'L02', '101', '102', '201', '202', '203', '204', '301', '302']
 
 const PAGE_SIZE = 10
 
@@ -168,35 +177,13 @@ export default function MapPage() {
 
       {/* 부스 목록 (하단) */}
       <div className={styles.boothSection}>
-          <div className={styles.searchBox}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className={styles.searchIcon}>
-              <circle cx="11" cy="11" r="7" stroke="var(--text-secondary)" strokeWidth="2"/>
-              <path d="M16 16L21 21" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-            <input
-              type="text"
-              placeholder="부스명 검색"
-              value={searchQuery}
-              onChange={e => handleSearchChange(e.target.value)}
-              className={styles.searchInput}
-            />
-            {searchQuery && (
-              <button
-                className={styles.clearBtn}
-                onClick={() => handleSearchChange('')}
-                aria-label="검색어 지우기"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M18 6L6 18M6 6l12 12" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </button>
-            )}
-          </div>
           <div className={styles.boothHeader}>
             <h3 className={styles.boothTitle}>
-              {searchQuery
-                ? `검색 결과 (${displayBooths.length}개)`
-                : `${selectedZone?.name ?? ''} 구역 부스`
+              {STATIC_ZONE_INFO[filterZoneCode]
+                ? `${selectedZone?.name ?? ''} 구역 안내`
+                : searchQuery
+                  ? `검색 결과 (${displayBooths.length}개)`
+                  : `${selectedZone?.name ?? ''} 구역 부스`
               }
             </h3>
             {selectedZone && (
@@ -204,7 +191,12 @@ export default function MapPage() {
             )}
           </div>
 
-          {pagedBooths.length > 0 ? (
+          {STATIC_ZONE_INFO[filterZoneCode] ? (
+            <div className={styles.staticZoneCard}>
+              <p className={styles.staticZoneName}>{STATIC_ZONE_INFO[filterZoneCode].name}</p>
+              <p className={styles.staticZoneDesc}>{STATIC_ZONE_INFO[filterZoneCode].description}</p>
+            </div>
+          ) : pagedBooths.length > 0 ? (
             <>
               <div className={styles.boothList} ref={listRef}>
                 {pagedBooths.map((booth, i) => (
