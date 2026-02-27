@@ -171,15 +171,6 @@
   letter-spacing: -0.3px;
 }
 
-.cardTag {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.06);
-  color: var(--card-sub);
-}
-
 .cardContent {
   font-size: 15px;
   line-height: 1.65;

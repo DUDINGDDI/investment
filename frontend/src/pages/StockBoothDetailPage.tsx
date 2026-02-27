@@ -9,8 +9,6 @@ import styles from './StockBoothDetailPage.module.css'
 
 type TabType = 'discussion' | 'review'
 
-const PRESET_TAGS = ['수익성', '성장가능성', '현실성'] as const
-
 const RATING_CRITERIA = [
   { key: 'scoreFirst', label: '최초' },
   { key: 'scoreBest', label: '최고' },
@@ -57,9 +55,6 @@ export default function StockBoothDetailPage() {
   const [comments, setComments] = useState<StockCommentResponse[]>([])
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [commentInput, setCommentInput] = useState('')
-  const [selectedTag, setSelectedTag] = useState<string>('')
-  const [customTag, setCustomTag] = useState('')
-  const [showCustomTagInput, setShowCustomTagInput] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   // 평가 탭
@@ -163,32 +158,6 @@ export default function StockBoothDetailPage() {
     }
   }
 
-  const getActiveTag = () => {
-    if (showCustomTagInput && customTag.trim()) return customTag.trim()
-    if (selectedTag) return selectedTag
-    return undefined
-  }
-
-  const handleTagSelect = (tag: string) => {
-    if (selectedTag === tag) {
-      setSelectedTag('')
-    } else {
-      setSelectedTag(tag)
-      setShowCustomTagInput(false)
-      setCustomTag('')
-    }
-  }
-
-  const handleCustomTagToggle = () => {
-    if (showCustomTagInput) {
-      setShowCustomTagInput(false)
-      setCustomTag('')
-    } else {
-      setShowCustomTagInput(true)
-      setSelectedTag('')
-    }
-  }
-
   const handleAddComment = async () => {
     if (!id || !commentInput.trim() || submitting) return
     if (commentInput.trim().length < 20) {
@@ -197,13 +166,9 @@ export default function StockBoothDetailPage() {
     }
     setSubmitting(true)
     try {
-      const tag = getActiveTag()
-      const res = await stockApi.addComment(Number(id), commentInput.trim(), tag)
+      const res = await stockApi.addComment(Number(id), commentInput.trim())
       setComments(prev => [res.data, ...prev])
       setCommentInput('')
-      setSelectedTag('')
-      setCustomTag('')
-      setShowCustomTagInput(false)
       showToast('제안이 등록되었습니다!', 'success')
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '제안 등록에 실패했습니다', 'error')
@@ -402,7 +367,6 @@ export default function StockBoothDetailPage() {
                       </div>
                       <span className={styles.commentTime}>{formatCommentTime(comment.createdAt)}</span>
                     </div>
-                    {comment.tag && <span className={styles.commentTag}>{comment.tag}</span>}
                     <p className={styles.commentContent}>{comment.content}</p>
                   </div>
                 ))
@@ -417,39 +381,6 @@ export default function StockBoothDetailPage() {
               </div>
             ) : (
               <div className={styles.commentInputArea}>
-                <div className={styles.tagSection}>
-                  <span className={styles.tagLabel}>태그</span>
-                  <div className={styles.tagChips}>
-                    {PRESET_TAGS.map(tag => (
-                      <button
-                        key={tag}
-                        className={`${styles.tagChip} ${selectedTag === tag ? styles.tagChipActive : ''}`}
-                        onClick={() => handleTagSelect(tag)}
-                        disabled={submitting}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                    <button
-                      className={`${styles.tagChip} ${showCustomTagInput ? styles.tagChipActive : ''}`}
-                      onClick={handleCustomTagToggle}
-                      disabled={submitting}
-                    >
-                      + 직접입력
-                    </button>
-                  </div>
-                  {showCustomTagInput && (
-                    <input
-                      className={styles.customTagInput}
-                      type="text"
-                      placeholder="태그를 입력하세요"
-                      value={customTag}
-                      onChange={e => setCustomTag(e.target.value)}
-                      maxLength={20}
-                      disabled={submitting}
-                    />
-                  )}
-                </div>
                 <div className={styles.inputRow}>
                   <textarea
                     className={styles.commentTextarea}
