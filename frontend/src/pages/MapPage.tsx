@@ -63,7 +63,6 @@ const PAGE_SIZE = 10
 
 export default function MapPage() {
   const [zones, setZones] = useState<ZoneResponse[]>([])
-  const [searchQuery, setSearchQuery] = useState('')
   const [filterZoneCode, setFilterZoneCode] = useState<string>('손복남홀')
   const [page, setPage] = useState(1)
   const navigate = useNavigate()
