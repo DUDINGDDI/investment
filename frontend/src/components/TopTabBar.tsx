@@ -17,7 +17,6 @@ export default function TopTabBar() {
   const [balance, setBalance] = useState<number | null>(null)
   const [totalInvested, setTotalInvested] = useState(0)
   const userName = localStorage.getItem('userName') || ''
-  const userCompany = localStorage.getItem('userCompany') || ''
 
   const fetchData = useCallback(() => {
     userApi.getMe().then(res => setBalance(res.data.balance)).catch(() => {})
