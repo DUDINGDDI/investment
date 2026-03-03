@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: idea-board
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/booth_invest?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: booth_user
+    password: booth1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 5000
+      idle-timeout: 300000
+      max-lifetime: 1740000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+server:
+  port: 8081
+  address: 0.0.0.0
+  tomcat:
+    threads:
+      max: 100
+      min-spare: 10
+
+idea-board:
+  internal-api-key: ${INTERNAL_API_KEY:idea-board-secret-key}

@@ -10,5 +10,15 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
+    proxy: {
+      '/api/idea-board': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+      },
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+    },
   },
 })
