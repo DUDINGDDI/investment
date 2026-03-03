@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
-import { visitApi, userApi, stockApi } from '../api'
+import { visitApi, userApi, stockApi, missionApi } from '../api'
+import type { UserMissionResponse } from '../types'
 import { useMissions, type Mission } from '../components/MissionContext'
 import type { BoothVisitResponse, MyBoothVisitorResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
 
 const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together']
+const PHOTO_MISSIONS = ['photo_0', 'photo_1', 'photo_2', 'photo_3', 'photo_4', 'photo_5']
+const PHOTO_TOTAL = 6
 const TICKET_IMAGE_MAP: Record<string, { normal: string; complete: string; label: string }> = {
-  renew: { normal: '/image/ticket/new.png', complete: '/image/ticket/new_complete.png', label: '내일더 새롭게' },
-  dream: { normal: '/image/ticket/dream.png', complete: '/image/ticket/dream_complete.png', label: '꿈을 원대하게' },
-  again: { normal: '/image/ticket/retry.png', complete: '/image/ticket/retry_complete.png', label: '안돼도 다시' },
-  sincere: { normal: '/image/ticket/truth.png', complete: '/image/ticket/truth_complete.png', label: '진정성 있게' },
-  together: { normal: '/image/ticket/together.png', complete: '/image/ticket/together_complete.png', label: '함께하는 하고잡이' },
+  renew: { normal: '/image/ticket/renew.svg', complete: '/image/ticket/renew_complete.svg', label: '내일더 새롭게' },
+  dream: { normal: '/image/ticket/dream.svg', complete: '/image/ticket/dream_complete.svg', label: '꿈을 원대하게' },
+  again: { normal: '/image/ticket/retry.svg', complete: '/image/ticket/retry_complete.svg', label: '안돼도 다시' },
+  sincere: { normal: '/image/ticket/truth.svg', complete: '/image/ticket/truth_complete.svg', label: '진정성 있게' },
+  together: { normal: '/image/ticket/together.svg', complete: '/image/ticket/together_complete.svg', label: '함께하는 하고잡이' },
 }
 
 export default function MyPage() {
@@ -29,6 +32,8 @@ export default function MyPage() {
   const [memos, setMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
   const [memosLoaded, setMemosLoaded] = useState(false)
   const [qrMission, setQrMission] = useState<Mission | null>(null)
+  const [photoMissions, setPhotoMissions] = useState<UserMissionResponse[]>([])
+  const [photoLoaded, setPhotoLoaded] = useState(false)
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [visitPage, setVisitPage] = useState(0)
   const [memoPage, setMemoPage] = useState(0)
@@ -52,6 +57,16 @@ export default function MyPage() {
     }
   }, [activeTab, visitsLoaded, boothVisitorsLoaded])
 
+  // 이용권 탭: 포토 미션 데이터 로드
+  useEffect(() => {
+    if (activeTab === 'tickets' && !photoLoaded) {
+      missionApi.getMyMissions().then(res => {
+        setPhotoMissions(res.data.filter((m: UserMissionResponse) => PHOTO_MISSIONS.includes(m.missionId)))
+        setPhotoLoaded(true)
+      }).catch(() => setPhotoLoaded(true))
+    }
+  }, [activeTab, photoLoaded])
+
   useEffect(() => {
     if (activeTab === 'memos' && !memosLoaded) {
       stockApi.getBooths().then(res => {
@@ -72,6 +87,12 @@ export default function MyPage() {
     .filter((m: Mission) => TICKET_MISSIONS.includes(m.id) && m.isCompleted)
     .sort((a, b) => Number(a.isUsed ?? false) - Number(b.isUsed ?? false))
   const ticketCount = ticketMissions.length
+
+  // 포토 교환권 계산
+  const photoCompleted = photoMissions.filter(m => m.isCompleted).length
+  const photoUsed = photoMissions.filter(m => m.isUsed).length
+  const photoRemaining = photoCompleted - photoUsed
+  const nextAvailablePhoto = photoMissions.find(m => m.isCompleted && !m.isUsed)
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -195,7 +216,7 @@ export default function MyPage() {
         <>
           <div className={styles.ticketHeader}>
             <span className={styles.ticketHeaderLabel}>보유 이용권</span>
-            <span className={styles.ticketHeaderCount}>{ticketCount}장</span>
+            <span className={styles.ticketHeaderCount}>{ticketCount + photoRemaining}장</span>
           </div>
 
           {ticketMissions.length > 0 ? (
@@ -220,6 +241,59 @@ export default function MyPage() {
                   </div>
                 )
               })}
+              {/* AI 포토 교환권 */}
+              {photoCompleted > 0 && (
+                <div
+                  className={`${styles.ticketImageCard} ${photoRemaining === 0 ? styles.ticketUsedCard : ''} stagger-item`}
+                  style={{ animationDelay: `${ticketMissions.length * 0.06}s` }}
+                  onClick={() => {
+                    if (photoRemaining > 0 && nextAvailablePhoto) {
+                      setQrMission({
+                        id: nextAvailablePhoto.missionId,
+                        title: 'AI 포토 교환권',
+                        description: '',
+                        isCompleted: true,
+                        icon: '/image/ticket/photo.svg',
+                      })
+                    }
+                  }}
+                >
+                  <img
+                    src={photoRemaining > 0 ? '/image/ticket/photo.svg' : '/image/ticket/photo_complete.svg'}
+                    alt="AI 포토 교환권"
+                    className={styles.ticketFullImg}
+                  />
+                  <div className={styles.photoCountOverlay}>
+                    <span className={styles.photoCountText}>{photoRemaining}/{PHOTO_TOTAL}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : photoCompleted > 0 ? (
+            <div className={styles.ticketGrid}>
+              <div
+                className={`${styles.ticketImageCard} ${photoRemaining === 0 ? styles.ticketUsedCard : ''} stagger-item`}
+                onClick={() => {
+                  if (photoRemaining > 0 && nextAvailablePhoto) {
+                    setQrMission({
+                      id: nextAvailablePhoto.missionId,
+                      title: 'AI 포토 교환권',
+                      description: '',
+                      isCompleted: true,
+                      icon: '/image/ticket/photo.svg',
+                    })
+                  }
+                }}
+              >
+                <img
+                  src={photoRemaining > 0 ? '/image/ticket/photo.svg' : '/image/ticket/photo_complete.svg'}
+                  alt="AI 포토 교환권"
+                  className={styles.ticketFullImg}
+                />
+                <div className={styles.photoCountOverlay}>
+                  <span className={styles.photoCountText}>{photoRemaining}/{PHOTO_TOTAL}</span>
+                </div>
+              </div>
             </div>
           ) : (
             <div className={styles.emptyState}>
@@ -291,10 +365,12 @@ export default function MyPage() {
       )}
 
       {qrMission && (
-        <div className={styles.qrOverlay} onClick={() => { setQrMission(null); syncFromServer() }}>
+        <div className={styles.qrOverlay} onClick={() => { setQrMission(null); syncFromServer(); setPhotoLoaded(false) }}>
           <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
             <h3 className={styles.qrTitle}>{qrMission.title}</h3>
-            <p className={styles.qrSubtitle}>이벤트존 이용권</p>
+            <p className={styles.qrSubtitle}>
+              {qrMission.id.startsWith('photo_') ? 'AI 포토 교환권' : '이벤트존 이용권'}
+            </p>
             <div className={styles.qrCode}>
               <QRCodeSVG
                 value={`ticket:${userId}:${qrMission.id}`}
@@ -303,7 +379,7 @@ export default function MyPage() {
               />
             </div>
             <p className={styles.qrGuide}>관리자에게 이 QR 코드를 보여주세요</p>
-            <button className={styles.qrClose} onClick={() => { setQrMission(null); syncFromServer() }}>
+            <button className={styles.qrClose} onClick={() => { setQrMission(null); syncFromServer(); setPhotoLoaded(false) }}>
               닫기
             </button>
           </div>
