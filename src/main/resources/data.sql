@@ -170,7 +170,7 @@ INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, 
 SELECT u.id, m.mission_id, m.target, m.target, TRUE, CURRENT_TIMESTAMP, FALSE, NULL
 FROM users u
 CROSS JOIN (
-    SELECT 'renew' AS mission_id, 1 AS target UNION ALL
+    SELECT 'renew' AS mission_id, 5 AS target UNION ALL
     SELECT 'dream', 1 UNION ALL
     SELECT 'result', 1 UNION ALL
     SELECT 'again', 70 UNION ALL

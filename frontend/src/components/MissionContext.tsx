@@ -23,8 +23,10 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'renew',
     title: '내일 더 새롭게',
-    description: '방문한 부스의 토론방에서 아이디어 개선점을 1건 이상 제안해주세요',
+    description: '방문한 부스의 토론방에서 아이디어 개선점을 5건 이상 제안해주세요(글자 수 150자 이상일 경우만 인정)',
     isCompleted: false,
+    progress: 0,
+    target: 5,
     icon: '/image/badge/new.svg',
   },
   {
@@ -61,7 +63,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   },
   {
     id: 'together',
-    title: '(+) 함께하는 하고잡이',
+    title: '(+) 함께하는',
     description: '지구본 콘텐츠 방문',
     isCompleted: false,
     icon: '/image/badge/together.svg',
