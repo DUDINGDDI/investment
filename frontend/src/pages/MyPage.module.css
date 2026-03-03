@@ -167,6 +167,23 @@
   cursor: default;
 }
 
+/* AI 포토 교환권 수량 오버레이 */
+.photoCountOverlay {
+  position: absolute;
+  top: 45%;
+  right: 78px;
+  transform: translateY(-50%);
+  border-radius: 20px;
+  padding: 4px 14px;
+}
+
+.photoCountText {
+  font-size: 14px;
+  font-weight: 800;
+  color: #BA6FA9;
+  letter-spacing: 1px;
+}
+
 .ticketUsedOverlay {
   position: absolute;
   inset: 0;
