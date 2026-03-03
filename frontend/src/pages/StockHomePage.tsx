@@ -437,7 +437,7 @@ export default function StockHomePage() {
 
             {QUANTITATIVE_IDS.has(freshMission.id) && (
               <p className={badgeStyles.sheetCount}>
-                현재 횟수: <strong>{freshMission.progress ?? 0}{MISSION_UNIT[freshMission.id] || ''}</strong>
+                {freshMission.id === 'again' ? '현재 방문자 수' : '현재 횟수'}: <strong>{freshMission.progress ?? 0}{MISSION_UNIT[freshMission.id] || ''}</strong>
               </p>
             )}
 
