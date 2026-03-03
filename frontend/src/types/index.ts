@@ -249,22 +249,23 @@ export interface AdminBoothRatingResponse {
   avgTotal: number;
 }
 
-export interface VisitRequest {
-  boothUuid: string;
-}
-
-export interface BoothVisitResponse {
+export interface StockBoothVisitResponse {
   boothId: number;
   boothName: string;
   logoEmoji: string;
   message: string;
+}
+
+export interface MyStockVisitResponse {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
   visitedAt: string;
 }
 
-export interface MyBoothVisitorResponse {
-  boothId: number | null;
-  boothName: string | null;
-  logoEmoji: string | null;
+export interface MyStockBoothVisitorResponse {
+  boothName: string;
+  logoEmoji: string;
   visitorCount: number;
 }
 

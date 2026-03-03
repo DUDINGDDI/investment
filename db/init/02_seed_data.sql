@@ -126,14 +126,6 @@ INSERT INTO stock_prices (stock_booth_id, current_price)
 SELECT id, 1000000000 FROM stock_booths;
 
 -- ──────────────────────────────────────────────
--- booth_visits (8명 × 11부스 = 88건)
--- ──────────────────────────────────────────────
-INSERT INTO booth_visits (user_id, booth_id)
-SELECT u.id, b.id
-FROM users u
-CROSS JOIN booths b;
-
--- ──────────────────────────────────────────────
 -- stock_booth_visits (8명 × 11부스 = 88건)
 -- ──────────────────────────────────────────────
 INSERT INTO stock_booth_visits (user_id, stock_booth_id)
@@ -150,13 +142,6 @@ INSERT INTO users (unique_code, name, company, balance, belonging_booth_id) VALU
 -- 주식 계좌 생성
 INSERT INTO stock_accounts (user_id, balance)
 SELECT id, 100000000 FROM users WHERE unique_code = 'U999';
-
--- 일반 부스 전체 방문
-INSERT INTO booth_visits (user_id, booth_id)
-SELECT u.id, b.id
-FROM users u
-CROSS JOIN booths b
-WHERE u.unique_code = 'U999';
 
 -- 주식 부스 전체 방문
 INSERT INTO stock_booth_visits (user_id, stock_booth_id)

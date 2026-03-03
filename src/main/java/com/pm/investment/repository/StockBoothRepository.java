@@ -13,4 +13,6 @@ public interface StockBoothRepository extends JpaRepository<StockBooth, Long> {
     List<StockBooth> findAllByOrderByDisplayOrderAsc();
 
     List<StockBooth> findByZoneIdOrderByDisplayOrderAsc(Long zoneId);
+
+    Optional<StockBooth> findByName(String name);
 }

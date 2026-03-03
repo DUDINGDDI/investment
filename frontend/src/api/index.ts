@@ -3,7 +3,6 @@ import type {
   LoginRequest,
   LoginResponse,
   UserResponse,
-  MyBoothVisitorResponse,
   BoothResponse,
   InvestRequest,
   InvestmentResponse,
@@ -24,8 +23,9 @@ import type {
   StockRatingRequest,
   StockRatingResponse,
   AdminBoothRatingResponse,
-  VisitRequest,
-  BoothVisitResponse,
+  StockBoothVisitResponse,
+  MyStockVisitResponse,
+  MyStockBoothVisitorResponse,
   BoothReviewResponse,
   NoteRequest,
   NoteResponse,
@@ -44,7 +44,6 @@ export const authApi = {
 
 export const userApi = {
   getMe: () => api.get<UserResponse>('/users/me'),
-  getMyBoothVisitors: () => api.get<MyBoothVisitorResponse>('/users/me/booth-visitors'),
 };
 
 export const boothApi = {
@@ -83,6 +82,8 @@ export const zoneApi = {
 };
 
 export const stockApi = {
+  visit: (boothUuid: string) =>
+    api.post<StockBoothVisitResponse>('/stocks/visit', { boothUuid }),
   buy: (data: StockTradeRequest) => api.post('/stocks/buy', data),
   sell: (data: StockTradeRequest) => api.post('/stocks/sell', data),
   getMy: () => api.get<StockHoldingResponse[]>('/stocks/my'),
@@ -99,6 +100,8 @@ export const stockApi = {
   getBoothReviews: (boothId: number) => api.get<BoothReviewResponse[]>(`/stocks/booths/${boothId}/reviews`),
   deleteReview: (boothId: number) => api.delete(`/stocks/booths/${boothId}/rating/review`),
   getCospi: () => api.get<CospiResponse>('/stocks/cospi'),
+  getMyVisits: () => api.get<MyStockVisitResponse[]>('/stocks/visits/my'),
+  getMyBoothVisitors: () => api.get<MyStockBoothVisitorResponse>('/stocks/visits/booth-visitors'),
 };
 
 export const missionApi = {
@@ -111,13 +114,6 @@ export const missionApi = {
     api.post<UserMissionResponse>('/missions/together', { boothUuid: uuid }),
   getRanking: (missionId: string) =>
     api.get<MissionRankingData>('/missions/ranking', { params: { missionId } }),
-};
-
-export const visitApi = {
-  visit: (data: VisitRequest) =>
-    api.post<BoothVisitResponse>('/visits', data),
-  getMyVisits: () =>
-    api.get<BoothVisitResponse[]>('/visits/my'),
 };
 
 export const noteApi = {
