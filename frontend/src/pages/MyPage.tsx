@@ -34,6 +34,7 @@ export default function MyPage() {
   const [qrMission, setQrMission] = useState<Mission | null>(null)
   const [photoMissions, setPhotoMissions] = useState<UserMissionResponse[]>([])
   const [photoLoaded, setPhotoLoaded] = useState(false)
+  const [logoutOpen, setLogoutOpen] = useState(false)
   const [visitPage, setVisitPage] = useState(0)
   const [memoPage, setMemoPage] = useState(0)
   const PAGE_SIZE = 10
@@ -104,7 +105,17 @@ export default function MyPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>마이페이지</h2>
+        <div className={styles.headerTop}>
+          <h2 className={styles.title}>마이페이지</h2>
+          <button className={styles.logoutBtn} onClick={() => setLogoutOpen(true)}>
+            <span className={styles.logoutText}>로그아웃</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M16 17L21 12L16 7" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M21 12H9" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
         <p className={styles.subtitle}>{userCompany ? `${userCompany} · ` : ''}{userName}님, 안녕하세요</p>
       </div>
 
@@ -341,15 +352,17 @@ export default function MyPage() {
         </>
       )}
 
-      {/* 로그아웃 버튼 - 하단 고정 */}
-      <button className={styles.logoutBtn} onClick={handleLogout}>
-        <span className={styles.logoutText}>로그아웃</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M16 17L21 12L16 7" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M21 12H9" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
+      {logoutOpen && (
+        <div className={styles.qrOverlay} onClick={() => setLogoutOpen(false)}>
+          <div className={styles.logoutPopup} onClick={e => e.stopPropagation()}>
+            <p className={styles.logoutPopupText}>로그아웃 하시겠습니까?</p>
+            <div className={styles.logoutPopupBtns}>
+              <button className={styles.logoutCancelBtn} onClick={() => setLogoutOpen(false)}>취소</button>
+              <button className={styles.logoutConfirmBtn} onClick={handleLogout}>로그아웃</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {qrMission && (
         <div className={styles.qrOverlay} onClick={() => { setQrMission(null); syncFromServer(); setPhotoLoaded(false) }}>

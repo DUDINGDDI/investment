@@ -29,7 +29,7 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
           {isInvest ? '투자할 금액을 선택하세요' : '철회할 금액을 선택하세요'}
         </p>
         <p className={styles.maxLabel}>
-          {isInvest ? '보유 잔액' : '투자 금액'}: {formatKorean(maxAmount)}원
+          {isInvest ? '투자 가능 금액' : '철회 가능 금액'}: {formatKorean(maxAmount)}원
         </p>
 
         <div className={styles.stepper}>

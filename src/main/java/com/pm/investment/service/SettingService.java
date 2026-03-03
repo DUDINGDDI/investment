@@ -21,6 +21,8 @@ public class SettingService {
     private static final String ANNOUNCEMENT_MESSAGE_KEY = "announcement_message";
     private static final String ANNOUNCEMENT_UPDATED_AT_KEY = "announcement_updated_at";
     private static final String MISSION_RESULT_REVEALED_KEY = "mission_result_revealed";
+    private static final String DREAM_ENABLED_KEY = "dream_enabled";
+    private static final String STOCK_RANKING_ENABLED_KEY = "stock_ranking_enabled";
 
     private final AppSettingRepository appSettingRepository;
 
@@ -95,6 +97,46 @@ public class SettingService {
         AppSetting setting = appSettingRepository.findById(STOCK_ENABLED_KEY)
                 .orElseGet(() -> {
                     AppSetting newSetting = new AppSetting(STOCK_ENABLED_KEY, "true");
+                    return appSettingRepository.save(newSetting);
+                });
+
+        boolean newValue = !"true".equals(setting.getValue());
+        setting.setValue(String.valueOf(newValue));
+        appSettingRepository.save(setting);
+        return newValue;
+    }
+
+    public boolean isDreamEnabled() {
+        return appSettingRepository.findById(DREAM_ENABLED_KEY)
+                .map(s -> "true".equals(s.getValue()))
+                .orElse(false);
+    }
+
+    @Transactional
+    public boolean toggleDream() {
+        AppSetting setting = appSettingRepository.findById(DREAM_ENABLED_KEY)
+                .orElseGet(() -> {
+                    AppSetting newSetting = new AppSetting(DREAM_ENABLED_KEY, "false");
+                    return appSettingRepository.save(newSetting);
+                });
+
+        boolean newValue = !"true".equals(setting.getValue());
+        setting.setValue(String.valueOf(newValue));
+        appSettingRepository.save(setting);
+        return newValue;
+    }
+
+    public boolean isStockRankingEnabled() {
+        return appSettingRepository.findById(STOCK_RANKING_ENABLED_KEY)
+                .map(s -> "true".equals(s.getValue()))
+                .orElse(true);
+    }
+
+    @Transactional
+    public boolean toggleStockRanking() {
+        AppSetting setting = appSettingRepository.findById(STOCK_RANKING_ENABLED_KEY)
+                .orElseGet(() -> {
+                    AppSetting newSetting = new AppSetting(STOCK_RANKING_ENABLED_KEY, "true");
                     return appSettingRepository.save(newSetting);
                 });
 

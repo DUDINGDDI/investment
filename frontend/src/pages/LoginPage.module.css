@@ -22,10 +22,11 @@
 
 .title {
   font-family: 'CJ ONLYONE', sans-serif;
-  font-size: 32px;
+  font-size: clamp(20px, 6vw, 32px);
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: clamp(0.5px, 0.3vw, 1.5px);
   margin-bottom: 8px;
+  white-space: nowrap;
 }
 
 .subtitle {
