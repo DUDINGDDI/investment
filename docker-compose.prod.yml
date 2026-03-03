@@ -43,6 +43,28 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      IDEA_BOARD_URL: http://idea-board:8081
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:-idea-board-secret-key}
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  idea-board:
+    build:
+      context: ./idea-board
+      dockerfile: Dockerfile
+    container_name: booth-invest-idea-board
+    restart: always
+    mem_limit: 512m
+    mem_reservation: 256m
+    expose:
+      - "8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:-idea-board-secret-key}
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -Xss256k -XX:MaxMetaspaceSize=96m -XX:+UseG1GC"
     depends_on:
       mysql:
         condition: service_healthy
@@ -61,6 +83,7 @@ services:
       - ./certbot/www:/var/www/certbot:ro
     depends_on:
       - backend
+      - idea-board
 
   certbot:
     image: certbot/certbot

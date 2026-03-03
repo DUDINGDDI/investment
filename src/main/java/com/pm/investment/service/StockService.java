@@ -18,8 +18,10 @@ import java.util.List;
 public class StockService {
 
     private static final long TRADE_UNIT = 5_000_000L;
+    private static final long COSPI_CACHE_TTL_MS = 3_000L; // 3초 캐시
 
     private volatile CospiResponse cospiCache;
+    private volatile long cospiCacheTime;
 
     private final StockAccountRepository stockAccountRepository;
     private final StockBoothRepository stockBoothRepository;
@@ -65,7 +67,7 @@ public class StockService {
         stockTradeHistoryRepository.save(
                 new StockTradeHistory(account.getUser(), stockBooth, StockTradeHistory.TradeType.BUY, amount, 0L, account.getBalance())
         );
-        cospiCache = null;
+        cospiCacheTime = 0; // COSPI 캐시 만료
     }
 
     @Transactional
@@ -95,7 +97,7 @@ public class StockService {
         stockTradeHistoryRepository.save(
                 new StockTradeHistory(account.getUser(), stockBooth, StockTradeHistory.TradeType.SELL, amount, 0L, account.getBalance())
         );
-        cospiCache = null;
+        cospiCacheTime = 0; // COSPI 캐시 만료
     }
 
     @Transactional(readOnly = true)
@@ -165,50 +167,58 @@ public class StockService {
     @Transactional(readOnly = true)
     public CospiResponse getCospiData() {
         CospiResponse cached = cospiCache;
-        if (cached != null) {
+        if (cached != null && (System.currentTimeMillis() - cospiCacheTime) < COSPI_CACHE_TTL_MS) {
             return cached;
         }
 
-        List<StockTradeHistory> trades = stockTradeHistoryRepository.findAllByOrderByCreatedAtAsc();
-
-        List<CospiResponse.CospiPoint> history = new ArrayList<>();
-        long cumulative = 0;
-
-        // 초기 포인트 (0)
-        if (!trades.isEmpty()) {
-            history.add(CospiResponse.CospiPoint.builder()
-                    .price(0L)
-                    .changedAt(trades.get(0).getCreatedAt().minusSeconds(1))
-                    .build());
-        }
-
-        for (StockTradeHistory trade : trades) {
-            if (trade.getType() == StockTradeHistory.TradeType.BUY) {
-                cumulative += trade.getAmount();
-            } else {
-                cumulative -= trade.getAmount();
+        // 캐시 만료 시에도 1개 스레드만 갱신, 나머지는 이전 캐시 반환
+        synchronized (this) {
+            cached = cospiCache;
+            if (cached != null && (System.currentTimeMillis() - cospiCacheTime) < COSPI_CACHE_TTL_MS) {
+                return cached;
             }
-            history.add(CospiResponse.CospiPoint.builder()
-                    .price(cumulative)
-                    .changedAt(trade.getCreatedAt())
-                    .build());
+
+            List<StockTradeHistory> trades = stockTradeHistoryRepository.findAllByOrderByCreatedAtAsc();
+
+            List<CospiResponse.CospiPoint> history = new ArrayList<>();
+            long cumulative = 0;
+
+            if (!trades.isEmpty()) {
+                history.add(CospiResponse.CospiPoint.builder()
+                        .price(0L)
+                        .changedAt(trades.get(0).getCreatedAt().minusSeconds(1))
+                        .build());
+            }
+
+            for (StockTradeHistory trade : trades) {
+                if (trade.getType() == StockTradeHistory.TradeType.BUY) {
+                    cumulative += trade.getAmount();
+                } else {
+                    cumulative -= trade.getAmount();
+                }
+                history.add(CospiResponse.CospiPoint.builder()
+                        .price(cumulative)
+                        .changedAt(trade.getCreatedAt())
+                        .build());
+            }
+
+            long currentTotal = cumulative;
+            long previousTotal = history.size() >= 2 ? history.get(history.size() - 2).getPrice() : 0;
+            long change = currentTotal - previousTotal;
+            double changeRate = previousTotal != 0 ? (double) change / previousTotal * 100 : 0;
+
+            CospiResponse result = CospiResponse.builder()
+                    .currentTotal(currentTotal)
+                    .previousTotal(previousTotal)
+                    .change(change)
+                    .changeRate(Math.round(changeRate * 100.0) / 100.0)
+                    .history(history)
+                    .build();
+
+            cospiCache = result;
+            cospiCacheTime = System.currentTimeMillis();
+            return result;
         }
-
-        long currentTotal = cumulative;
-        long previousTotal = history.size() >= 2 ? history.get(history.size() - 2).getPrice() : 0;
-        long change = currentTotal - previousTotal;
-        double changeRate = previousTotal != 0 ? (double) change / previousTotal * 100 : 0;
-
-        CospiResponse result = CospiResponse.builder()
-                .currentTotal(currentTotal)
-                .previousTotal(previousTotal)
-                .change(change)
-                .changeRate(Math.round(changeRate * 100.0) / 100.0)
-                .history(history)
-                .build();
-
-        cospiCache = result;
-        return result;
     }
 
     private void validateVisitAndRating(Long userId, Long boothId) {

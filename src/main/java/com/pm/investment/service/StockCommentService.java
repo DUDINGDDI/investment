@@ -23,6 +23,7 @@ public class StockCommentService {
     private final StockBoothRepository stockBoothRepository;
     private final StockBoothVisitRepository stockBoothVisitRepository;
     private final MissionService missionService;
+    private final IdeaBoardNotifier ideaBoardNotifier;
 
     @Transactional(readOnly = true)
     public List<StockCommentResponse> getComments(Long boothId) {
@@ -59,7 +60,7 @@ public class StockCommentService {
         long commentCount = stockCommentRepository.countByUserId(userId);
         missionService.checkAndUpdateMission(userId, "renew", (int) commentCount);
 
-        return StockCommentResponse.builder()
+        StockCommentResponse response = StockCommentResponse.builder()
                 .id(comment.getId())
                 .userId(user.getId())
                 .userName(user.getName())
@@ -67,5 +68,10 @@ public class StockCommentService {
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .build();
+
+        // idea-board 서비스에 비동기 알림
+        ideaBoardNotifier.notifyNewComment(boothId, response);
+
+        return response;
     }
 }

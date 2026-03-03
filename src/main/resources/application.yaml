@@ -36,6 +36,10 @@ server:
       max: 300
       min-spare: 20
 
+idea-board:
+  url: ${IDEA_BOARD_URL:http://localhost:8081}
+  internal-api-key: ${INTERNAL_API_KEY:idea-board-secret-key}
+
 ---
 # MySQL 프로필: docker-compose로 MySQL 사용 시 --spring.profiles.active=mysql
 spring:

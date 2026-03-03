@@ -19,7 +19,7 @@ const POSTIT_COLORS = [
 type ClipPos = 'left' | 'center' | 'right'
 const CLIP_POSITIONS: ClipPos[] = ['left', 'center', 'right']
 
-const REFRESH_INTERVAL = 60
+const FALLBACK_INTERVAL = 30
 const CARD_W = 250
 const CARD_ESTIMATED_H = 200
 const BOARD_PAD = 40
@@ -114,35 +114,33 @@ export default function IdeaBoardPage() {
   const [board, setBoard] = useState<IdeaBoardResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [countdown, setCountdown] = useState(REFRESH_INTERVAL)
+  const [connected, setConnected] = useState(false)
+  const [countdown, setCountdown] = useState(FALLBACK_INTERVAL)
   const [newIds, setNewIds] = useState<Set<number>>(new Set())
   const [isFullscreen, setIsFullscreen] = useState(false)
   const knownIdsRef = useRef<Set<number>>(new Set())
-  const isFirstLoad = useRef(true)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const windowWidth = useWindowWidth()
 
+  // 폴링 폴백용
   const fetchBoard = useCallback(async () => {
     if (!boothId) return
     try {
       const res = await ideaBoardApi.getBoard(Number(boothId))
       const data = res.data
 
-      if (isFirstLoad.current) {
-        knownIdsRef.current = new Set(data.comments.map(c => c.id))
-        isFirstLoad.current = false
-      } else {
-        const fresh = new Set<number>()
-        data.comments.forEach((c: StockCommentResponse) => {
-          if (!knownIdsRef.current.has(c.id)) {
-            fresh.add(c.id)
-            knownIdsRef.current.add(c.id)
-          }
-        })
-        if (fresh.size > 0) {
-          setNewIds(fresh)
-          setTimeout(() => setNewIds(new Set()), 1200)
+      const fresh = new Set<number>()
+      data.comments.forEach((c: StockCommentResponse) => {
+        if (!knownIdsRef.current.has(c.id)) {
+          fresh.add(c.id)
+          knownIdsRef.current.add(c.id)
         }
+      })
+      if (fresh.size > 0 && board !== null) {
+        setNewIds(fresh)
+        setTimeout(() => setNewIds(new Set()), 1200)
+      } else {
+        knownIdsRef.current = new Set(data.comments.map(c => c.id))
       }
 
       setBoard(data)
@@ -152,19 +150,83 @@ export default function IdeaBoardPage() {
     } finally {
       setLoading(false)
     }
-  }, [boothId])
+  }, [boothId, board])
 
-  useEffect(() => { fetchBoard() }, [fetchBoard])
-
+  // SSE 연결
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) { fetchBoard(); return REFRESH_INTERVAL }
-        return prev - 1
+    if (!boothId) return
+
+    const streamUrl = ideaBoardApi.getStreamUrl(Number(boothId))
+    let eventSource: EventSource | null = null
+    let fallbackTimer: ReturnType<typeof setInterval> | null = null
+    let reconnectTimeout: ReturnType<typeof setTimeout> | null = null
+
+    function connectSse() {
+      eventSource = new EventSource(streamUrl)
+
+      eventSource.addEventListener('init', (e: MessageEvent) => {
+        try {
+          const data: IdeaBoardResponse = JSON.parse(e.data)
+          knownIdsRef.current = new Set(data.comments.map(c => c.id))
+          setBoard(data)
+          setConnected(true)
+          setLoading(false)
+          setError(null)
+          // SSE 연결 성공 시 폴링 중지
+          if (fallbackTimer) { clearInterval(fallbackTimer); fallbackTimer = null }
+        } catch {
+          // JSON 파싱 실패 무시
+        }
       })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [fetchBoard])
+
+      eventSource.addEventListener('new-comment', (e: MessageEvent) => {
+        try {
+          const comment: StockCommentResponse = JSON.parse(e.data)
+          knownIdsRef.current.add(comment.id)
+          setNewIds(new Set([comment.id]))
+          setTimeout(() => setNewIds(new Set()), 1200)
+
+          setBoard(prev => {
+            if (!prev) return prev
+            return { ...prev, comments: [comment, ...prev.comments] }
+          })
+        } catch {
+          // JSON 파싱 실패 무시
+        }
+      })
+
+      eventSource.addEventListener('heartbeat', () => {
+        // heartbeat - 연결 유지 확인
+      })
+
+      eventSource.onerror = () => {
+        setConnected(false)
+        eventSource?.close()
+        eventSource = null
+
+        // 폴링 폴백 시작
+        if (!fallbackTimer) {
+          fallbackTimer = setInterval(() => {
+            setCountdown(prev => {
+              if (prev <= 1) { fetchBoard(); return FALLBACK_INTERVAL }
+              return prev - 1
+            })
+          }, 1000)
+        }
+
+        // 30초 후 SSE 재연결 시도
+        reconnectTimeout = setTimeout(connectSse, 30_000)
+      }
+    }
+
+    connectSse()
+
+    return () => {
+      eventSource?.close()
+      if (fallbackTimer) clearInterval(fallbackTimer)
+      if (reconnectTimeout) clearTimeout(reconnectTimeout)
+    }
+  }, [boothId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const root = document.getElementById('root')
@@ -270,7 +332,7 @@ export default function IdeaBoardPage() {
       <div className={styles.bottomBar}>
         <div className={styles.countdown}>
           <span className={styles.countdownDot} />
-          {countdown}초 후 새로고침
+          {connected ? '실시간 연결됨' : `${countdown}초 후 새로고침`}
         </div>
         <button className={styles.fullscreenBtn} onClick={toggleFullscreen}>
           {isFullscreen ? '⛶ 축소' : '⛶ 전체화면'}
