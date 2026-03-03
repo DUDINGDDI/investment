@@ -122,6 +122,7 @@ export default function StockHomePage() {
   const [rankingLoading, setRankingLoading] = useState(false)
   const [missionResultRevealed, setMissionResultRevealed] = useState(false)
   const [dreamEnabled, setDreamEnabled] = useState(false)
+  const [stockRankingEnabled, setStockRankingEnabled] = useState(true)
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -131,6 +132,7 @@ export default function StockHomePage() {
     }).catch(() => {})
     resultApi.getMissionResultStatus().then(res => setMissionResultRevealed(res.data.revealed)).catch(() => {})
     resultApi.getDreamStatus().then(res => setDreamEnabled(res.data.enabled)).catch(() => {})
+    resultApi.getStockRankingStatus().then(res => setStockRankingEnabled(res.data.enabled)).catch(() => {})
     syncFromServer()
   }, [syncFromServer])
 
@@ -286,6 +288,16 @@ export default function StockHomePage() {
           </>
         ) : (
           <div className={styles.rankingInline}>
+            {!stockRankingEnabled ? (
+              <div className={badgeStyles.rankEmpty}>
+                <div className={badgeStyles.rankEmptyIcon}>🔒</div>
+                <p className={badgeStyles.rankEmptyText}>
+                  현재 랭킹이 비공개 상태입니다<br />
+                  랭킹 공개 시간까지 조금만 기다려주세요!
+                </p>
+              </div>
+            ) : (
+            <>
             {/* 미션 필터 바 */}
             <div className={badgeStyles.filterBar}>
               {missions.map((m: Mission) => (
@@ -393,6 +405,8 @@ export default function StockHomePage() {
                   </div>
                 )}
               </>
+            )}
+            </>
             )}
           </div>
         )}

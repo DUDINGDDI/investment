@@ -38,17 +38,20 @@ export default function AdminPage() {
   const [missionToggling, setMissionToggling] = useState(false)
   const [dreamEnabled, setDreamEnabled] = useState(false)
   const [dreamToggling, setDreamToggling] = useState(false)
+  const [stockRankingEnabled, setStockRankingEnabled] = useState(true)
+  const [stockRankingToggling, setStockRankingToggling] = useState(false)
   const [boothRatings, setBoothRatings] = useState<AdminBoothRatingResponse[]>([])
   const [ratingSortKey, setRatingSortKey] = useState<RatingSortKey>('avgTotal')
 
   const loadData = async () => {
     try {
-      const [statusRes, stockRes, investRes, missionRes, dreamRes, rankRes, annRes, ratingsRes] = await Promise.all([
+      const [statusRes, stockRes, investRes, missionRes, dreamRes, stockRankingRes, rankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
         adminApi.getStockStatus(),
         adminApi.getInvestmentStatus(),
         adminApi.getMissionResultStatus(),
         adminApi.getDreamStatus(),
+        adminApi.getStockRankingStatus(),
         adminApi.getRanking(),
         adminApi.getAnnouncement(),
         adminApi.getBoothRatings(),
@@ -58,6 +61,7 @@ export default function AdminPage() {
       setInvestmentEnabled(investRes.data.enabled)
       setMissionResultRevealed(missionRes.data.revealed)
       setDreamEnabled(dreamRes.data.enabled)
+      setStockRankingEnabled(stockRankingRes.data.enabled)
       setRanking(rankRes.data)
       setAnnCurrent(annRes.data.message)
       setAnnMessage(annRes.data.message)
@@ -220,6 +224,37 @@ export default function AdminPage() {
               disabled={dreamToggling}
             >
               {dreamToggling ? '처리 중...' : dreamEnabled ? '미션 비활성화' : '미션 활성화'}
+            </button>
+          </div>
+
+          <div className={styles.controlCard}>
+            <div className={styles.statusRow}>
+              <span className={styles.statusLabel}>AM 투자 랭킹</span>
+              <span className={`${styles.statusBadge} ${stockRankingEnabled ? styles.statusOn : styles.statusOff}`}>
+                {stockRankingEnabled ? '공개' : '잠금'}
+              </span>
+            </div>
+            <p className={styles.statusDesc}>
+              {stockRankingEnabled
+                ? '현재 AM 투자 미션 랭킹이 참가자에게 공개되어 있습니다.'
+                : 'AM 투자 미션 랭킹이 잠금 상태입니다. 참가자에게 "랭킹 보기" 버튼이 표시되지 않습니다.'}
+            </p>
+            <button
+              className={`${styles.toggleBtn} ${stockRankingEnabled ? styles.hideBtn : styles.revealBtn}`}
+              onClick={async () => {
+                const action = stockRankingEnabled ? 'AM 투자 랭킹을 잠그시겠습니까?' : 'AM 투자 랭킹을 공개하시겠습니까?'
+                if (!confirm(action)) return
+                setStockRankingToggling(true)
+                try {
+                  const res = await adminApi.toggleStockRanking()
+                  setStockRankingEnabled(res.data.enabled)
+                } finally {
+                  setStockRankingToggling(false)
+                }
+              }}
+              disabled={stockRankingToggling}
+            >
+              {stockRankingToggling ? '처리 중...' : stockRankingEnabled ? '랭킹 잠금' : '랭킹 공개'}
             </button>
           </div>
 

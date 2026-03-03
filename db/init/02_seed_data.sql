@@ -10,6 +10,7 @@ INSERT INTO app_settings (setting_key, setting_value) VALUES ('investment_enable
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('mission_result_revealed', 'false');
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('stock_enabled', 'true');
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('dream_enabled', 'false');
+INSERT INTO app_settings (setting_key, setting_value) VALUES ('stock_ranking_enabled', 'true');
 
 INSERT INTO zones (zone_code, name, floor_info, display_order) VALUES
 ('손복남홀', '손복남홀', 'INNOVATION CENTER LL', 1),
