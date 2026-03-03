@@ -229,7 +229,7 @@ export default function MyPage() {
                     key={m.boothId}
                     className={`${styles.memoCard} stagger-item`}
                     style={{ animationDelay: `${i * 0.04}s` }}
-                    onClick={() => navigate(`/stocks/booths/${m.boothId}`)}
+                    onClick={() => navigate(`/stocks/booths/${m.boothId}?memo=open`)}
                   >
                     <div className={styles.memoCardHeader}>
                       <p className={styles.cardName}>{m.boothName}</p>
