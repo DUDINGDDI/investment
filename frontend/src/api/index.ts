@@ -46,6 +46,10 @@ export const userApi = {
 export const boothApi = {
   getAll: () => api.get<BoothResponse[]>('/booths'),
   getById: (id: number) => api.get<BoothResponse>(`/booths/${id}`),
+  submitRating: (boothId: number, data: StockRatingRequest) => api.post<StockRatingResponse>(`/booths/${boothId}/rating`, data),
+  getMyRating: (boothId: number) => api.get<StockRatingResponse>(`/booths/${boothId}/rating`),
+  getBoothReviews: (boothId: number) => api.get<BoothReviewResponse[]>(`/booths/${boothId}/reviews`),
+  deleteReview: (boothId: number) => api.delete(`/booths/${boothId}/rating/review`),
 };
 
 export const investmentApi = {
@@ -150,6 +154,7 @@ export const adminApi = {
   getStockRankingStatus: () => api.get<{ enabled: boolean }>('/admin/stock-ranking/status'),
   toggleStockRanking: () => api.post<{ enabled: boolean }>('/admin/stock-ranking/toggle'),
   getBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/ratings'),
+  getPmBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/booth-ratings'),
   useTicket: (userId: number, missionId: string) =>
     api.post<UserMissionResponse>('/admin/tickets/use', { userId, missionId }),
 };

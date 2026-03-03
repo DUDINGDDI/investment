@@ -6,6 +6,7 @@ TRUNCATE TABLE booth_visits;
 TRUNCATE TABLE user_missions;
 TRUNCATE TABLE notes;
 TRUNCATE TABLE stock_comments;
+TRUNCATE TABLE booth_ratings;
 TRUNCATE TABLE stock_ratings;
 TRUNCATE TABLE stock_trade_history;
 TRUNCATE TABLE stock_price_history;

@@ -30,6 +30,7 @@ export interface BoothResponse {
   themeColor: string;
   totalInvestment: number;
   myInvestment: number;
+  hasRated: boolean;
 }
 
 export interface InvestmentResponse {
