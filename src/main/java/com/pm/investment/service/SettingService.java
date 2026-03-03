@@ -75,6 +75,15 @@ public class SettingService {
         AppSetting setting = appSettingRepository.findById(MISSION_RESULT_REVEALED_KEY)
                 .orElseGet(() -> {
                     AppSetting newSetting = new AppSetting(MISSION_RESULT_REVEALED_KEY, "false");
+                    return appSettingRepository.save(newSetting);
+                });
+
+        boolean newValue = !"true".equals(setting.getValue());
+        setting.setValue(String.valueOf(newValue));
+        appSettingRepository.save(setting);
+        return newValue;
+    }
+
     public boolean isStockEnabled() {
         return appSettingRepository.findById(STOCK_ENABLED_KEY)
                 .map(s -> "true".equals(s.getValue()))
