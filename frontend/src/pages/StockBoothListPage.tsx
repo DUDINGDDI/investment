@@ -20,7 +20,12 @@ export default function StockBoothListPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    stockApi.getBooths().then(res => setBooths(res.data))
+    stockApi.getBooths().then(res => {
+      const sorted = [...res.data].sort((a, b) =>
+        b.totalHolding - a.totalHolding || a.displayOrder - b.displayOrder
+      )
+      setBooths(sorted)
+    })
     stockApi.getCospi().then(res => setCospi(res.data)).catch(() => {})
   }, [])
 
@@ -63,8 +68,9 @@ export default function StockBoothListPage() {
   const totalAsset = balance + totalHolding
   const holdingPct = totalAsset > 0 ? Math.round((totalHolding / totalAsset) * 100) : 0
 
-  const donutSegments = holdings
+  const donutSegments = [...holdings]
     .filter(h => h.amount > 0)
+    .sort((a, b) => b.amount - a.amount)
     .map((h, i) => ({
       ...h,
       color: COLORS[i % COLORS.length],
@@ -248,7 +254,7 @@ export default function StockBoothListPage() {
               </div>
             ) : (
               <div className={styles.holdingList}>
-                {holdings.filter(h => h.amount > 0).map((h, i) => (
+                {[...holdings].filter(h => h.amount > 0).sort((a, b) => b.amount - a.amount).map((h, i) => (
                   <div
                     key={h.boothId}
                     className={`${styles.holdingItem} stagger-item`}

@@ -19,7 +19,12 @@ export default function HomePage() {
       const total = res.data.reduce((sum: number, inv: { amount: number }) => sum + inv.amount, 0)
       setTotalInvested(total)
     }).catch(() => {})
-    boothApi.getAll().then(res => setBooths(res.data)).catch(() => {})
+    boothApi.getAll().then(res => {
+      const sorted = [...res.data].sort((a, b) =>
+        b.totalInvestment - a.totalInvestment || a.displayOrder - b.displayOrder
+      )
+      setBooths(sorted)
+    }).catch(() => {})
   }, [])
 
   useEffect(() => {

@@ -36,16 +36,22 @@ export default function AdminPage() {
   const [annSaving, setAnnSaving] = useState(false)
   const [missionResultRevealed, setMissionResultRevealed] = useState(false)
   const [missionToggling, setMissionToggling] = useState(false)
+  const [dreamEnabled, setDreamEnabled] = useState(false)
+  const [dreamToggling, setDreamToggling] = useState(false)
+  const [stockRankingEnabled, setStockRankingEnabled] = useState(true)
+  const [stockRankingToggling, setStockRankingToggling] = useState(false)
   const [boothRatings, setBoothRatings] = useState<AdminBoothRatingResponse[]>([])
   const [ratingSortKey, setRatingSortKey] = useState<RatingSortKey>('avgTotal')
 
   const loadData = async () => {
     try {
-      const [statusRes, stockRes, investRes, missionRes, rankRes, annRes, ratingsRes] = await Promise.all([
+      const [statusRes, stockRes, investRes, missionRes, dreamRes, stockRankingRes, rankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
         adminApi.getStockStatus(),
         adminApi.getInvestmentStatus(),
         adminApi.getMissionResultStatus(),
+        adminApi.getDreamStatus(),
+        adminApi.getStockRankingStatus(),
         adminApi.getRanking(),
         adminApi.getAnnouncement(),
         adminApi.getBoothRatings(),
@@ -54,6 +60,8 @@ export default function AdminPage() {
       setStockEnabled(stockRes.data.enabled)
       setInvestmentEnabled(investRes.data.enabled)
       setMissionResultRevealed(missionRes.data.revealed)
+      setDreamEnabled(dreamRes.data.enabled)
+      setStockRankingEnabled(stockRankingRes.data.enabled)
       setRanking(rankRes.data)
       setAnnCurrent(annRes.data.message)
       setAnnMessage(annRes.data.message)
@@ -188,6 +196,68 @@ export default function AdminPage() {
       </div>
       {tab === 'settings' && (
         <>
+          <div className={styles.controlCard}>
+            <div className={styles.statusRow}>
+              <span className={styles.statusLabel}>꿈을 원대하게 미션</span>
+              <span className={`${styles.statusBadge} ${dreamEnabled ? styles.statusOn : styles.statusOff}`}>
+                {dreamEnabled ? '활성' : '비활성'}
+              </span>
+            </div>
+            <p className={styles.statusDesc}>
+              {dreamEnabled
+                ? '현재 "꿈을 원대하게" 미션이 활성화되어 있습니다. 참가자가 미션 내용을 볼 수 있고 완료할 수 있습니다.'
+                : '"꿈을 원대하게" 미션이 비활성화 상태입니다. 미션 내용이 숨겨지고 완료할 수 없습니다.'}
+            </p>
+            <button
+              className={`${styles.toggleBtn} ${dreamEnabled ? styles.hideBtn : styles.revealBtn}`}
+              onClick={async () => {
+                const action = dreamEnabled ? '"꿈을 원대하게" 미션을 비활성화하시겠습니까?' : '"꿈을 원대하게" 미션을 활성화하시겠습니까?'
+                if (!confirm(action)) return
+                setDreamToggling(true)
+                try {
+                  const res = await adminApi.toggleDream()
+                  setDreamEnabled(res.data.enabled)
+                } finally {
+                  setDreamToggling(false)
+                }
+              }}
+              disabled={dreamToggling}
+            >
+              {dreamToggling ? '처리 중...' : dreamEnabled ? '미션 비활성화' : '미션 활성화'}
+            </button>
+          </div>
+
+          <div className={styles.controlCard}>
+            <div className={styles.statusRow}>
+              <span className={styles.statusLabel}>AM 투자 랭킹</span>
+              <span className={`${styles.statusBadge} ${stockRankingEnabled ? styles.statusOn : styles.statusOff}`}>
+                {stockRankingEnabled ? '공개' : '잠금'}
+              </span>
+            </div>
+            <p className={styles.statusDesc}>
+              {stockRankingEnabled
+                ? '현재 AM 투자 미션 랭킹이 참가자에게 공개되어 있습니다.'
+                : 'AM 투자 미션 랭킹이 잠금 상태입니다. 참가자에게 "랭킹 보기" 버튼이 표시되지 않습니다.'}
+            </p>
+            <button
+              className={`${styles.toggleBtn} ${stockRankingEnabled ? styles.hideBtn : styles.revealBtn}`}
+              onClick={async () => {
+                const action = stockRankingEnabled ? 'AM 투자 랭킹을 잠그시겠습니까?' : 'AM 투자 랭킹을 공개하시겠습니까?'
+                if (!confirm(action)) return
+                setStockRankingToggling(true)
+                try {
+                  const res = await adminApi.toggleStockRanking()
+                  setStockRankingEnabled(res.data.enabled)
+                } finally {
+                  setStockRankingToggling(false)
+                }
+              }}
+              disabled={stockRankingToggling}
+            >
+              {stockRankingToggling ? '처리 중...' : stockRankingEnabled ? '랭킹 잠금' : '랭킹 공개'}
+            </button>
+          </div>
+
           <div className={styles.controlCard}>
             <div className={styles.statusRow}>
               <span className={styles.statusLabel}>AM 투자 (오전)</span>

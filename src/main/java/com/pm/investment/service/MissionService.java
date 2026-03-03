@@ -24,6 +24,7 @@ public class MissionService {
     private final UserMissionRepository userMissionRepository;
     private final UserRepository userRepository;
     private final StockAccountRepository stockAccountRepository;
+    private final SettingService settingService;
 
     /** 함께하는 하고잡이 미션 전용 고정 UUID */
     private static final String TOGETHER_SPACE_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
@@ -101,6 +102,7 @@ public class MissionService {
     @Transactional
     public void checkAndUpdateMission(Long userId, String missionId, int currentProgress) {
         if (!MISSION_TARGETS.containsKey(missionId)) return;
+        if ("dream".equals(missionId) && !settingService.isDreamEnabled()) return;
         updateProgress(userId, missionId, currentProgress);
     }
 
@@ -145,6 +147,9 @@ public class MissionService {
     public UserMissionResponse completeMission(Long userId, String missionId) {
         if (!MISSION_TARGETS.containsKey(missionId)) {
             throw new IllegalArgumentException("존재하지 않는 미션입니다: " + missionId);
+        }
+        if ("dream".equals(missionId) && !settingService.isDreamEnabled()) {
+            throw new IllegalStateException("현재 이 미션은 비활성화 상태입니다");
         }
 
         User user = userRepository.findById(userId)

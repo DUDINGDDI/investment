@@ -33,12 +33,14 @@
 
 .title {
   font-family: 'CJ ONLYONE', sans-serif;
-  font-size: 24px;
+  font-size: clamp(15px, 4.5vw, 24px);
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: clamp(0.5px, 0.3vw, 1.5px);
   color: var(--text-primary);
   flex: 1;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .noteBtn {
