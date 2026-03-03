@@ -156,6 +156,7 @@
 /* ── 인라인 랭킹 영역 ── */
 .rankingInline {
   width: 100%;
+  container-type: inline-size;
 }
 
 .missionSubtitle {
