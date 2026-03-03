@@ -53,6 +53,17 @@ public class AdminController {
         return ResponseEntity.ok(Map.of("enabled", enabled));
     }
 
+    @GetMapping("/mission-result/status")
+    public ResponseEntity<Map<String, Boolean>> getMissionResultStatus() {
+        return ResponseEntity.ok(Map.of("revealed", settingService.isMissionResultRevealed()));
+    }
+
+    @PostMapping("/mission-result/toggle")
+    public ResponseEntity<Map<String, Boolean>> toggleMissionResult() {
+        boolean revealed = settingService.toggleMissionResult();
+        return ResponseEntity.ok(Map.of("revealed", revealed));
+    }
+
     @GetMapping("/ranking")
     public ResponseEntity<List<RankingResponse>> getRanking() {
         return ResponseEntity.ok(rankingService.getRanking());

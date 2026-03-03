@@ -19,6 +19,7 @@ public class SettingService {
     private static final String INVESTMENT_ENABLED_KEY = "investment_enabled";
     private static final String ANNOUNCEMENT_MESSAGE_KEY = "announcement_message";
     private static final String ANNOUNCEMENT_UPDATED_AT_KEY = "announcement_updated_at";
+    private static final String MISSION_RESULT_REVEALED_KEY = "mission_result_revealed";
 
     private final AppSettingRepository appSettingRepository;
 
@@ -53,6 +54,26 @@ public class SettingService {
         AppSetting setting = appSettingRepository.findById(INVESTMENT_ENABLED_KEY)
                 .orElseGet(() -> {
                     AppSetting newSetting = new AppSetting(INVESTMENT_ENABLED_KEY, "true");
+                    return appSettingRepository.save(newSetting);
+                });
+
+        boolean newValue = !"true".equals(setting.getValue());
+        setting.setValue(String.valueOf(newValue));
+        appSettingRepository.save(setting);
+        return newValue;
+    }
+
+    public boolean isMissionResultRevealed() {
+        return appSettingRepository.findById(MISSION_RESULT_REVEALED_KEY)
+                .map(s -> "true".equals(s.getValue()))
+                .orElse(false);
+    }
+
+    @Transactional
+    public boolean toggleMissionResult() {
+        AppSetting setting = appSettingRepository.findById(MISSION_RESULT_REVEALED_KEY)
+                .orElseGet(() -> {
+                    AppSetting newSetting = new AppSetting(MISSION_RESULT_REVEALED_KEY, "false");
                     return appSettingRepository.save(newSetting);
                 });
 

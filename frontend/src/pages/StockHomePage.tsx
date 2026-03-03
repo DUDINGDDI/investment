@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { stockApi, missionApi } from '../api'
+import { stockApi, missionApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import { useMissions, type Mission } from '../components/MissionContext'
 import type { MissionRankingItem } from '../types'
@@ -120,6 +120,7 @@ export default function StockHomePage() {
   const [rankings, setRankings] = useState<MissionRankingItem[]>([])
   const [myRanking, setMyRanking] = useState<MissionRankingItem | null>(null)
   const [rankingLoading, setRankingLoading] = useState(false)
+  const [missionResultRevealed, setMissionResultRevealed] = useState(false)
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -127,6 +128,7 @@ export default function StockHomePage() {
       const total = res.data.reduce((sum: number, h: { amount: number }) => sum + h.amount, 0)
       setTotalHolding(total)
     }).catch(() => {})
+    resultApi.getMissionResultStatus().then(res => setMissionResultRevealed(res.data.revealed)).catch(() => {})
     syncFromServer()
   }, [syncFromServer])
 
@@ -405,7 +407,11 @@ export default function StockHomePage() {
               <BadgeImage mission={freshMission} size="large" />
             </div>
             <h3 className={badgeStyles.sheetTitle}>{freshMission.title}</h3>
-            <p className={badgeStyles.sheetDesc}>{freshMission.description}</p>
+            <p className={badgeStyles.sheetDesc}>
+              {freshMission.id === 'result' && !missionResultRevealed
+                ? '미션 내용이 아직 공개되지 않았습니다'
+                : freshMission.description}
+            </p>
 
             {freshMission.target != null && (
               <ProgressBar

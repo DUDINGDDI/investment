@@ -63,6 +63,7 @@ export const resultApi = {
   getInvestmentStatus: () => api.get<{ enabled: boolean }>('/results/investment-status'),
   getRanking: () => api.get<RankingResponse[]>('/results/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/results/announcement'),
+  getMissionResultStatus: () => api.get<{ revealed: boolean }>('/results/mission-result-status'),
 };
 
 export const zoneApi = {
@@ -137,6 +138,8 @@ export const adminApi = {
   getAnnouncement: () => api.get<AnnouncementResponse>('/admin/announcement'),
   setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),
   clearAnnouncement: () => api.delete('/admin/announcement'),
+  getMissionResultStatus: () => api.get<{ revealed: boolean }>('/admin/mission-result/status'),
+  toggleMissionResult: () => api.post<{ revealed: boolean }>('/admin/mission-result/toggle'),
   getBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/ratings'),
   useTicket: (userId: number, missionId: string) =>
     api.post<UserMissionResponse>('/admin/tickets/use', { userId, missionId }),
