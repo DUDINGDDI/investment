@@ -480,13 +480,13 @@
 
 /* ── 등락 표시 ── */
 .rankUp {
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   font-weight: 700;
   color: #F04452;
 }
 
 .rankDown {
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   font-weight: 700;
   color: #4593FC;
 }
@@ -496,21 +496,21 @@
   background: linear-gradient(135deg, rgba(108, 99, 255, 0.12), rgba(69, 147, 252, 0.12));
   border: 1px solid rgba(108, 99, 255, 0.25);
   border-radius: var(--radius-card);
-  padding: 16px;
-  margin-bottom: 12px;
+  padding: 3.5%;
+  margin-bottom: 2.5%;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 3%;
 }
 
 .myRankAvatar {
-  width: 48px;
-  height: 48px;
+  width: 11%;
+  aspect-ratio: 1;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: clamp(14px, 4.5cqw, 20px);
   font-weight: 700;
   color: white;
   flex-shrink: 0;
@@ -523,13 +523,13 @@
 }
 
 .myRankLabel {
-  font-size: 11px;
+  font-size: clamp(9px, 2.5cqw, 11px);
   color: var(--text-secondary);
   margin-bottom: 2px;
 }
 
 .myRankName {
-  font-size: 16px;
+  font-size: clamp(13px, 3.6cqw, 16px);
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -537,22 +537,22 @@
 .myRankScoreRow {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 1%;
 }
 
 .myRankScore {
-  font-size: 18px;
+  font-size: clamp(14px, 4cqw, 18px);
   font-weight: 800;
   color: var(--accent-blue);
 }
 
 .myRankScoreUnit {
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   color: var(--text-secondary);
 }
 
 .myRankPosition {
-  font-size: 28px;
+  font-size: clamp(20px, 6.4cqw, 28px);
   font-weight: 800;
   color: var(--accent-blue);
   flex-shrink: 0;
@@ -588,36 +588,37 @@
 
 /* ── 랭킹 헤더 ── */
 .rankingHeader {
-  padding: 16px 0 8px;
+  padding: 3.5% 0 2%;
   text-align: center;
 }
 
 .rankingTitle {
-  font-size: 20px;
+  font-size: clamp(16px, 4.5cqw, 20px);
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 1%;
 }
 
 .rankingSubtitle {
-  font-size: 13px;
+  font-size: clamp(11px, 3cqw, 13px);
   color: var(--text-secondary);
 }
 
 /* ── 포디움 (1~3위) ── */
 .rankPodium {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  padding: 8px 0;
+  gap: 2%;
+  margin-bottom: 5%;
+  padding: 2% 0;
 }
 
 .rankPodiumItem {
   flex: 1;
   background: var(--bg-secondary);
   border-radius: var(--radius-card);
-  padding: 16px 8px;
+  padding: 3.5% 2%;
   text-align: center;
   position: relative;
+  min-width: 0;
 }
 
 .rankFirst {
@@ -628,23 +629,23 @@
 
 .rankSecond {
   order: -1;
-  margin-top: 16px;
+  margin-top: 3.5%;
 }
 
 .rankThird {
   order: 1;
-  margin-top: 16px;
+  margin-top: 5%;
 }
 
 .podiumRankBadge {
-  margin-bottom: 8px;
+  margin-bottom: 2%;
 }
 
 .rankBadgeGold {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 0.5% 2.5%;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   font-weight: 700;
   background: #FFD700;
   color: #3D2E00;
@@ -652,9 +653,9 @@
 
 .rankBadgeSilver {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 0.5% 2.5%;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   font-weight: 700;
   background: #A8A8B0;
   color: #2A2A2A;
@@ -662,25 +663,25 @@
 
 .rankBadgeBronze {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 0.5% 2.5%;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   font-weight: 700;
   background: #CD7F32;
   color: white;
 }
 
 .podiumAvatar {
-  width: 48px;
-  height: 48px;
+  width: 28%;
+  aspect-ratio: 1;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: clamp(14px, 4cqw, 20px);
   font-weight: 700;
   color: white;
-  margin: 0 auto 8px;
+  margin: 0 auto 2%;
   background: linear-gradient(135deg, #6C63FF, #4593FC);
 }
 
@@ -689,9 +690,9 @@
 }
 
 .podiumName {
-  font-size: 14px;
+  font-size: clamp(11px, 3.2cqw, 14px);
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 1%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -705,18 +706,18 @@
 }
 
 .podiumRate {
-  font-size: 18px;
+  font-size: clamp(14px, 4cqw, 18px);
   font-weight: 700;
   color: var(--color-invest);
 }
 
 .podiumRateUnit {
-  font-size: 11px;
+  font-size: clamp(9px, 2.5cqw, 11px);
   color: var(--text-secondary);
 }
 
 .podiumChange {
-  margin-top: 4px;
+  margin-top: 1%;
 }
 
 /* ── 4위 이하 리스트 ── */
@@ -728,8 +729,8 @@
 .rankListItem {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 0;
+  gap: 2.5%;
+  padding: 3% 0;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -738,22 +739,22 @@
 }
 
 .rankListNum {
-  width: 24px;
+  width: 6%;
   text-align: center;
-  font-size: 16px;
+  font-size: clamp(13px, 3.6cqw, 16px);
   font-weight: 700;
   color: var(--text-secondary);
   flex-shrink: 0;
 }
 
 .rankListAvatar {
-  width: 40px;
-  height: 40px;
+  width: 9%;
+  aspect-ratio: 1;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: clamp(13px, 3.6cqw, 16px);
   font-weight: 700;
   color: white;
   flex-shrink: 0;
@@ -766,51 +767,54 @@
 }
 
 .rankListName {
-  font-size: 15px;
+  font-size: clamp(12px, 3.4cqw, 15px);
   font-weight: 600;
   margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rankListSub {
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   color: var(--text-secondary);
 }
 
 .rankListScoreArea {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 1.5%;
   flex-shrink: 0;
 }
 
 .rankListRate {
-  font-size: 14px;
+  font-size: clamp(12px, 3.2cqw, 14px);
   font-weight: 700;
 }
 
 /* ── 빈 상태 ── */
 .rankEmpty {
   text-align: center;
-  padding: 60px 20px;
+  padding: 14% 5%;
   color: var(--text-disabled);
 }
 
 .rankEmptyIcon {
-  font-size: 48px;
-  margin-bottom: 12px;
+  font-size: clamp(36px, 11cqw, 48px);
+  margin-bottom: 2.5%;
   opacity: 0.5;
 }
 
 .rankEmptyText {
-  font-size: 15px;
+  font-size: clamp(12px, 3.4cqw, 15px);
   line-height: 1.5;
 }
 
 /* ── 미션 필터 바 ── */
 .filterBar {
   display: flex;
-  gap: 8px;
-  padding: 8px 0 16px;
+  gap: 2%;
+  padding: 2% 0 3.5%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -823,10 +827,10 @@
 .filterChip {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 10px 14px;
+  gap: 1%;
+  padding: 2.3% 3.2%;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: clamp(10px, 2.7cqw, 12px);
   font-weight: 600;
   white-space: nowrap;
   background: var(--bg-secondary);
@@ -843,14 +847,14 @@
 }
 
 .filterChipIcon {
-  width: 18px;
-  height: 18px;
+  width: clamp(14px, 4cqw, 18px);
+  height: clamp(14px, 4cqw, 18px);
   border-radius: 4px;
 }
 
 .myRankBadge {
-  width: 44px;
-  height: 44px;
+  width: 10%;
+  aspect-ratio: 1;
   border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
