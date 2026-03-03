@@ -235,88 +235,79 @@ export default function MyPage() {
             <span className={styles.ticketHeaderCount}>{ticketCount + photoRemaining}장</span>
           </div>
 
-          {ticketMissions.length > 0 ? (
-            <div className={styles.ticketGrid}>
-              {ticketMissions.map((m: Mission, i: number) => {
-                const imgInfo = TICKET_IMAGE_MAP[m.id]
-                if (!imgInfo) return null
-                const isUsed = m.isUsed
-                const imgSrc = isUsed ? imgInfo.complete : imgInfo.normal
-                return (
-                  <div
-                    key={m.id}
-                    className={`${styles.ticketImageCard} ${isUsed ? styles.ticketUsedCard : ''} stagger-item`}
-                    style={{ animationDelay: `${i * 0.06}s` }}
-                    onClick={() => !isUsed && setQrMission(m)}
-                  >
-                    <img
-                      src={imgSrc}
-                      alt={imgInfo.label}
-                      className={styles.ticketFullImg}
-                    />
-                  </div>
-                )
-              })}
-              {/* AI 포토 교환권 */}
-              {photoCompleted > 0 && (
-                <div
-                  className={`${styles.ticketImageCard} ${photoRemaining === 0 ? styles.ticketUsedCard : ''} stagger-item`}
-                  style={{ animationDelay: `${ticketMissions.length * 0.06}s` }}
-                  onClick={() => {
-                    if (photoRemaining > 0 && nextAvailablePhoto) {
-                      setQrMission({
-                        id: nextAvailablePhoto.missionId,
-                        title: 'AI 포토 교환권',
-                        description: '',
-                        isCompleted: true,
-                        icon: '/image/ticket/photo.svg',
-                      })
-                    }
-                  }}
-                >
-                  <img
-                    src={photoRemaining > 0 ? '/image/ticket/photo.svg' : '/image/ticket/photo_complete.svg'}
-                    alt="AI 포토 교환권"
-                    className={styles.ticketFullImg}
-                  />
-                  <div className={styles.photoCountOverlay}>
-                    <span className={styles.photoCountText}>{photoRemaining}/{PHOTO_TOTAL}</span>
-                  </div>
+          {(() => {
+            type TicketItem =
+              | { kind: 'ticket'; mission: Mission; isUsed: boolean }
+              | { kind: 'photo'; isUsed: boolean }
+
+            const items: TicketItem[] = []
+            ticketMissions.forEach((m: Mission) => {
+              items.push({ kind: 'ticket', mission: m, isUsed: !!m.isUsed })
+            })
+            if (photoCompleted > 0) {
+              items.push({ kind: 'photo', isUsed: photoRemaining === 0 })
+            }
+            items.sort((a, b) => Number(a.isUsed) - Number(b.isUsed))
+
+            if (items.length === 0) {
+              return (
+                <div className={styles.emptyState}>
+                  <span className={styles.emptyIcon}>🎟️</span>
+                  <p className={styles.emptyText}>미션을 완료하면 이용권이 발급됩니다</p>
                 </div>
-              )}
-            </div>
-          ) : photoCompleted > 0 ? (
-            <div className={styles.ticketGrid}>
-              <div
-                className={`${styles.ticketImageCard} ${photoRemaining === 0 ? styles.ticketUsedCard : ''} stagger-item`}
-                onClick={() => {
-                  if (photoRemaining > 0 && nextAvailablePhoto) {
-                    setQrMission({
-                      id: nextAvailablePhoto.missionId,
-                      title: 'AI 포토 교환권',
-                      description: '',
-                      isCompleted: true,
-                      icon: '/image/ticket/photo.svg',
-                    })
+              )
+            }
+
+            return (
+              <div className={styles.ticketGrid}>
+                {items.map((item, i) => {
+                  if (item.kind === 'ticket') {
+                    const imgInfo = TICKET_IMAGE_MAP[item.mission.id]
+                    if (!imgInfo) return null
+                    const imgSrc = item.isUsed ? imgInfo.complete : imgInfo.normal
+                    return (
+                      <div
+                        key={item.mission.id}
+                        className={`${styles.ticketImageCard} ${item.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
+                        style={{ animationDelay: `${i * 0.06}s` }}
+                        onClick={() => !item.isUsed && setQrMission(item.mission)}
+                      >
+                        <img src={imgSrc} alt={imgInfo.label} className={styles.ticketFullImg} />
+                      </div>
+                    )
                   }
-                }}
-              >
-                <img
-                  src={photoRemaining > 0 ? '/image/ticket/photo.svg' : '/image/ticket/photo_complete.svg'}
-                  alt="AI 포토 교환권"
-                  className={styles.ticketFullImg}
-                />
-                <div className={styles.photoCountOverlay}>
-                  <span className={styles.photoCountText}>{photoRemaining}/{PHOTO_TOTAL}</span>
-                </div>
+                  // photo
+                  return (
+                    <div
+                      key="photo"
+                      className={`${styles.ticketImageCard} ${item.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
+                      style={{ animationDelay: `${i * 0.06}s` }}
+                      onClick={() => {
+                        if (photoRemaining > 0 && nextAvailablePhoto) {
+                          setQrMission({
+                            id: nextAvailablePhoto.missionId,
+                            title: 'AI 포토 교환권',
+                            description: '',
+                            isCompleted: true,
+                            icon: '/image/ticket/photo.svg',
+                          })
+                        }
+                      }}
+                    >
+                      <img
+                        src={photoRemaining > 0 ? '/image/ticket/photo.svg' : '/image/ticket/photo_complete.svg'}
+                        alt="AI 포토 교환권"
+                        className={styles.ticketFullImg}
+                      />
+                      <div className={styles.photoCountOverlay}>
+                        <span className={styles.photoCountText}>{photoRemaining}/{PHOTO_TOTAL}</span>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
-            </div>
-          ) : (
-            <div className={styles.emptyState}>
-              <span className={styles.emptyIcon}>🎟️</span>
-              <p className={styles.emptyText}>미션을 완료하면 이용권이 발급됩니다</p>
-            </div>
-          )}
+            )
+          })()}
         </>
       )}
 
