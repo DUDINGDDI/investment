@@ -30,6 +30,7 @@ export interface BoothResponse {
   themeColor: string;
   totalInvestment: number;
   myInvestment: number;
+  hasRated: boolean;
 }
 
 export interface InvestmentResponse {
@@ -87,6 +88,7 @@ export interface ZoneResponse {
   zoneCode: string;
   name: string;
   floorInfo: string;
+  floor: string;
   displayOrder: number;
   booths: ZoneBoothItem[];
 }

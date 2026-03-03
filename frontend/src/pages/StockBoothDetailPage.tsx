@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import { stockApi } from '../api'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { stockApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { StockBoothResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
+import PageBackButton from '../components/PageBackButton'
 import { useToast } from '../components/ToastContext'
 import styles from './StockBoothDetailPage.module.css'
 
@@ -35,11 +36,11 @@ function formatCommentTime(dateStr: string) {
 export default function StockBoothDetailPage() {
   const { id } = useParams<{ id: string }>()
   const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
   const { showToast } = useToast()
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
   const [modal, setModal] = useState<'buy' | 'sell' | null>(null)
+  const [stockEnabled, setStockEnabled] = useState(true)
   const [activeTab, setActiveTab] = useState<TabType>(() => {
     const tab = searchParams.get('tab')
     if (tab === 'review' || tab === 'discussion') return tab
@@ -47,7 +48,7 @@ export default function StockBoothDetailPage() {
   })
 
   // 메모
-  const [memoOpen, setMemoOpen] = useState(false)
+  const [memoOpen, setMemoOpen] = useState(() => searchParams.get('memo') === 'open')
   const [memo, setMemo] = useState('')
   const [memoSaved, setMemoSaved] = useState('')
 
@@ -69,12 +70,13 @@ export default function StockBoothDetailPage() {
   const [isEditingRating, setIsEditingRating] = useState(false)
   const [boothReviews, setBoothReviews] = useState<BoothReviewResponse[]>([])
   const [reviewsLoaded, setReviewsLoaded] = useState(false)
-  const [showReviews, setShowReviews] = useState(false)
+
 
   const loadData = useCallback(() => {
     if (!id) return
     stockApi.getBoothById(Number(id)).then(res => setBooth(res.data))
     stockApi.getAccount().then(res => setBalance(res.data.balance))
+    resultApi.getStockStatus().then(res => setStockEnabled(res.data.enabled))
   }, [id])
 
   useEffect(() => {
@@ -160,8 +162,8 @@ export default function StockBoothDetailPage() {
 
   const handleAddComment = async () => {
     if (!id || !commentInput.trim() || submitting) return
-    if (commentInput.trim().length < 20) {
-      showToast('최소 20자 이상 입력해주세요', 'error')
+    if (commentInput.trim().length < 150) {
+      showToast('최소 150자 이상 입력해주세요', 'error')
       return
     }
     setSubmitting(true)
@@ -184,8 +186,8 @@ export default function StockBoothDetailPage() {
       showToast('모든 평가 항목을 입력해주세요', 'error')
       return
     }
-    if (reviewText.trim().length > 0 && reviewText.trim().length < 20) {
-      showToast('리뷰는 최소 20자 이상 입력해주세요', 'error')
+    if (reviewText.trim().length > 0 && reviewText.trim().length < 80) {
+      showToast('리뷰는 최소 80자 이상 입력해주세요', 'error')
       return
     }
     setRatingSubmitting(true)
@@ -247,6 +249,8 @@ export default function StockBoothDetailPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/stocks/booths" label="주식 종목" style={{ paddingLeft: 20 }} />
+
       {/* 종목 헤더 */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
@@ -273,48 +277,55 @@ export default function StockBoothDetailPage() {
       )}
 
       {/* 내 투자금 행 */}
-      <div className={styles.myInvestRow} onClick={() => navigate('/stocks/history')} style={{ cursor: 'pointer' }}>
+      <div className={styles.myInvestRow}>
         <span className={styles.myInvestLabel}>내 투자금</span>
         <span className={styles.myInvestValue}>
           {formatKorean(booth.myHolding)}원
-          <span className={styles.myInvestArrow}> ›</span>
         </span>
       </div>
 
       {/* 투자하기 / 철회하기 버튼 */}
       <div className={styles.tradeSection}>
-        {!canTrade && (
-          <p className={styles.tradeGuide}>
-            {!booth.hasVisited
-              ? 'QR 스캔으로 부스를 방문해주세요'
-              : '평가를 완료하면 투자/철회가 가능합니다'}
-          </p>
-        )}
-        {hasHolding ? (
-          <div className={styles.tradeBtnRow}>
-            <button
-              className={styles.withdrawBtn}
-              onClick={() => setModal('sell')}
-              disabled={!canTrade}
-            >
-              철회하기
-            </button>
-            <button
-              className={styles.investBtn}
-              onClick={() => setModal('buy')}
-              disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
-            >
-              투자하기
-            </button>
-          </div>
-        ) : (
-          <button
-            className={styles.investBtnFull}
-            onClick={() => setModal('buy')}
-            disabled={!canTrade || balance === 0}
-          >
-            투자하기
+        {!stockEnabled ? (
+          <button className={styles.investBtnFull} disabled>
+            현재 AM 투자가 중지된 상태입니다
           </button>
+        ) : (
+          <>
+            {!canTrade && (
+              <p className={styles.tradeGuide}>
+                {!booth.hasVisited
+                  ? 'QR 스캔으로 부스를 방문해주세요'
+                  : '평가를 완료하면 투자/철회가 가능합니다'}
+              </p>
+            )}
+            {hasHolding ? (
+              <div className={styles.tradeBtnRow}>
+                <button
+                  className={styles.withdrawBtn}
+                  onClick={() => setModal('sell')}
+                  disabled={!canTrade}
+                >
+                  철회하기
+                </button>
+                <button
+                  className={styles.investBtn}
+                  onClick={() => setModal('buy')}
+                  disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
+                >
+                  투자하기
+                </button>
+              </div>
+            ) : (
+              <button
+                className={styles.investBtnFull}
+                onClick={() => setModal('buy')}
+                disabled={!canTrade || balance === 0}
+              >
+                투자하기
+              </button>
+            )}
+          </>
         )}
       </div>
 
@@ -347,6 +358,43 @@ export default function StockBoothDetailPage() {
               </p>
             </div>
 
+            {/* 입력 영역 */}
+            {!booth.hasVisited ? (
+              <div className={styles.inputLocked}>
+                <span className={styles.lockIcon}>&#x1F512;</span>
+                <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
+              </div>
+            ) : (
+              <div className={styles.commentInputArea}>
+                <div className={styles.inputRow}>
+                  <textarea
+                    className={styles.commentTextarea}
+                    placeholder="개선 아이디어를 제안해주세요."
+                    value={commentInput}
+                    onChange={e => setCommentInput(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        handleAddComment()
+                      }
+                    }}
+                    disabled={submitting}
+                    maxLength={500}
+                    rows={1}
+                  />
+                  <button
+                    className={styles.commentSendBtn}
+                    onClick={handleAddComment}
+                    disabled={!commentInput.trim() || commentInput.trim().length < 150 || submitting}
+                  >
+                    {commentInput.trim().length > 0 && commentInput.trim().length < 150
+                      ? `아이디어 제안하기 (${commentInput.trim().length}/150)`
+                      : '아이디어 제안하기'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* 댓글 리스트 */}
             <div className={styles.commentList}>
               {comments.length === 0 ? (
@@ -372,42 +420,6 @@ export default function StockBoothDetailPage() {
                 ))
               )}
             </div>
-
-            {/* 입력 영역 */}
-            {!booth.hasVisited ? (
-              <div className={styles.inputLocked}>
-                <span className={styles.lockIcon}>&#x1F512;</span>
-                <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
-              </div>
-            ) : (
-              <div className={styles.commentInputArea}>
-                <div className={styles.inputRow}>
-                  <textarea
-                    className={styles.commentTextarea}
-                    placeholder="개선 아이디어를 제안해주세요."
-                    value={commentInput}
-                    onChange={e => setCommentInput(e.target.value)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault()
-                        handleAddComment()
-                      }
-                    }}
-                    disabled={submitting}
-                    rows={1}
-                  />
-                  <button
-                    className={styles.commentSendBtn}
-                    onClick={handleAddComment}
-                    disabled={!commentInput.trim() || commentInput.trim().length < 20 || submitting}
-                  >
-                    {commentInput.trim().length > 0 && commentInput.trim().length < 20
-                      ? `아이디어 제안하기 (${commentInput.trim().length}/20)`
-                      : '아이디어 제안하기'}
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
@@ -428,15 +440,6 @@ export default function StockBoothDetailPage() {
                     투자자의 관점에서 아이디어를 평가하고 미션을 완료하세요.
                   </p>
                 </div>
-
-                {/* 리뷰 보기 링크 */}
-                {boothReviews.length > 0 && (
-                  <div className={styles.reviewLinkRow}>
-                    <button className={styles.reviewLink} onClick={() => setShowReviews(!showReviews)}>
-                      리뷰 보기 ›
-                    </button>
-                  </div>
-                )}
 
                 {/* 평가 항목 카드들 */}
                 {RATING_CRITERIA.map(({ key, label }) => (
@@ -478,8 +481,8 @@ export default function StockBoothDetailPage() {
                     disabled={!!myRating && !isEditingRating}
                   />
                   <div className={styles.charCount}>
-                    {reviewText.trim().length > 0 && reviewText.trim().length < 20
-                      ? `${reviewText.trim().length}/20 (최소 20자)`
+                    {reviewText.trim().length > 0 && reviewText.trim().length < 80
+                      ? `${reviewText.trim().length}/80 (최소 80자)`
                       : `${reviewText.length} / 500`}
                   </div>
                 </div>
@@ -531,7 +534,7 @@ export default function StockBoothDetailPage() {
                 )}
 
                 {/* 전체 리뷰 목록 */}
-                {showReviews && boothReviews.length > 0 && (
+                {boothReviews.length > 0 && (
                   <div className={styles.reviewList}>
                     <h4 className={styles.reviewListTitle}>리뷰 ({boothReviews.length})</h4>
                     {boothReviews.map((r: BoothReviewResponse) => (

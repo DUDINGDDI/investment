@@ -24,6 +24,7 @@ public class MissionService {
     private final UserMissionRepository userMissionRepository;
     private final UserRepository userRepository;
     private final StockAccountRepository stockAccountRepository;
+    private final SettingService settingService;
 
     /** 함께하는 하고잡이 미션 전용 고정 UUID */
     private static final String TOGETHER_SPACE_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
@@ -31,14 +32,69 @@ public class MissionService {
     /** 랭킹 스냅샷: missionId → (userId → 이전 순위). 조회 시마다 갱신 */
     private final Map<String, Map<Long, Integer>> previousRankSnapshots = new ConcurrentHashMap<>();
 
-    private static final Map<String, Integer> MISSION_TARGETS = Map.of(
-            "renew", 1,
-            "dream", 1,
-            "result", 1,
-            "again", 70,
-            "sincere", 12,
-            "together", 1
+    private static final Map<String, Integer> MISSION_TARGETS = Map.ofEntries(
+            Map.entry("renew", 1),
+            Map.entry("dream", 1),
+            Map.entry("result", 1),
+            Map.entry("again", 70),
+            Map.entry("sincere", 12),
+            Map.entry("together", 1),
+            Map.entry("photo_0", 1),
+            Map.entry("photo_1", 1),
+            Map.entry("photo_2", 1),
+            Map.entry("photo_3", 1),
+            Map.entry("photo_4", 1),
+            Map.entry("photo_5", 1)
     );
+
+    /** 원본 미션 완료 시 자동으로 완료할 포토 티켓 매핑 */
+    private static final Map<String, List<String>> PHOTO_TICKET_MAP = Map.of(
+            "renew", List.of("photo_0", "photo_1"),
+            "again", List.of("photo_2", "photo_3"),
+            "sincere", List.of("photo_4", "photo_5")
+    );
+
+    /**
+     * 원본 미션이 완료되었을 때 연결된 포토 티켓을 자동 완료 처리
+     */
+    private void autoCompletePhotoTickets(User user, String missionId) {
+        List<String> photoIds = PHOTO_TICKET_MAP.get(missionId);
+        if (photoIds == null) return;
+
+        for (String photoId : photoIds) {
+            UserMission um = userMissionRepository.findByUser_IdAndMissionId(user.getId(), photoId)
+                    .orElseGet(() -> {
+                        UserMission newUm = new UserMission(user, photoId, MISSION_TARGETS.get(photoId));
+                        return userMissionRepository.save(newUm);
+                    });
+            if (!um.getIsCompleted()) {
+                um.setProgress(um.getTarget());
+                um.setIsCompleted(true);
+                um.setCompletedAt(LocalDateTime.now());
+                userMissionRepository.save(um);
+            }
+        }
+    }
+
+    /**
+     * 기존 유저 소급 처리: 원본 미션이 완료되었지만 포토 티켓이 없는 경우 자동 생성
+     */
+    private void ensurePhotoTickets(Long userId) {
+        List<UserMission> userMissions = userMissionRepository.findByUser_Id(userId);
+        Map<String, UserMission> missionMap = userMissions.stream()
+                .collect(Collectors.toMap(UserMission::getMissionId, um -> um));
+
+        for (Map.Entry<String, List<String>> entry : PHOTO_TICKET_MAP.entrySet()) {
+            UserMission parentMission = missionMap.get(entry.getKey());
+            if (parentMission != null && parentMission.getIsCompleted()) {
+                boolean needsCreation = entry.getValue().stream()
+                        .anyMatch(photoId -> !missionMap.containsKey(photoId));
+                if (needsCreation) {
+                    autoCompletePhotoTickets(parentMission.getUser(), entry.getKey());
+                }
+            }
+        }
+    }
 
     /**
      * 자동 미션 달성 체크 — 완료 후에도 progress는 계속 카운팅
@@ -46,6 +102,7 @@ public class MissionService {
     @Transactional
     public void checkAndUpdateMission(Long userId, String missionId, int currentProgress) {
         if (!MISSION_TARGETS.containsKey(missionId)) return;
+        if ("dream".equals(missionId) && !settingService.isDreamEnabled()) return;
         updateProgress(userId, missionId, currentProgress);
     }
 
@@ -67,12 +124,17 @@ public class MissionService {
         um.setProgress(Math.max(0, progress));
         um.setTarget(MISSION_TARGETS.get(missionId));
 
+        boolean wasCompleted = um.getIsCompleted();
         if (um.getProgress() >= um.getTarget() && !um.getIsCompleted()) {
             um.setIsCompleted(true);
             um.setCompletedAt(LocalDateTime.now());
         }
 
         userMissionRepository.save(um);
+
+        if (!wasCompleted && um.getIsCompleted()) {
+            autoCompletePhotoTickets(user, missionId);
+        }
 
         return new UserMissionResponse(
                 um.getMissionId(), um.getProgress(), um.getTarget(),
@@ -85,6 +147,9 @@ public class MissionService {
     public UserMissionResponse completeMission(Long userId, String missionId) {
         if (!MISSION_TARGETS.containsKey(missionId)) {
             throw new IllegalArgumentException("존재하지 않는 미션입니다: " + missionId);
+        }
+        if ("dream".equals(missionId) && !settingService.isDreamEnabled()) {
+            throw new IllegalStateException("현재 이 미션은 비활성화 상태입니다");
         }
 
         User user = userRepository.findById(userId)
@@ -100,6 +165,8 @@ public class MissionService {
         um.setIsCompleted(true);
         um.setCompletedAt(LocalDateTime.now());
         userMissionRepository.save(um);
+
+        autoCompletePhotoTickets(user, missionId);
 
         return new UserMissionResponse(
                 um.getMissionId(), um.getProgress(), um.getTarget(),
@@ -129,8 +196,10 @@ public class MissionService {
         return response;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<UserMissionResponse> getMyMissions(Long userId) {
+        ensurePhotoTickets(userId);
+
         List<UserMission> userMissions = userMissionRepository.findByUser_Id(userId);
         Map<String, UserMission> missionMap = userMissions.stream()
                 .collect(Collectors.toMap(UserMission::getMissionId, um -> um));

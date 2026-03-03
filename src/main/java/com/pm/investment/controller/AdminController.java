@@ -9,6 +9,7 @@ import com.pm.investment.service.MissionService;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.SettingService;
 import com.pm.investment.service.SseEmitterService;
+import com.pm.investment.service.BoothRatingService;
 import com.pm.investment.service.StockPriceService;
 import com.pm.investment.service.StockRatingService;
 import jakarta.validation.Valid;
@@ -29,6 +30,7 @@ public class AdminController {
     private final SseEmitterService sseEmitterService;
     private final StockPriceService stockPriceService;
     private final StockRatingService stockRatingService;
+    private final BoothRatingService boothRatingService;
     private final MissionService missionService;
 
     @GetMapping("/results/status")
@@ -50,6 +52,50 @@ public class AdminController {
     @PostMapping("/investment/toggle")
     public ResponseEntity<Map<String, Boolean>> toggleInvestment() {
         boolean enabled = settingService.toggleInvestment();
+        return ResponseEntity.ok(Map.of("enabled", enabled));
+    }
+
+    @GetMapping("/mission-result/status")
+    public ResponseEntity<Map<String, Boolean>> getMissionResultStatus() {
+        return ResponseEntity.ok(Map.of("revealed", settingService.isMissionResultRevealed()));
+    }
+
+    @PostMapping("/mission-result/toggle")
+    public ResponseEntity<Map<String, Boolean>> toggleMissionResult() {
+        boolean revealed = settingService.toggleMissionResult();
+        return ResponseEntity.ok(Map.of("revealed", revealed));
+    }
+
+    @GetMapping("/stock/status")
+    public ResponseEntity<Map<String, Boolean>> getStockStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isStockEnabled()));
+    }
+
+    @PostMapping("/stock/toggle")
+    public ResponseEntity<Map<String, Boolean>> toggleStock() {
+        boolean enabled = settingService.toggleStock();
+        return ResponseEntity.ok(Map.of("enabled", enabled));
+    }
+
+    @GetMapping("/stock-ranking/status")
+    public ResponseEntity<Map<String, Boolean>> getStockRankingStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isStockRankingEnabled()));
+    }
+
+    @PostMapping("/stock-ranking/toggle")
+    public ResponseEntity<Map<String, Boolean>> toggleStockRanking() {
+        boolean enabled = settingService.toggleStockRanking();
+        return ResponseEntity.ok(Map.of("enabled", enabled));
+    }
+
+    @GetMapping("/dream/status")
+    public ResponseEntity<Map<String, Boolean>> getDreamStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isDreamEnabled()));
+    }
+
+    @PostMapping("/dream/toggle")
+    public ResponseEntity<Map<String, Boolean>> toggleDream() {
+        boolean enabled = settingService.toggleDream();
         return ResponseEntity.ok(Map.of("enabled", enabled));
     }
 
@@ -88,6 +134,11 @@ public class AdminController {
     @GetMapping("/ratings")
     public ResponseEntity<List<AdminBoothRatingResponse>> getBoothRatings() {
         return ResponseEntity.ok(stockRatingService.getAdminRatingResults());
+    }
+
+    @GetMapping("/booth-ratings")
+    public ResponseEntity<List<AdminBoothRatingResponse>> getPmBoothRatings() {
+        return ResponseEntity.ok(boothRatingService.getAdminRatingResults());
     }
 
     @PostMapping("/tickets/use")

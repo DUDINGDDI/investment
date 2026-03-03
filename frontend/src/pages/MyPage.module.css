@@ -6,10 +6,16 @@
   padding: 24px 0 20px;
 }
 
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
 .title {
   font-size: 22px;
   font-weight: 700;
-  margin-bottom: 4px;
 }
 
 .subtitle {
@@ -165,6 +171,23 @@
 /* 사용 완료 이용권 */
 .ticketUsedCard {
   cursor: default;
+}
+
+/* AI 포토 교환권 수량 오버레이 */
+.photoCountOverlay {
+  position: absolute;
+  top: 45%;
+  right: 78px;
+  transform: translateY(-50%);
+  border-radius: 20px;
+  padding: 4px 14px;
+}
+
+.photoCountText {
+  font-size: 14px;
+  font-weight: 800;
+  color: #BA6FA9;
+  letter-spacing: 1px;
 }
 
 .ticketUsedOverlay {
@@ -326,17 +349,90 @@
 .logoutBtn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 32px;
-  padding: 10px 0;
-  background: none;
-  border: none;
+  gap: 4px;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-button);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .logoutText {
   font-size: 13px;
   color: var(--text-secondary);
+}
+
+.logoutPopup {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 28px 24px 20px;
+  width: 280px;
+  text-align: center;
+}
+
+.logoutPopupText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.logoutPopupBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.logoutCancelBtn {
+  flex: 1;
+  height: 44px;
+  border-radius: var(--radius-button);
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.logoutConfirmBtn {
+  flex: 1;
+  height: 44px;
+  border-radius: var(--radius-button);
+  font-size: 15px;
+  font-weight: 600;
+  background: #FF3B30;
+  color: white;
+}
+
+/* 메모 서브탭 */
+.memoSubTabRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.memoSubTab {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.memoSubTab:active {
+  transform: none;
+}
+
+.memoSubTabActive {
+  background: rgba(69, 147, 252, 0.15);
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
 }
 
 /* 메모 리스트 */

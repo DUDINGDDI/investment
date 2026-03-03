@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
+import PageBackButton from '../components/PageBackButton'
 import styles from './ZoneBoothListPage.module.css'
 
 interface ZoneBooth {
@@ -48,12 +49,9 @@ export default function ZoneBoothListPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/map" label="지도" />
+
       <div className={styles.header}>
-        <button className={styles.back} onClick={() => navigate('/map')} aria-label="뒤로가기">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M15 18L9 12L15 6" stroke="var(--text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
         <div>
           <h2 className={styles.title}>{zoneId} 구역</h2>
           <p className={styles.subtitle}>해당 구역에 위치한 부스 목록</p>

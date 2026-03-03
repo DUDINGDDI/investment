@@ -46,6 +46,10 @@ export const userApi = {
 export const boothApi = {
   getAll: () => api.get<BoothResponse[]>('/booths'),
   getById: (id: number) => api.get<BoothResponse>(`/booths/${id}`),
+  submitRating: (boothId: number, data: StockRatingRequest) => api.post<StockRatingResponse>(`/booths/${boothId}/rating`, data),
+  getMyRating: (boothId: number) => api.get<StockRatingResponse>(`/booths/${boothId}/rating`),
+  getBoothReviews: (boothId: number) => api.get<BoothReviewResponse[]>(`/booths/${boothId}/reviews`),
+  deleteReview: (boothId: number) => api.delete(`/booths/${boothId}/rating/review`),
 };
 
 export const investmentApi = {
@@ -61,8 +65,12 @@ export const investmentApi = {
 export const resultApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/results/status'),
   getInvestmentStatus: () => api.get<{ enabled: boolean }>('/results/investment-status'),
+  getStockStatus: () => api.get<{ enabled: boolean }>('/results/stock-status'),
   getRanking: () => api.get<RankingResponse[]>('/results/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/results/announcement'),
+  getMissionResultStatus: () => api.get<{ revealed: boolean }>('/results/mission-result-status'),
+  getDreamStatus: () => api.get<{ enabled: boolean }>('/results/dream-status'),
+  getStockRankingStatus: () => api.get<{ enabled: boolean }>('/results/stock-ranking-status'),
 };
 
 export const zoneApi = {
@@ -133,11 +141,20 @@ export const adminApi = {
   toggleResults: () => api.post<{ revealed: boolean }>('/admin/results/toggle'),
   getInvestmentStatus: () => api.get<{ enabled: boolean }>('/admin/investment/status'),
   toggleInvestment: () => api.post<{ enabled: boolean }>('/admin/investment/toggle'),
+  getStockStatus: () => api.get<{ enabled: boolean }>('/admin/stock/status'),
+  toggleStock: () => api.post<{ enabled: boolean }>('/admin/stock/toggle'),
   getRanking: () => api.get<RankingResponse[]>('/admin/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/admin/announcement'),
   setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),
   clearAnnouncement: () => api.delete('/admin/announcement'),
+  getMissionResultStatus: () => api.get<{ revealed: boolean }>('/admin/mission-result/status'),
+  toggleMissionResult: () => api.post<{ revealed: boolean }>('/admin/mission-result/toggle'),
+  getDreamStatus: () => api.get<{ enabled: boolean }>('/admin/dream/status'),
+  toggleDream: () => api.post<{ enabled: boolean }>('/admin/dream/toggle'),
+  getStockRankingStatus: () => api.get<{ enabled: boolean }>('/admin/stock-ranking/status'),
+  toggleStockRanking: () => api.post<{ enabled: boolean }>('/admin/stock-ranking/toggle'),
   getBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/ratings'),
+  getPmBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/booth-ratings'),
   useTicket: (userId: number, missionId: string) =>
     api.post<UserMissionResponse>('/admin/tickets/use', { userId, missionId }),
 };

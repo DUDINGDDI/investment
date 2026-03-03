@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { boothApi, investmentApi, userApi } from '../api'
 import { formatKorean } from '../utils/format'
+import PageBackButton from '../components/PageBackButton'
 import type { BoothResponse, InvestmentResponse } from '../types'
 import styles from './BoothListPage.module.css'
 
@@ -18,7 +19,12 @@ export default function BoothListPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    boothApi.getAll().then(res => setBooths(res.data))
+    boothApi.getAll().then(res => {
+      const sorted = [...res.data].sort((a, b) =>
+        b.totalInvestment - a.totalInvestment || a.displayOrder - b.displayOrder
+      )
+      setBooths(sorted)
+    })
   }, [])
 
   useEffect(() => {
@@ -42,8 +48,9 @@ export default function BoothListPage() {
   const totalAsset = balance + totalHolding
   const holdingPct = totalAsset > 0 ? Math.round((totalHolding / totalAsset) * 100) : 0
 
-  const donutSegments = holdings
+  const donutSegments = [...holdings]
     .filter(h => h.amount > 0)
+    .sort((a, b) => b.amount - a.amount)
     .map((h, i) => ({
       ...h,
       color: COLORS[i % COLORS.length],
@@ -59,6 +66,8 @@ export default function BoothListPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/home" label="PM 투자" />
+
       {activeTab === 'all' ? (
         <>
           {/* 투자 종목 리스트 */}
@@ -152,21 +161,30 @@ export default function BoothListPage() {
               </div>
 
               {/* 자산 정보 */}
-              <div className={styles.assetInfo}>
-                <div className={styles.assetRow}>
-                  <div className={styles.assetDot} style={{ background: '#4FC3F7' }} />
-                  <span className={styles.assetLabel}>총 보유 자산</span>
+              <div className={styles.assetRight}>
+                <div className={styles.assetTopRow}>
+                  <div className={styles.assetItem}>
+                    <div className={styles.assetRow}>
+                      <div className={styles.assetDot} style={{ background: '#6C5CE7' }} />
+                      <span className={styles.assetLabel}>투자 금액</span>
+                    </div>
+                    <p className={styles.assetValue}>{formatKorean(totalHolding)}원</p>
+                  </div>
+                  <div className={styles.assetItem}>
+                    <div className={styles.assetRow}>
+                      <div className={styles.assetDot} style={{ background: '#4FC3F7' }} />
+                      <span className={styles.assetLabel}>잔여 금액</span>
+                    </div>
+                    <p className={styles.assetValue}>{formatKorean(balance)}원</p>
+                  </div>
                 </div>
-                <p className={styles.assetValue}>{formatKorean(totalAsset)}원</p>
-
-                <div className={styles.assetRow} style={{ marginTop: 12 }}>
-                  <div className={styles.assetDot} style={{ background: '#FFB74D' }} />
-                  <span className={styles.assetLabel}>투자 금액</span>
+                <div className={styles.assetBottomRow}>
+                  <div className={styles.assetRow}>
+                    <div className={styles.assetDot} style={{ background: '#FFB74D' }} />
+                    <span className={styles.assetLabel}>총 자산</span>
+                  </div>
+                  <p className={styles.assetValueLarge}>{formatKorean(totalAsset)}원</p>
                 </div>
-                <p className={styles.assetValueSub}>
-                  {formatKorean(totalHolding)}원
-                  <span className={styles.assetPct}> ({holdingPct}%)</span>
-                </p>
               </div>
             </div>
           </div>
@@ -181,7 +199,7 @@ export default function BoothListPage() {
               </div>
             ) : (
               <div className={styles.holdingList}>
-                {holdings.filter(h => h.amount > 0).map((h, i) => (
+                {[...holdings].filter(h => h.amount > 0).sort((a, b) => b.amount - a.amount).map((h, i) => (
                   <div
                     key={h.boothId}
                     className={`${styles.holdingItem} stagger-item`}

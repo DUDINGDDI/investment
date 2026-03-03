@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { stockApi, missionApi } from '../api'
+import { stockApi, missionApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import { useMissions, type Mission } from '../components/MissionContext'
 import type { MissionRankingItem } from '../types'
@@ -120,6 +120,9 @@ export default function StockHomePage() {
   const [rankings, setRankings] = useState<MissionRankingItem[]>([])
   const [myRanking, setMyRanking] = useState<MissionRankingItem | null>(null)
   const [rankingLoading, setRankingLoading] = useState(false)
+  const [missionResultRevealed, setMissionResultRevealed] = useState(false)
+  const [dreamEnabled, setDreamEnabled] = useState(false)
+  const [stockRankingEnabled, setStockRankingEnabled] = useState(true)
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -127,6 +130,9 @@ export default function StockHomePage() {
       const total = res.data.reduce((sum: number, h: { amount: number }) => sum + h.amount, 0)
       setTotalHolding(total)
     }).catch(() => {})
+    resultApi.getMissionResultStatus().then(res => setMissionResultRevealed(res.data.revealed)).catch(() => {})
+    resultApi.getDreamStatus().then(res => setDreamEnabled(res.data.enabled)).catch(() => {})
+    resultApi.getStockRankingStatus().then(res => setStockRankingEnabled(res.data.enabled)).catch(() => {})
     syncFromServer()
   }, [syncFromServer])
 
@@ -161,8 +167,6 @@ export default function StockHomePage() {
       loadRanking(selectedFilter)
     }
   }, [showRanking, selectedFilter, loadRanking])
-
-  const totalAsset = (balance || 0) + totalHolding
 
   // Mission 파생 상태
   const row1 = missions.slice(0, 3)
@@ -206,13 +210,13 @@ export default function StockHomePage() {
         <div className={styles.cardBottom}>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>총 보유 자산</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalAsset)}원</span>
+            <span className={styles.cardAssetLabel}>잔여 투자 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
           </div>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#FFB74D' }} />
-            <span className={styles.cardAssetLabel}>투자 금액</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalHolding)}원</span>
+            <span className={styles.cardAssetLabel}>총 자산</span>
+            <span className={styles.cardAssetValue}>{formatKorean((balance || 0) + totalHolding)}원</span>
           </div>
         </div>
       </div>
@@ -284,6 +288,16 @@ export default function StockHomePage() {
           </>
         ) : (
           <div className={styles.rankingInline}>
+            {!stockRankingEnabled ? (
+              <div className={badgeStyles.rankEmpty}>
+                <div className={badgeStyles.rankEmptyIcon}>🔒</div>
+                <p className={badgeStyles.rankEmptyText}>
+                  현재 랭킹이 비공개 상태입니다<br />
+                  랭킹 공개 시간까지 조금만 기다려주세요!
+                </p>
+              </div>
+            ) : (
+            <>
             {/* 미션 필터 바 */}
             <div className={badgeStyles.filterBar}>
               {missions.map((m: Mission) => (
@@ -392,6 +406,8 @@ export default function StockHomePage() {
                 )}
               </>
             )}
+            </>
+            )}
           </div>
         )}
       </div>
@@ -405,7 +421,13 @@ export default function StockHomePage() {
               <BadgeImage mission={freshMission} size="large" />
             </div>
             <h3 className={badgeStyles.sheetTitle}>{freshMission.title}</h3>
-            <p className={badgeStyles.sheetDesc}>{freshMission.description}</p>
+            <p className={badgeStyles.sheetDesc}>
+              {freshMission.id === 'result' && !missionResultRevealed
+                ? '미션 내용이 아직 공개되지 않았습니다'
+                : freshMission.id === 'dream' && !dreamEnabled
+                ? '미션 내용이 아직 공개되지 않았습니다'
+                : freshMission.description}
+            </p>
 
             {freshMission.target != null && (
               <ProgressBar

@@ -26,6 +26,9 @@ public class Zone {
     @Column(name = "floor_info", length = 50)
     private String floorInfo;
 
+    @Column(name = "floor", length = 50)
+    private String floor;
+
     @Column(name = "display_order", nullable = false)
     private Integer displayOrder;
 }

@@ -42,6 +42,7 @@ public class ZoneService {
                     .zoneCode(zone.getZoneCode())
                     .name(zone.getName())
                     .floorInfo(zone.getFloorInfo())
+                    .floor(zone.getFloor())
                     .displayOrder(zone.getDisplayOrder())
                     .booths(boothResponses)
                     .build();
@@ -71,6 +72,7 @@ public class ZoneService {
                 .zoneCode(zone.getZoneCode())
                 .name(zone.getName())
                 .floorInfo(zone.getFloorInfo())
+                .floor(zone.getFloor())
                 .displayOrder(zone.getDisplayOrder())
                 .booths(boothResponses)
                 .build();

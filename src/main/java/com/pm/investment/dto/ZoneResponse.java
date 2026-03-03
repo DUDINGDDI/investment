@@ -14,6 +14,7 @@ public class ZoneResponse {
     private String zoneCode;
     private String name;
     private String floorInfo;
+    private String floor;
     private Integer displayOrder;
     private List<ZoneBoothResponse> booths;
 

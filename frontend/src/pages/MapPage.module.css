@@ -110,6 +110,36 @@
   border-color: var(--accent-blue);
 }
 
+/* 층 서브탭 */
+.subFloorRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.subFloorChip {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.subFloorChip:active {
+  transform: none;
+}
+
+.subFloorChipActive {
+  background: rgba(69, 147, 252, 0.15);
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
 /* 지도 이미지 */
 .mapImage {
   position: relative;

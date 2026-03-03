@@ -32,6 +32,26 @@ public class ResultController {
         return ResponseEntity.ok(Map.of("enabled", settingService.isInvestmentEnabled()));
     }
 
+    @GetMapping("/mission-result-status")
+    public ResponseEntity<Map<String, Boolean>> getMissionResultStatus() {
+        return ResponseEntity.ok(Map.of("revealed", settingService.isMissionResultRevealed()));
+    }
+
+    @GetMapping("/stock-status")
+    public ResponseEntity<Map<String, Boolean>> getStockStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isStockEnabled()));
+    }
+
+    @GetMapping("/stock-ranking-status")
+    public ResponseEntity<Map<String, Boolean>> getStockRankingStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isStockRankingEnabled()));
+    }
+
+    @GetMapping("/dream-status")
+    public ResponseEntity<Map<String, Boolean>> getDreamStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isDreamEnabled()));
+    }
+
     @GetMapping("/ranking")
     public ResponseEntity<List<RankingResponse>> getRanking() {
         if (!settingService.isResultsRevealed()) {

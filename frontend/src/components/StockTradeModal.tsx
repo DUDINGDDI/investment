@@ -19,7 +19,7 @@ export default function StockTradeModal({ type, boothName, maxAmount, onConfirm,
 
   const isBuy = type === 'buy'
   const title = isBuy ? '투자하기' : '철회하기'
-  const maxLabel = isBuy ? '보유 잔액' : '투자 금액'
+  const maxLabel = isBuy ? '투자 가능 금액' : '철회 가능 금액'
 
   return (
     <div className={styles.overlay} onClick={onClose}>

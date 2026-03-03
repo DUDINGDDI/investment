@@ -19,7 +19,12 @@ export default function HomePage() {
       const total = res.data.reduce((sum: number, inv: { amount: number }) => sum + inv.amount, 0)
       setTotalInvested(total)
     }).catch(() => {})
-    boothApi.getAll().then(res => setBooths(res.data)).catch(() => {})
+    boothApi.getAll().then(res => {
+      const sorted = [...res.data].sort((a, b) =>
+        b.totalInvestment - a.totalInvestment || a.displayOrder - b.displayOrder
+      )
+      setBooths(sorted)
+    }).catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -37,8 +42,6 @@ export default function HomePage() {
   const [boothPage, setBoothPage] = useState(0)
   const PAGE_SIZE = 10
 
-  const totalAsset = (balance || 0) + totalInvested
-
   return (
     <div className={styles.container}>
       {/* 유저 정보 + 투자 금액 카드 */}
@@ -48,19 +51,19 @@ export default function HomePage() {
           <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
             <p className={styles.cardAmount}>{formatKorean(totalInvested)}원</p>
-            <button className={styles.cardBtn} onClick={() => navigate('/booths?tab=portfolio')}>나의 투자 정보</button>
+            <button className={styles.cardBtn} onClick={() => navigate('/booths?tab=portfolio')}>투자 종목 보기</button>
           </div>
         </div>
         <div className={styles.cardBottom}>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>총 보유 자산</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalAsset)}원</span>
+            <span className={styles.cardAssetLabel}>잔여 투자 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
           </div>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#FFB74D' }} />
-            <span className={styles.cardAssetLabel}>투자 금액</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalInvested)}원</span>
+            <span className={styles.cardAssetLabel}>총 자산</span>
+            <span className={styles.cardAssetValue}>{formatKorean((balance || 0) + totalInvested)}원</span>
           </div>
         </div>
       </div>
