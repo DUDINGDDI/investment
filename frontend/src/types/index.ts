@@ -87,6 +87,7 @@ export interface ZoneResponse {
   zoneCode: string;
   name: string;
   floorInfo: string;
+  floor: string;
   displayOrder: number;
   booths: ZoneBoothItem[];
 }

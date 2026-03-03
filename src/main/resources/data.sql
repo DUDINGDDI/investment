@@ -26,18 +26,18 @@ INSERT INTO app_settings (setting_key, setting_value) VALUES ('stock_enabled', '
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('dream_enabled', 'false');
 INSERT INTO app_settings (setting_key, setting_value) VALUES ('stock_ranking_enabled', 'true');
 
-INSERT INTO zones (zone_code, name, floor_info, display_order) VALUES
-('손복남홀', '손복남홀', 'INNOVATION CENTER LL층', 1),
-('L01', 'L01', 'INNOVATION CENTER LL층', 2),
-('L02', 'L02', 'INNOVATION CENTER LL층', 3),
-('101', '101호', 'LEADERSHIP CENTER 1층', 4),
-('102', '102호', 'LEADERSHIP CENTER 1층', 5),
-('201', '201호', 'LEADERSHIP CENTER 2층', 6),
-('202', '202호', 'LEADERSHIP CENTER 2층', 7),
-('203', '203호', 'LEADERSHIP CENTER 2층', 8),
-('204', '204호', 'LEADERSHIP CENTER 2층', 9),
-('301', '301호', 'LEADERSHIP CENTER 3층', 10),
-('302', '302호', 'LEADERSHIP CENTER 3층', 11);
+INSERT INTO zones (zone_code, name, floor_info, floor, display_order) VALUES
+('손복남홀', '손복남홀', 'INNOVATION CENTER LL층', 'Innovation Center', 1),
+('L01', 'L01', 'INNOVATION CENTER LL층', 'Innovation Center', 2),
+('L02', 'L02', 'INNOVATION CENTER LL층', 'Innovation Center', 3),
+('101', '101호', 'LEADERSHIP CENTER 1층', 'Learning Center', 4),
+('102', '102호', 'LEADERSHIP CENTER 1층', 'Learning Center', 5),
+('201', '201호', 'LEADERSHIP CENTER 2층', 'Learning Center', 6),
+('202', '202호', 'LEADERSHIP CENTER 2층', 'Learning Center', 7),
+('203', '203호', 'LEADERSHIP CENTER 2층', 'Learning Center', 8),
+('204', '204호', 'LEADERSHIP CENTER 2층', 'Learning Center', 9),
+('301', '301호', 'LEADERSHIP CENTER 3층', 'Learning Center', 10),
+('302', '302호', 'LEADERSHIP CENTER 3층', 'Learning Center', 11);
 
 -- ──────────────────────────────────────────────
 -- users (8명)

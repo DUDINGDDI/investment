@@ -24,6 +24,7 @@ CREATE TABLE zones (
     zone_code VARCHAR(20) NOT NULL UNIQUE COMMENT '구역 코드 (101, 102, 손복남홀 등)',
     name VARCHAR(100) NOT NULL COMMENT '구역 이름',
     floor_info VARCHAR(50) COMMENT '층/건물 정보',
+    floor VARCHAR(50) COMMENT '건물 구분 (Innovation Center / Learning Center)',
     display_order INT NOT NULL COMMENT '표시 순서',
     INDEX idx_zone_code (zone_code),
     INDEX idx_display_order (display_order)
