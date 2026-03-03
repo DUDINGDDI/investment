@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { investmentApi } from '../api'
 import { formatKorean } from '../utils/format'
+import PageBackButton from '../components/PageBackButton'
 import type { InvestmentHistoryResponse } from '../types'
 import styles from './HistoryPage.module.css'
 
@@ -52,6 +53,8 @@ export default function HistoryPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/booths?tab=portfolio" label="나의 투자 현황" />
+
       <div className={styles.header}>
         <h2 className={styles.title}>투자 이력</h2>
       </div>

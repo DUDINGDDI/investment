@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { stockApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { StockBoothResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
+import PageBackButton from '../components/PageBackButton'
 import { useToast } from '../components/ToastContext'
 import styles from './StockBoothDetailPage.module.css'
 
@@ -35,7 +36,6 @@ function formatCommentTime(dateStr: string) {
 export default function StockBoothDetailPage() {
   const { id } = useParams<{ id: string }>()
   const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
   const { showToast } = useToast()
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
@@ -249,6 +249,8 @@ export default function StockBoothDetailPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/stocks/booths" label="주식 종목" style={{ paddingLeft: 20 }} />
+
       {/* 종목 헤더 */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>

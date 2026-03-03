@@ -26,8 +26,8 @@ const LEARNING_2F_HOTSPOTS: Hotspot[] = [
 ]
 
 const LEARNING_3F_HOTSPOTS: Hotspot[] = [
-  { zoneId: '301', left: 21, top: 28, width: 25, height: 51 },
-  { zoneId: '302', left: 54, top: 28, width: 25, height: 51 },
+  { zoneId: '301', left: 21, top: 14, width: 25, height: 51 },
+  { zoneId: '302', left: 54, top: 14, width: 25, height: 51 },
 ]
 
 /** zoneCode → 지도 이미지 + 핫스팟 매핑 */
@@ -66,9 +66,9 @@ const FLOOR_DEFAULT_ZONE: Record<string, string> = {
 /** 층(floorInfo) 선택 시 기본 구역 */
 const SUB_FLOOR_DEFAULT_ZONE: Record<string, string> = {
   'INNOVATION CENTER LL': '손복남홀',
-  'LEADERSHIP CENTER 1F': '101',
-  'LEADERSHIP CENTER 2F': '201',
-  'LEADERSHIP CENTER 3F': '301',
+  'LEADERSHIP CENTER 1층': '101',
+  'LEADERSHIP CENTER 2층': '201',
+  'LEADERSHIP CENTER 3층': '301',
 }
 
 const PAGE_SIZE = 10

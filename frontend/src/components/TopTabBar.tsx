@@ -53,27 +53,15 @@ export default function TopTabBar() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <p className={styles.greeting}>{userCompany ? `${userCompany} · ` : ''}{userName}님의 투자</p>
+        <p className={styles.greeting}>{userName}님의 현재 투자 금액</p>
         <p className={styles.balanceValue}>
-          {balance !== null ? formatKorean(balance) : '-'}
+          {formatKorean(totalInvested)}
           <span className={styles.unit}> 원</span>
         </p>
-      </div>
-
-      <div className={styles.assetBox}>
-        <div className={styles.assetRow}>
-          <span className={styles.assetLabel}>총 자산</span>
-          <span className={styles.assetValue}>{formatKorean(totalAsset)}원</span>
-        </div>
-        <div className={styles.assetDetail}>
-          <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>보유 금액</span>
-            <span className={styles.detailValue}>{formatKorean(balance || 0)}원</span>
-          </div>
-          <div className={styles.detailItem}>
-            <span className={styles.detailLabel}>투자 금액</span>
-            <span className={styles.detailValue}>{formatKorean(totalInvested)}원</span>
-          </div>
+        <div className={styles.subRow}>
+          <span className={styles.subItem}>잔여 투자 금액 <strong>{formatKorean(balance || 0)}</strong>원</span>
+          <span className={styles.subDivider}>|</span>
+          <span className={styles.subItem}>총 자산 <strong>{formatKorean(totalAsset)}</strong>원</span>
         </div>
       </div>
 

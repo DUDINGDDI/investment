@@ -9,22 +9,6 @@
   padding: 24px 0 16px;
 }
 
-.back {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--bg-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  padding: 0;
-}
-
-.back:active {
-  transform: none;
-}
-
 .title {
   font-size: 22px;
   font-weight: 700;

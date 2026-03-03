@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+import PageBackButton from '../components/PageBackButton'
 import { ideaBoardApi } from '../api'
 import type { IdeaBoardResponse, StockCommentResponse } from '../types'
 import styles from './IdeaBoardPage.module.css'
@@ -201,6 +202,7 @@ export default function IdeaBoardPage() {
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
+      <PageBackButton label="뒤로" style={{ paddingLeft: 20 }} />
       <div className={styles.header}>
         <div className={styles.headerText}>
           <span className={styles.boothName}>{board.boothName}</span>

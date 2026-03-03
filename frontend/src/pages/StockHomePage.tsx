@@ -201,22 +201,22 @@ export default function StockHomePage() {
       <div className={styles.investCard}>
         <div className={styles.cardTop}>
           <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
-          <p className={styles.cardGreeting}>{userName}님의 현재 보유 금액</p>
+          <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
-            <p className={styles.cardAmount}>{formatKorean(balance || 0)}원</p>
+            <p className={styles.cardAmount}>{formatKorean(totalHolding)}원</p>
             <button className={styles.cardBtn} onClick={() => navigate('/stocks/booths')}>투자 종목 보기</button>
           </div>
         </div>
         <div className={styles.cardBottom}>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>투자 금액</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalHolding)}원</span>
+            <span className={styles.cardAssetLabel}>잔여 투자 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
           </div>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#FFB74D' }} />
-            <span className={styles.cardAssetLabel}>현재 보유 금액</span>
-            <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
+            <span className={styles.cardAssetLabel}>총 자산</span>
+            <span className={styles.cardAssetValue}>{formatKorean((balance || 0) + totalHolding)}원</span>
           </div>
         </div>
       </div>

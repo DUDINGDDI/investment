@@ -18,12 +18,16 @@ public class InvestmentService {
     private final BoothRepository boothRepository;
     private final InvestmentRepository investmentRepository;
     private final InvestmentHistoryRepository investmentHistoryRepository;
+    private final BoothRatingRepository boothRatingRepository;
     private final SettingService settingService;
 
     @Transactional
     public void invest(Long userId, Long boothId, Long amount) {
         if (!settingService.isInvestmentEnabled()) {
             throw new IllegalStateException("현재 투자가 중지된 상태입니다");
+        }
+        if (!boothRatingRepository.existsByUserIdAndBoothId(userId, boothId)) {
+            throw new IllegalStateException("평가를 완료한 후에 투자할 수 있습니다");
         }
         validateAmount(amount);
 
@@ -55,6 +59,9 @@ public class InvestmentService {
     public void withdraw(Long userId, Long boothId, Long amount) {
         if (!settingService.isInvestmentEnabled()) {
             throw new IllegalStateException("현재 투자가 중지된 상태입니다");
+        }
+        if (!boothRatingRepository.existsByUserIdAndBoothId(userId, boothId)) {
+            throw new IllegalStateException("평가를 완료한 후에 철회할 수 있습니다");
         }
         validateAmount(amount);
 

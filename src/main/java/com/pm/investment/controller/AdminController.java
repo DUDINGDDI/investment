@@ -9,6 +9,7 @@ import com.pm.investment.service.MissionService;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.SettingService;
 import com.pm.investment.service.SseEmitterService;
+import com.pm.investment.service.BoothRatingService;
 import com.pm.investment.service.StockPriceService;
 import com.pm.investment.service.StockRatingService;
 import jakarta.validation.Valid;
@@ -29,6 +30,7 @@ public class AdminController {
     private final SseEmitterService sseEmitterService;
     private final StockPriceService stockPriceService;
     private final StockRatingService stockRatingService;
+    private final BoothRatingService boothRatingService;
     private final MissionService missionService;
 
     @GetMapping("/results/status")
@@ -132,6 +134,11 @@ public class AdminController {
     @GetMapping("/ratings")
     public ResponseEntity<List<AdminBoothRatingResponse>> getBoothRatings() {
         return ResponseEntity.ok(stockRatingService.getAdminRatingResults());
+    }
+
+    @GetMapping("/booth-ratings")
+    public ResponseEntity<List<AdminBoothRatingResponse>> getPmBoothRatings() {
+        return ResponseEntity.ok(boothRatingService.getAdminRatingResults());
     }
 
     @PostMapping("/tickets/use")

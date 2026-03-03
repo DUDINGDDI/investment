@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
 import { formatKorean } from '../utils/format'
 import PriceChart from '../components/PriceChart'
+import PageBackButton from '../components/PageBackButton'
 import type { StockBoothResponse, StockHoldingResponse, CospiResponse } from '../types'
 import styles from './StockBoothListPage.module.css'
 
@@ -86,6 +87,8 @@ export default function StockBoothListPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/stocks" label="AM 투자" />
+
       {/* 탭 */}
       <div className={styles.tabsChip}>
         <button
@@ -225,21 +228,30 @@ export default function StockBoothListPage() {
               </div>
 
               {/* 자산 정보 */}
-              <div className={styles.assetInfo}>
-                <div className={styles.assetRow}>
-                  <div className={styles.assetDot} style={{ background: '#4FC3F7' }} />
-                  <span className={styles.assetLabel}>총 보유 자산</span>
+              <div className={styles.assetRight}>
+                <div className={styles.assetTopRow}>
+                  <div className={styles.assetItem}>
+                    <div className={styles.assetRow}>
+                      <div className={styles.assetDot} style={{ background: '#6C5CE7' }} />
+                      <span className={styles.assetLabel}>투자 금액</span>
+                    </div>
+                    <p className={styles.assetValue}>{formatKorean(totalHolding)}원</p>
+                  </div>
+                  <div className={styles.assetItem}>
+                    <div className={styles.assetRow}>
+                      <div className={styles.assetDot} style={{ background: '#4FC3F7' }} />
+                      <span className={styles.assetLabel}>잔여 금액</span>
+                    </div>
+                    <p className={styles.assetValue}>{formatKorean(balance)}원</p>
+                  </div>
                 </div>
-                <p className={styles.assetValue}>{formatKorean(totalAsset)}원</p>
-
-                <div className={styles.assetRow} style={{ marginTop: 12 }}>
-                  <div className={styles.assetDot} style={{ background: '#FFB74D' }} />
-                  <span className={styles.assetLabel}>투자 금액</span>
+                <div className={styles.assetBottomRow}>
+                  <div className={styles.assetRow}>
+                    <div className={styles.assetDot} style={{ background: '#FFB74D' }} />
+                    <span className={styles.assetLabel}>총 자산</span>
+                  </div>
+                  <p className={styles.assetValueLarge}>{formatKorean(totalAsset)}원</p>
                 </div>
-                <p className={styles.assetValueSub}>
-                  {formatKorean(totalHolding)}원
-                  <span className={styles.assetPct}> ({holdingPct}%)</span>
-                </p>
               </div>
             </div>
           </div>
