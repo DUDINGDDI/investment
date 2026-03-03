@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import BoothListPage from './pages/BoothListPage'
@@ -26,6 +26,14 @@ import AppHeader from './components/AppHeader'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
 import { MissionProvider } from './components/MissionContext'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
 
 function PrivateLayout() {
   const token = localStorage.getItem('token')
@@ -79,6 +87,7 @@ export default function App() {
   return (
     <ToastProvider>
       <MissionProvider>
+      <ScrollToTop />
       <Toast />
       <Routes>
         <Route path="/" element={<LoginPage />} />
