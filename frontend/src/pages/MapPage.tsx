@@ -57,24 +57,79 @@ const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = 
 
 const DEFAULT_MAP_IMAGE = '/image/map/leadership_b1f.png'
 
-const ZONE_ORDER = ['손복남홀', 'L01', 'L02', '101', '102', '201', '202', '203', '204', '301', '302']
+/** 건물 선택 시 기본 구역 */
+const FLOOR_DEFAULT_ZONE: Record<string, string> = {
+  'Innovation Center': '손복남홀',
+  'Learning Center': '101',
+}
+
+/** 층(floorInfo) 선택 시 기본 구역 */
+const SUB_FLOOR_DEFAULT_ZONE: Record<string, string> = {
+  'INNOVATION CENTER LL': '손복남홀',
+  'LEADERSHIP CENTER 1F': '101',
+  'LEADERSHIP CENTER 2F': '201',
+  'LEADERSHIP CENTER 3F': '301',
+}
 
 const PAGE_SIZE = 10
 
 export default function MapPage() {
   const [zones, setZones] = useState<ZoneResponse[]>([])
+  const [selectedFloor, setSelectedFloor] = useState<string>('Innovation Center')
   const [filterZoneCode, setFilterZoneCode] = useState<string>('손복남홀')
   const [page, setPage] = useState(1)
   const navigate = useNavigate()
   const listRef = useRef<HTMLDivElement>(null)
 
+  /** floorInfo에서 건물명 파생 (floor 필드 미제공 시 fallback) */
+  const getFloor = (zone: ZoneResponse): string => {
+    if (zone.floor) return zone.floor
+    if (zone.floorInfo?.includes('INNOVATION')) return 'Innovation Center'
+    if (zone.floorInfo?.includes('LEADERSHIP')) return 'Learning Center'
+    return ''
+  }
+
   useEffect(() => {
     zoneApi.getAll().then(res => setZones(res.data))
   }, [])
 
+  // 유니크 건물 목록 (floor 기준, displayOrder 순)
+  const floors = useMemo(() => {
+    const seen = new Set<string>()
+    const result: string[] = []
+    zones.forEach(z => {
+      const f = getFloor(z)
+      if (f && !seen.has(f)) {
+        seen.add(f)
+        result.push(f)
+      }
+    })
+    return result
+  }, [zones])
+
+  // 선택된 건물의 서브 층 목록
+  const subFloors = useMemo(() => {
+    const zonesInFloor = zones.filter(z => getFloor(z) === selectedFloor)
+    const seen = new Set<string>()
+    const result: { label: string; floorInfo: string }[] = []
+    zonesInFloor.forEach(z => {
+      if (z.floorInfo && !seen.has(z.floorInfo)) {
+        seen.add(z.floorInfo)
+        const parts = z.floorInfo.split(' ')
+        const label = parts[parts.length - 1]
+        result.push({ label, floorInfo: z.floorInfo })
+      }
+    })
+    return result
+  }, [zones, selectedFloor])
+
+  // 현재 선택된 구역의 floorInfo
+  const currentZone = zones.find(z => z.zoneCode === filterZoneCode)
+  const currentFloorInfo = currentZone?.floorInfo || ''
+
   // 현재 필터에 따른 지도 이미지 및 핫스팟
   const currentMap = useMemo(() => {
-    if (filterZoneCode && filterZoneCode !== 'all' && ZONE_MAP[filterZoneCode]) {
+    if (filterZoneCode && ZONE_MAP[filterZoneCode]) {
       return ZONE_MAP[filterZoneCode]
     }
     return { image: DEFAULT_MAP_IMAGE, hotspots: [] as Hotspot[] }
@@ -100,8 +155,20 @@ export default function MapPage() {
 
   const selectedZone = zones.find(z => z.zoneCode === filterZoneCode)
 
-  const handleFilterChange = (value: string) => {
-    setFilterZoneCode(value)
+  const handleFloorChange = (floor: string) => {
+    setSelectedFloor(floor)
+    const defaultZone = FLOOR_DEFAULT_ZONE[floor]
+    if (defaultZone) {
+      setFilterZoneCode(defaultZone)
+    }
+    setPage(1)
+  }
+
+  const handleSubFloorChange = (floorInfo: string) => {
+    const defaultZone = SUB_FLOOR_DEFAULT_ZONE[floorInfo]
+    if (defaultZone) {
+      setFilterZoneCode(defaultZone)
+    }
     setPage(1)
   }
 
@@ -122,23 +189,34 @@ export default function MapPage() {
         <p className={styles.subtitle}>구역을 선택하여 부스 목록을 확인하세요</p>
       </div>
 
-      {/* 필터 */}
+      {/* 건물 필터 */}
       <div className={styles.filterArea}>
         <div className={styles.filterRow}>
-          {[...zones].sort((a, b) => {
-            const ai = ZONE_ORDER.indexOf(a.zoneCode)
-            const bi = ZONE_ORDER.indexOf(b.zoneCode)
-            return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
-          }).map(zone => (
+          {floors.map(floor => (
             <button
-              key={zone.zoneCode}
-              className={`${styles.filterChip} ${filterZoneCode === zone.zoneCode ? styles.filterChipActive : ''}`}
-              onClick={() => handleFilterChange(zone.zoneCode)}
+              key={floor}
+              className={`${styles.filterChip} ${selectedFloor === floor ? styles.filterChipActive : ''}`}
+              onClick={() => handleFloorChange(floor)}
             >
-              {zone.name}
+              {floor}
             </button>
           ))}
         </div>
+
+        {/* 층 서브탭 (2개 이상일 때만 표시) */}
+        {subFloors.length > 1 && (
+          <div className={styles.subFloorRow}>
+            {subFloors.map(sf => (
+              <button
+                key={sf.floorInfo}
+                className={`${styles.subFloorChip} ${currentFloorInfo === sf.floorInfo ? styles.subFloorChipActive : ''}`}
+                onClick={() => handleSubFloorChange(sf.floorInfo)}
+              >
+                {sf.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 지도 이미지 */}
