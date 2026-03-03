@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
-import { visitApi, userApi, boothApi, stockApi, missionApi } from '../api'
-import type { UserMissionResponse } from '../types'
+import { boothApi, stockApi, missionApi } from '../api'
+import type { UserMissionResponse, MyStockVisitResponse, MyStockBoothVisitorResponse } from '../types'
 import { useMissions, type Mission } from '../components/MissionContext'
-import type { BoothResponse, BoothVisitResponse, MyBoothVisitorResponse, StockBoothResponse } from '../types'
+import type { BoothResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
 
 const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together']
@@ -24,11 +24,12 @@ export default function MyPage() {
   const userCompany = localStorage.getItem('userCompany') || ''
   const userId = localStorage.getItem('userId') || ''
   const [activeTab, setActiveTab] = useState<'booths' | 'tickets' | 'memos'>('booths')
-  const [visits, setVisits] = useState<BoothVisitResponse[]>([])
-  const [visitsLoaded, setVisitsLoaded] = useState(false)
-  const [boothVisitors, setBoothVisitors] = useState<MyBoothVisitorResponse | null>(null)
-  const [boothVisitorsLoaded, setBoothVisitorsLoaded] = useState(false)
   const { missions, syncFromServer } = useMissions()
+  const [visits, setVisits] = useState<MyStockVisitResponse[]>([])
+  const [visitsLoaded, setVisitsLoaded] = useState(false)
+  const [boothVisitors, setBoothVisitors] = useState<MyStockBoothVisitorResponse | null>(null)
+  const [boothVisitorsLoaded, setBoothVisitorsLoaded] = useState(false)
+  const [visitPage, setVisitPage] = useState(0)
   const [memoSubTab, setMemoSubTab] = useState<'pm' | 'am'>('am')
   const [pmMemos, setPmMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
   const [pmMemosLoaded, setPmMemosLoaded] = useState(false)
@@ -38,25 +39,22 @@ export default function MyPage() {
   const [photoMissions, setPhotoMissions] = useState<UserMissionResponse[]>([])
   const [photoLoaded, setPhotoLoaded] = useState(false)
   const [logoutOpen, setLogoutOpen] = useState(false)
-  const [visitPage, setVisitPage] = useState(0)
   const [memoPage, setMemoPage] = useState(0)
   const PAGE_SIZE = 10
 
-  // 부스 탭: 방문부스 + 우리부스 데이터 동시 로드
+  // 부스 탭: 방문 데이터 로드
   useEffect(() => {
-    if (activeTab === 'booths') {
-      if (!visitsLoaded) {
-        visitApi.getMyVisits().then((res: { data: BoothVisitResponse[] }) => {
-          setVisits(res.data)
-          setVisitsLoaded(true)
-        }).catch(() => setVisitsLoaded(true))
-      }
-      if (!boothVisitorsLoaded) {
-        userApi.getMyBoothVisitors().then((res: { data: MyBoothVisitorResponse }) => {
-          setBoothVisitors(res.data)
-          setBoothVisitorsLoaded(true)
-        }).catch(() => setBoothVisitorsLoaded(true))
-      }
+    if (activeTab === 'booths' && !visitsLoaded) {
+      stockApi.getMyVisits().then((res: { data: MyStockVisitResponse[] }) => {
+        setVisits(res.data)
+        setVisitsLoaded(true)
+      }).catch(() => setVisitsLoaded(true))
+    }
+    if (activeTab === 'booths' && !boothVisitorsLoaded) {
+      stockApi.getMyBoothVisitors().then((res: { data: MyStockBoothVisitorResponse | null }) => {
+        setBoothVisitors(res.data ?? null)
+        setBoothVisitorsLoaded(true)
+      }).catch(() => setBoothVisitorsLoaded(true))
     }
   }, [activeTab, visitsLoaded, boothVisitorsLoaded])
 
@@ -144,32 +142,30 @@ export default function MyPage() {
         <span className={styles.reportBannerArrow}>›</span>
       </div>
 
-      <div className={styles.tabBar}>
+      <div className={styles.tabsChip}>
         <button
-          className={`${styles.tab} ${activeTab === 'booths' ? styles.tabActive : ''}`}
+          className={`${styles.chipTab} ${activeTab === 'booths' ? styles.chipActive : ''}`}
           onClick={() => setActiveTab('booths')}
         >
           부스
         </button>
         <button
-          className={`${styles.tab} ${activeTab === 'tickets' ? styles.tabActive : ''}`}
+          className={`${styles.chipTab} ${activeTab === 'tickets' ? styles.chipActive : ''}`}
           onClick={() => setActiveTab('tickets')}
         >
-          이벤트존<br />이용권
+          이용권
         </button>
         <button
-          className={`${styles.tab} ${activeTab === 'memos' ? styles.tabActive : ''}`}
+          className={`${styles.chipTab} ${activeTab === 'memos' ? styles.chipActive : ''}`}
           onClick={() => setActiveTab('memos')}
         >
           메모
         </button>
       </div>
 
-      {/* 부스 탭: 우리 부스(소속) + 방문 부스 통합 */}
       {activeTab === 'booths' && (
         <>
-          {/* 소속 부스 섹션 */}
-          {boothVisitors && boothVisitors.boothId ? (
+          {boothVisitors && (
             <div className={styles.myBoothSection}>
               <div className={styles.myBoothCard}>
                 <div className={styles.myBoothLeft}>
@@ -179,54 +175,56 @@ export default function MyPage() {
                   </div>
                 </div>
                 <div className={styles.myBoothRight}>
-                  <p className={styles.myBoothVisitorCount}>{boothVisitors.visitorCount}명</p>
-                  <p className={styles.myBoothVisitorLabel}>현 시각 방문자</p>
+                  <p className={styles.myBoothVisitorCount}>{boothVisitors.visitorCount}</p>
+                  <p className={styles.myBoothVisitorLabel}>방문자 수</p>
                 </div>
               </div>
             </div>
-          ) : null}
+          )}
 
-          {/* 방문 부스 섹션 */}
           <div className={styles.sectionHeader}>
             <span className={styles.sectionTitle}>방문한 부스</span>
             <span className={styles.sectionCount}>{visits.length}곳</span>
           </div>
+
           {visits.length > 0 ? (
             <>
               <div className={styles.list}>
                 {visits.slice(visitPage * PAGE_SIZE, (visitPage + 1) * PAGE_SIZE).map((v, i) => (
                   <div
-                    key={`${v.boothId}-${v.visitedAt}`}
+                    key={v.boothId}
                     className={`${styles.card} stagger-item`}
                     style={{ animationDelay: `${i * 0.04}s` }}
                     onClick={() => navigate(`/stocks/booths/${v.boothId}`)}
                   >
                     <div className={styles.cardBody}>
                       <p className={styles.cardName}>{v.boothName}</p>
-                      <p className={styles.cardSub}>{new Date(v.visitedAt).toLocaleDateString('ko-KR')}</p>
+                      <p className={styles.cardSub}>{new Date(v.visitedAt).toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className={styles.pagination}>
-                <button
-                  className={styles.pageBtn}
-                  disabled={visitPage === 0}
-                  onClick={() => setVisitPage(visitPage - 1)}
-                >
-                  ‹ 이전
-                </button>
-                <span className={styles.pageInfo}>
-                  {visitPage + 1} / {Math.ceil(visits.length / PAGE_SIZE) || 1}
-                </span>
-                <button
-                  className={styles.pageBtn}
-                  disabled={(visitPage + 1) * PAGE_SIZE >= visits.length}
-                  onClick={() => setVisitPage(visitPage + 1)}
-                >
-                  다음 ›
-                </button>
-              </div>
+              {visits.length > PAGE_SIZE && (
+                <div className={styles.pagination}>
+                  <button
+                    className={styles.pageBtn}
+                    disabled={visitPage === 0}
+                    onClick={() => setVisitPage(visitPage - 1)}
+                  >
+                    ‹ 이전
+                  </button>
+                  <span className={styles.pageInfo}>
+                    {visitPage + 1} / {Math.ceil(visits.length / PAGE_SIZE)}
+                  </span>
+                  <button
+                    className={styles.pageBtn}
+                    disabled={(visitPage + 1) * PAGE_SIZE >= visits.length}
+                    onClick={() => setVisitPage(visitPage + 1)}
+                  >
+                    다음 ›
+                  </button>
+                </div>
+              )}
             </>
           ) : (
             <div className={styles.emptyState}>

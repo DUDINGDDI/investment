@@ -1,13 +1,15 @@
 package com.pm.investment.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 @AllArgsConstructor
-public class MyBoothVisitorResponse {
+public class StockBoothVisitResponse {
     private Long boothId;
     private String boothName;
     private String logoEmoji;
-    private long visitorCount;
+    private String message;
 }

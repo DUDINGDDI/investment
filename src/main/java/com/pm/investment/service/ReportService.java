@@ -25,7 +25,6 @@ public class ReportService {
     private final UserRepository userRepository;
     private final InvestmentRepository investmentRepository;
     private final InvestmentHistoryRepository investmentHistoryRepository;
-    private final BoothVisitRepository boothVisitRepository;
     private final StockBoothVisitRepository stockBoothVisitRepository;
     private final StockCommentRepository stockCommentRepository;
     private final StockRatingRepository stockRatingRepository;
@@ -41,13 +40,13 @@ public class ReportService {
         LocalDateTime afternoonStart = today.atTime(12, 0);
         LocalDateTime afternoonEnd = today.atTime(14, 0);
 
-        long morningBooth = boothVisitRepository.countByUserIdAndVisitedAtBetween(userId, morningStart, morningEnd);
+        // 오전(9시~12시): stock_booth_visits만 집계
         long morningStock = stockBoothVisitRepository.countByUserIdAndVisitedAtBetween(userId, morningStart, morningEnd);
-        int morningTotal = (int) (morningBooth + morningStock);
+        int morningTotal = (int) morningStock;
 
-        long afternoonBooth = boothVisitRepository.countByUserIdAndVisitedAtBetween(userId, afternoonStart, afternoonEnd);
+        // 오후(12시~14시): stock_booth_visits만 집계
         long afternoonStock = stockBoothVisitRepository.countByUserIdAndVisitedAtBetween(userId, afternoonStart, afternoonEnd);
-        int afternoonTotal = (int) (afternoonBooth + afternoonStock);
+        int afternoonTotal = (int) afternoonStock;
 
         return ReportEligibilityResponse.builder()
                 .eligible(morningTotal >= 10 && afternoonTotal >= 5)

@@ -90,19 +90,6 @@ CREATE TABLE user_missions (
     INDEX idx_user_id (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 부스 방문 기록 테이블
-CREATE TABLE booth_visits (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    booth_id BIGINT NOT NULL,
-    visited_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (booth_id) REFERENCES booths(id) ON DELETE CASCADE,
-    UNIQUE KEY uk_user_booth_visit (user_id, booth_id),
-    INDEX idx_user_id (user_id),
-    INDEX idx_booth_id (booth_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- 주식 부스 테이블 (오전 세션용, 투자 부스와 별도)
 CREATE TABLE stock_booths (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

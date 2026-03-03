@@ -95,7 +95,7 @@ export default function StockBoothListPage() {
           className={`${styles.chipTab} ${activeTab === 'all' ? styles.chipActive : ''}`}
           onClick={() => switchTab('all')}
         >
-          주식 종목 전체
+          투자 종목 전체
         </button>
         <button
           className={`${styles.chipTab} ${activeTab === 'portfolio' ? styles.chipActive : ''}`}

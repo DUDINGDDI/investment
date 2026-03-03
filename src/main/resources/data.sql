@@ -2,7 +2,6 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 TRUNCATE TABLE investment_history;
 TRUNCATE TABLE investments;
-TRUNCATE TABLE booth_visits;
 TRUNCATE TABLE user_missions;
 TRUNCATE TABLE notes;
 TRUNCATE TABLE stock_comments;
@@ -140,14 +139,6 @@ INSERT INTO stock_booths (name, category, description, short_description, displa
 -- ──────────────────────────────────────────────
 INSERT INTO stock_prices (stock_booth_id, current_price)
 SELECT id, 1000000000 FROM stock_booths;
-
--- ──────────────────────────────────────────────
--- booth_visits (8명 × 9부스 = 72건)
--- ──────────────────────────────────────────────
-INSERT INTO booth_visits (user_id, booth_id)
-SELECT u.id, b.id
-FROM users u
-CROSS JOIN booths b;
 
 -- ──────────────────────────────────────────────
 -- stock_booth_visits (8명 × 9부스 = 72건)

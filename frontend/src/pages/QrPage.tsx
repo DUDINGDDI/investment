@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Html5Qrcode } from 'html5-qrcode'
-import { visitApi, missionApi } from '../api'
+import { stockApi, missionApi } from '../api'
 import { useToast } from '../components/ToastContext'
 import { useMissions } from '../components/MissionContext'
 import styles from './QrPage.module.css'
@@ -77,8 +77,8 @@ export default function QrPage() {
         return
       }
 
-      // 일반 부스 QR: 부스 방문 처리
-      const res = await visitApi.visit({ boothUuid: scannedUuid })
+      // 일반 부스 QR: stock_booth_visits에 방문 기록 후 상세 페이지로 이동
+      const res = await stockApi.visit(scannedUuid)
       showToast(res.data.message, 'success')
       navigate(`/stocks/booths/${res.data.boothId}?tab=review`)
     } catch (err: unknown) {

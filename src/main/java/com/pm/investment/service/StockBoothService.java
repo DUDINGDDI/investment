@@ -1,14 +1,22 @@
 package com.pm.investment.service;
 
+import com.pm.investment.dto.MyStockBoothVisitorResponse;
+import com.pm.investment.dto.MyStockVisitResponse;
 import com.pm.investment.dto.StockBoothResponse;
+import com.pm.investment.dto.StockBoothVisitResponse;
 import com.pm.investment.entity.StockBooth;
+import com.pm.investment.entity.StockBoothVisit;
+import com.pm.investment.entity.User;
 import com.pm.investment.repository.StockBoothRepository;
 import com.pm.investment.repository.StockBoothVisitRepository;
 import com.pm.investment.repository.StockHoldingRepository;
 import com.pm.investment.repository.StockRatingRepository;
+import com.pm.investment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.pm.investment.entity.Booth;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +32,7 @@ public class StockBoothService {
     private final StockHoldingRepository stockHoldingRepository;
     private final StockBoothVisitRepository stockBoothVisitRepository;
     private final StockRatingRepository stockRatingRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<StockBoothResponse> getAllStockBooths(Long userId) {
@@ -100,5 +109,60 @@ public class StockBoothService {
                 .hasVisited(userId != null && stockBoothVisitRepository.existsByUserIdAndStockBoothId(userId, boothId))
                 .hasRated(userId != null && stockRatingRepository.existsByUserIdAndStockBoothId(userId, boothId))
                 .build();
+    }
+
+    @Transactional
+    public StockBoothVisitResponse recordVisit(Long userId, String boothUuid) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+
+        StockBooth booth = stockBoothRepository.findByBoothUuid(boothUuid)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 QR 코드입니다"));
+
+        if (stockBoothVisitRepository.existsByUserIdAndStockBoothId(userId, booth.getId())) {
+            throw new IllegalStateException("이미 방문한 부스입니다");
+        }
+
+        StockBoothVisit visit = new StockBoothVisit(user, booth);
+        stockBoothVisitRepository.save(visit);
+
+        return StockBoothVisitResponse.builder()
+                .boothId(booth.getId())
+                .boothName(booth.getName())
+                .logoEmoji(booth.getLogoEmoji())
+                .message(booth.getName() + " 부스 방문이 기록되었습니다")
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<MyStockVisitResponse> getMyVisits(Long userId) {
+        return stockBoothVisitRepository.findByUserIdOrderByVisitedAtDesc(userId)
+                .stream()
+                .map(visit -> MyStockVisitResponse.builder()
+                        .boothId(visit.getStockBooth().getId())
+                        .boothName(visit.getStockBooth().getName())
+                        .logoEmoji(visit.getStockBooth().getLogoEmoji())
+                        .visitedAt(visit.getVisitedAt())
+                        .build())
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public MyStockBoothVisitorResponse getMyBoothVisitors(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+
+        Booth belongingBooth = user.getBelongingBooth();
+        if (belongingBooth == null) {
+            return null;
+        }
+
+        return stockBoothRepository.findByName(belongingBooth.getName())
+                .map(stockBooth -> MyStockBoothVisitorResponse.builder()
+                        .boothName(stockBooth.getName())
+                        .logoEmoji(stockBooth.getLogoEmoji())
+                        .visitorCount(stockBoothVisitRepository.countByStockBoothId(stockBooth.getId()))
+                        .build())
+                .orElse(null);
     }
 }

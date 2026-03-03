@@ -26,6 +26,30 @@ public class StockController {
     private final StockCommentService stockCommentService;
     private final StockRatingService stockRatingService;
 
+    @PostMapping("/visit")
+    public ResponseEntity<StockBoothVisitResponse> recordVisit(
+            @Valid @RequestBody VisitRequest request,
+            HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        return ResponseEntity.ok(stockBoothService.recordVisit(userId, request.getBoothUuid()));
+    }
+
+    @GetMapping("/visits/my")
+    public ResponseEntity<List<MyStockVisitResponse>> getMyVisits(HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        return ResponseEntity.ok(stockBoothService.getMyVisits(userId));
+    }
+
+    @GetMapping("/visits/booth-visitors")
+    public ResponseEntity<MyStockBoothVisitorResponse> getMyBoothVisitors(HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        MyStockBoothVisitorResponse response = stockBoothService.getMyBoothVisitors(userId);
+        if (response == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/buy")
     public ResponseEntity<Map<String, String>> buy(
             @Valid @RequestBody StockTradeRequest request,
