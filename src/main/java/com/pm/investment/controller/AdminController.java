@@ -62,6 +62,7 @@ public class AdminController {
     public ResponseEntity<Map<String, Boolean>> toggleMissionResult() {
         boolean revealed = settingService.toggleMissionResult();
         return ResponseEntity.ok(Map.of("revealed", revealed));
+    }
 
     @GetMapping("/stock/status")
     public ResponseEntity<Map<String, Boolean>> getStockStatus() {
