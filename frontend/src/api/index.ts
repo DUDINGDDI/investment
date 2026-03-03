@@ -61,6 +61,7 @@ export const investmentApi = {
 export const resultApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/results/status'),
   getInvestmentStatus: () => api.get<{ enabled: boolean }>('/results/investment-status'),
+  getStockStatus: () => api.get<{ enabled: boolean }>('/results/stock-status'),
   getRanking: () => api.get<RankingResponse[]>('/results/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/results/announcement'),
 };
@@ -133,6 +134,8 @@ export const adminApi = {
   toggleResults: () => api.post<{ revealed: boolean }>('/admin/results/toggle'),
   getInvestmentStatus: () => api.get<{ enabled: boolean }>('/admin/investment/status'),
   toggleInvestment: () => api.post<{ enabled: boolean }>('/admin/investment/toggle'),
+  getStockStatus: () => api.get<{ enabled: boolean }>('/admin/stock/status'),
+  toggleStock: () => api.post<{ enabled: boolean }>('/admin/stock/toggle'),
   getRanking: () => api.get<RankingResponse[]>('/admin/ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/admin/announcement'),
   setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),

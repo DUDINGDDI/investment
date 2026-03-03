@@ -32,6 +32,11 @@ public class ResultController {
         return ResponseEntity.ok(Map.of("enabled", settingService.isInvestmentEnabled()));
     }
 
+    @GetMapping("/stock-status")
+    public ResponseEntity<Map<String, Boolean>> getStockStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isStockEnabled()));
+    }
+
     @GetMapping("/ranking")
     public ResponseEntity<List<RankingResponse>> getRanking() {
         if (!settingService.isResultsRevealed()) {

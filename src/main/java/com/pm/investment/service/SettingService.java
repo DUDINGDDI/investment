@@ -17,6 +17,7 @@ public class SettingService {
 
     private static final String RESULTS_REVEALED_KEY = "results_revealed";
     private static final String INVESTMENT_ENABLED_KEY = "investment_enabled";
+    private static final String STOCK_ENABLED_KEY = "stock_enabled";
     private static final String ANNOUNCEMENT_MESSAGE_KEY = "announcement_message";
     private static final String ANNOUNCEMENT_UPDATED_AT_KEY = "announcement_updated_at";
 
@@ -53,6 +54,26 @@ public class SettingService {
         AppSetting setting = appSettingRepository.findById(INVESTMENT_ENABLED_KEY)
                 .orElseGet(() -> {
                     AppSetting newSetting = new AppSetting(INVESTMENT_ENABLED_KEY, "true");
+                    return appSettingRepository.save(newSetting);
+                });
+
+        boolean newValue = !"true".equals(setting.getValue());
+        setting.setValue(String.valueOf(newValue));
+        appSettingRepository.save(setting);
+        return newValue;
+    }
+
+    public boolean isStockEnabled() {
+        return appSettingRepository.findById(STOCK_ENABLED_KEY)
+                .map(s -> "true".equals(s.getValue()))
+                .orElse(true);
+    }
+
+    @Transactional
+    public boolean toggleStock() {
+        AppSetting setting = appSettingRepository.findById(STOCK_ENABLED_KEY)
+                .orElseGet(() -> {
+                    AppSetting newSetting = new AppSetting(STOCK_ENABLED_KEY, "true");
                     return appSettingRepository.save(newSetting);
                 });
 
