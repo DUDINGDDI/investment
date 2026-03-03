@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import { stockApi } from '../api'
+import { stockApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { StockBoothResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
@@ -40,6 +40,7 @@ export default function StockBoothDetailPage() {
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
   const [modal, setModal] = useState<'buy' | 'sell' | null>(null)
+  const [stockEnabled, setStockEnabled] = useState(true)
   const [activeTab, setActiveTab] = useState<TabType>(() => {
     const tab = searchParams.get('tab')
     if (tab === 'review' || tab === 'discussion') return tab
@@ -75,6 +76,7 @@ export default function StockBoothDetailPage() {
     if (!id) return
     stockApi.getBoothById(Number(id)).then(res => setBooth(res.data))
     stockApi.getAccount().then(res => setBalance(res.data.balance))
+    resultApi.getStockStatus().then(res => setStockEnabled(res.data.enabled))
   }, [id])
 
   useEffect(() => {
@@ -283,38 +285,46 @@ export default function StockBoothDetailPage() {
 
       {/* 투자하기 / 철회하기 버튼 */}
       <div className={styles.tradeSection}>
-        {!canTrade && (
-          <p className={styles.tradeGuide}>
-            {!booth.hasVisited
-              ? 'QR 스캔으로 부스를 방문해주세요'
-              : '평가를 완료하면 투자/철회가 가능합니다'}
-          </p>
-        )}
-        {hasHolding ? (
-          <div className={styles.tradeBtnRow}>
-            <button
-              className={styles.withdrawBtn}
-              onClick={() => setModal('sell')}
-              disabled={!canTrade}
-            >
-              철회하기
-            </button>
-            <button
-              className={styles.investBtn}
-              onClick={() => setModal('buy')}
-              disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
-            >
-              투자하기
-            </button>
-          </div>
-        ) : (
-          <button
-            className={styles.investBtnFull}
-            onClick={() => setModal('buy')}
-            disabled={!canTrade || balance === 0}
-          >
-            투자하기
+        {!stockEnabled ? (
+          <button className={styles.investBtnFull} disabled>
+            현재 AM 투자가 중지된 상태입니다
           </button>
+        ) : (
+          <>
+            {!canTrade && (
+              <p className={styles.tradeGuide}>
+                {!booth.hasVisited
+                  ? 'QR 스캔으로 부스를 방문해주세요'
+                  : '평가를 완료하면 투자/철회가 가능합니다'}
+              </p>
+            )}
+            {hasHolding ? (
+              <div className={styles.tradeBtnRow}>
+                <button
+                  className={styles.withdrawBtn}
+                  onClick={() => setModal('sell')}
+                  disabled={!canTrade}
+                >
+                  철회하기
+                </button>
+                <button
+                  className={styles.investBtn}
+                  onClick={() => setModal('buy')}
+                  disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
+                >
+                  투자하기
+                </button>
+              </div>
+            ) : (
+              <button
+                className={styles.investBtnFull}
+                onClick={() => setModal('buy')}
+                disabled={!canTrade || balance === 0}
+              >
+                투자하기
+              </button>
+            )}
+          </>
         )}
       </div>
 

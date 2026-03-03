@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { boothApi, investmentApi, userApi } from '../api'
+import { boothApi, investmentApi, userApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { BoothResponse } from '../types'
 import InvestModal from '../components/InvestModal'
@@ -14,6 +14,7 @@ export default function BoothDetailPage() {
   const [booth, setBooth] = useState<BoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
   const [modal, setModal] = useState<'invest' | 'withdraw' | null>(null)
+  const [investmentEnabled, setInvestmentEnabled] = useState(true)
 
   // 메모
   const [memoOpen, setMemoOpen] = useState(false)
@@ -25,6 +26,7 @@ export default function BoothDetailPage() {
     if (!id) return
     boothApi.getById(Number(id)).then(res => setBooth(res.data))
     userApi.getMe().then(res => setBalance(res.data.balance))
+    resultApi.getInvestmentStatus().then(res => setInvestmentEnabled(res.data.enabled))
   }, [id])
 
   useEffect(() => {
@@ -111,7 +113,11 @@ export default function BoothDetailPage() {
 
       {/* 투자하기 / 철회하기 버튼 */}
       <div className={styles.tradeSection}>
-        {hasInvestment ? (
+        {!investmentEnabled ? (
+          <button className={styles.investBtnFull} disabled>
+            현재 투자가 중지된 상태입니다
+          </button>
+        ) : hasInvestment ? (
           <div className={styles.tradeBtnRow}>
             <button
               className={styles.withdrawBtn}

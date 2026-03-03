@@ -28,9 +28,13 @@ public class StockService {
     private final StockPriceRepository stockPriceRepository;
     private final StockBoothVisitRepository stockBoothVisitRepository;
     private final StockRatingRepository stockRatingRepository;
+    private final SettingService settingService;
 
     @Transactional
     public void buy(Long userId, Long boothId, Long amount) {
+        if (!settingService.isStockEnabled()) {
+            throw new IllegalStateException("현재 AM 투자가 중지된 상태입니다");
+        }
         validateAmount(amount);
         validateVisitAndRating(userId, boothId);
 
@@ -66,6 +70,9 @@ public class StockService {
 
     @Transactional
     public void sell(Long userId, Long boothId, Long amount) {
+        if (!settingService.isStockEnabled()) {
+            throw new IllegalStateException("현재 AM 투자가 중지된 상태입니다");
+        }
         validateAmount(amount);
         validateVisitAndRating(userId, boothId);
 

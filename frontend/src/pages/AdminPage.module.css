@@ -18,6 +18,31 @@
   color: var(--text-secondary);
 }
 
+.tabBar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 4px;
+}
+
+.tabBtn {
+  flex: 1;
+  height: 40px;
+  border-radius: calc(var(--radius-card) - 2px);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.tabBtnActive {
+  background: var(--color-invest);
+  color: white;
+}
+
 .controlCard {
   background: var(--bg-secondary);
   border-radius: var(--radius-card);

@@ -18,9 +18,13 @@ public class InvestmentService {
     private final BoothRepository boothRepository;
     private final InvestmentRepository investmentRepository;
     private final InvestmentHistoryRepository investmentHistoryRepository;
+    private final SettingService settingService;
 
     @Transactional
     public void invest(Long userId, Long boothId, Long amount) {
+        if (!settingService.isInvestmentEnabled()) {
+            throw new IllegalStateException("현재 투자가 중지된 상태입니다");
+        }
         validateAmount(amount);
 
         User user = userRepository.findByIdWithLock(userId)
@@ -49,6 +53,9 @@ public class InvestmentService {
 
     @Transactional
     public void withdraw(Long userId, Long boothId, Long amount) {
+        if (!settingService.isInvestmentEnabled()) {
+            throw new IllegalStateException("현재 투자가 중지된 상태입니다");
+        }
         validateAmount(amount);
 
         User user = userRepository.findByIdWithLock(userId)

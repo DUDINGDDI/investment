@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import BoothListPage from './pages/BoothListPage'
@@ -19,12 +19,21 @@ import StockBoothListPage from './pages/StockBoothListPage'
 import StockBoothDetailPage from './pages/StockBoothDetailPage'
 import StockHistoryPage from './pages/StockHistoryPage'
 
+import { PmInvestmentGate } from './components/InvestmentGate'
 import BottomNavBar from './components/BottomNavBar'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import AppHeader from './components/AppHeader'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
 import { MissionProvider } from './components/MissionContext'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
 
 function PrivateLayout() {
   const token = localStorage.getItem('token')
@@ -78,18 +87,20 @@ export default function App() {
   return (
     <ToastProvider>
       <MissionProvider>
+      <ScrollToTop />
       <Toast />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route element={<PrivateLayout />}>
           <Route element={<WithTopTabBar />}>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/booths" element={<BoothListPage />} />
-            <Route path="/booths/:id" element={<BoothDetailPage />} />
+            <Route element={<PmInvestmentGate />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/booths" element={<BoothListPage />} />
+              <Route path="/booths/:id" element={<BoothDetailPage />} />
+              <Route path="/history" element={<HistoryPage />} />
+            </Route>
             <Route path="/map" element={<MapPage />} />
             <Route path="/map/:zoneId" element={<ZoneBoothListPage />} />
-
-            <Route path="/history" element={<HistoryPage />} />
             <Route path="/result" element={<ResultPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/qr" element={<QrPage />} />
@@ -97,7 +108,6 @@ export default function App() {
           <Route element={<WithStockTopTabBar />}>
             <Route path="/stocks" element={<StockHomePage />} />
             <Route path="/stocks/booths" element={<StockBoothListPage />} />
-
             <Route path="/stocks/history" element={<StockHistoryPage />} />
           </Route>
           <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
