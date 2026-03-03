@@ -48,7 +48,7 @@ export default function StockBoothDetailPage() {
   })
 
   // 메모
-  const [memoOpen, setMemoOpen] = useState(false)
+  const [memoOpen, setMemoOpen] = useState(() => searchParams.get('memo') === 'open')
   const [memo, setMemo] = useState('')
   const [memoSaved, setMemoSaved] = useState('')
 
@@ -70,7 +70,7 @@ export default function StockBoothDetailPage() {
   const [isEditingRating, setIsEditingRating] = useState(false)
   const [boothReviews, setBoothReviews] = useState<BoothReviewResponse[]>([])
   const [reviewsLoaded, setReviewsLoaded] = useState(false)
-  const [showReviews, setShowReviews] = useState(false)
+
 
   const loadData = useCallback(() => {
     if (!id) return
@@ -162,8 +162,8 @@ export default function StockBoothDetailPage() {
 
   const handleAddComment = async () => {
     if (!id || !commentInput.trim() || submitting) return
-    if (commentInput.trim().length < 20) {
-      showToast('최소 20자 이상 입력해주세요', 'error')
+    if (commentInput.trim().length < 150) {
+      showToast('최소 150자 이상 입력해주세요', 'error')
       return
     }
     setSubmitting(true)
@@ -186,8 +186,8 @@ export default function StockBoothDetailPage() {
       showToast('모든 평가 항목을 입력해주세요', 'error')
       return
     }
-    if (reviewText.trim().length > 0 && reviewText.trim().length < 20) {
-      showToast('리뷰는 최소 20자 이상 입력해주세요', 'error')
+    if (reviewText.trim().length > 0 && reviewText.trim().length < 80) {
+      showToast('리뷰는 최소 80자 이상 입력해주세요', 'error')
       return
     }
     setRatingSubmitting(true)
@@ -357,6 +357,43 @@ export default function StockBoothDetailPage() {
               </p>
             </div>
 
+            {/* 입력 영역 */}
+            {!booth.hasVisited ? (
+              <div className={styles.inputLocked}>
+                <span className={styles.lockIcon}>&#x1F512;</span>
+                <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
+              </div>
+            ) : (
+              <div className={styles.commentInputArea}>
+                <div className={styles.inputRow}>
+                  <textarea
+                    className={styles.commentTextarea}
+                    placeholder="개선 아이디어를 제안해주세요."
+                    value={commentInput}
+                    onChange={e => setCommentInput(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        handleAddComment()
+                      }
+                    }}
+                    disabled={submitting}
+                    maxLength={500}
+                    rows={1}
+                  />
+                  <button
+                    className={styles.commentSendBtn}
+                    onClick={handleAddComment}
+                    disabled={!commentInput.trim() || commentInput.trim().length < 150 || submitting}
+                  >
+                    {commentInput.trim().length > 0 && commentInput.trim().length < 150
+                      ? `아이디어 제안하기 (${commentInput.trim().length}/150)`
+                      : '아이디어 제안하기'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* 댓글 리스트 */}
             <div className={styles.commentList}>
               {comments.length === 0 ? (
@@ -382,42 +419,6 @@ export default function StockBoothDetailPage() {
                 ))
               )}
             </div>
-
-            {/* 입력 영역 */}
-            {!booth.hasVisited ? (
-              <div className={styles.inputLocked}>
-                <span className={styles.lockIcon}>&#x1F512;</span>
-                <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
-              </div>
-            ) : (
-              <div className={styles.commentInputArea}>
-                <div className={styles.inputRow}>
-                  <textarea
-                    className={styles.commentTextarea}
-                    placeholder="개선 아이디어를 제안해주세요."
-                    value={commentInput}
-                    onChange={e => setCommentInput(e.target.value)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault()
-                        handleAddComment()
-                      }
-                    }}
-                    disabled={submitting}
-                    rows={1}
-                  />
-                  <button
-                    className={styles.commentSendBtn}
-                    onClick={handleAddComment}
-                    disabled={!commentInput.trim() || commentInput.trim().length < 20 || submitting}
-                  >
-                    {commentInput.trim().length > 0 && commentInput.trim().length < 20
-                      ? `아이디어 제안하기 (${commentInput.trim().length}/20)`
-                      : '아이디어 제안하기'}
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
@@ -438,15 +439,6 @@ export default function StockBoothDetailPage() {
                     투자자의 관점에서 아이디어를 평가하고 미션을 완료하세요.
                   </p>
                 </div>
-
-                {/* 리뷰 보기 링크 */}
-                {boothReviews.length > 0 && (
-                  <div className={styles.reviewLinkRow}>
-                    <button className={styles.reviewLink} onClick={() => setShowReviews(!showReviews)}>
-                      리뷰 보기 ›
-                    </button>
-                  </div>
-                )}
 
                 {/* 평가 항목 카드들 */}
                 {RATING_CRITERIA.map(({ key, label }) => (
@@ -488,8 +480,8 @@ export default function StockBoothDetailPage() {
                     disabled={!!myRating && !isEditingRating}
                   />
                   <div className={styles.charCount}>
-                    {reviewText.trim().length > 0 && reviewText.trim().length < 20
-                      ? `${reviewText.trim().length}/20 (최소 20자)`
+                    {reviewText.trim().length > 0 && reviewText.trim().length < 80
+                      ? `${reviewText.trim().length}/80 (최소 80자)`
                       : `${reviewText.length} / 500`}
                   </div>
                 </div>
@@ -541,7 +533,7 @@ export default function StockBoothDetailPage() {
                 )}
 
                 {/* 전체 리뷰 목록 */}
-                {showReviews && boothReviews.length > 0 && (
+                {boothReviews.length > 0 && (
                   <div className={styles.reviewList}>
                     <h4 className={styles.reviewListTitle}>리뷰 ({boothReviews.length})</h4>
                     {boothReviews.map((r: BoothReviewResponse) => (

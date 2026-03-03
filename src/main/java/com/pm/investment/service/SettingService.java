@@ -20,6 +20,7 @@ public class SettingService {
     private static final String STOCK_ENABLED_KEY = "stock_enabled";
     private static final String ANNOUNCEMENT_MESSAGE_KEY = "announcement_message";
     private static final String ANNOUNCEMENT_UPDATED_AT_KEY = "announcement_updated_at";
+    private static final String MISSION_RESULT_REVEALED_KEY = "mission_result_revealed";
 
     private final AppSettingRepository appSettingRepository;
 
@@ -63,6 +64,17 @@ public class SettingService {
         return newValue;
     }
 
+    public boolean isMissionResultRevealed() {
+        return appSettingRepository.findById(MISSION_RESULT_REVEALED_KEY)
+                .map(s -> "true".equals(s.getValue()))
+                .orElse(false);
+    }
+
+    @Transactional
+    public boolean toggleMissionResult() {
+        AppSetting setting = appSettingRepository.findById(MISSION_RESULT_REVEALED_KEY)
+                .orElseGet(() -> {
+                    AppSetting newSetting = new AppSetting(MISSION_RESULT_REVEALED_KEY, "false");
     public boolean isStockEnabled() {
         return appSettingRepository.findById(STOCK_ENABLED_KEY)
                 .map(s -> "true".equals(s.getValue()))

@@ -34,15 +34,18 @@ export default function AdminPage() {
   const [annMessage, setAnnMessage] = useState('')
   const [annCurrent, setAnnCurrent] = useState('')
   const [annSaving, setAnnSaving] = useState(false)
+  const [missionResultRevealed, setMissionResultRevealed] = useState(false)
+  const [missionToggling, setMissionToggling] = useState(false)
   const [boothRatings, setBoothRatings] = useState<AdminBoothRatingResponse[]>([])
   const [ratingSortKey, setRatingSortKey] = useState<RatingSortKey>('avgTotal')
 
   const loadData = async () => {
     try {
-      const [statusRes, stockRes, investRes, rankRes, annRes, ratingsRes] = await Promise.all([
+      const [statusRes, stockRes, investRes, missionRes, rankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
         adminApi.getStockStatus(),
         adminApi.getInvestmentStatus(),
+        adminApi.getMissionResultStatus(),
         adminApi.getRanking(),
         adminApi.getAnnouncement(),
         adminApi.getBoothRatings(),
@@ -50,6 +53,7 @@ export default function AdminPage() {
       setRevealed(statusRes.data.revealed)
       setStockEnabled(stockRes.data.enabled)
       setInvestmentEnabled(investRes.data.enabled)
+      setMissionResultRevealed(missionRes.data.revealed)
       setRanking(rankRes.data)
       setAnnCurrent(annRes.data.message)
       setAnnMessage(annRes.data.message)
@@ -100,6 +104,88 @@ export default function AdminPage() {
         </button>
       </div>
 
+      <div className={styles.controlCard}>
+        <div className={styles.statusRow}>
+          <span className={styles.statusLabel}>미션 공개 상태</span>
+          <span className={`${styles.statusBadge} ${missionResultRevealed ? styles.statusOn : styles.statusOff}`}>
+            {missionResultRevealed ? '공개 중' : '비공개'}
+          </span>
+        </div>
+        <p className={styles.statusDesc}>
+          {missionResultRevealed
+            ? '현재 "반드시 결과로" 미션의 내용이 참가자에게 공개되어 있습니다.'
+            : '"반드시 결과로" 미션의 내용이 숨겨져 있습니다. 참가자는 미션 내용을 알 수 없습니다.'}
+        </p>
+        <button
+          className={`${styles.toggleBtn} ${missionResultRevealed ? styles.hideBtn : styles.revealBtn}`}
+          onClick={async () => {
+            const action = missionResultRevealed ? '미션 내용을 숨기시겠습니까?' : '미션 내용을 공개하시겠습니까?'
+            if (!confirm(action)) return
+            setMissionToggling(true)
+            try {
+              const res = await adminApi.toggleMissionResult()
+              setMissionResultRevealed(res.data.revealed)
+            } finally {
+              setMissionToggling(false)
+            }
+          }}
+          disabled={missionToggling}
+        >
+          {missionToggling ? '처리 중...' : missionResultRevealed ? '미션 내용 숨기기' : '미션 내용 공개하기'}
+        </button>
+      </div>
+
+      <div className={styles.controlCard}>
+        <p className={styles.statusLabel}>공지사항 관리</p>
+        <textarea
+          className={styles.announcementInput}
+          placeholder="공지 메시지를 입력하세요 (최대 200자)"
+          maxLength={200}
+          value={annMessage}
+          onChange={e => setAnnMessage(e.target.value)}
+        />
+        <div className={styles.charCount}>{annMessage.length} / 200</div>
+        <div className={styles.announcementBtns}>
+          <button
+            className={`${styles.toggleBtn} ${styles.revealBtn}`}
+            disabled={annSaving || !annMessage.trim()}
+            onClick={async () => {
+              setAnnSaving(true)
+              try {
+                const res = await adminApi.setAnnouncement(annMessage.trim())
+                setAnnCurrent(res.data.message)
+                setAnnMessage(res.data.message)
+              } finally {
+                setAnnSaving(false)
+              }
+            }}
+          >
+            {annSaving ? '처리 중...' : '공지 등록'}
+          </button>
+          <button
+            className={`${styles.toggleBtn} ${styles.hideBtn}`}
+            disabled={annSaving || !annCurrent}
+            onClick={async () => {
+              if (!confirm('공지를 삭제하시겠습니까?')) return
+              setAnnSaving(true)
+              try {
+                await adminApi.clearAnnouncement()
+                setAnnCurrent('')
+                setAnnMessage('')
+              } finally {
+                setAnnSaving(false)
+              }
+            }}
+          >
+            공지 삭제
+          </button>
+        </div>
+        {annCurrent && (
+          <p className={styles.statusDesc} style={{ marginTop: 12, marginBottom: 0 }}>
+            현재 공지: {annCurrent}
+          </p>
+        )}
+      </div>
       {tab === 'settings' && (
         <>
           <div className={styles.controlCard}>
