@@ -66,9 +66,9 @@ const FLOOR_DEFAULT_ZONE: Record<string, string> = {
 /** 층(floorInfo) 선택 시 기본 구역 */
 const SUB_FLOOR_DEFAULT_ZONE: Record<string, string> = {
   'INNOVATION CENTER LL': '손복남홀',
-  'LEADERSHIP CENTER 1F': '101',
-  'LEADERSHIP CENTER 2F': '201',
-  'LEADERSHIP CENTER 3F': '301',
+  'LEADERSHIP CENTER 1층': '101',
+  'LEADERSHIP CENTER 2층': '201',
+  'LEADERSHIP CENTER 3층': '301',
 }
 
 const PAGE_SIZE = 10
