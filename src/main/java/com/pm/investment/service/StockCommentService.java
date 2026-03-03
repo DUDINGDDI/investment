@@ -55,9 +55,9 @@ public class StockCommentService {
         StockComment comment = new StockComment(user, stockBooth, content);
         stockCommentRepository.save(comment);
 
-        // renew 미션: 댓글 총 수를 progress로 반영
-        long commentCount = stockCommentRepository.countByUserId(userId);
-        missionService.checkAndUpdateMission(userId, "renew", (int) commentCount);
+        // renew 미션: 댓글을 남긴 서로 다른 부스 수를 progress로 반영
+        long distinctBoothCount = stockCommentRepository.countDistinctBoothsByUserId(userId);
+        missionService.checkAndUpdateMission(userId, "renew", (int) distinctBoothCount);
 
         return StockCommentResponse.builder()
                 .id(comment.getId())

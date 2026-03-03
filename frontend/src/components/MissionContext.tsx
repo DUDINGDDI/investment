@@ -23,7 +23,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'renew',
     title: '내일 더 새롭게',
-    description: '방문한 부스의 토론방에서 아이디어 개선점을 5건 이상 제안해주세요(글자 수 150자 이상일 경우만 인정)',
+    description: '서로 다른 5개 부스의 토론방에서 아이디어 개선점을 제안해주세요(글자 수 150자 이상일 경우만 인정)',
     isCompleted: false,
     progress: 0,
     target: 5,
