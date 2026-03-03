@@ -6,10 +6,16 @@
   padding: 24px 0 20px;
 }
 
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
 .title {
   font-size: 22px;
   font-weight: 700;
-  margin-bottom: 4px;
 }
 
 .subtitle {
@@ -326,17 +332,59 @@
 .logoutBtn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 32px;
-  padding: 10px 0;
-  background: none;
-  border: none;
+  gap: 4px;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-button);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .logoutText {
   font-size: 13px;
   color: var(--text-secondary);
+}
+
+.logoutPopup {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 28px 24px 20px;
+  width: 280px;
+  text-align: center;
+}
+
+.logoutPopupText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.logoutPopupBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.logoutCancelBtn {
+  flex: 1;
+  height: 44px;
+  border-radius: var(--radius-button);
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.logoutConfirmBtn {
+  flex: 1;
+  height: 44px;
+  border-radius: var(--radius-button);
+  font-size: 15px;
+  font-weight: 600;
+  background: #FF3B30;
+  color: white;
 }
 
 /* 메모 리스트 */
