@@ -26,8 +26,8 @@ const LEARNING_2F_HOTSPOTS: Hotspot[] = [
 ]
 
 const LEARNING_3F_HOTSPOTS: Hotspot[] = [
-  { zoneId: '301', left: 21, top: 28, width: 25, height: 51 },
-  { zoneId: '302', left: 54, top: 28, width: 25, height: 51 },
+  { zoneId: '301', left: 21, top: 14, width: 25, height: 51 },
+  { zoneId: '302', left: 54, top: 14, width: 25, height: 51 },
 ]
 
 /** zoneCode → 지도 이미지 + 핫스팟 매핑 */
