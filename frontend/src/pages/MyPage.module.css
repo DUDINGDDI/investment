@@ -23,6 +23,52 @@
   color: var(--text-secondary);
 }
 
+/* 리포트 배너 */
+.reportBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.15), rgba(69, 147, 252, 0.1));
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+
+.reportBanner:active {
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.25), rgba(69, 147, 252, 0.15));
+}
+
+.reportBannerIcon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.reportBannerText {
+  flex: 1;
+  min-width: 0;
+}
+
+.reportBannerTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.reportBannerSub {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.reportBannerArrow {
+  font-size: 20px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
 /* 탭 바 */
 .tabBar {
   display: flex;

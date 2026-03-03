@@ -5,9 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BoothVisitRepository extends JpaRepository<BoothVisit, Long> {
+
+    @Query("SELECT COUNT(bv) FROM BoothVisit bv WHERE bv.user.id = :userId AND bv.visitedAt >= :start AND bv.visitedAt < :end")
+    long countByUserIdAndVisitedAtBetween(@Param("userId") Long userId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     boolean existsByUserIdAndBoothId(Long userId, Long boothId);
 

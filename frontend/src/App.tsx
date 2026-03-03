@@ -18,6 +18,7 @@ import StockHomePage from './pages/StockHomePage'
 import StockBoothListPage from './pages/StockBoothListPage'
 import StockBoothDetailPage from './pages/StockBoothDetailPage'
 import StockHistoryPage from './pages/StockHistoryPage'
+import ReportPage from './pages/ReportPage'
 
 import { PmInvestmentGate } from './components/InvestmentGate'
 import BottomNavBar from './components/BottomNavBar'
@@ -102,6 +103,7 @@ export default function App() {
             <Route path="/map" element={<MapPage />} />
             <Route path="/map/:zoneId" element={<ZoneBoothListPage />} />
             <Route path="/result" element={<ResultPage />} />
+            <Route path="/report" element={<ReportPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/qr" element={<QrPage />} />
           </Route>

@@ -119,6 +119,15 @@ export default function MyPage() {
         <p className={styles.subtitle}>{userCompany ? `${userCompany} · ` : ''}{userName}님, 안녕하세요</p>
       </div>
 
+      <div className={styles.reportBanner} onClick={() => navigate('/report')}>
+        <span className={styles.reportBannerIcon}>📊</span>
+        <div className={styles.reportBannerText}>
+          <p className={styles.reportBannerTitle}>나의 투자 성향 리포트</p>
+          <p className={styles.reportBannerSub}>나의 투자 스타일을 분석해보세요</p>
+        </div>
+        <span className={styles.reportBannerArrow}>›</span>
+      </div>
+
       <div className={styles.tabBar}>
         <button
           className={`${styles.tab} ${activeTab === 'booths' ? styles.tabActive : ''}`}

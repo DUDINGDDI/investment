@@ -301,3 +301,65 @@ export interface UserSearchResponse {
   company: string | null;
   uniqueCode: string;
 }
+
+// === 투자 성향 리포트 ===
+export interface ReportEligibilityResponse {
+  eligible: boolean;
+  morningVisitCount: number;
+  afternoonVisitCount: number;
+  morningRequired: number;
+  afternoonRequired: number;
+}
+
+export interface ReportPortfolioItem {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  themeColor: string;
+  amount: number;
+  percentage: number;
+}
+
+export interface ReportResponse {
+  eligible: boolean;
+  ineligibleReason: string | null;
+  userName: string;
+  userCompany: string | null;
+  tendencyType: string;
+  tendencyName: string;
+  tendencyEmoji: string;
+  tendencyOneLiner: string;
+  diversity: number;
+  activeness: number;
+  stability: number;
+  creativity: number;
+  insight: number;
+  totalInvested: number;
+  currentBalance: number;
+  investedBoothCount: number;
+  totalTradeCount: number;
+  ideaCount: number;
+  ratingAverage: number;
+  portfolio: ReportPortfolioItem[];
+  topBoothName: string | null;
+  topBoothEmoji: string | null;
+  topBoothAmount: number;
+  morningVisitCount?: number;
+  afternoonVisitCount?: number;
+}
+
+export interface ShareReportRequest {
+  vision: string;
+}
+
+export interface SharedReportResponse {
+  userId: number;
+  userName: string;
+  userCompany: string | null;
+  tendencyType: string;
+  tendencyName: string;
+  tendencyEmoji: string;
+  tendencyOneLiner: string;
+  vision: string;
+  createdAt: string;
+}

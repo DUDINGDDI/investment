@@ -30,7 +30,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'dream',
     title: '꿈을 원대하게',
-    description: '명예의 전당 방문 후 대표작 1개 이상 질문 작성',
+    description: '투자 성향 리포트 공유하기',
     isCompleted: false,
     icon: '/image/badge/dream.svg',
   },

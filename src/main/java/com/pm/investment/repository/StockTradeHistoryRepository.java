@@ -12,4 +12,8 @@ public interface StockTradeHistoryRepository extends JpaRepository<StockTradeHis
     List<StockTradeHistory> findByUserIdAndStockBoothIdOrderByCreatedAtDesc(Long userId, Long stockBoothId);
 
     List<StockTradeHistory> findAllByOrderByCreatedAtAsc();
+
+    long countByUserId(Long userId);
+
+    long countByUserIdAndType(Long userId, StockTradeHistory.TradeType type);
 }
