@@ -19,6 +19,7 @@ import StockBoothListPage from './pages/StockBoothListPage'
 import StockBoothDetailPage from './pages/StockBoothDetailPage'
 import StockHistoryPage from './pages/StockHistoryPage'
 
+import { PmInvestmentGate } from './components/InvestmentGate'
 import BottomNavBar from './components/BottomNavBar'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import AppHeader from './components/AppHeader'
@@ -83,13 +84,14 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
         <Route element={<PrivateLayout />}>
           <Route element={<WithTopTabBar />}>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/booths" element={<BoothListPage />} />
-            <Route path="/booths/:id" element={<BoothDetailPage />} />
+            <Route element={<PmInvestmentGate />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/booths" element={<BoothListPage />} />
+              <Route path="/booths/:id" element={<BoothDetailPage />} />
+              <Route path="/history" element={<HistoryPage />} />
+            </Route>
             <Route path="/map" element={<MapPage />} />
             <Route path="/map/:zoneId" element={<ZoneBoothListPage />} />
-
-            <Route path="/history" element={<HistoryPage />} />
             <Route path="/result" element={<ResultPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/qr" element={<QrPage />} />
@@ -97,7 +99,6 @@ export default function App() {
           <Route element={<WithStockTopTabBar />}>
             <Route path="/stocks" element={<StockHomePage />} />
             <Route path="/stocks/booths" element={<StockBoothListPage />} />
-
             <Route path="/stocks/history" element={<StockHistoryPage />} />
           </Route>
           <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
