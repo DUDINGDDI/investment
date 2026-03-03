@@ -404,6 +404,37 @@
   color: white;
 }
 
+/* 메모 서브탭 */
+.memoSubTabRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.memoSubTab {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.memoSubTab:active {
+  transform: none;
+}
+
+.memoSubTabActive {
+  background: rgba(69, 147, 252, 0.15);
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
 /* 메모 리스트 */
 .memoList {
   display: flex;

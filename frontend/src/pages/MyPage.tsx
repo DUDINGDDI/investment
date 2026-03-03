@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
-import { visitApi, userApi, stockApi, missionApi } from '../api'
+import { visitApi, userApi, boothApi, stockApi, missionApi } from '../api'
 import type { UserMissionResponse } from '../types'
 import { useMissions, type Mission } from '../components/MissionContext'
-import type { BoothVisitResponse, MyBoothVisitorResponse, StockBoothResponse } from '../types'
+import type { BoothResponse, BoothVisitResponse, MyBoothVisitorResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
 
 const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together']
@@ -29,8 +29,11 @@ export default function MyPage() {
   const [boothVisitors, setBoothVisitors] = useState<MyBoothVisitorResponse | null>(null)
   const [boothVisitorsLoaded, setBoothVisitorsLoaded] = useState(false)
   const { missions, syncFromServer } = useMissions()
-  const [memos, setMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
-  const [memosLoaded, setMemosLoaded] = useState(false)
+  const [memoSubTab, setMemoSubTab] = useState<'pm' | 'am'>('am')
+  const [pmMemos, setPmMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
+  const [pmMemosLoaded, setPmMemosLoaded] = useState(false)
+  const [amMemos, setAmMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
+  const [amMemosLoaded, setAmMemosLoaded] = useState(false)
   const [qrMission, setQrMission] = useState<Mission | null>(null)
   const [photoMissions, setPhotoMissions] = useState<UserMissionResponse[]>([])
   const [photoLoaded, setPhotoLoaded] = useState(false)
@@ -68,7 +71,20 @@ export default function MyPage() {
   }, [activeTab, photoLoaded])
 
   useEffect(() => {
-    if (activeTab === 'memos' && !memosLoaded) {
+    if (activeTab === 'memos' && memoSubTab === 'pm' && !pmMemosLoaded) {
+      boothApi.getAll().then(res => {
+        const boothList: BoothResponse[] = res.data
+        const memoList = boothList
+          .map(b => {
+            const memo = localStorage.getItem(`booth_memo_${b.id}`) || ''
+            return { boothId: b.id, boothName: b.name, memo }
+          })
+          .filter(m => m.memo)
+        setPmMemos(memoList)
+        setPmMemosLoaded(true)
+      }).catch(() => setPmMemosLoaded(true))
+    }
+    if (activeTab === 'memos' && memoSubTab === 'am' && !amMemosLoaded) {
       stockApi.getBooths().then(res => {
         const boothList: StockBoothResponse[] = res.data
         const memoList = boothList
@@ -77,11 +93,11 @@ export default function MyPage() {
             return { boothId: b.id, boothName: b.name, memo }
           })
           .filter(m => m.memo)
-        setMemos(memoList)
-        setMemosLoaded(true)
-      }).catch(() => setMemosLoaded(true))
+        setAmMemos(memoList)
+        setAmMemosLoaded(true)
+      }).catch(() => setAmMemosLoaded(true))
     }
-  }, [activeTab, memosLoaded])
+  }, [activeTab, memoSubTab, pmMemosLoaded, amMemosLoaded])
 
   const ticketMissions = missions
     .filter((m: Mission) => TICKET_MISSIONS.includes(m.id) && m.isCompleted)
@@ -306,49 +322,68 @@ export default function MyPage() {
 
       {activeTab === 'memos' && (
         <>
-          {memos.length > 0 ? (
-            <>
-              <div className={styles.memoList}>
-                {memos.slice(memoPage * PAGE_SIZE, (memoPage + 1) * PAGE_SIZE).map((m: { boothId: number; boothName: string; memo: string }, i: number) => (
-                  <div
-                    key={m.boothId}
-                    className={`${styles.memoCard} stagger-item`}
-                    style={{ animationDelay: `${i * 0.04}s` }}
-                    onClick={() => navigate(`/stocks/booths/${m.boothId}?memo=open`)}
-                  >
-                    <div className={styles.memoCardHeader}>
-                      <p className={styles.cardName}>{m.boothName}</p>
+          <div className={styles.memoSubTabRow}>
+            <button
+              className={`${styles.memoSubTab} ${memoSubTab === 'am' ? styles.memoSubTabActive : ''}`}
+              onClick={() => { setMemoSubTab('am'); setMemoPage(0) }}
+            >
+              AM 투자
+            </button>
+            <button
+              className={`${styles.memoSubTab} ${memoSubTab === 'pm' ? styles.memoSubTabActive : ''}`}
+              onClick={() => { setMemoSubTab('pm'); setMemoPage(0) }}
+            >
+              PM 투자
+            </button>
+          </div>
+
+          {(() => {
+            const memos = memoSubTab === 'pm' ? pmMemos : amMemos
+            const detailPath = memoSubTab === 'pm' ? '/booths' : '/stocks/booths'
+            return memos.length > 0 ? (
+              <>
+                <div className={styles.memoList}>
+                  {memos.slice(memoPage * PAGE_SIZE, (memoPage + 1) * PAGE_SIZE).map((m, i) => (
+                    <div
+                      key={m.boothId}
+                      className={`${styles.memoCard} stagger-item`}
+                      style={{ animationDelay: `${i * 0.04}s` }}
+                      onClick={() => navigate(`${detailPath}/${m.boothId}?memo=open`)}
+                    >
+                      <div className={styles.memoCardHeader}>
+                        <p className={styles.cardName}>{m.boothName}</p>
+                      </div>
+                      <p className={styles.memoText}>{m.memo}</p>
                     </div>
-                    <p className={styles.memoText}>{m.memo}</p>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className={styles.pagination}>
+                  <button
+                    className={styles.pageBtn}
+                    disabled={memoPage === 0}
+                    onClick={() => setMemoPage(memoPage - 1)}
+                  >
+                    ‹ 이전
+                  </button>
+                  <span className={styles.pageInfo}>
+                    {memoPage + 1} / {Math.ceil(memos.length / PAGE_SIZE) || 1}
+                  </span>
+                  <button
+                    className={styles.pageBtn}
+                    disabled={(memoPage + 1) * PAGE_SIZE >= memos.length}
+                    onClick={() => setMemoPage(memoPage + 1)}
+                  >
+                    다음 ›
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className={styles.emptyState}>
+                <span className={styles.emptyIcon}>📝</span>
+                <p className={styles.emptyText}>작성한 메모가 없습니다</p>
               </div>
-              <div className={styles.pagination}>
-                <button
-                  className={styles.pageBtn}
-                  disabled={memoPage === 0}
-                  onClick={() => setMemoPage(memoPage - 1)}
-                >
-                  ‹ 이전
-                </button>
-                <span className={styles.pageInfo}>
-                  {memoPage + 1} / {Math.ceil(memos.length / PAGE_SIZE) || 1}
-                </span>
-                <button
-                  className={styles.pageBtn}
-                  disabled={(memoPage + 1) * PAGE_SIZE >= memos.length}
-                  onClick={() => setMemoPage(memoPage + 1)}
-                >
-                  다음 ›
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className={styles.emptyState}>
-              <span className={styles.emptyIcon}>📝</span>
-              <p className={styles.emptyText}>작성한 메모가 없습니다</p>
-            </div>
-          )}
+            )
+          })()}
         </>
       )}
 
