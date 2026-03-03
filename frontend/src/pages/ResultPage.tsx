@@ -66,7 +66,7 @@ export default function ResultPage() {
             <div
               key={item.boothId}
               className={`${styles.podiumItem} ${i === 0 ? styles.first : i === 1 ? styles.second : styles.third} stagger-item`}
-              style={{ animationDelay: `${i * 0.15}s` }}
+              style={{ animationDelay: `${i * 0.08}s` }}
             >
               <div className={styles.podiumRank}>
                 <RankBadge rank={item.rank} />
@@ -87,7 +87,7 @@ export default function ResultPage() {
             <div
               key={item.boothId}
               className={`${styles.listItem} stagger-item`}
-              style={{ animationDelay: `${(i + 3) * 0.06}s` }}
+              style={{ animationDelay: `${(i + 3) * 0.03}s` }}
             >
               <span className={styles.listRank}>{item.rank}</span>
               <div className={styles.listInfo}>

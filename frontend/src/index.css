@@ -138,7 +138,7 @@ a {
 }
 
 .stagger-item {
-  animation: fadeInUp 0.3s ease forwards;
+  animation: fadeInUp 0.15s ease forwards;
   opacity: 0;
 }
 

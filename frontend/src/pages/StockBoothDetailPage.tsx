@@ -406,7 +406,7 @@ export default function StockBoothDetailPage() {
                   <div
                     key={comment.id}
                     className={`${styles.commentItem} stagger-item`}
-                    style={{ animationDelay: `${index * 0.04}s` }}
+                    style={{ animationDelay: `${index * 0.02}s` }}
                   >
                     <div className={styles.commentHeader}>
                       <div className={styles.commentAuthorRow}>

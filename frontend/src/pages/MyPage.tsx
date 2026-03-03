@@ -189,7 +189,7 @@ export default function MyPage() {
                   <div
                     key={`${v.boothId}-${v.visitedAt}`}
                     className={`${styles.card} stagger-item`}
-                    style={{ animationDelay: `${i * 0.04}s` }}
+                    style={{ animationDelay: `${i * 0.02}s` }}
                     onClick={() => navigate(`/stocks/booths/${v.boothId}`)}
                   >
                     <div className={styles.cardBody}>
@@ -269,7 +269,7 @@ export default function MyPage() {
                       <div
                         key={item.mission.id}
                         className={`${styles.ticketImageCard} ${item.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
-                        style={{ animationDelay: `${i * 0.06}s` }}
+                        style={{ animationDelay: `${i * 0.03}s` }}
                         onClick={() => !item.isUsed && setQrMission(item.mission)}
                       >
                         <img src={imgSrc} alt={imgInfo.label} className={styles.ticketFullImg} />
@@ -281,7 +281,7 @@ export default function MyPage() {
                     <div
                       key="photo"
                       className={`${styles.ticketImageCard} ${item.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
-                      style={{ animationDelay: `${i * 0.06}s` }}
+                      style={{ animationDelay: `${i * 0.03}s` }}
                       onClick={() => {
                         if (photoRemaining > 0 && nextAvailablePhoto) {
                           setQrMission({
@@ -338,7 +338,7 @@ export default function MyPage() {
                     <div
                       key={m.boothId}
                       className={`${styles.memoCard} stagger-item`}
-                      style={{ animationDelay: `${i * 0.04}s` }}
+                      style={{ animationDelay: `${i * 0.02}s` }}
                       onClick={() => navigate(`${detailPath}/${m.boothId}?memo=open`)}
                     >
                       <div className={styles.memoCardHeader}>

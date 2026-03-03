@@ -111,7 +111,7 @@ export default function StockHomePage() {
   const [totalHolding, setTotalHolding] = useState(0)
 
   // Mission 관련 state
-  const { missions, syncFromServer } = useMissions()
+  const { missions } = useMissions()
   const [showRanking, setShowRanking] = useState(false)
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
@@ -133,8 +133,7 @@ export default function StockHomePage() {
     resultApi.getMissionResultStatus().then(res => setMissionResultRevealed(res.data.revealed)).catch(() => {})
     resultApi.getDreamStatus().then(res => setDreamEnabled(res.data.enabled)).catch(() => {})
     resultApi.getStockRankingStatus().then(res => setStockRankingEnabled(res.data.enabled)).catch(() => {})
-    syncFromServer()
-  }, [syncFromServer])
+  }, [])
 
   useEffect(() => {
     const handler = () => {
@@ -257,7 +256,7 @@ export default function StockHomePage() {
                 <button
                   key={mission.id}
                   className={`${styles.badgeCell} stagger-item`}
-                  style={{ animationDelay: `${i * 0.08}s` }}
+                  style={{ animationDelay: `${i * 0.04}s` }}
                   onClick={() => handleBadgeTap(mission)}
                 >
                   <div className={styles.badgeWrap}>
@@ -274,7 +273,7 @@ export default function StockHomePage() {
                 <button
                   key={mission.id}
                   className={`${styles.badgeCell} stagger-item`}
-                  style={{ animationDelay: `${(i + 3) * 0.08}s` }}
+                  style={{ animationDelay: `${(i + 3) * 0.04}s` }}
                   onClick={() => handleBadgeTap(mission)}
                 >
                   <div className={styles.badgeWrap}>
@@ -358,7 +357,7 @@ export default function StockHomePage() {
                       <div
                         key={item.userId}
                         className={`${badgeStyles.rankPodiumItem} ${i === 0 ? badgeStyles.rankFirst : i === 1 ? badgeStyles.rankSecond : badgeStyles.rankThird} stagger-item`}
-                        style={{ animationDelay: `${i * 0.15}s` }}
+                        style={{ animationDelay: `${i * 0.08}s` }}
                       >
                         <div className={badgeStyles.podiumRankBadge}>
                           <RankBadgeLabel rank={item.rank} />
@@ -387,7 +386,7 @@ export default function StockHomePage() {
                       <div
                         key={item.userId}
                         className={`${badgeStyles.rankListItem} stagger-item`}
-                        style={{ animationDelay: `${(i + 3) * 0.06}s` }}
+                        style={{ animationDelay: `${(i + 3) * 0.03}s` }}
                       >
                         <span className={badgeStyles.rankListNum}>{item.rank}</span>
                         <div className={badgeStyles.rankListAvatar}>
