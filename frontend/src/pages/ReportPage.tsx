@@ -95,15 +95,19 @@ function DonutChart({ items }: { items: { name: string; percentage: number; colo
   const stroke = 28
   const size = (radius + stroke) * 2
   const circumference = 2 * Math.PI * radius
-  let offset = 0
+
+  const offsets: number[] = []
+  let acc = 0
+  for (const item of items) {
+    offsets.push(acc)
+    acc += (item.percentage / 100) * circumference
+  }
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} width="160" height="160">
       {items.map((item, i) => {
         const dash = (item.percentage / 100) * circumference
         const gap = circumference - dash
-        const currentOffset = offset
-        offset += dash
         return (
           <circle
             key={i}
@@ -112,7 +116,7 @@ function DonutChart({ items }: { items: { name: string; percentage: number; colo
             stroke={item.color}
             strokeWidth={stroke}
             strokeDasharray={`${dash} ${gap}`}
-            strokeDashoffset={-currentOffset}
+            strokeDashoffset={-offsets[i]}
             transform={`rotate(-90 ${size / 2} ${size / 2})`}
           />
         )
