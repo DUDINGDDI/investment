@@ -28,4 +28,9 @@ public interface StockRatingRepository extends JpaRepository<StockRating, Long> 
            "AVG(r.scoreNumberOne), AVG(r.scoreGap), AVG(r.scoreGlobal) " +
            "FROM StockRating r GROUP BY r.stockBooth.id")
     List<Object[]> getBoothRatingAggregates();
+
+    @Query("SELECT AVG((r.scoreFirst + r.scoreBest + r.scoreDifferent + r.scoreNumberOne + r.scoreGap + r.scoreGlobal) / 6.0) FROM StockRating r WHERE r.user.id = :userId")
+    Double getAverageScoreByUserId(@Param("userId") Long userId);
+
+    long countByUserId(Long userId);
 }

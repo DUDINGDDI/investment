@@ -31,6 +31,10 @@ import type {
   NoteResponse,
   UserSearchResponse,
   IdeaBoardResponse,
+  ReportEligibilityResponse,
+  ReportResponse,
+  ShareReportRequest,
+  SharedReportResponse,
 } from '../types';
 
 export const authApi = {
@@ -134,6 +138,19 @@ export const noteApi = {
 export const ideaBoardApi = {
   getBoard: (boothId: number) =>
     api.get<IdeaBoardResponse>(`/idea-board/booths/${boothId}`),
+};
+
+export const reportApi = {
+  checkEligibility: () =>
+    api.get<ReportEligibilityResponse>('/report/eligibility'),
+  getReport: () =>
+    api.get<ReportResponse>('/report'),
+  shareReport: (data: ShareReportRequest) =>
+    api.post('/report/share', data),
+  getShareStatus: () =>
+    api.get<{ shared: boolean }>('/report/share/status'),
+  getSharedReports: () =>
+    api.get<SharedReportResponse[]>('/report/shared'),
 };
 
 export const adminApi = {

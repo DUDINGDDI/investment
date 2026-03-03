@@ -274,3 +274,17 @@ CREATE TABLE investment_history (
     INDEX idx_user_created (user_id, created_at DESC),
     INDEX idx_booth_id (booth_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 공유 리포트 테이블
+CREATE TABLE shared_reports (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    vision VARCHAR(500) NOT NULL COMMENT '비전 텍스트',
+    tendency_type VARCHAR(255) NOT NULL COMMENT '성향 타입',
+    tendency_name VARCHAR(255) NOT NULL COMMENT '성향 이름',
+    tendency_emoji VARCHAR(255) NOT NULL COMMENT '성향 이모지',
+    tendency_one_liner VARCHAR(255) NOT NULL COMMENT '성향 한줄 소개',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_shared_report_user (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
