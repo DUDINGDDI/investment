@@ -37,30 +37,28 @@ export default function HomePage() {
   const [boothPage, setBoothPage] = useState(0)
   const PAGE_SIZE = 10
 
-  const totalAsset = (balance || 0) + totalInvested
-
   return (
     <div className={styles.container}>
       {/* 유저 정보 + 투자 금액 카드 */}
       <div className={styles.investCard}>
         <div className={styles.cardTop}>
           <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
-          <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
+          <p className={styles.cardGreeting}>{userName}님의 현재 보유 금액</p>
           <div className={styles.cardAmountRow}>
-            <p className={styles.cardAmount}>{formatKorean(totalInvested)}원</p>
+            <p className={styles.cardAmount}>{formatKorean(balance || 0)}원</p>
             <button className={styles.cardBtn} onClick={() => navigate('/booths?tab=portfolio')}>나의 투자 정보</button>
           </div>
         </div>
         <div className={styles.cardBottom}>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>총 보유 자산</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalAsset)}원</span>
+            <span className={styles.cardAssetLabel}>투자 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(totalInvested)}원</span>
           </div>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#FFB74D' }} />
-            <span className={styles.cardAssetLabel}>투자 금액</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalInvested)}원</span>
+            <span className={styles.cardAssetLabel}>현재 보유 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
           </div>
         </div>
       </div>

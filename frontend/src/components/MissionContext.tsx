@@ -53,7 +53,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'sincere',
     title: '진정성 있게',
-    description: '방문한 부스에 리뷰를 12개 이상 작성해주세요',
+    description: '방문한 부스에 리뷰 12개 이상 작성(글자 수 80자 이상일 경우만 인정)',
     isCompleted: false,
     progress: 0,
     target: 12,

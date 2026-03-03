@@ -67,7 +67,9 @@ export default function MyPage() {
     }
   }, [activeTab, memosLoaded])
 
-  const ticketMissions = missions.filter((m: Mission) => TICKET_MISSIONS.includes(m.id) && m.isCompleted)
+  const ticketMissions = missions
+    .filter((m: Mission) => TICKET_MISSIONS.includes(m.id) && m.isCompleted)
+    .sort((a, b) => Number(a.isUsed ?? false) - Number(b.isUsed ?? false))
   const ticketCount = ticketMissions.length
 
   const handleLogout = () => {
@@ -120,8 +122,8 @@ export default function MyPage() {
                   </div>
                 </div>
                 <div className={styles.myBoothRight}>
-                  <p className={styles.myBoothVisitorCount}>{boothVisitors.visitorCount}</p>
-                  <p className={styles.myBoothVisitorLabel}>방문자</p>
+                  <p className={styles.myBoothVisitorCount}>{boothVisitors.visitorCount}명</p>
+                  <p className={styles.myBoothVisitorLabel}>현 시각 방문자</p>
                 </div>
               </div>
             </div>
