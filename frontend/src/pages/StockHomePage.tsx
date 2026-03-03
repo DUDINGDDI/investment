@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { stockApi, missionApi } from '../api'
+import { stockApi, missionApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import { useMissions, type Mission } from '../components/MissionContext'
 import type { MissionRankingItem } from '../types'
@@ -120,6 +120,7 @@ export default function StockHomePage() {
   const [rankings, setRankings] = useState<MissionRankingItem[]>([])
   const [myRanking, setMyRanking] = useState<MissionRankingItem | null>(null)
   const [rankingLoading, setRankingLoading] = useState(false)
+  const [missionResultRevealed, setMissionResultRevealed] = useState(false)
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -127,6 +128,7 @@ export default function StockHomePage() {
       const total = res.data.reduce((sum: number, h: { amount: number }) => sum + h.amount, 0)
       setTotalHolding(total)
     }).catch(() => {})
+    resultApi.getMissionResultStatus().then(res => setMissionResultRevealed(res.data.revealed)).catch(() => {})
     syncFromServer()
   }, [syncFromServer])
 
@@ -162,8 +164,6 @@ export default function StockHomePage() {
     }
   }, [showRanking, selectedFilter, loadRanking])
 
-  const totalAsset = (balance || 0) + totalHolding
-
   // Mission 파생 상태
   const row1 = missions.slice(0, 3)
   const row2 = missions.slice(3, 6)
@@ -197,22 +197,22 @@ export default function StockHomePage() {
       <div className={styles.investCard}>
         <div className={styles.cardTop}>
           <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
-          <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
+          <p className={styles.cardGreeting}>{userName}님의 현재 보유 금액</p>
           <div className={styles.cardAmountRow}>
-            <p className={styles.cardAmount}>{formatKorean(totalHolding)}원</p>
+            <p className={styles.cardAmount}>{formatKorean(balance || 0)}원</p>
             <button className={styles.cardBtn} onClick={() => navigate('/stocks/booths')}>투자 종목 보기</button>
           </div>
         </div>
         <div className={styles.cardBottom}>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>총 보유 자산</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalAsset)}원</span>
+            <span className={styles.cardAssetLabel}>투자 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(totalHolding)}원</span>
           </div>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#FFB74D' }} />
-            <span className={styles.cardAssetLabel}>투자 금액</span>
-            <span className={styles.cardAssetValue}>{formatKorean(totalHolding)}원</span>
+            <span className={styles.cardAssetLabel}>현재 보유 금액</span>
+            <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
           </div>
         </div>
       </div>
@@ -405,7 +405,11 @@ export default function StockHomePage() {
               <BadgeImage mission={freshMission} size="large" />
             </div>
             <h3 className={badgeStyles.sheetTitle}>{freshMission.title}</h3>
-            <p className={badgeStyles.sheetDesc}>{freshMission.description}</p>
+            <p className={badgeStyles.sheetDesc}>
+              {freshMission.id === 'result' && !missionResultRevealed
+                ? '미션 내용이 아직 공개되지 않았습니다'
+                : freshMission.description}
+            </p>
 
             {freshMission.target != null && (
               <ProgressBar
