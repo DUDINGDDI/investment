@@ -81,7 +81,7 @@ export default function BottomNavBar() {
           <button
             key={item.path}
             className={`${styles.navItem} ${active ? styles.navItemActive : ''} ${item.isCenter ? styles.navItemCenter : ''}`}
-            onClick={() => navigate(item.path)}
+            onClick={() => navigate(item.path, { replace: true })}
             aria-label={item.label}
           >
             {item.isCenter ? (
