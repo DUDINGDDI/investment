@@ -36,16 +36,19 @@ export default function AdminPage() {
   const [annSaving, setAnnSaving] = useState(false)
   const [missionResultRevealed, setMissionResultRevealed] = useState(false)
   const [missionToggling, setMissionToggling] = useState(false)
+  const [dreamEnabled, setDreamEnabled] = useState(false)
+  const [dreamToggling, setDreamToggling] = useState(false)
   const [boothRatings, setBoothRatings] = useState<AdminBoothRatingResponse[]>([])
   const [ratingSortKey, setRatingSortKey] = useState<RatingSortKey>('avgTotal')
 
   const loadData = async () => {
     try {
-      const [statusRes, stockRes, investRes, missionRes, rankRes, annRes, ratingsRes] = await Promise.all([
+      const [statusRes, stockRes, investRes, missionRes, dreamRes, rankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
         adminApi.getStockStatus(),
         adminApi.getInvestmentStatus(),
         adminApi.getMissionResultStatus(),
+        adminApi.getDreamStatus(),
         adminApi.getRanking(),
         adminApi.getAnnouncement(),
         adminApi.getBoothRatings(),
@@ -54,6 +57,7 @@ export default function AdminPage() {
       setStockEnabled(stockRes.data.enabled)
       setInvestmentEnabled(investRes.data.enabled)
       setMissionResultRevealed(missionRes.data.revealed)
+      setDreamEnabled(dreamRes.data.enabled)
       setRanking(rankRes.data)
       setAnnCurrent(annRes.data.message)
       setAnnMessage(annRes.data.message)
@@ -188,6 +192,37 @@ export default function AdminPage() {
       </div>
       {tab === 'settings' && (
         <>
+          <div className={styles.controlCard}>
+            <div className={styles.statusRow}>
+              <span className={styles.statusLabel}>꿈을 원대하게 미션</span>
+              <span className={`${styles.statusBadge} ${dreamEnabled ? styles.statusOn : styles.statusOff}`}>
+                {dreamEnabled ? '활성' : '비활성'}
+              </span>
+            </div>
+            <p className={styles.statusDesc}>
+              {dreamEnabled
+                ? '현재 "꿈을 원대하게" 미션이 활성화되어 있습니다. 참가자가 미션 내용을 볼 수 있고 완료할 수 있습니다.'
+                : '"꿈을 원대하게" 미션이 비활성화 상태입니다. 미션 내용이 숨겨지고 완료할 수 없습니다.'}
+            </p>
+            <button
+              className={`${styles.toggleBtn} ${dreamEnabled ? styles.hideBtn : styles.revealBtn}`}
+              onClick={async () => {
+                const action = dreamEnabled ? '"꿈을 원대하게" 미션을 비활성화하시겠습니까?' : '"꿈을 원대하게" 미션을 활성화하시겠습니까?'
+                if (!confirm(action)) return
+                setDreamToggling(true)
+                try {
+                  const res = await adminApi.toggleDream()
+                  setDreamEnabled(res.data.enabled)
+                } finally {
+                  setDreamToggling(false)
+                }
+              }}
+              disabled={dreamToggling}
+            >
+              {dreamToggling ? '처리 중...' : dreamEnabled ? '미션 비활성화' : '미션 활성화'}
+            </button>
+          </div>
+
           <div className={styles.controlCard}>
             <div className={styles.statusRow}>
               <span className={styles.statusLabel}>AM 투자 (오전)</span>

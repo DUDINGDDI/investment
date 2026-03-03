@@ -42,6 +42,11 @@ public class ResultController {
         return ResponseEntity.ok(Map.of("enabled", settingService.isStockEnabled()));
     }
 
+    @GetMapping("/dream-status")
+    public ResponseEntity<Map<String, Boolean>> getDreamStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isDreamEnabled()));
+    }
+
     @GetMapping("/ranking")
     public ResponseEntity<List<RankingResponse>> getRanking() {
         if (!settingService.isResultsRevealed()) {

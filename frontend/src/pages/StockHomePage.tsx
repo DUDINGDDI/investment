@@ -121,6 +121,7 @@ export default function StockHomePage() {
   const [myRanking, setMyRanking] = useState<MissionRankingItem | null>(null)
   const [rankingLoading, setRankingLoading] = useState(false)
   const [missionResultRevealed, setMissionResultRevealed] = useState(false)
+  const [dreamEnabled, setDreamEnabled] = useState(false)
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -129,6 +130,7 @@ export default function StockHomePage() {
       setTotalHolding(total)
     }).catch(() => {})
     resultApi.getMissionResultStatus().then(res => setMissionResultRevealed(res.data.revealed)).catch(() => {})
+    resultApi.getDreamStatus().then(res => setDreamEnabled(res.data.enabled)).catch(() => {})
     syncFromServer()
   }, [syncFromServer])
 
@@ -407,6 +409,8 @@ export default function StockHomePage() {
             <h3 className={badgeStyles.sheetTitle}>{freshMission.title}</h3>
             <p className={badgeStyles.sheetDesc}>
               {freshMission.id === 'result' && !missionResultRevealed
+                ? '미션 내용이 아직 공개되지 않았습니다'
+                : freshMission.id === 'dream' && !dreamEnabled
                 ? '미션 내용이 아직 공개되지 않았습니다'
                 : freshMission.description}
             </p>

@@ -75,6 +75,17 @@ public class AdminController {
         return ResponseEntity.ok(Map.of("enabled", enabled));
     }
 
+    @GetMapping("/dream/status")
+    public ResponseEntity<Map<String, Boolean>> getDreamStatus() {
+        return ResponseEntity.ok(Map.of("enabled", settingService.isDreamEnabled()));
+    }
+
+    @PostMapping("/dream/toggle")
+    public ResponseEntity<Map<String, Boolean>> toggleDream() {
+        boolean enabled = settingService.toggleDream();
+        return ResponseEntity.ok(Map.of("enabled", enabled));
+    }
+
     @GetMapping("/ranking")
     public ResponseEntity<List<RankingResponse>> getRanking() {
         return ResponseEntity.ok(rankingService.getRanking());
