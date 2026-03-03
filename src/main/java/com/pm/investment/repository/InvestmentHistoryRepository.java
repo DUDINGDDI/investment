@@ -8,4 +8,8 @@ import java.util.List;
 public interface InvestmentHistoryRepository extends JpaRepository<InvestmentHistory, Long> {
 
     List<InvestmentHistory> findByUserIdOrderByCreatedAtDesc(Long userId);
+
+    long countByUserId(Long userId);
+
+    long countByUserIdAndType(Long userId, InvestmentHistory.InvestmentType type);
 }

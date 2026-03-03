@@ -1,0 +1,635 @@
+.container {
+  padding: 20px;
+  padding-bottom: 40px;
+}
+
+/* === 탭 === */
+.tabsChip {
+  display: flex;
+  gap: 8px;
+  padding: 0 0 16px;
+}
+
+.chipTab {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.chipTab:active {
+  transform: scale(0.96);
+}
+
+.chipActive {
+  color: #fff;
+  background: #6C5CE7;
+  border-color: #6C5CE7;
+}
+
+/* === 로딩 === */
+.loadingContainer {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border-color);
+  border-top-color: #6C5CE7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* === 자격 미충족 === */
+.ineligibleContainer {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.lockIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.ineligibleTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.ineligibleSub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.conditionCard {
+  width: 100%;
+  max-width: 320px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+
+.conditionItem {
+  margin-bottom: 16px;
+}
+
+.conditionItem:last-child {
+  margin-bottom: 0;
+}
+
+.conditionLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.conditionText {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.conditionCount {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.conditionCountDone {
+  color: #00D68F;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #6C5CE7;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progressFillDone {
+  background: #00D68F;
+}
+
+/* === 히어로 섹션 === */
+.heroSection {
+  text-align: center;
+  padding: 24px 0 20px;
+}
+
+.tendencyEmoji {
+  font-size: 56px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.heroName {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.tendencyName {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: 'CJ ONLYONE', 'Pretendard Variable', sans-serif;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.tendencyOneLiner {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* === 섹션 공통 === */
+.section {
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+/* === 레이더 차트 === */
+.radarSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 24px 16px 16px;
+  margin-bottom: 16px;
+}
+
+.radarChart {
+  display: flex;
+  justify-content: center;
+}
+
+/* === 핵심 수치 === */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metricCard {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  text-align: center;
+}
+
+.metricLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.metricValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.metricUnit {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+/* === 포트폴리오 === */
+.portfolioSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px 16px;
+  margin-bottom: 16px;
+}
+
+.donutWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.legendList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendName {
+  font-size: 13px;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.legendPercent {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* === 최애 투자처 === */
+.topBoothCard {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.topBoothEmoji {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.topBoothInfo {
+  flex: 1;
+}
+
+.topBoothLabel {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.topBoothName {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.topBoothAmount {
+  font-size: 14px;
+  color: #6C5CE7;
+  font-weight: 600;
+}
+
+/* === 공유 버튼 === */
+.shareButton {
+  width: 100%;
+  padding: 16px;
+  background: #6C5CE7;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-button);
+  cursor: pointer;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+
+.shareButton:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.shareButtonDone {
+  background: #00D68F;
+  pointer-events: none;
+}
+
+/* === 빈 포트폴리오 === */
+.emptyPortfolio {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* === 애니메이션 === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* === 공유 탭: 헤더 === */
+.sharedHeader {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.sharedHeaderTitle {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'CJ ONLYONE', 'Pretendard Variable', sans-serif;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.sharedHeaderSub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* === 공유 탭: 빈 상태 === */
+.sharedEmpty {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.sharedEmptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.sharedEmptyText {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.sharedEmptySub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* === 공유 탭: 카드 리스트 === */
+.sharedCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sharedCard {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 18px;
+  border: 1px solid var(--border-color);
+}
+
+.sharedCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sharedCardEmoji {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.sharedCardUserInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.sharedCardUserName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sharedCardCompany {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 1px;
+}
+
+.sharedCardTendency {
+  flex-shrink: 0;
+}
+
+.sharedCardTendencyName {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6C5CE7;
+  background: rgba(108, 92, 231, 0.12);
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.sharedCardVision {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.7;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.sharedCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 14px;
+  gap: 8px;
+}
+
+.sharedCardOneLiner {
+  font-size: 11px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.sharedCardTime {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* === 비전 작성 모달 === */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px;
+  animation: fadeInUp 0.25s ease;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.modalDesc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.visionTextarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 14px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.visionTextarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.visionTextarea:focus {
+  outline: none;
+  border-color: #6C5CE7;
+}
+
+.charCounter {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.charCountWarn {
+  color: #F04452;
+  font-weight: 600;
+}
+
+.charCountOk {
+  color: #00D68F;
+  font-weight: 600;
+}
+
+.charCountTotal {
+  color: var(--text-secondary);
+}
+
+.charCountHint {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modalCancelBtn {
+  flex: 1;
+  padding: 14px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-button);
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modalSubmitBtn {
+  flex: 1;
+  padding: 14px;
+  background: #6C5CE7;
+  border: none;
+  border-radius: var(--radius-button);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.modalSubmitBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.modalSubmitBtn:not(:disabled):active {
+  opacity: 0.85;
+}
