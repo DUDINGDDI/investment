@@ -10,22 +10,6 @@
   gap: 8px;
 }
 
-.backBtn {
-  background: none;
-  padding: 8px;
-  margin: -8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-}
-
-.backBtn:active {
-  opacity: 0.5;
-  transform: none;
-}
-
 .logo {
   height: 32px;
   width: auto;

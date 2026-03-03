@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { boothApi, investmentApi, userApi } from '../api'
 import { formatKorean } from '../utils/format'
+import PageBackButton from '../components/PageBackButton'
 import type { BoothResponse, InvestmentResponse } from '../types'
 import styles from './BoothListPage.module.css'
 
@@ -65,6 +66,8 @@ export default function BoothListPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/home" label="PM 투자" />
+
       {activeTab === 'all' ? (
         <>
           {/* 투자 종목 리스트 */}

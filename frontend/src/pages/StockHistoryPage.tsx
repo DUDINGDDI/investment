@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { stockApi } from '../api'
 import { formatKorean } from '../utils/format'
+import PageBackButton from '../components/PageBackButton'
 import type { StockTradeHistoryResponse } from '../types'
 import styles from './StockHistoryPage.module.css'
 
@@ -52,6 +53,8 @@ export default function StockHistoryPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/stocks/booths?tab=portfolio" label="나의 투자 현황" />
+
       <div className={styles.header}>
         <h2 className={styles.title}>거래 이력</h2>
       </div>

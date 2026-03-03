@@ -16,18 +16,6 @@
   gap: 12px;
 }
 
-.backBtn {
-  background: none;
-  border: none;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
 .iconLarge {
   width: 40px;
   height: 40px;

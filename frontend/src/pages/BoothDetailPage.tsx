@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { boothApi, investmentApi, userApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { BoothResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import InvestModal from '../components/InvestModal'
+import PageBackButton from '../components/PageBackButton'
 import { useToast } from '../components/ToastContext'
 import styles from './BoothDetailPage.module.css'
 
@@ -34,7 +35,6 @@ function formatCommentTime(dateStr: string) {
 
 export default function BoothDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
   const { showToast } = useToast()
   const [booth, setBooth] = useState<BoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
@@ -204,14 +204,11 @@ export default function BoothDetailPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/booths" label="부스 목록" style={{ paddingLeft: 20 }} />
+
       {/* 종목 헤더 */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <button className={styles.backBtn} onClick={() => navigate(-1)}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
           <div className={styles.headerInfo}>
             <div className={styles.nameRow}>
               <h2 className={styles.name}>{booth.name}</h2>

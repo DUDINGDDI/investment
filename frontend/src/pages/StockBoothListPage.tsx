@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { stockApi } from '../api'
 import { formatKorean } from '../utils/format'
 import PriceChart from '../components/PriceChart'
+import PageBackButton from '../components/PageBackButton'
 import type { StockBoothResponse, StockHoldingResponse, CospiResponse } from '../types'
 import styles from './StockBoothListPage.module.css'
 
@@ -86,6 +87,8 @@ export default function StockBoothListPage() {
 
   return (
     <div className={styles.container}>
+      <PageBackButton to="/stocks" label="AM 투자" />
+
       {/* 탭 */}
       <div className={styles.tabsChip}>
         <button
