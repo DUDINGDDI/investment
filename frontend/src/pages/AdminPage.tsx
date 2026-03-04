@@ -40,6 +40,7 @@ export default function AdminPage() {
   const [boothRatings, setBoothRatings] = useState<AdminBoothRatingResponse[]>([])
   const [ratingSortKey, setRatingSortKey] = useState<RatingSortKey>('avgTotal')
   const [resultMissionLoading, setResultMissionLoading] = useState(false)
+  const [activeQr, setActiveQr] = useState<{ value: string; label: string } | null>(null)
 
   const loadData = async () => {
     try {
@@ -298,15 +299,13 @@ export default function AdminPage() {
           <div className={styles.controlCard}>
             <p className={styles.statusLabel}>미션 QR 코드</p>
             <p className={styles.statusDesc}>현장에 부착할 미션 QR 코드입니다. 참가자가 스캔하면 미션이 완료됩니다.</p>
-            <div className={styles.qrGrid}>
-              <div className={styles.qrItem}>
-                <QRCodeSVG value="b2c3d4e5-f6a7-8901-bcde-f12345678901" size={160} />
-                <p className={styles.qrLabel}>내일 더 새롭게</p>
-              </div>
-              <div className={styles.qrItem}>
-                <QRCodeSVG value="a1b2c3d4-e5f6-7890-abcd-ef1234567890" size={160} />
-                <p className={styles.qrLabel}>함께하는 하고잡이</p>
-              </div>
+            <div className={styles.qrBtnGrid}>
+              <button className={styles.qrBtn} onClick={() => setActiveQr({ value: 'b2c3d4e5-f6a7-8901-bcde-f12345678901', label: '내일 더 새롭게' })}>
+                내일 더 새롭게
+              </button>
+              <button className={styles.qrBtn} onClick={() => setActiveQr({ value: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', label: '함께하는 하고잡이' })}>
+                함께하는 하고잡이
+              </button>
             </div>
           </div>
 
@@ -415,6 +414,17 @@ export default function AdminPage() {
             </div>
           </div>
         </>
+      )}
+      {activeQr && (
+        <div className={styles.qrOverlay} onClick={() => setActiveQr(null)}>
+          <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
+            <h3 className={styles.qrModalTitle}>{activeQr.label}</h3>
+            <div className={styles.qrModalCode}>
+              <QRCodeSVG value={activeQr.value} size={240} level="M" />
+            </div>
+            <button className={styles.qrModalClose} onClick={() => setActiveQr(null)}>닫기</button>
+          </div>
+        </div>
       )}
     </div>
   )
