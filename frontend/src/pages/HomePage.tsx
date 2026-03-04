@@ -51,7 +51,7 @@ export default function HomePage() {
           <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
             <p className={styles.cardAmount}>{formatKorean(totalInvested)}원</p>
-            <button className={styles.cardBtn} onClick={() => navigate('/booths?tab=portfolio')}>투자 종목 보기</button>
+            <button className={styles.cardBtn} onClick={() => navigate('/booths?tab=portfolio')}>나의 투자 현황</button>
           </div>
         </div>
         <div className={styles.cardBottom}>
