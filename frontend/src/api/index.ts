@@ -28,10 +28,10 @@ import type {
   MyStockBoothVisitorResponse,
   BoothReviewResponse,
   IdeaBoardResponse,
-  ReportEligibilityResponse,
-  ReportResponse,
-  ShareReportRequest,
-  SharedReportResponse,
+  // ReportEligibilityResponse,
+  // ReportResponse,
+  // ShareReportRequest,
+  // SharedReportResponse,
 } from '../types';
 
 export const authApi = {
@@ -126,18 +126,18 @@ export const ideaBoardApi = {
   },
 };
 
-export const reportApi = {
-  checkEligibility: () =>
-    api.get<ReportEligibilityResponse>('/report/eligibility'),
-  getReport: () =>
-    api.get<ReportResponse>('/report'),
-  shareReport: (data: ShareReportRequest) =>
-    api.post('/report/share', data),
-  getShareStatus: () =>
-    api.get<{ shared: boolean }>('/report/share/status'),
-  getSharedReports: () =>
-    api.get<SharedReportResponse[]>('/report/shared'),
-};
+// export const reportApi = {
+//   checkEligibility: () =>
+//     api.get<ReportEligibilityResponse>('/report/eligibility'),
+//   getReport: () =>
+//     api.get<ReportResponse>('/report'),
+//   shareReport: (data: ShareReportRequest) =>
+//     api.post('/report/share', data),
+//   getShareStatus: () =>
+//     api.get<{ shared: boolean }>('/report/share/status'),
+//   getSharedReports: () =>
+//     api.get<SharedReportResponse[]>('/report/shared'),
+// };
 
 export const adminApi = {
   getStatus: () => api.get<{ revealed: boolean }>('/admin/results/status'),
