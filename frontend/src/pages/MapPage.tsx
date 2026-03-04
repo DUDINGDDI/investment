@@ -19,8 +19,6 @@ const LEARNING_1F_HOTSPOTS: Hotspot[] = [
 ]
 
 const LEARNING_2F_HOTSPOTS: Hotspot[] = [
-  { zoneId: '204', left: 21, top: 14, width: 16, height: 18 },
-  { zoneId: '203', left: 21, top: 32, width: 16, height: 18 },
   { zoneId: '202', left: 21, top: 51, width: 16, height: 18 },
   { zoneId: '201', left: 53, top: 14, width: 26, height: 42 },
 ]
@@ -29,6 +27,8 @@ const LEARNING_3F_HOTSPOTS: Hotspot[] = [
   { zoneId: '301', left: 21, top: 14, width: 25, height: 51 },
   { zoneId: '302', left: 54, top: 14, width: 25, height: 51 },
 ]
+
+const LEADERSHIP_LLF_HOTSPOTS: Hotspot[] = []
 
 /** zoneCode → 지도 이미지 + 핫스팟 매핑 */
 const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
@@ -39,26 +39,24 @@ const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
   '102': { image: '/image/map/learning_1f.png', hotspots: LEARNING_1F_HOTSPOTS },
   '201': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
   '202': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
-  '203': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
-  '204': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
   '301': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
   '302': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
+  'leadership_llf': { image: '/image/map/leadership_llf.png', hotspots: LEADERSHIP_LLF_HOTSPOTS },
 }
 
 /** 부스 미매핑 구역 — 정적 상세 설명 */
 const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = {
   '201': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
-  '202': { name: '가챠 존', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
-  '203': { name: '가챠 존', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
-  '204': { name: '가챠 존', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
+  '202': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
   '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
   '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
 }
 
-const DEFAULT_MAP_IMAGE = '/image/map/leadership_b1f.png'
+const DEFAULT_MAP_IMAGE = '/image/map/leadership_llf.png'
 
 /** 건물 선택 시 기본 구역 */
 const FLOOR_DEFAULT_ZONE: Record<string, string> = {
+  'Leadership Center': 'leadership_llf',
   'Innovation Center': '손복남홀',
   'Learning Center': '101',
 }
@@ -96,7 +94,8 @@ export default function MapPage() {
   // 유니크 건물 목록 (floor 기준, displayOrder 순)
   const floors = useMemo(() => {
     const seen = new Set<string>()
-    const result: string[] = []
+    const result: string[] = ['Leadership Center']
+    seen.add('Leadership Center')
     zones.forEach(z => {
       const f = getFloor(z)
       if (f && !seen.has(f)) {
