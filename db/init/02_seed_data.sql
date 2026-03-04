@@ -16,14 +16,14 @@ INSERT INTO zones (zone_code, name, floor_info, floor, display_order) VALUES
 ('손복남홀', '손복남홀', 'INNOVATION CENTER LL층', 'Innovation Center', 1),
 ('L01', 'L01', 'INNOVATION CENTER LL층', 'Innovation Center', 2),
 ('L02', 'L02', 'INNOVATION CENTER LL층', 'Innovation Center', 3),
-('101', '101호', 'LEADERSHIP CENTER 1층', 'Learning Center', 4),
-('102', '102호', 'LEADERSHIP CENTER 1층', 'Learning Center', 5),
-('201', '201호', 'LEADERSHIP CENTER 2층', 'Learning Center', 6),
-('202', '202호', 'LEADERSHIP CENTER 2층', 'Learning Center', 7),
-('203', '203호', 'LEADERSHIP CENTER 2층', 'Learning Center', 8),
-('204', '204호', 'LEADERSHIP CENTER 2층', 'Learning Center', 9),
-('301', '301호', 'LEADERSHIP CENTER 3층', 'Learning Center', 10),
-('302', '302호', 'LEADERSHIP CENTER 3층', 'Learning Center', 11);
+('101', '101호', 'LEARNING CENTER 1층', 'Learning Center', 4),
+('102', '102호', 'LEARNING CENTER 1층', 'Learning Center', 5),
+('201', '201호', 'LEARNING CENTER 2층', 'Learning Center', 6),
+('202', '202호', 'LEARNING CENTER 2층', 'Learning Center', 7),
+('203', '203호', 'LEARNING CENTER 2층', 'Learning Center', 8),
+('204', '204호', 'LEARNING CENTER 2층', 'Learning Center', 9),
+('301', '301호', 'LEARNING CENTER 3층', 'Learning Center', 10),
+('302', '302호', 'LEARNING CENTER 3층', 'Learning Center', 11);
 
 -- ──────────────────────────────────────────────
 -- users (8명)

@@ -50,6 +50,14 @@ public class MissionController {
         return ResponseEntity.ok(missionService.completeTogetherMission(userId, body.getBoothUuid()));
     }
 
+    @PostMapping("/renew")
+    public ResponseEntity<UserMissionResponse> completeRenewMission(
+            HttpServletRequest request,
+            @Valid @RequestBody VisitRequest body) {
+        Long userId = (Long) request.getAttribute("userId");
+        return ResponseEntity.ok(missionService.completeRenewMission(userId, body.getBoothUuid()));
+    }
+
     @GetMapping("/ranking")
     public ResponseEntity<Map<String, Object>> getMissionRanking(
             @RequestParam String missionId,

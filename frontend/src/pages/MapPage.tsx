@@ -19,6 +19,8 @@ const LEARNING_1F_HOTSPOTS: Hotspot[] = [
 ]
 
 const LEARNING_2F_HOTSPOTS: Hotspot[] = [
+  { zoneId: '204', left: 21, top: 14, width: 16, height: 18 },
+  { zoneId: '203', left: 21, top: 32, width: 16, height: 18 },
   { zoneId: '202', left: 21, top: 51, width: 16, height: 18 },
   { zoneId: '201', left: 53, top: 14, width: 26, height: 42 },
 ]
@@ -39,6 +41,8 @@ const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
   '102': { image: '/image/map/learning_1f.png', hotspots: LEARNING_1F_HOTSPOTS },
   '201': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
   '202': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
+  '203': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
+  '204': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
   '301': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
   '302': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
   'leadership_llf': { image: '/image/map/leadership_llf.png', hotspots: LEADERSHIP_LLF_HOTSPOTS },
@@ -46,8 +50,10 @@ const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
 
 /** 부스 미매핑 구역 — 정적 상세 설명 */
 const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = {
-  '201': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
-  '202': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
+  // '201': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
+  '202': { name: '교환소', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
+  '203': { name: '교환소', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
+  '204': { name: '교환소', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
   '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
   '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
 }
@@ -64,17 +70,30 @@ const FLOOR_DEFAULT_ZONE: Record<string, string> = {
 /** 층(floorInfo) 선택 시 기본 구역 */
 const SUB_FLOOR_DEFAULT_ZONE: Record<string, string> = {
   'INNOVATION CENTER LL': '손복남홀',
-  'LEADERSHIP CENTER 1층': '101',
-  'LEADERSHIP CENTER 2층': '201',
-  'LEADERSHIP CENTER 3층': '301',
+  'LEARNING CENTER 1층': '101',
+  'LEARNING CENTER 2층': '201',
+  'LEARNING CENTER 3층': '301',
+}
+
+/** zoneCode → floorInfo 정적 폴백 (API에 zone이 없을 때 사용) */
+const ZONE_FLOOR_INFO: Record<string, string> = {
+  '손복남홀': 'INNOVATION CENTER LL',
+  'L01': 'INNOVATION CENTER LL',
+  'L02': 'INNOVATION CENTER LL',
+  '101': 'LEARNING CENTER 1층',
+  '102': 'LEARNING CENTER 1층',
+  '201': 'LEARNING CENTER 2층',
+  '202': 'LEARNING CENTER 2층',
+  '301': 'LEARNING CENTER 3층',
+  '302': 'LEARNING CENTER 3층',
 }
 
 const PAGE_SIZE = 10
 
 export default function MapPage() {
   const [zones, setZones] = useState<ZoneResponse[]>([])
-  const [selectedFloor, setSelectedFloor] = useState<string>('Innovation Center')
-  const [filterZoneCode, setFilterZoneCode] = useState<string>('손복남홀')
+  const [selectedFloor, setSelectedFloor] = useState<string>('Leadership Center')
+  const [filterZoneCode, setFilterZoneCode] = useState<string>('leadership_llf')
   const [page, setPage] = useState(1)
   const navigate = useNavigate()
   const listRef = useRef<HTMLDivElement>(null)
@@ -83,7 +102,7 @@ export default function MapPage() {
   const getFloor = (zone: ZoneResponse): string => {
     if (zone.floor) return zone.floor
     if (zone.floorInfo?.includes('INNOVATION')) return 'Innovation Center'
-    if (zone.floorInfo?.includes('LEADERSHIP')) return 'Learning Center'
+    if (zone.floorInfo?.includes('LEARNING')) return 'Learning Center'
     return ''
   }
 
@@ -124,7 +143,7 @@ export default function MapPage() {
 
   // 현재 선택된 구역의 floorInfo
   const currentZone = zones.find(z => z.zoneCode === filterZoneCode)
-  const currentFloorInfo = currentZone?.floorInfo || ''
+  const currentFloorInfo = currentZone?.floorInfo || ZONE_FLOOR_INFO[filterZoneCode] || ''
 
   // 현재 필터에 따른 지도 이미지 및 핫스팟
   const currentMap = useMemo(() => {
@@ -164,9 +183,15 @@ export default function MapPage() {
   }
 
   const handleSubFloorChange = (floorInfo: string) => {
+    // 정적 매핑 먼저 시도, 실패 시 API 데이터에서 동적 탐색
     const defaultZone = SUB_FLOOR_DEFAULT_ZONE[floorInfo]
     if (defaultZone) {
       setFilterZoneCode(defaultZone)
+    } else {
+      const zone = zones.find((z: ZoneResponse) => z.floorInfo === floorInfo)
+      if (zone) {
+        setFilterZoneCode(zone.zoneCode)
+      }
     }
     setPage(1)
   }

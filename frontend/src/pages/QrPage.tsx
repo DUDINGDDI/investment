@@ -8,6 +8,7 @@ import styles from './QrPage.module.css'
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const TOGETHER_SPACE_UUID = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890'
+const RENEW_SPACE_UUID = 'b2c3d4e5-f6a7-8901-bcde-f12345678901'
 
 export default function QrPage() {
   const navigate = useNavigate()
@@ -16,6 +17,7 @@ export default function QrPage() {
   const [isScanning, setIsScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showTogetherSuccess, setShowTogetherSuccess] = useState(false)
+  const [showRenewSuccess, setShowRenewSuccess] = useState(false)
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const isProcessingRef = useRef(false)
 
@@ -55,6 +57,7 @@ export default function QrPage() {
   }, [])
 
   const handleScan = async (scannedUuid: string) => {
+    console.log('QR 스캔 결과:', scannedUuid)
     try {
       if (scannerRef.current?.isScanning) {
         await scannerRef.current.stop()
@@ -72,8 +75,16 @@ export default function QrPage() {
       if (scannedUuid.toLowerCase() === TOGETHER_SPACE_UUID.toLowerCase()) {
         await missionApi.completeTogether(scannedUuid)
         await syncFromServer()
-        window.dispatchEvent(new Event('balance-changed'))
         setShowTogetherSuccess(true)
+        return
+      }
+
+      // 내일 더 새롭게 QR: renew 미션 완료 + 투자금 지급
+      if (scannedUuid.toLowerCase() === RENEW_SPACE_UUID.toLowerCase()) {
+        await missionApi.completeRenew(scannedUuid)
+        await syncFromServer()
+        window.dispatchEvent(new Event('balance-changed'))
+        setShowRenewSuccess(true)
         return
       }
 
@@ -132,16 +143,38 @@ export default function QrPage() {
       {showTogetherSuccess && (
         <div className={styles.overlay} onClick={() => { setShowTogetherSuccess(false); navigate('/stocks') }}>
           <div className={styles.successModal} onClick={e => e.stopPropagation()}>
+            <img src="/image/badge/together.svg" alt="함께하는 하고잡이 배지" className={styles.badgeImage} />
             <h3 className={styles.successTitle}>미션 완료!</h3>
+            <p className={styles.successMissionName}>(+) 함께하는 하고잡이</p>
             <p className={styles.successDesc}>
-              '함께하는 하고잡이' 미션을 완료했습니다
+              지구본 콘텐츠 방문 미션을 완료했습니다
+            </p>
+            <button
+              className={styles.successButton}
+              onClick={() => { setShowTogetherSuccess(false); navigate('/stocks') }}
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* renew 미션 성공 모달 */}
+      {showRenewSuccess && (
+        <div className={styles.overlay} onClick={() => { setShowRenewSuccess(false); navigate('/stocks') }}>
+          <div className={styles.successModal} onClick={e => e.stopPropagation()}>
+            <img src="/image/badge/new.svg" alt="내일 더 새롭게 배지" className={styles.badgeImage} />
+            <h3 className={styles.successTitle}>미션 완료!</h3>
+            <p className={styles.successMissionName}>내일 더 새롭게</p>
+            <p className={styles.successDesc}>
+              특별 QR 코드 스캔 미션을 완료했습니다
             </p>
             <p className={styles.rewardText}>
               투자금 +1억원이 추가 지급되었습니다!
             </p>
             <button
               className={styles.successButton}
-              onClick={() => { setShowTogetherSuccess(false); navigate('/stocks') }}
+              onClick={() => { setShowRenewSuccess(false); navigate('/stocks') }}
             >
               확인
             </button>

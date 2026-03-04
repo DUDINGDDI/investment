@@ -59,9 +59,9 @@ public class StockCommentService {
         StockComment comment = new StockComment(user, stockBooth, content);
         stockCommentRepository.save(comment);
 
-        // renew 미션: 댓글 총 수를 progress로 반영
+        // dream 미션: 댓글 총 수를 progress로 반영
         long commentCount = stockCommentRepository.countByUserId(userId);
-        missionService.checkAndUpdateMission(userId, "renew", (int) commentCount);
+        missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
 
         return StockCommentResponse.builder()
                 .id(comment.getId())
