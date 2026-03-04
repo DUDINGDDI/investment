@@ -93,6 +93,14 @@ chmod +x ./gradlew
 echo "백엔드 빌드 완료"
 
 echo "=========================================="
+echo " 7-2단계: Idea Board 서비스 빌드"
+echo "=========================================="
+cd ${APP_DIR}/idea-board
+chmod +x ./gradlew
+./gradlew build -x test
+echo "Idea Board 빌드 완료"
+
+echo "=========================================="
 echo " 8단계: 프론트엔드 빌드"
 echo "=========================================="
 cd ${APP_DIR}/frontend
@@ -119,6 +127,23 @@ server {
     # 프론트엔드 (React SPA)
     root /var/www/investment;
     index index.html;
+
+    # Idea Board API → idea-board 서비스로 프록시
+    location /api/idea-board/ {
+        proxy_pass http://127.0.0.1:8081;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+
+        # SSE 지원
+        proxy_set_header Connection '';
+        proxy_http_version 1.1;
+        chunked_transfer_encoding off;
+        proxy_buffering off;
+        proxy_cache off;
+        proxy_read_timeout 600s;
+    }
 
     # API 요청 → Spring Boot로 프록시
     location /api/ {
@@ -173,6 +198,29 @@ sudo systemctl daemon-reload
 sudo systemctl start investment
 sudo systemctl enable investment
 echo "백엔드 서비스 시작 완료"
+
+# Idea Board 서비스
+sudo tee /etc/systemd/system/idea-board.service > /dev/null <<SERVICE2
+[Unit]
+Description=Idea Board Service
+After=network.target docker.service investment.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=${APP_DIR}/idea-board
+ExecStart=/usr/bin/java -Xms128m -Xmx256m -Xss256k -XX:MaxMetaspaceSize=96m -XX:+UseG1GC -jar ${APP_DIR}/idea-board/build/libs/idea-board-0.0.1-SNAPSHOT.jar
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+SERVICE2
+
+sudo systemctl daemon-reload
+sudo systemctl start idea-board
+sudo systemctl enable idea-board
+echo "Idea Board 서비스 시작 완료"
 
 echo "=========================================="
 echo " 11단계: 방화벽 설정"

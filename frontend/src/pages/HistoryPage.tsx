@@ -73,7 +73,7 @@ export default function HistoryPage() {
                 <div
                   key={item.id}
                   className={`${styles.item} stagger-item`}
-                  style={{ animationDelay: `${(gi * 3 + i) * 0.04}s` }}
+                  style={{ animationDelay: `${(gi * 3 + i) * 0.02}s` }}
                 >
                   <div className={styles.info}>
                     <p className={styles.name}>{item.boothName}</p>

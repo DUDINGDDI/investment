@@ -136,6 +136,10 @@ export const noteApi = {
 export const ideaBoardApi = {
   getBoard: (boothId: number) =>
     api.get<IdeaBoardResponse>(`/idea-board/booths/${boothId}`),
+  getStreamUrl: (boothId: number) => {
+    const baseUrl = import.meta.env.VITE_API_URL || '/api';
+    return `${baseUrl}/idea-board/booths/${boothId}/stream`;
+  },
 };
 
 export const reportApi = {

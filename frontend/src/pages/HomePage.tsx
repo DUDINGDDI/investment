@@ -79,7 +79,7 @@ export default function HomePage() {
               <div
                 key={booth.id}
                 className={`${styles.boothItem} stagger-item`}
-                style={{ animationDelay: `${i * 0.04}s` }}
+                style={{ animationDelay: `${i * 0.02}s` }}
                 onClick={() => navigate(`/booths/${booth.id}`)}
               >
                 <div className={styles.boothInfo}>

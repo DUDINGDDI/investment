@@ -25,6 +25,8 @@ const DEFAULT_MISSIONS: Mission[] = [
     title: '내일 더 새롭게',
     description: '특별 QR 코드를 스캔하세요',
     isCompleted: false,
+    progress: 0,
+    target: 5,
     icon: '/image/badge/new.svg',
   },
   {

@@ -66,7 +66,7 @@ export default function BoothListPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to="/home" label="PM 투자" />
+      <PageBackButton to="/home" label="대표작 투자" />
 
       {activeTab === 'all' ? (
         <>
@@ -80,7 +80,7 @@ export default function BoothListPage() {
                 <div
                   key={booth.id}
                   className={`${styles.item} stagger-item`}
-                  style={{ animationDelay: `${i * 0.04}s` }}
+                  style={{ animationDelay: `${i * 0.02}s` }}
                   onClick={() => navigate(`/booths/${booth.id}`)}
                 >
                   <div className={styles.info}>
@@ -203,7 +203,7 @@ export default function BoothListPage() {
                   <div
                     key={h.boothId}
                     className={`${styles.holdingItem} stagger-item`}
-                    style={{ animationDelay: `${i * 0.04}s` }}
+                    style={{ animationDelay: `${i * 0.02}s` }}
                     onClick={() => navigate(`/booths/${h.boothId}`)}
                   >
                     <div className={styles.holdingInfo}>

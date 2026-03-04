@@ -53,7 +53,7 @@ export function PmInvestmentGate() {
         </svg>
       </div>
       <h2 style={titleStyle}>Coming Soon</h2>
-      <p style={descStyle}>PM 투자가 곧 시작됩니다</p>
+      <p style={descStyle}>대표작 투자가 곧 시작됩니다</p>
       <p style={subStyle}>관리자가 투자를 활성화하면<br />이곳에서 투자할 수 있어요</p>
     </div>
   )

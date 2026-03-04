@@ -1,4 +1,4 @@
-package com.pm.investment.dto;
+package com.pm.ideaboard.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,11 +10,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class IdeaBoardResponse {
-
     private Long boothId;
     private String boothName;
     private String logoEmoji;
     private String themeColor;
     private String category;
-    private List<StockCommentResponse> comments;
+    private List<CommentResponse> comments;
 }

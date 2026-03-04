@@ -87,7 +87,7 @@ export default function StockBoothListPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to="/stocks" label="AM 투자" />
+      <PageBackButton to="/stocks" label="오전투자" />
 
       {/* 탭 */}
       <div className={styles.tabsChip}>
@@ -147,7 +147,7 @@ export default function StockBoothListPage() {
                 <div
                   key={booth.id}
                   className={`${styles.item} stagger-item`}
-                  style={{ animationDelay: `${i * 0.04}s` }}
+                  style={{ animationDelay: `${i * 0.02}s` }}
                   onClick={() => navigate(`/stocks/booths/${booth.id}`)}
                 >
                   <div className={styles.info}>
@@ -270,7 +270,7 @@ export default function StockBoothListPage() {
                   <div
                     key={h.boothId}
                     className={`${styles.holdingItem} stagger-item`}
-                    style={{ animationDelay: `${i * 0.04}s` }}
+                    style={{ animationDelay: `${i * 0.02}s` }}
                     onClick={() => navigate(`/stocks/booths/${h.boothId}`)}
                   >
                     <div className={styles.holdingInfo}>

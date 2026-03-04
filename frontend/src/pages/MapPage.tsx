@@ -90,6 +90,9 @@ const ZONE_FLOOR_INFO: Record<string, string> = {
 
 const PAGE_SIZE = 10
 
+/** 모듈 레벨 zone 캐시 — 지도 데이터는 세션 중 변경되지 않음 */
+let zoneCache: ZoneResponse[] | null = null
+
 export default function MapPage() {
   const [zones, setZones] = useState<ZoneResponse[]>([])
   const [selectedFloor, setSelectedFloor] = useState<string>('Leadership Center')
@@ -107,7 +110,11 @@ export default function MapPage() {
   }
 
   useEffect(() => {
-    zoneApi.getAll().then(res => setZones(res.data))
+    if (zoneCache) return
+    zoneApi.getAll().then(res => {
+      zoneCache = res.data
+      setZones(res.data)
+    })
   }, [])
 
   // 유니크 건물 목록 (floor 기준, displayOrder 순)
@@ -290,7 +297,7 @@ export default function MapPage() {
                   <div
                     key={booth.id}
                     className={`${styles.boothCard} stagger-item`}
-                    style={{ animationDelay: `${i * 0.04}s` }}
+                    style={{ animationDelay: `${i * 0.02}s` }}
                     onClick={() => navigate(`/stocks/booths/${booth.id}`)}
                   >
                     <div className={styles.boothBody}>
