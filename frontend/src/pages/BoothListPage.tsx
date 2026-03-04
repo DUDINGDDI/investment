@@ -209,7 +209,7 @@ export default function BoothListPage() {
                     key={h.boothId}
                     className={`${styles.holdingItem} stagger-item`}
                     style={{ animationDelay: `${i * 0.02}s` }}
-                    onClick={() => navigate(`/booths/${h.boothId}`)}
+                    onClick={() => navigate(`/booths/${h.boothId}`, { state: { from: 'portfolio' } })}
                   >
                     <div className={styles.holdingInfo}>
                       <p className={styles.holdingName}>{h.boothName}</p>

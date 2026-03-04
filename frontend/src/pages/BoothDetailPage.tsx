@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { boothApi, investmentApi, userApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { BoothResponse, StockRatingResponse, BoothReviewResponse } from '../types'
@@ -35,6 +35,8 @@ function formatCommentTime(dateStr: string) {
 
 export default function BoothDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const location = useLocation()
+  const fromPortfolio = (location.state as { from?: string })?.from === 'portfolio'
   const { showToast } = useToast()
   const [booth, setBooth] = useState<BoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
@@ -204,7 +206,7 @@ export default function BoothDetailPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to="/booths" label="부스 목록" style={{ paddingLeft: 20 }} />
+      <PageBackButton to={fromPortfolio ? '/booths?tab=portfolio' : '/booths'} label={fromPortfolio ? '나의 투자정보' : '부스 목록'} style={{ paddingLeft: 20 }} />
 
       {/* 종목 헤더 */}
       <div className={styles.header}>
