@@ -53,7 +53,7 @@ public class MissionService {
     /** 원본 미션 완료 시 자동으로 완료할 포토 티켓 매핑 */
     private static final Map<String, List<String>> PHOTO_TICKET_MAP = Map.of(
             "renew", List.of("photo_0", "photo_1"),
-            "again", List.of("photo_2", "photo_3"),
+            "dream", List.of("photo_2", "photo_3"),
             "sincere", List.of("photo_4", "photo_5")
     );
 
