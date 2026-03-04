@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { QRCodeSVG } from 'qrcode.react'
 import { adminApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { RankingResponse, AdminBoothRatingResponse } from '../types'
@@ -292,6 +293,21 @@ export default function AdminPage() {
             >
               이용권 스캔
             </button>
+          </div>
+
+          <div className={styles.controlCard}>
+            <p className={styles.statusLabel}>미션 QR 코드</p>
+            <p className={styles.statusDesc}>현장에 부착할 미션 QR 코드입니다. 참가자가 스캔하면 미션이 완료됩니다.</p>
+            <div className={styles.qrGrid}>
+              <div className={styles.qrItem}>
+                <QRCodeSVG value="b2c3d4e5-f6a7-8901-bcde-f12345678901" size={160} />
+                <p className={styles.qrLabel}>내일 더 새롭게</p>
+              </div>
+              <div className={styles.qrItem}>
+                <QRCodeSVG value="a1b2c3d4-e5f6-7890-abcd-ef1234567890" size={160} />
+                <p className={styles.qrLabel}>함께하는 하고잡이</p>
+              </div>
+            </div>
           </div>
 
           <div className={styles.controlCard}>
