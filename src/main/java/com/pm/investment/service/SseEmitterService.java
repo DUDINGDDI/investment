@@ -55,6 +55,20 @@ public class SseEmitterService {
         emitters.removeAll(deadEmitters);
     }
 
+    public void broadcastMissionComplete(String missionId) {
+        List<SseEmitter> deadEmitters = new ArrayList<>();
+        for (SseEmitter emitter : emitters) {
+            try {
+                emitter.send(SseEmitter.event()
+                        .name("mission-complete")
+                        .data(Map.of("missionId", missionId)));
+            } catch (IOException e) {
+                deadEmitters.add(emitter);
+            }
+        }
+        emitters.removeAll(deadEmitters);
+    }
+
     public void broadcastClear() {
         List<SseEmitter> deadEmitters = new ArrayList<>();
         for (SseEmitter emitter : emitters) {

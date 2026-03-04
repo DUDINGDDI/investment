@@ -110,7 +110,7 @@ export default function StockHomePage() {
   const [totalHolding, setTotalHolding] = useState(0)
 
   // Mission 관련 state
-  const { missions } = useMissions()
+  const { missions, syncFromServer } = useMissions()
   const [showRanking, setShowRanking] = useState(false)
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
@@ -133,6 +133,24 @@ export default function StockHomePage() {
     resultApi.getDreamStatus().then(res => setDreamEnabled(res.data.enabled)).catch(() => {})
     resultApi.getStockRankingStatus().then(res => setStockRankingEnabled(res.data.enabled)).catch(() => {})
   }, [])
+
+  // SSE mission-complete 이벤트 수신 → 미션 갱신 + 완료 효과
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { missionId } = (e as CustomEvent).detail
+      syncFromServer().then(() => {
+        const m = missions.find(mi => mi.id === missionId)
+        if (m) {
+          setSelectedMission(m)
+          setShowSuccess(true)
+          setShowConfetti(true)
+          setTimeout(() => setShowConfetti(false), 3000)
+        }
+      })
+    }
+    window.addEventListener('mission-complete', handler)
+    return () => window.removeEventListener('mission-complete', handler)
+  }, [syncFromServer, missions])
 
   useEffect(() => {
     const handler = () => {

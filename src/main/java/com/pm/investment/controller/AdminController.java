@@ -146,4 +146,12 @@ public class AdminController {
         UserMissionResponse response = missionService.useTicket(request.getUserId(), request.getMissionId());
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/missions/complete-all")
+    public ResponseEntity<Map<String, Object>> completeMissionForAll(@RequestBody Map<String, String> body) {
+        String missionId = body.get("missionId");
+        int count = missionService.completeForAll(missionId);
+        sseEmitterService.broadcastMissionComplete(missionId);
+        return ResponseEntity.ok(Map.of("missionId", missionId, "completedCount", count));
+    }
 }

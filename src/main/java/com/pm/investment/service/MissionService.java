@@ -315,4 +315,33 @@ public class MissionService {
         result.put("myRanking", myRanking);
         return result;
     }
+
+    /**
+     * 전체 유저에게 특정 미션 일괄 완료 처리
+     */
+    @Transactional
+    public int completeForAll(String missionId) {
+        if (!MISSION_TARGETS.containsKey(missionId)) {
+            throw new IllegalArgumentException("존재하지 않는 미션입니다: " + missionId);
+        }
+
+        List<User> allUsers = userRepository.findAll();
+        int count = 0;
+        for (User user : allUsers) {
+            UserMission um = userMissionRepository.findByUser_IdAndMissionId(user.getId(), missionId)
+                    .orElseGet(() -> {
+                        UserMission newUm = new UserMission(user, missionId, MISSION_TARGETS.get(missionId));
+                        return userMissionRepository.save(newUm);
+                    });
+            if (!um.getIsCompleted()) {
+                um.setProgress(um.getTarget());
+                um.setIsCompleted(true);
+                um.setCompletedAt(LocalDateTime.now());
+                userMissionRepository.save(um);
+                autoCompletePhotoTickets(user, missionId);
+                count++;
+            }
+        }
+        return count;
+    }
 }

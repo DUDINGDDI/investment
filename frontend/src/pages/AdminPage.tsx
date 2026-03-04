@@ -34,23 +34,18 @@ export default function AdminPage() {
   const [annMessage, setAnnMessage] = useState('')
   const [annCurrent, setAnnCurrent] = useState('')
   const [annSaving, setAnnSaving] = useState(false)
-  const [missionResultRevealed, setMissionResultRevealed] = useState(false)
-  const [missionToggling, setMissionToggling] = useState(false)
-  const [dreamEnabled, setDreamEnabled] = useState(false)
-  const [dreamToggling, setDreamToggling] = useState(false)
   const [stockRankingEnabled, setStockRankingEnabled] = useState(true)
   const [stockRankingToggling, setStockRankingToggling] = useState(false)
   const [boothRatings, setBoothRatings] = useState<AdminBoothRatingResponse[]>([])
   const [ratingSortKey, setRatingSortKey] = useState<RatingSortKey>('avgTotal')
+  const [resultMissionLoading, setResultMissionLoading] = useState(false)
 
   const loadData = async () => {
     try {
-      const [statusRes, stockRes, investRes, missionRes, dreamRes, stockRankingRes, rankRes, annRes, ratingsRes] = await Promise.all([
+      const [statusRes, stockRes, investRes, stockRankingRes, rankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
         adminApi.getStockStatus(),
         adminApi.getInvestmentStatus(),
-        adminApi.getMissionResultStatus(),
-        adminApi.getDreamStatus(),
         adminApi.getStockRankingStatus(),
         adminApi.getRanking(),
         adminApi.getAnnouncement(),
@@ -59,8 +54,6 @@ export default function AdminPage() {
       setRevealed(statusRes.data.revealed)
       setStockEnabled(stockRes.data.enabled)
       setInvestmentEnabled(investRes.data.enabled)
-      setMissionResultRevealed(missionRes.data.revealed)
-      setDreamEnabled(dreamRes.data.enabled)
       setStockRankingEnabled(stockRankingRes.data.enabled)
       setRanking(rankRes.data)
       setAnnCurrent(annRes.data.message)
@@ -120,68 +113,6 @@ export default function AdminPage() {
 
       {tab === 'settings' && (
         <>
-          <div className={styles.controlCard}>
-            <div className={styles.statusRow}>
-              <span className={styles.statusLabel}>미션 공개 상태</span>
-              <span className={`${styles.statusBadge} ${missionResultRevealed ? styles.statusOn : styles.statusOff}`}>
-                {missionResultRevealed ? '공개 중' : '비공개'}
-              </span>
-            </div>
-            <p className={styles.statusDesc}>
-              {missionResultRevealed
-                ? '현재 "반드시 결과로" 미션의 내용이 참가자에게 공개되어 있습니다.'
-                : '"반드시 결과로" 미션의 내용이 숨겨져 있습니다. 참가자는 미션 내용을 알 수 없습니다.'}
-            </p>
-            <button
-              className={`${styles.toggleBtn} ${missionResultRevealed ? styles.hideBtn : styles.revealBtn}`}
-              onClick={async () => {
-                const action = missionResultRevealed ? '미션 내용을 숨기시겠습니까?' : '미션 내용을 공개하시겠습니까?'
-                if (!confirm(action)) return
-                setMissionToggling(true)
-                try {
-                  const res = await adminApi.toggleMissionResult()
-                  setMissionResultRevealed(res.data.revealed)
-                } finally {
-                  setMissionToggling(false)
-                }
-              }}
-              disabled={missionToggling}
-            >
-              {missionToggling ? '처리 중...' : missionResultRevealed ? '미션 내용 숨기기' : '미션 내용 공개하기'}
-            </button>
-          </div>
-
-          <div className={styles.controlCard}>
-            <div className={styles.statusRow}>
-              <span className={styles.statusLabel}>꿈을 원대하게 미션</span>
-              <span className={`${styles.statusBadge} ${dreamEnabled ? styles.statusOn : styles.statusOff}`}>
-                {dreamEnabled ? '활성' : '비활성'}
-              </span>
-            </div>
-            <p className={styles.statusDesc}>
-              {dreamEnabled
-                ? '현재 "꿈을 원대하게" 미션이 활성화되어 있습니다. 참가자가 미션 내용을 볼 수 있고 완료할 수 있습니다.'
-                : '"꿈을 원대하게" 미션이 비활성화 상태입니다. 미션 내용이 숨겨지고 완료할 수 없습니다.'}
-            </p>
-            <button
-              className={`${styles.toggleBtn} ${dreamEnabled ? styles.hideBtn : styles.revealBtn}`}
-              onClick={async () => {
-                const action = dreamEnabled ? '"꿈을 원대하게" 미션을 비활성화하시겠습니까?' : '"꿈을 원대하게" 미션을 활성화하시겠습니까?'
-                if (!confirm(action)) return
-                setDreamToggling(true)
-                try {
-                  const res = await adminApi.toggleDream()
-                  setDreamEnabled(res.data.enabled)
-                } finally {
-                  setDreamToggling(false)
-                }
-              }}
-              disabled={dreamToggling}
-            >
-              {dreamToggling ? '처리 중...' : dreamEnabled ? '미션 비활성화' : '미션 활성화'}
-            </button>
-          </div>
-
           <div className={styles.controlCard}>
             <div className={styles.statusRow}>
               <span className={styles.statusLabel}>오전투자 랭킹</span>
@@ -360,6 +291,31 @@ export default function AdminPage() {
               onClick={() => navigate('/admin/ticket-scan')}
             >
               이용권 스캔
+            </button>
+          </div>
+
+          <div className={styles.controlCard}>
+            <p className={styles.statusLabel}>"반드시 결과로" 미션 일괄 완료</p>
+            <p className={styles.statusDesc}>
+              전체 참가자의 "반드시 결과로" 미션을 일괄 완료 처리합니다. 참가자 화면에 실시간으로 완료 효과가 표시됩니다.
+            </p>
+            <button
+              className={`${styles.toggleBtn} ${styles.revealBtn}`}
+              disabled={resultMissionLoading}
+              onClick={async () => {
+                if (!confirm('전체 참가자의 "반드시 결과로" 미션을 완료 처리하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return
+                setResultMissionLoading(true)
+                try {
+                  const res = await adminApi.completeMissionForAll('result')
+                  alert(`${res.data.completedCount}명의 미션이 완료 처리되었습니다.`)
+                } catch {
+                  alert('처리 중 오류가 발생했습니다.')
+                } finally {
+                  setResultMissionLoading(false)
+                }
+              }}
+            >
+              {resultMissionLoading ? '처리 중...' : '전체 미션 완료 처리'}
             </button>
           </div>
         </>

@@ -92,6 +92,15 @@ export default function AnnouncementBanner() {
       setPopupOpen(false)
     })
 
+    es.addEventListener('mission-complete', (e: MessageEvent) => {
+      try {
+        const data = JSON.parse(e.data)
+        window.dispatchEvent(new CustomEvent('mission-complete', { detail: data }))
+      } catch {
+        // 파싱 실패 시 무시
+      }
+    })
+
     return () => {
       es.close()
       eventSourceRef.current = null
