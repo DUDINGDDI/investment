@@ -30,14 +30,19 @@ export default function StockPortfolioPage() {
   const totalAsset = balance + totalHolding
   const holdingPct = totalAsset > 0 ? Math.round((totalHolding / totalAsset) * 100) : 0
 
-  // 도넛 차트 데이터
-  const donutSegments = holdings
+  // 도넛 차트 데이터 (총 자산 대비 비율)
+  const investedSegments = holdings
     .filter(h => h.amount > 0)
     .map((h, i) => ({
       ...h,
       color: COLORS[i % COLORS.length],
-      pct: totalHolding > 0 ? (h.amount / totalHolding) * 100 : 0,
+      pct: totalAsset > 0 ? (h.amount / totalAsset) * 100 : 0,
     }))
+  const balancePct = totalAsset > 0 ? (balance / totalAsset) * 100 : 100
+  const donutSegments = [
+    ...investedSegments,
+    { boothId: -1, color: 'var(--border-color)', pct: balancePct },
+  ]
 
   // SVG 도넛 차트 계산
   const radius = 70

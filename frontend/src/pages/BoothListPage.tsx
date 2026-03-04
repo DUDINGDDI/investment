@@ -48,14 +48,19 @@ export default function BoothListPage() {
   const totalAsset = balance + totalHolding
   const holdingPct = totalAsset > 0 ? Math.round((totalHolding / totalAsset) * 100) : 0
 
-  const donutSegments = [...holdings]
+  const investedSegments = [...holdings]
     .filter(h => h.amount > 0)
     .sort((a, b) => b.amount - a.amount)
     .map((h, i) => ({
       ...h,
       color: COLORS[i % COLORS.length],
-      pct: totalHolding > 0 ? (h.amount / totalHolding) * 100 : 0,
+      pct: totalAsset > 0 ? (h.amount / totalAsset) * 100 : 0,
     }))
+  const balancePct = totalAsset > 0 ? (balance / totalAsset) * 100 : 100
+  const donutSegments = [
+    ...investedSegments,
+    { boothId: -1, color: 'var(--border-color)', pct: balancePct },
+  ]
 
   const radius = 70
   const circumference = 2 * Math.PI * radius
