@@ -6,6 +6,7 @@ import type { StockBoothResponse, StockCommentResponse, StockRatingResponse, Boo
 import StockTradeModal from '../components/StockTradeModal'
 import PageBackButton from '../components/PageBackButton'
 import { useToast } from '../components/ToastContext'
+import { useMissions } from '../components/MissionContext'
 import styles from './StockBoothDetailPage.module.css'
 
 type TabType = 'discussion' | 'review'
@@ -39,6 +40,7 @@ export default function StockBoothDetailPage() {
   const location = useLocation()
   const fromPortfolio = (location.state as { from?: string })?.from === 'portfolio'
   const { showToast } = useToast()
+  const { syncFromServer } = useMissions()
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
   const [modal, setModal] = useState<'buy' | 'sell' | null>(null)
@@ -178,6 +180,7 @@ export default function StockBoothDetailPage() {
       setComments(prev => [res.data, ...prev])
       setCommentInput('')
       showToast('제안이 등록되었습니다!', 'success')
+      syncFromServer()
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '제안 등록에 실패했습니다', 'error')
     } finally {
@@ -198,6 +201,7 @@ export default function StockBoothDetailPage() {
       setEditingId(null)
       setEditContent('')
       showToast('수정되었습니다', 'success')
+      syncFromServer()
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '수정에 실패했습니다', 'error')
     } finally {
@@ -211,6 +215,7 @@ export default function StockBoothDetailPage() {
       await stockApi.deleteComment(Number(id), commentId)
       setComments(prev => prev.filter(c => c.id !== commentId))
       showToast('삭제되었습니다', 'success')
+      syncFromServer()
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '삭제에 실패했습니다', 'error')
     }
@@ -238,6 +243,7 @@ export default function StockBoothDetailPage() {
       setReviewsLoaded(false)
       showToast(myRating ? '평가가 수정되었습니다!' : '평가가 완료되었습니다!', 'success')
       loadData()
+      syncFromServer()
     } catch (err: unknown) {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '평가에 실패했습니다', 'error')
     } finally {
