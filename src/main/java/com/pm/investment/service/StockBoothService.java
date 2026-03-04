@@ -33,6 +33,7 @@ public class StockBoothService {
     private final StockBoothVisitRepository stockBoothVisitRepository;
     private final StockRatingRepository stockRatingRepository;
     private final UserRepository userRepository;
+    private final MissionService missionService;
 
     @Transactional(readOnly = true)
     public List<StockBoothResponse> getAllStockBooths(Long userId) {
@@ -125,6 +126,13 @@ public class StockBoothService {
 
         StockBoothVisit visit = new StockBoothVisit(user, booth);
         stockBoothVisitRepository.save(visit);
+
+        // again 미션: 부스 소유자들의 방문자 수 업데이트
+        long visitorCount = stockBoothVisitRepository.countByStockBoothId(booth.getId());
+        List<User> boothOwners = userRepository.findByBelongingBooth_Name(booth.getName());
+        for (User owner : boothOwners) {
+            missionService.checkAndUpdateMission(owner.getId(), "again", (int) visitorCount);
+        }
 
         return StockBoothVisitResponse.builder()
                 .boothId(booth.getId())
