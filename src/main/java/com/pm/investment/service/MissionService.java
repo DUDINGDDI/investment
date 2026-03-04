@@ -26,6 +26,7 @@ public class MissionService {
     private final StockAccountRepository stockAccountRepository;
     private final SettingService settingService;
     private final com.pm.investment.repository.StockBoothVisitRepository stockBoothVisitRepository;
+    private final com.pm.investment.repository.StockBoothRepository stockBoothRepository;
 
     /** 함께하는 하고잡이 미션 전용 고정 UUID */
     private static final String TOGETHER_SPACE_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
@@ -217,9 +218,24 @@ public class MissionService {
         Map<String, UserMission> missionMap = userMissions.stream()
                 .collect(Collectors.toMap(UserMission::getMissionId, um -> um));
 
+        // "again" 미션: 소속 부스의 실시간 방문자 수 조회
+        int againProgress = getBoothVisitorCount(userId);
+
         return MISSION_TARGETS.entrySet().stream()
                 .map(entry -> {
                     UserMission um = missionMap.get(entry.getKey());
+
+                    // "again" 미션은 실시간 방문자 수로 덮어쓰기
+                    if ("again".equals(entry.getKey())) {
+                        boolean completed = againProgress >= entry.getValue();
+                        return new UserMissionResponse(
+                                entry.getKey(), againProgress, entry.getValue(),
+                                completed, entry.getValue() > 0 ? (double) againProgress / entry.getValue() * 100 : 0.0,
+                                um != null ? um.getIsUsed() : false,
+                                um != null ? um.getUsedAt() : null
+                        );
+                    }
+
                     if (um != null) {
                         return new UserMissionResponse(
                                 um.getMissionId(), um.getProgress(), um.getTarget(),
@@ -233,6 +249,19 @@ public class MissionService {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 유저 소속 부스의 실시간 방문자 수 조회
+     */
+    private int getBoothVisitorCount(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null || user.getBelongingBooth() == null) return 0;
+
+        String boothName = user.getBelongingBooth().getName();
+        return stockBoothRepository.findByName(boothName)
+                .map(sb -> (int) stockBoothVisitRepository.countByStockBoothId(sb.getId()))
+                .orElse(0);
     }
 
     @Transactional
