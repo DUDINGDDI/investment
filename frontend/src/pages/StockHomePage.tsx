@@ -8,11 +8,10 @@ import styles from './HomePage.module.css'
 import badgeStyles from './BadgePage.module.css'
 
 /** 정량 측정 가능한 미션 ID */
-const QUANTITATIVE_IDS = new Set(['renew', 'dream', 'again', 'sincere'])
+const QUANTITATIVE_IDS = new Set(['dream', 'again', 'sincere'])
 
 /** 미션별 수치 단위 */
 const MISSION_UNIT: Record<string, string> = {
-  renew: '회',
   dream: '회',
   again: '명',
   sincere: '회',
@@ -116,7 +115,7 @@ export default function StockHomePage() {
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
-  const [selectedFilter, setSelectedFilter] = useState('renew')
+  const [selectedFilter, setSelectedFilter] = useState('dream')
   const [rankings, setRankings] = useState<MissionRankingItem[]>([])
   const [myRanking, setMyRanking] = useState<MissionRankingItem | null>(null)
   const [rankingLoading, setRankingLoading] = useState(false)
@@ -296,7 +295,7 @@ export default function StockHomePage() {
             <>
             {/* 미션 필터 바 */}
             <div className={badgeStyles.filterBar}>
-              {missions.map((m: Mission) => (
+              {missions.filter((m: Mission) => ['dream', 'again', 'sincere'].includes(m.id)).map((m: Mission) => (
                 <button
                   key={m.id}
                   className={`${badgeStyles.filterChip} ${selectedFilter === m.id ? badgeStyles.filterChipActive : ''}`}

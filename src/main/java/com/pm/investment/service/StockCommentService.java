@@ -60,8 +60,8 @@ public class StockCommentService {
         StockComment comment = new StockComment(user, stockBooth, content);
         stockCommentRepository.save(comment);
 
-        // dream 미션: 댓글 총 수를 progress로 반영
-        long commentCount = stockCommentRepository.countByUserId(userId);
+        // dream 미션: 150자 이상 댓글 수를 progress로 반영
+        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 150);
         missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
 
         StockCommentResponse response = StockCommentResponse.builder()

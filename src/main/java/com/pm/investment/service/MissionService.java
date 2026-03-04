@@ -36,8 +36,8 @@ public class MissionService {
     private final Map<String, Map<Long, Integer>> previousRankSnapshots = new ConcurrentHashMap<>();
 
     private static final Map<String, Integer> MISSION_TARGETS = Map.ofEntries(
-            Map.entry("renew", 5),
-            Map.entry("dream", 1),
+            Map.entry("renew", 1),
+            Map.entry("dream", 5),
             Map.entry("result", 1),
             Map.entry("again", 70),
             Map.entry("sincere", 12),
