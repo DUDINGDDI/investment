@@ -5,14 +5,13 @@ import { ideaBoardApi } from '../api'
 import type { IdeaBoardResponse, StockCommentResponse } from '../types'
 import styles from './IdeaBoardPage.module.css'
 
-/* 포스트잇 6색 */
+/* 포스트잇 5색 */
 const POSTIT_COLORS = [
-  { from: '#E8695A', to: '#D64630', text: '#fff5f3', sub: 'rgba(255,255,255,0.75)' },
-  { from: '#F99B80', to: '#F47655', text: '#fff5f3', sub: 'rgba(255,255,255,0.7)' },
-  { from: '#F7D06B', to: '#F2BA34', text: '#3a2800', sub: 'rgba(0,0,0,0.45)' },
-  { from: '#FB8DB3', to: '#F96390', text: '#fff5f5', sub: 'rgba(255,255,255,0.75)' },
-  { from: '#A8E4E9', to: '#7FD3D9', text: '#0a2e30', sub: 'rgba(0,0,0,0.45)' },
-  { from: '#A5F7DE', to: '#7AF2CA', text: '#0a2e1a', sub: 'rgba(0,0,0,0.45)' },
+  { from: '#3C9DBF', to: '#2E8BAD', text: '#ffffff', sub: 'rgba(255,255,255,0.7)' },
+  { from: '#EBB358', to: '#D9A045', text: '#3a2800', sub: 'rgba(0,0,0,0.45)' },
+  { from: '#DC6868', to: '#C85555', text: '#ffffff', sub: 'rgba(255,255,255,0.75)' },
+  { from: '#A4428C', to: '#8E3578', text: '#ffffff', sub: 'rgba(255,255,255,0.75)' },
+  { from: '#BBCF47', to: '#A8BC35', text: '#2a3000', sub: 'rgba(0,0,0,0.45)' },
 ]
 
 /** 클립 위치 */
