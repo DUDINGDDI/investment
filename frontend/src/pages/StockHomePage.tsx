@@ -223,34 +223,29 @@ export default function StockHomePage() {
       {/* Mission 섹션 */}
       <div className={styles.missionSection}>
         <div className={styles.missionHeader}>
-          {showRanking ? (
-            <>
-              <button className={styles.missionToggleLink} onClick={() => setShowRanking(false)}>
+          <h2 className={styles.missionTitle}>{showRanking ? '하고잡이 미션 랭킹' : '하고잡이 미션'}</h2>
+          <button className={showRanking ? styles.missionToggleLink : styles.rankingLink} onClick={() => setShowRanking(!showRanking)}>
+            {showRanking ? (
+              <>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
                 </svg>
-                미션 보기
-              </button>
-              <h2 className={styles.missionTitle}>미션 랭킹</h2>
-              <div className={styles.missionHeaderSpacer} />
-            </>
-          ) : (
-            <>
-              <h2 className={styles.missionTitle}>하고잡이 미션</h2>
-              <button className={styles.rankingLink} onClick={() => setShowRanking(true)}>
+                전체 미션 보기
+              </>
+            ) : (
+              <>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M2 20h20v2H2v-2zm2-7h3v6H4v-6zm5-4h3v10H9V9zm5-4h3v14h-3V5zm5-4h3v18h-3V1z" />
                 </svg>
                 랭킹 보기
-              </button>
-            </>
-          )}
+              </>
+            )}
+          </button>
         </div>
 
         {!showRanking ? (
           <>
             <p className={styles.missionSubtitle}>부스를 돌아다니며 아래의 미션을 수행하세요!</p>
-
             <div className={styles.badgeGrid}>
               {row1.map((mission: Mission, i: number) => (
                 <button
@@ -286,6 +281,8 @@ export default function StockHomePage() {
             </div>
           </>
         ) : (
+          <>
+            <p className={styles.missionSubtitle}>1등에겐 특별한 상품이!</p>
           <div className={styles.rankingInline}>
             {!stockRankingEnabled ? (
               <div className={badgeStyles.rankEmpty}>
@@ -408,6 +405,7 @@ export default function StockHomePage() {
             </>
             )}
           </div>
+          </>
         )}
       </div>
 
