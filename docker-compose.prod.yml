@@ -20,7 +20,7 @@ services:
       - --init-connect=SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
       - --default-authentication-plugin=mysql_native_password
       - --max-connections=300
-      - --innodb-buffer-pool-size=536870912
+      - --innodb-buffer-pool-size=2147483648
       - --innodb-lock-wait-timeout=10
       - --wait-timeout=600
       - --thread-cache-size=50
@@ -36,6 +36,8 @@ services:
       dockerfile: Dockerfile.backend
     container_name: booth-invest-backend
     restart: always
+    mem_limit: 6g
+    mem_reservation: 4g
     expose:
       - "8080"
     environment:
@@ -45,6 +47,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       IDEA_BOARD_URL: http://idea-board:8081
       INTERNAL_API_KEY: ${INTERNAL_API_KEY:-idea-board-secret-key}
+      JAVA_TOOL_OPTIONS: "-Xms2g -Xmx4g -Xss512k -XX:MaxMetaspaceSize=256m -XX:+UseG1GC"
     depends_on:
       mysql:
         condition: service_healthy
@@ -55,8 +58,8 @@ services:
       dockerfile: Dockerfile
     container_name: booth-invest-idea-board
     restart: always
-    mem_limit: 512m
-    mem_reservation: 256m
+    mem_limit: 2g
+    mem_reservation: 1g
     expose:
       - "8081"
     environment:
@@ -64,7 +67,7 @@ services:
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       INTERNAL_API_KEY: ${INTERNAL_API_KEY:-idea-board-secret-key}
-      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -Xss256k -XX:MaxMetaspaceSize=96m -XX:+UseG1GC"
+      JAVA_TOOL_OPTIONS: "-Xms512m -Xmx1g -Xss256k -XX:MaxMetaspaceSize=128m -XX:+UseG1GC"
     depends_on:
       mysql:
         condition: service_healthy
