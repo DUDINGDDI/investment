@@ -25,6 +25,7 @@ public class MissionService {
     private final UserRepository userRepository;
     private final StockAccountRepository stockAccountRepository;
     private final SettingService settingService;
+    private final com.pm.investment.repository.StockBoothVisitRepository stockBoothVisitRepository;
 
     /** 함께하는 하고잡이 미션 전용 고정 UUID */
     private static final String TOGETHER_SPACE_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
@@ -266,6 +267,11 @@ public class MissionService {
             throw new IllegalArgumentException("존재하지 않는 미션입니다: " + missionId);
         }
 
+        // "again" 미션은 부스 방문자 수 기반 랭킹
+        if ("again".equals(missionId)) {
+            return getBoothVisitorRanking(currentUserId);
+        }
+
         // progress 내림차순 정렬
         List<UserMission> allMissions = userMissionRepository.findRankingByMissionId(missionId);
 
@@ -300,6 +306,60 @@ public class MissionService {
                 .filter(r -> r.getUserId().equals(currentUserId))
                 .findFirst()
                 .orElse(null);
+
+        List<MissionRankingResponse> top20 = rankings.stream()
+                .limit(20)
+                .collect(Collectors.toList());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("rankings", top20);
+        result.put("myRanking", myRanking);
+        return result;
+    }
+
+    /**
+     * "안돼도 다시" 전용: 부스별 방문자 수 랭킹 (부스 단위)
+     */
+    private Map<String, Object> getBoothVisitorRanking(Long currentUserId) {
+        List<Object[]> boothVisitors = stockBoothVisitRepository.getVisitorCountByBooth();
+
+        Map<Long, Integer> snapshot = previousRankSnapshots.getOrDefault("again", Map.of());
+        List<MissionRankingResponse> rankings = new ArrayList<>();
+        Map<Long, Integer> newSnapshot = new HashMap<>();
+
+        for (int i = 0; i < boothVisitors.size(); i++) {
+            Object[] row = boothVisitors.get(i);
+            Long boothId = (Long) row[0];
+            String boothName = (String) row[1];
+            int visitorCount = ((Number) row[2]).intValue();
+            int rank = i + 1;
+            int prevRank = snapshot.getOrDefault(boothId, 0);
+            int rankChange = prevRank > 0 ? prevRank - rank : 0;
+
+            rankings.add(new MissionRankingResponse(
+                    rank,
+                    boothId,
+                    boothName,
+                    null,
+                    visitorCount,
+                    rankChange
+            ));
+
+            newSnapshot.put(boothId, rank);
+        }
+
+        previousRankSnapshots.put("again", newSnapshot);
+
+        // 현재 유저의 소속 부스 찾기
+        MissionRankingResponse myRanking = null;
+        User currentUser = userRepository.findById(currentUserId).orElse(null);
+        if (currentUser != null && currentUser.getBelongingBooth() != null) {
+            String myBoothName = currentUser.getBelongingBooth().getName();
+            myRanking = rankings.stream()
+                    .filter(r -> myBoothName.equals(r.getName()))
+                    .findFirst()
+                    .orElse(null);
+        }
 
         List<MissionRankingResponse> top20 = rankings.stream()
                 .limit(20)
