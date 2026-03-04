@@ -325,13 +325,13 @@ export default function MyPage() {
               className={`${styles.memoSubTab} ${memoSubTab === 'am' ? styles.memoSubTabActive : ''}`}
               onClick={() => { setMemoSubTab('am'); setMemoPage(0) }}
             >
-              AM 투자
+              오전투자
             </button>
             <button
               className={`${styles.memoSubTab} ${memoSubTab === 'pm' ? styles.memoSubTabActive : ''}`}
               onClick={() => { setMemoSubTab('pm'); setMemoPage(0) }}
             >
-              PM 투자
+              대표작 투자
             </button>
           </div>
 

@@ -288,7 +288,7 @@ export default function StockBoothDetailPage() {
       <div className={styles.tradeSection}>
         {!stockEnabled ? (
           <button className={styles.investBtnFull} disabled>
-            현재 AM 투자가 중지된 상태입니다
+            현재 오전투자가 중지된 상태입니다
           </button>
         ) : (
           <>

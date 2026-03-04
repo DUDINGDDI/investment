@@ -87,7 +87,7 @@ export default function StockBoothListPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to="/stocks" label="AM 투자" />
+      <PageBackButton to="/stocks" label="오전투자" />
 
       {/* 탭 */}
       <div className={styles.tabsChip}>

@@ -66,7 +66,7 @@ export default function BoothListPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to="/home" label="PM 투자" />
+      <PageBackButton to="/home" label="대표작 투자" />
 
       {activeTab === 'all' ? (
         <>

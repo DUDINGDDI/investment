@@ -3,23 +3,23 @@ import styles from './BottomNavBar.module.css'
 
 const navItems = [
   {
-    label: 'AM 투자',
+    label: '오전투자',
     path: '/stocks',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M12 7V12L9 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3 20L7 14L11 16L15 9L21 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M17 4H21V8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     isActive: (p: string) => p.startsWith('/stocks'),
   },
   {
-    label: 'PM 투자',
+    label: '대표작 투자',
     path: '/home',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M12 7V12L15 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M5 19H19V17H5V19Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M5 17L3 8L8 11L12 4L16 11L21 8L19 17H5Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     isActive: (p: string) =>
