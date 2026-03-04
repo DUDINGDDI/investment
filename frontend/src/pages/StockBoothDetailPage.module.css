@@ -285,6 +285,81 @@
   word-break: break-word;
 }
 
+.commentHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.commentActions {
+  display: flex;
+  gap: 4px;
+}
+
+.commentActionBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0.6;
+}
+
+.commentActionBtn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.commentDeleteBtn {
+  color: #FF6B6B;
+}
+
+.editArea {
+  margin-top: 8px;
+}
+
+.editButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+
+.editCharCount {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-right: auto;
+}
+
+.editCancelBtn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.editSaveBtn {
+  background: var(--accent-purple);
+  border: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.editSaveBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .emptyDevelop {
   text-align: center;
   padding: 40px 0;

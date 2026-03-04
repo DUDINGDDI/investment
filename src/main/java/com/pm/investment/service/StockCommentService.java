@@ -78,4 +78,46 @@ public class StockCommentService {
 
         return response;
     }
+
+    @Transactional
+    public StockCommentResponse updateComment(Long userId, Long commentId, String content) {
+        StockComment comment = stockCommentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다"));
+
+        if (!comment.getUser().getId().equals(userId)) {
+            throw new IllegalStateException("본인의 댓글만 수정할 수 있습니다");
+        }
+
+        comment.setContent(content);
+        stockCommentRepository.save(comment);
+
+        // dream 미션: 수정 후 150자 이상 댓글 수 재계산
+        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 150);
+        missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
+
+        return StockCommentResponse.builder()
+                .id(comment.getId())
+                .userId(comment.getUser().getId())
+                .userName(comment.getUser().getName())
+                .userCompany(comment.getUser().getCompany())
+                .content(comment.getContent())
+                .createdAt(comment.getCreatedAt())
+                .build();
+    }
+
+    @Transactional
+    public void deleteComment(Long userId, Long commentId) {
+        StockComment comment = stockCommentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다"));
+
+        if (!comment.getUser().getId().equals(userId)) {
+            throw new IllegalStateException("본인의 댓글만 삭제할 수 있습니다");
+        }
+
+        stockCommentRepository.delete(comment);
+
+        // dream 미션: 삭제 후 150자 이상 댓글 수 재계산
+        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 150);
+        missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
+    }
 }

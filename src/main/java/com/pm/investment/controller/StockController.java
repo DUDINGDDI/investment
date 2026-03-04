@@ -132,6 +132,26 @@ public class StockController {
         return ResponseEntity.ok(stockCommentService.addComment(userId, id, request.getContent()));
     }
 
+    @PutMapping("/booths/{boothId}/comments/{commentId}")
+    public ResponseEntity<StockCommentResponse> updateComment(
+            @PathVariable Long boothId,
+            @PathVariable Long commentId,
+            @Valid @RequestBody StockCommentRequest request,
+            HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        return ResponseEntity.ok(stockCommentService.updateComment(userId, commentId, request.getContent()));
+    }
+
+    @DeleteMapping("/booths/{boothId}/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable Long boothId,
+            @PathVariable Long commentId,
+            HttpServletRequest httpRequest) {
+        Long userId = (Long) httpRequest.getAttribute("userId");
+        stockCommentService.deleteComment(userId, commentId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/booths/{id}/rating")
     public ResponseEntity<StockRatingResponse> submitRating(
             @PathVariable Long id,

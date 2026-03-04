@@ -59,6 +59,8 @@ export default function StockBoothDetailPage() {
   const [commentsLoaded, setCommentsLoaded] = useState(false)
   const [commentInput, setCommentInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editContent, setEditContent] = useState('')
   const currentUserId = Number(localStorage.getItem('userId') || '0')
   const hasMyComment = comments.some(c => c.userId === currentUserId)
 
@@ -180,6 +182,37 @@ export default function StockBoothDetailPage() {
       showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '제안 등록에 실패했습니다', 'error')
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  const handleEditComment = async (commentId: number) => {
+    if (!id || !editContent.trim() || submitting) return
+    if (editContent.trim().length < 150) {
+      showToast('최소 150자 이상 입력해주세요', 'error')
+      return
+    }
+    setSubmitting(true)
+    try {
+      const res = await stockApi.updateComment(Number(id), commentId, editContent.trim())
+      setComments(prev => prev.map(c => c.id === commentId ? res.data : c))
+      setEditingId(null)
+      setEditContent('')
+      showToast('수정되었습니다', 'success')
+    } catch (err: unknown) {
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '수정에 실패했습니다', 'error')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const handleDeleteComment = async (commentId: number) => {
+    if (!id || !confirm('정말 삭제하시겠습니까?')) return
+    try {
+      await stockApi.deleteComment(Number(id), commentId)
+      setComments(prev => prev.filter(c => c.id !== commentId))
+      showToast('삭제되었습니다', 'success')
+    } catch (err: unknown) {
+      showToast((err as { response?: { data?: { error?: string } } }).response?.data?.error || '삭제에 실패했습니다', 'error')
     }
   }
 
@@ -421,9 +454,44 @@ export default function StockBoothDetailPage() {
                         <span className={styles.commentAuthor}>{comment.userName}</span>
                         {comment.userCompany && <span className={styles.commentCompany}>{comment.userCompany}</span>}
                       </div>
-                      <span className={styles.commentTime}>{formatCommentTime(comment.createdAt)}</span>
+                      <div className={styles.commentHeaderRight}>
+                        <span className={styles.commentTime}>{formatCommentTime(comment.createdAt)}</span>
+                        {comment.userId === currentUserId && editingId !== comment.id && (
+                          <div className={styles.commentActions}>
+                            <button
+                              className={styles.commentActionBtn}
+                              onClick={() => { setEditingId(comment.id); setEditContent(comment.content) }}
+                            >수정</button>
+                            <button
+                              className={`${styles.commentActionBtn} ${styles.commentDeleteBtn}`}
+                              onClick={() => handleDeleteComment(comment.id)}
+                            >삭제</button>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <p className={styles.commentContent}>{comment.content}</p>
+                    {editingId === comment.id ? (
+                      <div className={styles.editArea}>
+                        <textarea
+                          className={styles.commentTextarea}
+                          value={editContent}
+                          onChange={e => setEditContent(e.target.value)}
+                          maxLength={500}
+                          rows={3}
+                        />
+                        <div className={styles.editButtons}>
+                          <span className={styles.editCharCount}>{editContent.trim().length}/150</span>
+                          <button className={styles.editCancelBtn} onClick={() => { setEditingId(null); setEditContent('') }}>취소</button>
+                          <button
+                            className={styles.editSaveBtn}
+                            onClick={() => handleEditComment(comment.id)}
+                            disabled={!editContent.trim() || editContent.trim().length < 150 || submitting}
+                          >{submitting ? '저장 중...' : '저장'}</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className={styles.commentContent}>{comment.content}</p>
+                    )}
                   </div>
                 ))
               )}
