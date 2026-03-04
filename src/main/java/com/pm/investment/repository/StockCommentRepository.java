@@ -13,6 +13,5 @@ public interface StockCommentRepository extends JpaRepository<StockComment, Long
 
     long countByUserId(Long userId);
 
-    @Query("SELECT COUNT(DISTINCT sc.stockBooth.id) FROM StockComment sc WHERE sc.user.id = :userId")
-    long countDistinctBoothsByUserId(@Param("userId") Long userId);
+    boolean existsByUserIdAndStockBoothId(Long userId, Long stockBoothId);
 }

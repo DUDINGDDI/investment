@@ -462,6 +462,9 @@ export default function StockHomePage() {
             <p className={badgeStyles.successDesc}>
               {freshMission?.title} 배지를 획득했습니다
             </p>
+            {/* <p className={badgeStyles.successMissionDesc}>
+              {freshMission?.description}
+            </p> */}
             <button className={badgeStyles.successButton} onClick={closeBadgeModal}>확인</button>
           </div>
         </div>

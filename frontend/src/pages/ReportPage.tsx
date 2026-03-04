@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { reportApi, missionApi } from '../api'
-import { useMissions } from '../components/MissionContext'
+import { reportApi } from '../api'
 import { useToast } from '../components/ToastContext'
 import type { ReportResponse, SharedReportResponse } from '../types'
 import styles from './ReportPage.module.css'
@@ -200,7 +199,6 @@ export default function ReportPage() {
   const [sharedReports, setSharedReports] = useState<SharedReportResponse[]>([])
   const [sharedLoading, setSharedLoading] = useState(false)
   const [sharedLoaded, setSharedLoaded] = useState(false)
-  const { syncFromServer } = useMissions()
   const { showToast } = useToast()
 
   useEffect(() => {
@@ -237,14 +235,6 @@ export default function ReportPage() {
 
     try {
       await reportApi.shareReport({ vision })
-
-      try {
-        await missionApi.completeMission('dream')
-        syncFromServer()
-        showToast('꿈을 원대하게 미션 완료!', 'success')
-      } catch {
-        // 이미 완료되었거나 비활성화 상태
-      }
 
       setShared(true)
       setShowModal(false)

@@ -47,6 +47,10 @@ public class StockCommentService {
             throw new IllegalStateException("부스를 방문한 후에 제안을 남길 수 있습니다");
         }
 
+        if (stockCommentRepository.existsByUserIdAndStockBoothId(userId, boothId)) {
+            throw new IllegalStateException("이미 이 부스에 아이디어를 제안하셨습니다");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다"));
 
@@ -56,9 +60,9 @@ public class StockCommentService {
         StockComment comment = new StockComment(user, stockBooth, content);
         stockCommentRepository.save(comment);
 
-        // renew 미션: 댓글을 남긴 서로 다른 부스 수를 progress로 반영
-        long distinctBoothCount = stockCommentRepository.countDistinctBoothsByUserId(userId);
-        missionService.checkAndUpdateMission(userId, "renew", (int) distinctBoothCount);
+        // dream 미션: 댓글 총 수를 progress로 반영
+        long commentCount = stockCommentRepository.countByUserId(userId);
+        missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
 
         StockCommentResponse response = StockCommentResponse.builder()
                 .id(comment.getId())
