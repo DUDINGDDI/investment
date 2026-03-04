@@ -105,7 +105,6 @@ public class MissionService {
     @Transactional
     public void checkAndUpdateMission(Long userId, String missionId, int currentProgress) {
         if (!MISSION_TARGETS.containsKey(missionId)) return;
-        if ("dream".equals(missionId) && !settingService.isDreamEnabled()) return;
         updateProgress(userId, missionId, currentProgress);
     }
 
@@ -151,10 +150,6 @@ public class MissionService {
         if (!MISSION_TARGETS.containsKey(missionId)) {
             throw new IllegalArgumentException("존재하지 않는 미션입니다: " + missionId);
         }
-        if ("dream".equals(missionId) && !settingService.isDreamEnabled()) {
-            throw new IllegalStateException("현재 이 미션은 비활성화 상태입니다");
-        }
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
