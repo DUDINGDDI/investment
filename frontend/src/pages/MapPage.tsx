@@ -94,7 +94,7 @@ const PAGE_SIZE = 10
 let zoneCache: ZoneResponse[] | null = null
 
 export default function MapPage() {
-  const [zones, setZones] = useState<ZoneResponse[]>([])
+  const [zones, setZones] = useState<ZoneResponse[]>(zoneCache ?? [])
   const [selectedFloor, setSelectedFloor] = useState<string>('Leadership Center')
   const [filterZoneCode, setFilterZoneCode] = useState<string>('leadership_llf')
   const [page, setPage] = useState(1)
@@ -117,20 +117,8 @@ export default function MapPage() {
     })
   }, [])
 
-  // 유니크 건물 목록 (floor 기준, displayOrder 순)
-  const floors = useMemo(() => {
-    const seen = new Set<string>()
-    const result: string[] = ['Leadership Center']
-    seen.add('Leadership Center')
-    zones.forEach(z => {
-      const f = getFloor(z)
-      if (f && !seen.has(f)) {
-        seen.add(f)
-        result.push(f)
-      }
-    })
-    return result
-  }, [zones])
+  // 건물 목록 (고정)
+  const floors = ['Leadership Center', 'Innovation Center', 'Learning Center']
 
   // 선택된 건물의 서브 층 목록
   const subFloors = useMemo(() => {
