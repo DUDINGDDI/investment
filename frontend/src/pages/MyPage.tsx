@@ -7,7 +7,7 @@ import { useMissions, type Mission } from '../components/MissionContext'
 import type { BoothResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
 
-const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together']
+const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together', 'result']
 const PHOTO_MISSIONS = ['photo_0', 'photo_1', 'photo_2', 'photo_3', 'photo_4', 'photo_5']
 const PHOTO_TOTAL = 6
 const TICKET_IMAGE_MAP: Record<string, { normal: string; complete: string; label: string }> = {
@@ -16,6 +16,7 @@ const TICKET_IMAGE_MAP: Record<string, { normal: string; complete: string; label
   again: { normal: '/image/ticket/retry.svg', complete: '/image/ticket/retry_complete.svg', label: '안돼도 다시' },
   sincere: { normal: '/image/ticket/truth.svg', complete: '/image/ticket/truth_complete.svg', label: '진정성 있게' },
   together: { normal: '/image/ticket/together.svg', complete: '/image/ticket/together_complete.svg', label: '함께하는 하고잡이' },
+  result: { normal: '/image/ticket/result.svg', complete: '/image/ticket/result_complete.svg', label: '반드시 결과로' },
 }
 
 export default function MyPage() {

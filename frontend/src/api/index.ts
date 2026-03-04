@@ -27,9 +27,6 @@ import type {
   MyStockVisitResponse,
   MyStockBoothVisitorResponse,
   BoothReviewResponse,
-  NoteRequest,
-  NoteResponse,
-  UserSearchResponse,
   IdeaBoardResponse,
   ReportEligibilityResponse,
   ReportResponse,
@@ -118,21 +115,6 @@ export const missionApi = {
     api.post<UserMissionResponse>('/missions/renew', { boothUuid: uuid }),
   getRanking: (missionId: string) =>
     api.get<MissionRankingData>('/missions/ranking', { params: { missionId } }),
-};
-
-export const noteApi = {
-  send: (data: NoteRequest) =>
-    api.post('/notes', data),
-  getReceived: () =>
-    api.get<NoteResponse[]>('/notes/received'),
-  getSent: () =>
-    api.get<NoteResponse[]>('/notes/sent'),
-  markAsRead: (noteId: number) =>
-    api.patch(`/notes/${noteId}/read`),
-  getUnreadCount: () =>
-    api.get<{ count: number }>('/notes/unread-count'),
-  searchUsers: (keyword: string) =>
-    api.get<UserSearchResponse[]>('/notes/users/search', { params: { keyword } }),
 };
 
 export const ideaBoardApi = {

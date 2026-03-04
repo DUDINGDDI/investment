@@ -278,32 +278,6 @@ export interface BoothReviewResponse {
   updatedAt: string;
 }
 
-// === 쪽지 (Note) ===
-export interface NoteRequest {
-  receiverId: number;
-  content: string;
-}
-
-export interface NoteResponse {
-  id: number;
-  senderId: number;
-  senderName: string;
-  senderCompany: string | null;
-  receiverId: number;
-  receiverName: string;
-  receiverCompany: string | null;
-  content: string;
-  isRead: boolean;
-  createdAt: string;
-}
-
-export interface UserSearchResponse {
-  userId: number;
-  name: string;
-  company: string | null;
-  uniqueCode: string;
-}
-
 // === 투자 성향 리포트 ===
 export interface ReportEligibilityResponse {
   eligible: boolean;
