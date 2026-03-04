@@ -220,6 +220,18 @@
   color: var(--color-success);
 }
 
+.miniStatusLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.miniStatusComplete {
+  color: var(--color-success);
+  opacity: 1;
+}
+
 /* ── 배지 아래 칩 라벨 ── */
 .chip {
   display: inline-block;

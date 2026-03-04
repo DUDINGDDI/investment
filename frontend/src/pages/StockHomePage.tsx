@@ -67,18 +67,23 @@ function MiniProgressBar({ mission }: { mission: Mission }) {
 
   return (
     <div className={badgeStyles.miniProgressGroup}>
-      <span className={`${badgeStyles.miniProgressLabel} ${mission.isCompleted ? badgeStyles.miniProgressLabelComplete : ''}`}>
-        {QUANTITATIVE_IDS.has(mission.id)
-          ? `${progress}/${target}${unit}`
-          : mission.isCompleted ? '완료' : `${Math.round(pct)}%`
-        }
-      </span>
-      <div className={badgeStyles.miniProgressTrack}>
-        <div
-          className={`${badgeStyles.miniProgressFill} ${mission.isCompleted ? badgeStyles.miniProgressComplete : ''}`}
-          style={{ width: `${pct}%` }}
-        />
-      </div>
+      {QUANTITATIVE_IDS.has(mission.id) ? (
+        <>
+          <span className={`${badgeStyles.miniProgressLabel} ${mission.isCompleted ? badgeStyles.miniProgressLabelComplete : ''}`}>
+            {`${progress}/${target}${unit}`}
+          </span>
+          <div className={badgeStyles.miniProgressTrack}>
+            <div
+              className={`${badgeStyles.miniProgressFill} ${mission.isCompleted ? badgeStyles.miniProgressComplete : ''}`}
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        </>
+      ) : (
+        <span className={`${badgeStyles.miniStatusLabel} ${mission.isCompleted ? badgeStyles.miniStatusComplete : ''}`}>
+          {mission.isCompleted ? '완료' : '미완료'}
+        </span>
+      )}
     </div>
   )
 }
