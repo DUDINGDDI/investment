@@ -17,7 +17,7 @@
 
 .title {
   font-family: 'CJ ONLYONE', sans-serif;
-  font-size: clamp(13px, 3.8vw, 20px);
+  font-size: clamp(14px, 4.2vw, 22px);
   font-weight: 800;
   letter-spacing: clamp(0.3px, 0.2vw, 1px);
   color: var(--text-primary);
