@@ -30,7 +30,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'dream',
     title: '꿈을 원대하게',
-    description: '방문한 부스의 토론방에서 아이디어 개선점을 5건 이상 제안해주세요 (150자 이상 작성)',
+    description: '방문한 부스의 아이디어 Develop Zone에서 개선점을 5건 이상 제안해주세요 (150자 이상 작성)',
     isCompleted: false,
     progress: 0,
     target: 5,
