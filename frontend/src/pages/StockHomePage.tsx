@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { stockApi, missionApi, resultApi } from '../api'
 import { formatKorean } from '../utils/format'
 import { useMissions, type Mission } from '../components/MissionContext'
-import type { MissionRankingItem } from '../types'
+import type { MissionRankingItem, StockHoldingResponse } from '../types'
 import styles from './HomePage.module.css'
+import portfolioStyles from './BoothListPage.module.css'
 import badgeStyles from './BadgePage.module.css'
 
 /** 정량 측정 가능한 미션 ID */
@@ -113,6 +114,7 @@ export default function StockHomePage() {
   const userCompany = localStorage.getItem('userCompany') || ''
   const [balance, setBalance] = useState<number | null>(null)
   const [totalHolding, setTotalHolding] = useState(0)
+  const [holdings, setHoldings] = useState<StockHoldingResponse[]>([])
 
   // Mission 관련 state
   const { missions, syncFromServer } = useMissions()
@@ -129,6 +131,7 @@ export default function StockHomePage() {
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
     stockApi.getMy().then(res => {
+      setHoldings(res.data)
       const total = res.data.reduce((sum: number, h: { amount: number }) => sum + h.amount, 0)
       setTotalHolding(total)
     }).catch(() => {})
@@ -157,6 +160,7 @@ export default function StockHomePage() {
     const handler = () => {
       stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
       stockApi.getMy().then(res => {
+        setHoldings(res.data)
         const total = res.data.reduce((sum: number, h: { amount: number }) => sum + h.amount, 0)
         setTotalHolding(total)
       }).catch(() => {})
@@ -214,29 +218,84 @@ export default function StockHomePage() {
 
   return (
     <div className={styles.container}>
-      {/* 유저 정보 + 투자 금액 카드 */}
-      <div className={styles.investCard}>
-        <div className={styles.cardTop}>
-          <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
-          <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
-          <div className={styles.cardAmountRow}>
-            <p className={styles.cardAmount}>{formatKorean(totalHolding)}원</p>
-            <button className={styles.cardBtn} onClick={() => navigate('/stocks/booths')}>투자 종목 보기</button>
+      {/* 나의 투자 현황 카드 */}
+      {(() => {
+        const COLORS = ['#6C5CE7', '#4593FC', '#00D68F', '#F5C842', '#F04452', '#FF8A65', '#a855f7', '#14b8a6', '#f97316', '#ec4899', '#8b5cf6']
+        const bal = balance || 0
+        const totalAsset = bal + totalHolding
+        const holdingPct = totalAsset > 0 ? Math.round((totalHolding / totalAsset) * 100) : 0
+        const investedSegments = [...holdings]
+          .filter(h => h.amount > 0)
+          .sort((a, b) => b.amount - a.amount)
+          .map((h, i) => ({
+            boothId: h.boothId,
+            color: COLORS[i % COLORS.length],
+            pct: totalAsset > 0 ? (h.amount / totalAsset) * 100 : 0,
+          }))
+        const balancePct = totalAsset > 0 ? (bal / totalAsset) * 100 : 100
+        const donutSegments = [
+          ...investedSegments,
+          { boothId: -1, color: '#888888', pct: balancePct },
+        ]
+        const radius = 70
+        const circumference = 2 * Math.PI * radius
+        const segmentOffsets: number[] = []
+        for (let i = 0; i < donutSegments.length; i++) {
+          segmentOffsets.push(i === 0 ? 0 : segmentOffsets[i - 1] + (donutSegments[i - 1].pct / 100) * circumference)
+        }
+
+        return (
+          <div className={portfolioStyles.statusCard}>
+            <div className={portfolioStyles.statusHeader}>
+              <h3 className={portfolioStyles.statusTitle}>나의 투자 현황</h3>
+              <button className={portfolioStyles.historyLink} onClick={() => navigate('/stocks/history')}>
+                투자 이력 보기 ›
+              </button>
+            </div>
+
+            <div className={portfolioStyles.chartWrapLarge}>
+              <svg viewBox="0 0 180 180" className={portfolioStyles.donutSvg}>
+                <circle cx="90" cy="90" r={radius} fill="none" stroke="#888888" strokeWidth="16" />
+                {donutSegments.map((seg, i) => {
+                  const dashLength = (seg.pct / 100) * circumference
+                  const dashGap = circumference - dashLength
+                  const offset = segmentOffsets[i]
+                  return (
+                    <circle
+                      key={seg.boothId}
+                      cx="90" cy="90" r={radius}
+                      fill="none"
+                      stroke={seg.color}
+                      strokeWidth="16"
+                      strokeDasharray={`${dashLength} ${dashGap}`}
+                      strokeDashoffset={-offset}
+                      strokeLinecap="butt"
+                      style={{ transform: 'rotate(-90deg)', transformOrigin: '90px 90px' }}
+                    />
+                  )
+                })}
+                <text x="90" y="85" textAnchor="middle" className={portfolioStyles.donutLabel}>투자 비중</text>
+                <text x="90" y="105" textAnchor="middle" className={portfolioStyles.donutValue}>{holdingPct}%</text>
+              </svg>
+            </div>
+
+            <div className={portfolioStyles.assetBelow}>
+              <div className={portfolioStyles.assetBelowItem}>
+                <span className={portfolioStyles.assetLabel}>투자 금액</span>
+                <p className={portfolioStyles.assetValue}>{formatKorean(totalHolding)}원</p>
+              </div>
+              <div className={portfolioStyles.assetBelowItem}>
+                <span className={portfolioStyles.assetLabel}>잔여 금액</span>
+                <p className={portfolioStyles.assetValue}>{formatKorean(bal)}원</p>
+              </div>
+              <div className={portfolioStyles.assetBelowItem}>
+                <span className={portfolioStyles.assetLabel}>총 자산</span>
+                <p className={portfolioStyles.assetValueLarge}>{formatKorean(totalAsset)}원</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className={styles.cardBottom}>
-          <div className={styles.cardBottomItem}>
-            <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>잔여 투자 금액</span>
-            <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
-          </div>
-          <div className={styles.cardBottomItem}>
-            <div className={styles.cardAssetDot} style={{ background: '#FFB74D' }} />
-            <span className={styles.cardAssetLabel}>총 자산</span>
-            <span className={styles.cardAssetValue}>{formatKorean((balance || 0) + totalHolding)}원</span>
-          </div>
-        </div>
-      </div>
+        )
+      })()}
 
       {/* Mission 섹션 */}
       <div className={styles.missionSection}>
