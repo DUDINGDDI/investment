@@ -155,10 +155,16 @@
 }
 
 .cardAuthor {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
-  color: var(--card-sub);
+  color: var(--card-text);
   letter-spacing: -0.3px;
+}
+
+.cardCompany {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--card-sub);
 }
 
 .cardContent {

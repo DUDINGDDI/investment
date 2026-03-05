@@ -310,7 +310,8 @@ export default function IdeaBoardPage() {
 
                 {/* 내용 */}
                 <div className={styles.cardHeader}>
-                  <span className={styles.cardAuthor}>{comment.userName}</span>
+                  <span className={styles.cardAuthor}>{comment.userName}님</span>
+                  {comment.userCompany && <span className={styles.cardCompany}>{comment.userCompany}</span>}
                 </div>
                 <p className={styles.cardContent}>{comment.content}</p>
                 <div className={styles.cardTime}>{formatTime(comment.createdAt)}</div>
