@@ -28,6 +28,8 @@ export default function AdminPage() {
   const [stockEnabled, setStockEnabled] = useState(true)
   const [investmentEnabled, setInvestmentEnabled] = useState(true)
   const [ranking, setRanking] = useState<RankingResponse[]>([])
+  const [stockRanking, setStockRanking] = useState<RankingResponse[]>([])
+  const [rankingTab, setRankingTab] = useState<'pm' | 'am'>('pm')
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState(false)
   const [stockToggling, setStockToggling] = useState(false)
@@ -45,12 +47,13 @@ export default function AdminPage() {
 
   const loadData = async () => {
     try {
-      const [statusRes, stockRes, investRes, stockRankingRes, rankRes, annRes, ratingsRes] = await Promise.all([
+      const [statusRes, stockRes, investRes, stockRankingRes, rankRes, stockRankRes, annRes, ratingsRes] = await Promise.all([
         adminApi.getStatus(),
         adminApi.getStockStatus(),
         adminApi.getInvestmentStatus(),
         adminApi.getStockRankingStatus(),
         adminApi.getRanking(),
+        adminApi.getStockRanking(),
         adminApi.getAnnouncement(),
         adminApi.getBoothRatings(),
       ])
@@ -59,6 +62,7 @@ export default function AdminPage() {
       setInvestmentEnabled(investRes.data.enabled)
       setStockRankingEnabled(stockRankingRes.data.enabled)
       setRanking(rankRes.data)
+      setStockRanking(stockRankRes.data)
       setAnnCurrent(annRes.data.message)
       setAnnMessage(annRes.data.message)
       setBoothRatings(ratingsRes.data)
@@ -361,10 +365,27 @@ export default function AdminPage() {
 
       {tab === 'ranking' && (
         <>
+          <div className={styles.rankingSubTabs}>
+            <button
+              className={`${styles.rankingSubTab} ${rankingTab === 'pm' ? styles.rankingSubTabActive : ''}`}
+              onClick={() => setRankingTab('pm')}
+            >
+              대표작 투자 (오후)
+            </button>
+            <button
+              className={`${styles.rankingSubTab} ${rankingTab === 'am' ? styles.rankingSubTabActive : ''}`}
+              onClick={() => setRankingTab('am')}
+            >
+              오전 투자 (오전)
+            </button>
+          </div>
+
           <div className={styles.rankingSection}>
-            <h3 className={styles.sectionTitle}>현재 투자 순위</h3>
+            <h3 className={styles.sectionTitle}>
+              {rankingTab === 'pm' ? '대표작 투자 순위' : '오전 투자 순위'}
+            </h3>
             <div className={styles.list}>
-              {ranking.map((item, i) => (
+              {(rankingTab === 'pm' ? ranking : stockRanking).map((item, i) => (
                 <div key={item.boothId} className={styles.item}>
                   <span className={`${styles.rank} ${i < 3 ? styles.topRank : ''}`}>
                     {item.rank}

@@ -104,6 +104,11 @@ public class AdminController {
         return ResponseEntity.ok(rankingService.getRanking());
     }
 
+    @GetMapping("/stock-ranking")
+    public ResponseEntity<List<RankingResponse>> getStockRanking() {
+        return ResponseEntity.ok(rankingService.getStockRanking());
+    }
+
     @GetMapping("/announcement")
     public ResponseEntity<Map<String, String>> getAnnouncement() {
         return ResponseEntity.ok(settingService.getAnnouncement());

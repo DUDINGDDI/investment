@@ -169,6 +169,33 @@
   background: var(--text-secondary);
 }
 
+.rankingSubTabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.rankingSubTab {
+  flex: 1;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rankingSubTabActive {
+  background: var(--color-invest);
+  color: white;
+}
+
 .rankingSection {
   margin-top: 8px;
 }

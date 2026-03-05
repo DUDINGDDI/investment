@@ -147,6 +147,7 @@ export const adminApi = {
   getStockStatus: () => api.get<{ enabled: boolean }>('/admin/stock/status'),
   toggleStock: () => api.post<{ enabled: boolean }>('/admin/stock/toggle'),
   getRanking: () => api.get<RankingResponse[]>('/admin/ranking'),
+  getStockRanking: () => api.get<RankingResponse[]>('/admin/stock-ranking'),
   getAnnouncement: () => api.get<AnnouncementResponse>('/admin/announcement'),
   setAnnouncement: (message: string) => api.post<AnnouncementResponse>('/admin/announcement', { message }),
   clearAnnouncement: () => api.delete('/admin/announcement'),
