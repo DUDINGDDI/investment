@@ -12,7 +12,7 @@ CREATE TABLE users (
     name VARCHAR(50) NOT NULL COMMENT '사용자 이름',
     company VARCHAR(100) NULL COMMENT '계열사',
     balance BIGINT NOT NULL DEFAULT 100000000 COMMENT '보유 코인 잔액',
-    belonging_booth_id BIGINT NULL COMMENT '소속 부스 ID',
+    belonging_stock_booth_id BIGINT NULL COMMENT '소속 AM 주식 부스 ID',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_unique_code (unique_code)
@@ -48,8 +48,7 @@ CREATE TABLE booths (
     INDEX idx_zone_id (zone_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- users 테이블에 소속 부스 FK 추가 (booths 테이블 생성 후)
-ALTER TABLE users ADD FOREIGN KEY (belonging_booth_id) REFERENCES booths(id) ON DELETE SET NULL;
+-- users 테이블 소속 stock_booth FK는 stock_booths 테이블 생성 후 아래에서 추가
 
 -- 투자 현황 테이블 (유저-부스 간 현재 투자금)
 CREATE TABLE investments (
@@ -107,6 +106,9 @@ CREATE TABLE stock_booths (
     INDEX idx_display_order (display_order),
     INDEX idx_zone_id (zone_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- users 테이블에 소속 stock_booth FK 추가
+ALTER TABLE users ADD FOREIGN KEY (belonging_stock_booth_id) REFERENCES stock_booths(id) ON DELETE SET NULL;
 
 -- 주식 부스 방문 기록 테이블
 CREATE TABLE stock_booth_visits (

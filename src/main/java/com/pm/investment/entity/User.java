@@ -32,8 +32,8 @@ public class User {
     private Long balance = 100_000_000L;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "belonging_booth_id")
-    private Booth belongingBooth;
+    @JoinColumn(name = "belonging_stock_booth_id")
+    private StockBooth belongingStockBooth;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

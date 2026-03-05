@@ -26,7 +26,6 @@ public class MissionService {
     private final StockAccountRepository stockAccountRepository;
     private final SettingService settingService;
     private final com.pm.investment.repository.StockBoothVisitRepository stockBoothVisitRepository;
-    private final com.pm.investment.repository.StockBoothRepository stockBoothRepository;
 
     /** 함께하는 하고잡이 미션 전용 고정 UUID */
     private static final String TOGETHER_SPACE_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
@@ -256,12 +255,9 @@ public class MissionService {
      */
     private int getBoothVisitorCount(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-        if (user == null || user.getBelongingBooth() == null) return 0;
+        if (user == null || user.getBelongingStockBooth() == null) return 0;
 
-        String boothName = user.getBelongingBooth().getName();
-        return stockBoothRepository.findByName(boothName)
-                .map(sb -> (int) stockBoothVisitRepository.countByStockBoothId(sb.getId()))
-                .orElse(0);
+        return (int) stockBoothVisitRepository.countByStockBoothId(user.getBelongingStockBooth().getId());
     }
 
     @Transactional
@@ -347,7 +343,7 @@ public class MissionService {
     }
 
     /**
-     * "안돼도 다시" 전용: 부스별 방문자 수 랭킹 (부스 단위)
+     * "안돼도 다시" 전용: 부스별 방문자 수 랭킹
      */
     private Map<String, Object> getBoothVisitorRanking(Long currentUserId) {
         List<Object[]> boothVisitors = stockBoothVisitRepository.getVisitorCountByBooth();
@@ -379,13 +375,13 @@ public class MissionService {
 
         previousRankSnapshots.put("again", newSnapshot);
 
-        // 현재 유저의 소속 부스 찾기
+        // 현재 유저의 소속 stock_booth 찾기
         MissionRankingResponse myRanking = null;
         User currentUser = userRepository.findById(currentUserId).orElse(null);
-        if (currentUser != null && currentUser.getBelongingBooth() != null) {
-            String myBoothName = currentUser.getBelongingBooth().getName();
+        if (currentUser != null && currentUser.getBelongingStockBooth() != null) {
+            Long myStockBoothId = currentUser.getBelongingStockBooth().getId();
             myRanking = rankings.stream()
-                    .filter(r -> myBoothName.equals(r.getName()))
+                    .filter(r -> myStockBoothId.equals(r.getUserId()))
                     .findFirst()
                     .orElse(null);
         }

@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pm.investment.entity.Booth;
 
 import java.util.HashSet;
 import java.util.List;
@@ -160,17 +159,15 @@ public class StockBoothService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
-        Booth belongingBooth = user.getBelongingBooth();
-        if (belongingBooth == null) {
+        StockBooth stockBooth = user.getBelongingStockBooth();
+        if (stockBooth == null) {
             return null;
         }
 
-        return stockBoothRepository.findByName(belongingBooth.getName())
-                .map(stockBooth -> MyStockBoothVisitorResponse.builder()
-                        .boothName(stockBooth.getName())
-                        .logoEmoji(stockBooth.getLogoEmoji())
-                        .visitorCount(stockBoothVisitRepository.countByStockBoothId(stockBooth.getId()))
-                        .build())
-                .orElse(null);
+        return MyStockBoothVisitorResponse.builder()
+                .boothName(stockBooth.getName())
+                .logoEmoji(stockBooth.getLogoEmoji())
+                .visitorCount(stockBoothVisitRepository.countByStockBoothId(stockBooth.getId()))
+                .build();
     }
 }

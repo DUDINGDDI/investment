@@ -271,7 +271,9 @@ export default function StockHomePage() {
             <>
             {/* 미션 필터 바 */}
             <div className={badgeStyles.filterBar}>
-              {missions.filter((m: Mission) => ['dream', 'again', 'sincere'].includes(m.id)).map((m: Mission) => (
+              {missions.filter((m: Mission) => ['dream', 'sincere', 'again'].includes(m.id))
+                .sort((a, b) => ['dream', 'sincere', 'again'].indexOf(a.id) - ['dream', 'sincere', 'again'].indexOf(b.id))
+                .map((m: Mission) => (
                 <button
                   key={m.id}
                   className={`${badgeStyles.filterChip} ${selectedFilter === m.id ? badgeStyles.filterChipActive : ''}`}

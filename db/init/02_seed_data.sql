@@ -78,92 +78,79 @@ INSERT INTO booths (name, category, description, short_description, display_orde
 -- ──────────────────────────────────────────────
 -- users (11명 + 하고잡이 + 더미 57명 = 69명)
 -- ──────────────────────────────────────────────
-INSERT INTO users (unique_code, name, company, balance, belonging_booth_id) VALUES
-('U001', '김기범', 'CJ올리브네트웍스', 100000000, NULL),
-('U002', '김민지', 'CJ제일제당', 100000000, NULL),
-('U003', '엄지윤', 'CJ올리브영', 100000000, NULL),
-('U004', '신예린', 'CJ푸드빌', 100000000, NULL),
-('U005', '정민창', 'CJ대한통운', 100000000, NULL),
-('U006', '오현지', 'CJ ENM', 100000000, NULL),
-('U007', '임정한', 'CJ프레시웨이', 100000000, NULL),
-('U008', '강슬기', 'CJ인재원', 100000000, NULL),
-('U009', '문선우', 'CJ인재원', 100000000, NULL),
-('U010', '장한빈', 'CJ인재원', 100000000, NULL),
-('U011', '한필우', 'CJ인재원', 100000000, NULL),
-('U999', '하고잡이', NULL, 100000000, NULL);
-
--- 소속 부스 매핑 (7명 계열사 + 4명 인재원)
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ올리브네트웍스 대표작') WHERE unique_code = 'U001';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ제일제당 대표작') WHERE unique_code = 'U002';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ올리브영 대표작') WHERE unique_code = 'U003';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ푸드빌 대표작') WHERE unique_code = 'U004';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ대한통운 대표작') WHERE unique_code = 'U005';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ ENM 대표작') WHERE unique_code = 'U006';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ프레시웨이 대표작') WHERE unique_code = 'U007';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ인재원 대표작') WHERE unique_code = 'U008';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ인재원 대표작') WHERE unique_code = 'U009';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ인재원 대표작') WHERE unique_code = 'U010';
-UPDATE users SET belonging_booth_id = (SELECT id FROM booths WHERE name = 'CJ인재원 대표작') WHERE unique_code = 'U011';
+INSERT INTO users (unique_code, name, company, balance) VALUES
+('U001', '김기범', 'CJ올리브네트웍스', 100000000),
+('U002', '김민지', 'CJ제일제당', 100000000),
+('U003', '엄지윤', 'CJ올리브영', 100000000),
+('U004', '신예린', 'CJ푸드빌', 100000000),
+('U005', '정민창', 'CJ대한통운', 100000000),
+('U006', '오현지', 'CJ ENM', 100000000),
+('U007', '임정한', 'CJ프레시웨이', 100000000),
+('U008', '강슬기', 'CJ인재원', 100000000),
+('U009', '문선우', 'CJ인재원', 100000000),
+('U010', '장한빈', 'CJ인재원', 100000000),
+('U011', '한필우', 'CJ인재원', 100000000),
+('U999', '하고잡이', NULL, 100000000);
 
 -- 더미 유저 57명 (CJ인재원 방문 69명 달성용)
-INSERT INTO users (unique_code, name, company, balance, belonging_booth_id) VALUES
-('USER01', 'USER1', NULL, 100000000, NULL),
-('USER02', 'USER2', NULL, 100000000, NULL),
-('USER03', 'USER3', NULL, 100000000, NULL),
-('USER04', 'USER4', NULL, 100000000, NULL),
-('USER05', 'USER5', NULL, 100000000, NULL),
-('USER06', 'USER6', NULL, 100000000, NULL),
-('USER07', 'USER7', NULL, 100000000, NULL),
-('USER08', 'USER8', NULL, 100000000, NULL),
-('USER09', 'USER9', NULL, 100000000, NULL),
-('USER10', 'USER10', NULL, 100000000, NULL),
-('USER11', 'USER11', NULL, 100000000, NULL),
-('USER12', 'USER12', NULL, 100000000, NULL),
-('USER13', 'USER13', NULL, 100000000, NULL),
-('USER14', 'USER14', NULL, 100000000, NULL),
-('USER15', 'USER15', NULL, 100000000, NULL),
-('USER16', 'USER16', NULL, 100000000, NULL),
-('USER17', 'USER17', NULL, 100000000, NULL),
-('USER18', 'USER18', NULL, 100000000, NULL),
-('USER19', 'USER19', NULL, 100000000, NULL),
-('USER20', 'USER20', NULL, 100000000, NULL),
-('USER21', 'USER21', NULL, 100000000, NULL),
-('USER22', 'USER22', NULL, 100000000, NULL),
-('USER23', 'USER23', NULL, 100000000, NULL),
-('USER24', 'USER24', NULL, 100000000, NULL),
-('USER25', 'USER25', NULL, 100000000, NULL),
-('USER26', 'USER26', NULL, 100000000, NULL),
-('USER27', 'USER27', NULL, 100000000, NULL),
-('USER28', 'USER28', NULL, 100000000, NULL),
-('USER29', 'USER29', NULL, 100000000, NULL),
-('USER30', 'USER30', NULL, 100000000, NULL),
-('USER31', 'USER31', NULL, 100000000, NULL),
-('USER32', 'USER32', NULL, 100000000, NULL),
-('USER33', 'USER33', NULL, 100000000, NULL),
-('USER34', 'USER34', NULL, 100000000, NULL),
-('USER35', 'USER35', NULL, 100000000, NULL),
-('USER36', 'USER36', NULL, 100000000, NULL),
-('USER37', 'USER37', NULL, 100000000, NULL),
-('USER38', 'USER38', NULL, 100000000, NULL),
-('USER39', 'USER39', NULL, 100000000, NULL),
-('USER40', 'USER40', NULL, 100000000, NULL),
-('USER41', 'USER41', NULL, 100000000, NULL),
-('USER42', 'USER42', NULL, 100000000, NULL),
-('USER43', 'USER43', NULL, 100000000, NULL),
-('USER44', 'USER44', NULL, 100000000, NULL),
-('USER45', 'USER45', NULL, 100000000, NULL),
-('USER46', 'USER46', NULL, 100000000, NULL),
-('USER47', 'USER47', NULL, 100000000, NULL),
-('USER48', 'USER48', NULL, 100000000, NULL),
-('USER49', 'USER49', NULL, 100000000, NULL),
-('USER50', 'USER50', NULL, 100000000, NULL),
-('USER51', 'USER51', NULL, 100000000, NULL),
-('USER52', 'USER52', NULL, 100000000, NULL),
-('USER53', 'USER53', NULL, 100000000, NULL),
-('USER54', 'USER54', NULL, 100000000, NULL),
-('USER55', 'USER55', NULL, 100000000, NULL),
-('USER56', 'USER56', NULL, 100000000, NULL),
-('USER57', 'USER57', NULL, 100000000, NULL);
+INSERT INTO users (unique_code, name, company, balance) VALUES
+('USER01', 'USER1', NULL, 100000000),
+('USER02', 'USER2', NULL, 100000000),
+('USER03', 'USER3', NULL, 100000000),
+('USER04', 'USER4', NULL, 100000000),
+('USER05', 'USER5', NULL, 100000000),
+('USER06', 'USER6', NULL, 100000000),
+('USER07', 'USER7', NULL, 100000000),
+('USER08', 'USER8', NULL, 100000000),
+('USER09', 'USER9', NULL, 100000000),
+('USER10', 'USER10', NULL, 100000000),
+('USER11', 'USER11', NULL, 100000000),
+('USER12', 'USER12', NULL, 100000000),
+('USER13', 'USER13', NULL, 100000000),
+('USER14', 'USER14', NULL, 100000000),
+('USER15', 'USER15', NULL, 100000000),
+('USER16', 'USER16', NULL, 100000000),
+('USER17', 'USER17', NULL, 100000000),
+('USER18', 'USER18', NULL, 100000000),
+('USER19', 'USER19', NULL, 100000000),
+('USER20', 'USER20', NULL, 100000000),
+('USER21', 'USER21', NULL, 100000000),
+('USER22', 'USER22', NULL, 100000000),
+('USER23', 'USER23', NULL, 100000000),
+('USER24', 'USER24', NULL, 100000000),
+('USER25', 'USER25', NULL, 100000000),
+('USER26', 'USER26', NULL, 100000000),
+('USER27', 'USER27', NULL, 100000000),
+('USER28', 'USER28', NULL, 100000000),
+('USER29', 'USER29', NULL, 100000000),
+('USER30', 'USER30', NULL, 100000000),
+('USER31', 'USER31', NULL, 100000000),
+('USER32', 'USER32', NULL, 100000000),
+('USER33', 'USER33', NULL, 100000000),
+('USER34', 'USER34', NULL, 100000000),
+('USER35', 'USER35', NULL, 100000000),
+('USER36', 'USER36', NULL, 100000000),
+('USER37', 'USER37', NULL, 100000000),
+('USER38', 'USER38', NULL, 100000000),
+('USER39', 'USER39', NULL, 100000000),
+('USER40', 'USER40', NULL, 100000000),
+('USER41', 'USER41', NULL, 100000000),
+('USER42', 'USER42', NULL, 100000000),
+('USER43', 'USER43', NULL, 100000000),
+('USER44', 'USER44', NULL, 100000000),
+('USER45', 'USER45', NULL, 100000000),
+('USER46', 'USER46', NULL, 100000000),
+('USER47', 'USER47', NULL, 100000000),
+('USER48', 'USER48', NULL, 100000000),
+('USER49', 'USER49', NULL, 100000000),
+('USER50', 'USER50', NULL, 100000000),
+('USER51', 'USER51', NULL, 100000000),
+('USER52', 'USER52', NULL, 100000000),
+('USER53', 'USER53', NULL, 100000000),
+('USER54', 'USER54', NULL, 100000000),
+('USER55', 'USER55', NULL, 100000000),
+('USER56', 'USER56', NULL, 100000000),
+('USER57', 'USER57', NULL, 100000000);
 
 -- ──────────────────────────────────────────────
 -- stock_booths (AM 오전 투자 - 계열사별 1번/2번부스 + CJ인재원, 19개)
@@ -237,6 +224,21 @@ INSERT INTO stock_booths (name, category, description, short_description, displa
  'CJ그룹 인재 육성 기관', 19, '🎓', '#6C5CE7', 3, UUID());
 
 -- ──────────────────────────────────────────────
+-- 소속 stock_booth 매핑 (각 유저 → 특정 1개 stock_booth)
+-- ──────────────────────────────────────────────
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ올리브네트웍스 1번부스') WHERE unique_code = 'U001';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ제일제당 1번부스') WHERE unique_code = 'U002';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ올리브영 2번부스') WHERE unique_code = 'U003';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ푸드빌 1번부스') WHERE unique_code = 'U004';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ대한통운 2번부스') WHERE unique_code = 'U005';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ ENM 1번부스') WHERE unique_code = 'U006';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ프레시웨이 2번부스') WHERE unique_code = 'U007';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ인재원') WHERE unique_code = 'U008';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ인재원') WHERE unique_code = 'U009';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ인재원') WHERE unique_code = 'U010';
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE name = 'CJ인재원') WHERE unique_code = 'U011';
+
+-- ──────────────────────────────────────────────
 -- stock_prices 초기화
 -- ──────────────────────────────────────────────
 INSERT INTO stock_prices (stock_booth_id, current_price)
@@ -250,14 +252,16 @@ SELECT id, 100000000 FROM users WHERE unique_code IN ('U001','U002','U003','U004
 
 -- ──────────────────────────────────────────────
 -- stock_booth_visits
--- 메인 12명: 전체 stock_booth 방문
+-- 메인 12명: 미방문 5개 부스 제외하고 방문
 -- 더미 57명: CJ인재원만 방문 → CJ인재원 총 69명
+-- 미방문 부스: CJ CGV 2번부스, CJ프레시웨이 2번부스, CJ푸드빌 2번부스, CJ온스타일 1번부스, CJ온스타일 2번부스
 -- ──────────────────────────────────────────────
 INSERT INTO stock_booth_visits (user_id, stock_booth_id)
 SELECT u.id, sb.id
 FROM users u
 CROSS JOIN stock_booths sb
-WHERE u.unique_code IN ('U001','U002','U003','U004','U005','U006','U007','U008','U009','U010','U011','U999');
+WHERE u.unique_code IN ('U001','U002','U003','U004','U005','U006','U007','U008','U009','U010','U011','U999')
+AND sb.name NOT IN ('CJ CGV 2번부스', 'CJ프레시웨이 2번부스', 'CJ푸드빌 2번부스', 'CJ온스타일 1번부스', 'CJ온스타일 2번부스');
 
 INSERT INTO stock_booth_visits (user_id, stock_booth_id)
 SELECT u.id, sb.id
@@ -267,8 +271,8 @@ WHERE u.unique_code LIKE 'USER%'
 AND sb.name = 'CJ인재원';
 
 -- ──────────────────────────────────────────────
--- stock_ratings: 인재원 4명 × 11개 리뷰 = 44건
--- (CJ인재원 제외, 다른 stock_booth 11개에 리뷰)
+-- stock_ratings: 인재원 4명 + 김기범/정민창 × 11개 리뷰 = 66건
+-- (자기 소속 부스 제외, 다른 stock_booth 11개에 리뷰)
 -- ──────────────────────────────────────────────
 INSERT INTO stock_ratings (user_id, stock_booth_id, score_first, score_best, score_different, score_number_one, score_gap, score_global, review)
 SELECT u.id, sb.id,
@@ -293,16 +297,24 @@ SELECT u.id, sb.id,
   END
 FROM users u
 CROSS JOIN stock_booths sb
-WHERE u.unique_code IN ('U008','U009','U010','U011')
+WHERE u.unique_code IN ('U001','U005','U008','U009','U010','U011')
 AND sb.name != 'CJ인재원'
 AND sb.display_order <= 11;
 
 -- ──────────────────────────────────────────────
--- stock_comments: 인재원 4명 × 다른 부스 4개 = 16건 (디벨롭 아이디어)
+-- stock_comments: 인재원 4명 + 김기범/정민창 × 다른 부스 4개 = 24건 (디벨롭 아이디어)
 -- ──────────────────────────────────────────────
 INSERT INTO stock_comments (user_id, stock_booth_id, content)
 SELECT u.id, sb.id,
   CASE
+    WHEN u.unique_code = 'U001' AND sb.display_order = 1 THEN '식품 사업에 IT 기술을 접목한 스마트 팩토리 구축을 제안합니다'
+    WHEN u.unique_code = 'U001' AND sb.display_order = 3 THEN '물류 데이터 분석 플랫폼을 통한 배송 최적화가 필요합니다'
+    WHEN u.unique_code = 'U001' AND sb.display_order = 5 THEN 'AI 기반 콘텐츠 추천 엔진 고도화를 제안합니다'
+    WHEN u.unique_code = 'U001' AND sb.display_order = 7 THEN '옴니채널 고객 데이터 통합 플랫폼을 구축하면 좋겠습니다'
+    WHEN u.unique_code = 'U005' AND sb.display_order = 1 THEN '식품 콜드체인 물류 혁신으로 신선도 관리를 강화해야 합니다'
+    WHEN u.unique_code = 'U005' AND sb.display_order = 3 THEN '도심 물류 허브 네트워크 확장으로 당일배송 커버리지를 넓혀야 합니다'
+    WHEN u.unique_code = 'U005' AND sb.display_order = 5 THEN '물류와 콘텐츠 콜라보 굿즈 배송 서비스를 제안합니다'
+    WHEN u.unique_code = 'U005' AND sb.display_order = 7 THEN '뷰티 제품 특화 물류 솔루션 개발이 필요합니다'
     WHEN u.unique_code = 'U008' AND sb.display_order = 1 THEN '식품 분야에서 AI를 활용한 맞춤형 레시피 추천 서비스를 개발하면 좋겠습니다'
     WHEN u.unique_code = 'U008' AND sb.display_order = 3 THEN '물류 라스트마일 배송에 자율주행 로봇을 도입하는 것은 어떨까요'
     WHEN u.unique_code = 'U008' AND sb.display_order = 5 THEN '콘텐츠 IP를 활용한 메타버스 팬 커뮤니티 플랫폼을 제안합니다'
@@ -322,5 +334,18 @@ SELECT u.id, sb.id,
   END
 FROM users u
 CROSS JOIN stock_booths sb
-WHERE u.unique_code IN ('U008','U009','U010','U011')
+WHERE u.unique_code IN ('U001','U005','U008','U009','U010','U011')
 AND sb.display_order IN (1, 3, 5, 7);
+
+-- ──────────────────────────────────────────────
+-- user_missions: 인재원 4명 미션 진행도 반영 (미완료 상태)
+-- dream(디벨롭 아이디어): progress=4, target=5
+-- sincere(리뷰): progress=11, target=12
+-- ──────────────────────────────────────────────
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at, is_used, used_at)
+SELECT u.id, 'dream', 4, 5, FALSE, NULL, FALSE, NULL
+FROM users u WHERE u.unique_code IN ('U001','U005','U008','U009','U010','U011');
+
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at, is_used, used_at)
+SELECT u.id, 'sincere', 11, 12, FALSE, NULL, FALSE, NULL
+FROM users u WHERE u.unique_code IN ('U001','U005','U008','U009','U010','U011');
