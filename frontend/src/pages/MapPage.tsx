@@ -51,9 +51,9 @@ const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
 /** 부스 미매핑 구역 — 정적 상세 설명 */
 const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = {
   // '201': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
-  '202': { name: '교환소', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
-  '203': { name: '교환소', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
-  '204': { name: '교환소', description: '미션 완료시 부여받는 가챠 교환권을 사용하실 수 있습니다.' },
+  '202': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
+  '203': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
+  '204': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
   '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
   '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
 }
