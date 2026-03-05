@@ -200,7 +200,7 @@ export default function StockBoothListPage() {
 
             {/* 도넛 차트 */}
             <div className={styles.chartWrapLarge}>
-              <svg viewBox="0 0 180 180" className={styles.donutSvg}>
+              <svg viewBox="-10 -10 200 200" className={styles.donutSvg}>
                 {donutSegments.map((seg, i) => {
                   const dashLength = (seg.pct / 100) * circumference + 0.5
                   const dashGap = circumference - dashLength
