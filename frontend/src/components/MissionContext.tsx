@@ -73,6 +73,9 @@ const DEFAULT_MISSIONS: Mission[] = [
   },
 ]
 
+/** 메인 미션 ID (포토 티켓 제외) */
+const MAIN_MISSION_IDS = new Set(DEFAULT_MISSIONS.map(m => m.id))
+
 const MissionContext = createContext<MissionContextType | null>(null)
 
 export function MissionProvider({ children }: { children: ReactNode }) {
@@ -143,21 +146,19 @@ export function MissionProvider({ children }: { children: ReactNode }) {
           return updated
         })
 
-        // updater 바깥에서 완료 감지 (prevCompletedRef 기준)
+        // updater 바깥에서 완료 감지 (메인 미션만, 포토 티켓 제외)
         if (initialSyncDone.current) {
           const newlyCompleted = serverMissions.find(
-            sm => sm.isCompleted && !prevCompletedRef.current.has(sm.missionId)
+            sm => sm.isCompleted && MAIN_MISSION_IDS.has(sm.missionId) && !prevCompletedRef.current.has(sm.missionId)
           )
           if (newlyCompleted) {
-            const mission = DEFAULT_MISSIONS.find(m => m.id === newlyCompleted.missionId)
-            if (mission) {
-              setNewlyCompletedMission({
-                ...mission,
-                isCompleted: true,
-                progress: newlyCompleted.progress,
-                target: newlyCompleted.target > 0 ? newlyCompleted.target : mission.target,
-              })
-            }
+            const mission = DEFAULT_MISSIONS.find(m => m.id === newlyCompleted.missionId)!
+            setNewlyCompletedMission({
+              ...mission,
+              isCompleted: true,
+              progress: newlyCompleted.progress,
+              target: newlyCompleted.target > 0 ? newlyCompleted.target : mission.target,
+            })
           }
         }
 
