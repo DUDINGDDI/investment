@@ -74,7 +74,7 @@ export default function QrPage() {
       // 특별 공간 QR: together 미션 완료
       if (scannedUuid.toLowerCase() === TOGETHER_SPACE_UUID.toLowerCase()) {
         await missionApi.completeTogether(scannedUuid)
-        await syncFromServer()
+        await syncFromServer({ silent: true })
         setShowTogetherSuccess(true)
         return
       }
@@ -82,7 +82,7 @@ export default function QrPage() {
       // 내일 더 새롭게 QR: renew 미션 완료 + 투자금 지급
       if (scannedUuid.toLowerCase() === RENEW_SPACE_UUID.toLowerCase()) {
         await missionApi.completeRenew(scannedUuid)
-        await syncFromServer()
+        await syncFromServer({ silent: true })
         window.dispatchEvent(new Event('balance-changed'))
         setShowRenewSuccess(true)
         return

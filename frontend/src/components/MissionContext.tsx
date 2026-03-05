@@ -15,7 +15,7 @@ export interface Mission {
 
 interface MissionContextType {
   missions: Mission[]
-  syncFromServer: () => Promise<void>
+  syncFromServer: (options?: { silent?: boolean }) => Promise<void>
   resetAndSync: () => Promise<void>
   loading: boolean
   newlyCompletedMission: Mission | null
@@ -124,7 +124,7 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  const syncFromServer = useCallback(async () => {
+  const syncFromServer = useCallback(async (options?: { silent?: boolean }) => {
     setLoading(true)
     try {
       const res = await missionApi.getMyMissions()
@@ -146,8 +146,8 @@ export function MissionProvider({ children }: { children: ReactNode }) {
           return updated
         })
 
-        // updater 바깥에서 완료 감지 (메인 미션만, 포토 티켓 제외)
-        if (initialSyncDone.current) {
+        // 완료 감지 (메인 미션만, 포토 티켓 제외, silent가 아닐 때만)
+        if (initialSyncDone.current && !options?.silent) {
           const newlyCompleted = serverMissions.find(
             sm => sm.isCompleted && MAIN_MISSION_IDS.has(sm.missionId) && !prevCompletedRef.current.has(sm.missionId)
           )
