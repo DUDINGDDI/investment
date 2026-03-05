@@ -80,7 +80,7 @@ export default function StockBoothListPage() {
   const balancePct = totalAsset > 0 ? (balance / totalAsset) * 100 : 100
   const donutSegments = [
     ...investedSegments,
-    { boothId: -1, color: 'var(--border-color)', pct: balancePct },
+    { boothId: -1, color: '#888888', pct: balancePct },
   ]
 
   const radius = 70
@@ -198,65 +198,46 @@ export default function StockBoothListPage() {
               </button>
             </div>
 
-            <div className={styles.statusBody}>
-              {/* 도넛 차트 */}
-              <div className={styles.chartWrap}>
-                <svg viewBox="0 0 180 180" className={styles.donutSvg}>
-                  <circle
-                    cx="90" cy="90" r={radius}
-                    fill="none"
-                    stroke="var(--border-color)"
-                    strokeWidth="16"
-                  />
-                  {donutSegments.map((seg, i) => {
-                    const dashLength = (seg.pct / 100) * circumference
-                    const dashGap = circumference - dashLength
-                    const offset = segmentOffsets[i]
+            {/* 도넛 차트 */}
+            <div className={styles.chartWrapLarge}>
+              <svg viewBox="0 0 180 180" className={styles.donutSvg}>
+                <circle cx="90" cy="90" r={radius} fill="none" stroke="#888888" strokeWidth="16" />
+                {donutSegments.map((seg, i) => {
+                  const dashLength = (seg.pct / 100) * circumference
+                  const dashGap = circumference - dashLength
+                  const offset = segmentOffsets[i]
+                  return (
+                    <circle
+                      key={seg.boothId}
+                      cx="90" cy="90" r={radius}
+                      fill="none"
+                      stroke={seg.color}
+                      strokeWidth="16"
+                      strokeDasharray={`${dashLength} ${dashGap}`}
+                      strokeDashoffset={-offset}
+                      strokeLinecap="butt"
+                      style={{ transform: 'rotate(-90deg)', transformOrigin: '90px 90px' }}
+                    />
+                  )
+                })}
+                <text x="90" y="85" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
+                <text x="90" y="105" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
+              </svg>
+            </div>
 
-                    return (
-                      <circle
-                        key={seg.boothId}
-                        cx="90" cy="90" r={radius}
-                        fill="none"
-                        stroke={seg.color}
-                        strokeWidth="16"
-                        strokeDasharray={`${dashLength} ${dashGap}`}
-                        strokeDashoffset={-offset}
-                        strokeLinecap="butt"
-                        style={{ transform: 'rotate(-90deg)', transformOrigin: '90px 90px' }}
-                      />
-                    )
-                  })}
-                  <text x="90" y="85" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
-                  <text x="90" y="105" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
-                </svg>
+            {/* 자산 정보 */}
+            <div className={styles.assetBelow}>
+              <div className={styles.assetBelowItem}>
+                <span className={styles.assetLabel}>투자 금액</span>
+                <p className={styles.assetValue}>{formatKorean(totalHolding)}원</p>
               </div>
-
-              {/* 자산 정보 */}
-              <div className={styles.assetRight}>
-                <div className={styles.assetTopRow}>
-                  <div className={styles.assetItem}>
-                    <div className={styles.assetRow}>
-                      <div className={styles.assetDot} style={{ background: '#6C5CE7' }} />
-                      <span className={styles.assetLabel}>투자 금액</span>
-                    </div>
-                    <p className={styles.assetValue}>{formatKorean(totalHolding)}원</p>
-                  </div>
-                  <div className={styles.assetItem}>
-                    <div className={styles.assetRow}>
-                      <div className={styles.assetDot} style={{ background: '#4FC3F7' }} />
-                      <span className={styles.assetLabel}>잔여 금액</span>
-                    </div>
-                    <p className={styles.assetValue}>{formatKorean(balance)}원</p>
-                  </div>
-                </div>
-                <div className={styles.assetBottomRow}>
-                  <div className={styles.assetRow}>
-                    <div className={styles.assetDot} style={{ background: '#FFB74D' }} />
-                    <span className={styles.assetLabel}>총 자산</span>
-                  </div>
-                  <p className={styles.assetValueLarge}>{formatKorean(totalAsset)}원</p>
-                </div>
+              <div className={styles.assetBelowItem}>
+                <span className={styles.assetLabel}>잔여 금액</span>
+                <p className={styles.assetValue}>{formatKorean(balance)}원</p>
+              </div>
+              <div className={styles.assetBelowItem}>
+                <span className={styles.assetLabel}>총 자산</span>
+                <p className={styles.assetValueLarge}>{formatKorean(totalAsset)}원</p>
               </div>
             </div>
           </div>
