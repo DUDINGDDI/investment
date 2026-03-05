@@ -64,8 +64,6 @@ export default function StockBoothDetailPage() {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editContent, setEditContent] = useState('')
   const currentUserId = Number(localStorage.getItem('userId') || '0')
-  const hasMyComment = comments.some(c => c.userId === currentUserId)
-
   // 평가 탭
   const [myRating, setMyRating] = useState<StockRatingResponse | null>(null)
   const [ratingLoaded, setRatingLoaded] = useState(false)
@@ -406,10 +404,6 @@ export default function StockBoothDetailPage() {
               <div className={styles.inputLocked}>
                 <span className={styles.lockIcon}>&#x1F512;</span>
                 <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
-              </div>
-            ) : hasMyComment ? (
-              <div className={styles.inputLocked}>
-                <p className={styles.lockTitle}>이미 이 부스에 아이디어를 제안하셨습니다</p>
               </div>
             ) : (
               <div className={styles.commentInputArea}>
