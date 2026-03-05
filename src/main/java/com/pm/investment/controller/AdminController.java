@@ -154,4 +154,11 @@ public class AdminController {
         sseEmitterService.broadcastMissionComplete(missionId);
         return ResponseEntity.ok(Map.of("missionId", missionId, "completedCount", count));
     }
+
+    @PostMapping("/missions/uncomplete-all")
+    public ResponseEntity<Map<String, Object>> uncompleteMissionForAll(@RequestBody Map<String, String> body) {
+        String missionId = body.get("missionId");
+        int count = missionService.uncompleteForAll(missionId);
+        return ResponseEntity.ok(Map.of("missionId", missionId, "uncompletedCount", count));
+    }
 }

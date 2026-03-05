@@ -162,4 +162,6 @@ export const adminApi = {
     api.post<UserMissionResponse>('/admin/tickets/use', { userId, missionId }),
   completeMissionForAll: (missionId: string) =>
     api.post<{ missionId: string; completedCount: number }>('/admin/missions/complete-all', { missionId }),
+  uncompleteMissionForAll: (missionId: string) =>
+    api.post<{ missionId: string; uncompletedCount: number }>('/admin/missions/uncomplete-all', { missionId }),
 };

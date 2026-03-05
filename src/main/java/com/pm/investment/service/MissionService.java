@@ -428,4 +428,29 @@ public class MissionService {
         }
         return count;
     }
+
+    /**
+     * 전체 유저에게 특정 미션 일괄 미완료 처리
+     */
+    @Transactional
+    public int uncompleteForAll(String missionId) {
+        if (!MISSION_TARGETS.containsKey(missionId)) {
+            throw new IllegalArgumentException("존재하지 않는 미션입니다: " + missionId);
+        }
+
+        List<User> allUsers = userRepository.findAll();
+        int count = 0;
+        for (User user : allUsers) {
+            Optional<UserMission> opt = userMissionRepository.findByUser_IdAndMissionId(user.getId(), missionId);
+            if (opt.isPresent() && opt.get().getIsCompleted()) {
+                UserMission um = opt.get();
+                um.setProgress(0);
+                um.setIsCompleted(false);
+                um.setCompletedAt(null);
+                userMissionRepository.save(um);
+                count++;
+            }
+        }
+        return count;
+    }
 }
