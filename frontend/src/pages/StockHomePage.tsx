@@ -334,7 +334,7 @@ export default function StockHomePage() {
                 </div>
                 <div className={badgeStyles.myRankInfo}>
                   <p className={badgeStyles.myRankLabel}>내 순위</p>
-                  <p className={badgeStyles.myRankName}>{userName || '-'}</p>
+                  <p className={badgeStyles.myRankName}>{userName ? `${userName}님` : '-'}</p>
                   <div className={badgeStyles.myRankScoreRow}>
                     <span className={badgeStyles.myRankScore}>
                       {myRanking ? myRanking.progress : 0}
@@ -380,7 +380,7 @@ export default function StockHomePage() {
                         <div className={badgeStyles.podiumAvatar}>
                           {item.name.charAt(0)}
                         </div>
-                        <p className={badgeStyles.podiumName}>{item.name}{item.company ? ` · ${item.company}` : ''}</p>
+                        <p className={badgeStyles.podiumName}>{item.name}님{item.company ? ` · ${item.company}` : ''}</p>
                         <div className={badgeStyles.podiumScoreRow}>
                           <span className={badgeStyles.podiumRate}>{item.progress}</span>
                           <span className={badgeStyles.podiumRateUnit}>{currentUnit}</span>
@@ -408,7 +408,7 @@ export default function StockHomePage() {
                           {item.name.charAt(0)}
                         </div>
                         <div className={badgeStyles.rankListInfo}>
-                          <p className={badgeStyles.rankListName}>{item.name}{item.company ? ` · ${item.company}` : ''}</p>
+                          <p className={badgeStyles.rankListName}>{item.name}님{item.company ? ` · ${item.company}` : ''}</p>
                         </div>
                         <div className={badgeStyles.rankListScoreArea}>
                           <span className={badgeStyles.rankListRate}>{item.progress}{currentUnit}</span>
