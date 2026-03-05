@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { useMissions } from './MissionContext'
 import styles from './MissionCompletePopup.module.css'
 
@@ -20,15 +19,6 @@ const CONFETTI_STYLES: React.CSSProperties[] = Array.from({ length: 40 }, (_, i)
 
 export default function MissionCompletePopup() {
   const { newlyCompletedMission, clearNewlyCompleted } = useMissions()
-  const [showConfetti, setShowConfetti] = useState(false)
-
-  useEffect(() => {
-    if (newlyCompletedMission) {
-      setShowConfetti(true)
-      const timer = setTimeout(() => setShowConfetti(false), 3000)
-      return () => clearTimeout(timer)
-    }
-  }, [newlyCompletedMission])
 
   if (!newlyCompletedMission) return null
 
@@ -52,13 +42,11 @@ export default function MissionCompletePopup() {
         </div>
       </div>
 
-      {showConfetti && (
-        <div className={styles.confettiContainer}>
-          {Array.from({ length: 40 }).map((_, i) => (
-            <div key={i} className={styles.confetti} style={CONFETTI_STYLES[i]} />
-          ))}
-        </div>
-      )}
+      <div className={styles.confettiContainer}>
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div key={i} className={styles.confetti} style={CONFETTI_STYLES[i]} />
+        ))}
+      </div>
     </>
   )
 }
