@@ -32,6 +32,9 @@ const LEARNING_3F_HOTSPOTS: Hotspot[] = [
 
 const LEADERSHIP_LLF_HOTSPOTS: Hotspot[] = []
 
+/** 이미지 캐시 버스팅 — 배포 시마다 갱신 */
+const MAP_VERSION = 'v2'
+
 /** zoneCode → 지도 이미지 + 핫스팟 매핑 */
 const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
   '손복남홀': { image: `/image/map/innovation_ll.png?${MAP_VERSION}`, hotspots: INNOVATION_LL_HOTSPOTS },
@@ -57,9 +60,6 @@ const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = 
   '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토네컷', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토네컷 교환권을 사용하실 수 있습니다.' },
   '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토네컷', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토네컷 교환권을 사용하실 수 있습니다.' },
 }
-
-/** 이미지 캐시 버스팅 — 배포 시마다 갱신 */
-const MAP_VERSION = 'v2'
 
 const DEFAULT_MAP_IMAGE = `/image/map/leadership_llf.png?${MAP_VERSION}`
 
