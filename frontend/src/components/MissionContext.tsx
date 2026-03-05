@@ -140,25 +140,32 @@ export function MissionProvider({ children }: { children: ReactNode }) {
               usedAt: sm.usedAt,
             }
           })
-
-          // 초기 동기화 이후부터 새로 완료된 미션 감지
-          if (initialSyncDone.current) {
-            const newlyCompleted = updated.find(
-              m => m.isCompleted && !prevCompletedRef.current.has(m.id)
-            )
-            if (newlyCompleted) {
-              setNewlyCompletedMission(newlyCompleted)
-            }
-          }
-
-          // 현재 완료된 미션 ID 스냅샷 갱신
-          prevCompletedRef.current = new Set(
-            updated.filter(m => m.isCompleted).map(m => m.id)
-          )
-          initialSyncDone.current = true
-
           return updated
         })
+
+        // updater 바깥에서 완료 감지 (prevCompletedRef 기준)
+        if (initialSyncDone.current) {
+          const newlyCompleted = serverMissions.find(
+            sm => sm.isCompleted && !prevCompletedRef.current.has(sm.missionId)
+          )
+          if (newlyCompleted) {
+            const mission = DEFAULT_MISSIONS.find(m => m.id === newlyCompleted.missionId)
+            if (mission) {
+              setNewlyCompletedMission({
+                ...mission,
+                isCompleted: true,
+                progress: newlyCompleted.progress,
+                target: newlyCompleted.target > 0 ? newlyCompleted.target : mission.target,
+              })
+            }
+          }
+        }
+
+        // 스냅샷 갱신
+        prevCompletedRef.current = new Set(
+          serverMissions.filter(sm => sm.isCompleted).map(sm => sm.missionId)
+        )
+        initialSyncDone.current = true
       }
     } catch {
       // 서버 동기화 실패 시 기본값 유지
