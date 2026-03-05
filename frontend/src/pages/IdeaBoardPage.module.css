@@ -62,7 +62,7 @@
   cursor: default;
   transition: box-shadow 0.3s ease;
   transform-origin: top center;
-  animation: flutter var(--flutter-duration, 4s) ease-in-out var(--flutter-delay, 0s) infinite;
+  transform: rotate(var(--rotation, 0deg));
 
   /* 그라데이션 배경 */
   background: linear-gradient(160deg, var(--card-from) 0%, var(--card-to) 100%);
@@ -74,17 +74,7 @@
     0 12px 28px rgba(0, 0, 0, 0.1);
 }
 
-/* ───── 팔랑팔랑 ───── */
-@keyframes flutter {
-  0%   { transform: rotate(var(--rotation, 0deg)) rotateY(0deg) rotateX(0deg); }
-  25%  { transform: rotate(calc(var(--rotation, 0deg) + 2deg)) rotateY(1.5deg) rotateX(-0.5deg); }
-  50%  { transform: rotate(calc(var(--rotation, 0deg) - 1.5deg)) rotateY(-1deg) rotateX(0.5deg); }
-  75%  { transform: rotate(calc(var(--rotation, 0deg) + 1deg)) rotateY(0.8deg) rotateX(-0.3deg); }
-  100% { transform: rotate(var(--rotation, 0deg)) rotateY(0deg) rotateX(0deg); }
-}
-
 .card:hover {
-  animation-play-state: paused;
   transform: rotate(0deg) scale(1.05) translateY(-6px) !important;
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.08),

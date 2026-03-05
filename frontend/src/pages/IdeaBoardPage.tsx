@@ -58,8 +58,6 @@ interface CardPos {
   sub: string
   clipPos: ClipPos
   clipRotation: number
-  flutterDelay: number
-  flutterDuration: number
 }
 
 function computePositions(
@@ -83,8 +81,6 @@ function computePositions(
     const color = POSTIT_COLORS[Math.floor(seededRandom(c.id * 17) * POSTIT_COLORS.length)]
     const clipPos = CLIP_POSITIONS[Math.floor(seededRandom(c.id * 29) * CLIP_POSITIONS.length)]
     const clipRotation = (seededRandom(c.id * 43) - 0.5) * 20
-    const flutterDelay = seededRandom(c.id * 31) * -8
-    const flutterDuration = 3 + seededRandom(c.id * 37) * 3
 
     return {
       left: Math.max(10, Math.min(
@@ -100,8 +96,6 @@ function computePositions(
       sub: color.sub,
       clipPos,
       clipRotation,
-      flutterDelay,
-      flutterDuration,
     }
   })
 
@@ -303,8 +297,6 @@ export default function IdeaBoardPage() {
                   '--card-text': pos.text,
                   '--card-sub': pos.sub,
                   '--rotation': `${pos.rotation}deg`,
-                  '--flutter-delay': `${pos.flutterDelay}s`,
-                  '--flutter-duration': `${pos.flutterDuration}s`,
                 } as React.CSSProperties}
               >
                 {/* 클립 */}
