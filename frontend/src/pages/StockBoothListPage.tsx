@@ -201,9 +201,8 @@ export default function StockBoothListPage() {
             {/* 도넛 차트 */}
             <div className={styles.chartWrapLarge}>
               <svg viewBox="0 0 180 180" className={styles.donutSvg}>
-                <circle cx="90" cy="90" r={radius} fill="none" stroke="#888888" strokeWidth="16" />
                 {donutSegments.map((seg, i) => {
-                  const dashLength = (seg.pct / 100) * circumference
+                  const dashLength = (seg.pct / 100) * circumference + 0.5
                   const dashGap = circumference - dashLength
                   const offset = segmentOffsets[i]
                   return (
@@ -213,7 +212,7 @@ export default function StockBoothListPage() {
                       fill="none"
                       stroke={seg.color}
                       strokeWidth="16"
-                      strokeDasharray={`${dashLength} ${dashGap}`}
+                      strokeDasharray={`${dashLength} ${Math.max(0, dashGap)}`}
                       strokeDashoffset={-offset}
                       strokeLinecap="butt"
                       style={{ transform: 'rotate(-90deg)', transformOrigin: '90px 90px' }}
