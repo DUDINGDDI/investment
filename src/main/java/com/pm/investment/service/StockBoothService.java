@@ -128,7 +128,7 @@ public class StockBoothService {
 
         // again 미션: 부스 소유자들의 방문자 수 업데이트
         long visitorCount = stockBoothVisitRepository.countByStockBoothId(booth.getId());
-        List<User> boothOwners = userRepository.findByBelongingBooth_Name(booth.getName());
+        List<User> boothOwners = userRepository.findByBelongingStockBooth_Id(booth.getId());
         for (User owner : boothOwners) {
             missionService.checkAndUpdateMission(owner.getId(), "again", (int) visitorCount);
         }

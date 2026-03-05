@@ -16,9 +16,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUniqueCodeAndName(String uniqueCode, String name);
 
-    List<User> findByBelongingBooth_Id(Long boothId);
+    List<User> findByBelongingStockBooth_Id(Long stockBoothId);
 
-    List<User> findByBelongingBooth_Name(String boothName);
+    List<User> findByBelongingStockBooth_Name(String stockBoothName);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT u FROM User u WHERE u.id = :id")
