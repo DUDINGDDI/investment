@@ -64,7 +64,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'together',
     title: '(+) 함께하는 하고잡이',
-    description: '하고잡이 Wall에 AI 포토부스 사진을 게시하여 미션을 완료해주세요.',
+    description: '하고잡이 Wall에 AI 포토네컷 사진을 게시하여 미션을 완료해주세요.',
     isCompleted: false,
     icon: '/image/badge/together.svg',
   },

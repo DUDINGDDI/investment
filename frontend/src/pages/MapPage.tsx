@@ -54,8 +54,8 @@ const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = 
   '202': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
   '203': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
   '204': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
-  '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
-  '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토부스', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토부스 교환권을 사용하실 수 있습니다.' },
+  '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토네컷', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토네컷 교환권을 사용하실 수 있습니다.' },
+  '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토네컷', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토네컷 교환권을 사용하실 수 있습니다.' },
 }
 
 const DEFAULT_MAP_IMAGE = '/image/map/leadership_llf.png'

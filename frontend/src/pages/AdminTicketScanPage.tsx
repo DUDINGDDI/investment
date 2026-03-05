@@ -136,7 +136,7 @@ export default function AdminTicketScanPage() {
             <div className={styles.successIcon}>✅</div>
             <h3 className={styles.successTitle}>사용 처리 완료</h3>
             <p className={styles.successDesc}>
-              이용권 AI 포토부스 이용권이 정상적으로 사용 처리되었습니다.
+              이용권 AI 포토네컷 이용권이 정상적으로 사용 처리되었습니다.
             </p>
             <button className={styles.successButton} onClick={handleCloseResult}>
               다음 스캔
