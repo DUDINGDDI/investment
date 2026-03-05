@@ -30,7 +30,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'dream',
     title: '꿈을 원대하게',
-    description: '방문한 부스의 아이디어 Develop Zone에서 개선점을 5건 이상 제안해주세요 (150자 이상 작성)',
+    description: '방문 부스의 아이디어 Develop Zone에 디벨롭 의견을 5회 이상 제안해주세요.(150자 이상 작성)',
     isCompleted: false,
     progress: 0,
     target: 5,
@@ -46,7 +46,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'again',
     title: '안돼도 다시',
-    description: '내 부스 방문자 70명 이상 달성하기',
+    description: '내 부스 방문자 70명 이상 달성해주세요.',
     isCompleted: false,
     progress: 0,
     target: 70,
@@ -55,7 +55,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'sincere',
     title: '진정성 있게',
-    description: '방문한 부스에 리뷰 12회 이상 작성(글자 수 80자 이상일 경우만 인정)',
+    description: '방문한 부스에 리뷰 12회 이상 작성해주세요.(글자 수 80자 이상일 경우만 인정)',
     isCompleted: false,
     progress: 0,
     target: 12,
