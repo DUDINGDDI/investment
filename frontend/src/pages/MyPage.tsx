@@ -325,7 +325,7 @@ export default function MyPage() {
               className={`${styles.memoSubTab} ${memoSubTab === 'am' ? styles.memoSubTabActive : ''}`}
               onClick={() => { setMemoSubTab('am'); setMemoPage(0) }}
             >
-              오전투자
+              오전 투자
             </button>
             <button
               className={`${styles.memoSubTab} ${memoSubTab === 'pm' ? styles.memoSubTabActive : ''}`}
