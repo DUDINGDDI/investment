@@ -34,18 +34,18 @@ const LEADERSHIP_LLF_HOTSPOTS: Hotspot[] = []
 
 /** zoneCode → 지도 이미지 + 핫스팟 매핑 */
 const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
-  '손복남홀': { image: '/image/map/innovation_ll.png', hotspots: INNOVATION_LL_HOTSPOTS },
-  'L01': { image: '/image/map/innovation_ll.png', hotspots: INNOVATION_LL_HOTSPOTS },
-  'L02': { image: '/image/map/innovation_ll.png', hotspots: INNOVATION_LL_HOTSPOTS },
-  '101': { image: '/image/map/learning_1f.png', hotspots: LEARNING_1F_HOTSPOTS },
-  '102': { image: '/image/map/learning_1f.png', hotspots: LEARNING_1F_HOTSPOTS },
-  '201': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
-  '202': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
-  '203': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
-  '204': { image: '/image/map/learning_2f.png', hotspots: LEARNING_2F_HOTSPOTS },
-  '301': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
-  '302': { image: '/image/map/learning_3f.png', hotspots: LEARNING_3F_HOTSPOTS },
-  'leadership_llf': { image: '/image/map/leadership_llf.png', hotspots: LEADERSHIP_LLF_HOTSPOTS },
+  '손복남홀': { image: `/image/map/innovation_ll.png?${MAP_VERSION}`, hotspots: INNOVATION_LL_HOTSPOTS },
+  'L01': { image: `/image/map/innovation_ll.png?${MAP_VERSION}`, hotspots: INNOVATION_LL_HOTSPOTS },
+  'L02': { image: `/image/map/innovation_ll.png?${MAP_VERSION}`, hotspots: INNOVATION_LL_HOTSPOTS },
+  '101': { image: `/image/map/learning_1f.png?${MAP_VERSION}`, hotspots: LEARNING_1F_HOTSPOTS },
+  '102': { image: `/image/map/learning_1f.png?${MAP_VERSION}`, hotspots: LEARNING_1F_HOTSPOTS },
+  '201': { image: `/image/map/learning_2f.png?${MAP_VERSION}`, hotspots: LEARNING_2F_HOTSPOTS },
+  '202': { image: `/image/map/learning_2f.png?${MAP_VERSION}`, hotspots: LEARNING_2F_HOTSPOTS },
+  '203': { image: `/image/map/learning_2f.png?${MAP_VERSION}`, hotspots: LEARNING_2F_HOTSPOTS },
+  '204': { image: `/image/map/learning_2f.png?${MAP_VERSION}`, hotspots: LEARNING_2F_HOTSPOTS },
+  '301': { image: `/image/map/learning_3f.png?${MAP_VERSION}`, hotspots: LEARNING_3F_HOTSPOTS },
+  '302': { image: `/image/map/learning_3f.png?${MAP_VERSION}`, hotspots: LEARNING_3F_HOTSPOTS },
+  'leadership_llf': { image: `/image/map/leadership_llf.png?${MAP_VERSION}`, hotspots: LEADERSHIP_LLF_HOTSPOTS },
 }
 
 /** 부스 미매핑 구역 — 정적 상세 설명 */
@@ -58,7 +58,10 @@ const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = 
   '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토네컷', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토네컷 교환권을 사용하실 수 있습니다.' },
 }
 
-const DEFAULT_MAP_IMAGE = '/image/map/leadership_llf.png'
+/** 이미지 캐시 버스팅 — 배포 시마다 갱신 */
+const MAP_VERSION = 'v2'
+
+const DEFAULT_MAP_IMAGE = `/image/map/leadership_llf.png?${MAP_VERSION}`
 
 /** 건물 선택 시 기본 구역 */
 const FLOOR_DEFAULT_ZONE: Record<string, string> = {
