@@ -111,7 +111,6 @@ function RankChangeIndicator({ change }: { change: number }) {
 export default function StockHomePage() {
   const navigate = useNavigate()
   const userName = localStorage.getItem('userName') || ''
-  const userCompany = localStorage.getItem('userCompany') || ''
   const [balance, setBalance] = useState<number | null>(null)
   const [totalHolding, setTotalHolding] = useState(0)
   const [holdings, setHoldings] = useState<StockHoldingResponse[]>([])
