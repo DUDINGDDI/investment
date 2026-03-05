@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi } from '../api'
 import { useToast } from '../components/ToastContext'
+import { useMissions } from '../components/MissionContext'
 import cjLogo from '../assets/logo/CJ_Group_White Wordtype.png'
 import styles from './LoginPage.module.css'
 
@@ -11,6 +12,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { showToast } = useToast()
+  const { resetAndSync } = useMissions()
 
   const handleLogin = async () => {
     if (!uniqueCode.trim() || !name.trim()) {
@@ -25,6 +27,7 @@ export default function LoginPage() {
       localStorage.setItem('userId', String(data.userId))
       localStorage.setItem('userName', data.name)
       localStorage.setItem('userCompany', data.company || '')
+      await resetAndSync()
       navigate('/stocks', { replace: true })
     } catch {
       showToast('로그인에 실패했습니다', 'error')

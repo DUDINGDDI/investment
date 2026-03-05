@@ -16,6 +16,7 @@ export interface Mission {
 interface MissionContextType {
   missions: Mission[]
   syncFromServer: () => Promise<void>
+  resetAndSync: () => Promise<void>
   loading: boolean
   newlyCompletedMission: Mission | null
   clearNewlyCompleted: () => void
@@ -85,6 +86,41 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     setNewlyCompletedMission(null)
   }, [])
 
+  const resetAndSync = useCallback(async () => {
+    setMissions(DEFAULT_MISSIONS)
+    setNewlyCompletedMission(null)
+    prevCompletedRef.current = new Set()
+    initialSyncDone.current = false
+    setLoading(true)
+    try {
+      const res = await missionApi.getMyMissions()
+      const serverMissions = res.data
+      if (serverMissions.length > 0) {
+        const updated = DEFAULT_MISSIONS.map(m => {
+          const sm = serverMissions.find(s => s.missionId === m.id)
+          if (!sm) return m
+          return {
+            ...m,
+            isCompleted: sm.isCompleted,
+            progress: sm.progress,
+            target: sm.target > 0 ? sm.target : m.target,
+            isUsed: sm.isUsed,
+            usedAt: sm.usedAt,
+          }
+        })
+        prevCompletedRef.current = new Set(
+          updated.filter(m => m.isCompleted).map(m => m.id)
+        )
+        initialSyncDone.current = true
+        setMissions(updated)
+      }
+    } catch {
+      // 실패 시 기본값 유지
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
   const syncFromServer = useCallback(async () => {
     setLoading(true)
     try {
@@ -149,7 +185,7 @@ export function MissionProvider({ children }: { children: ReactNode }) {
   }, [syncFromServer])
 
   return (
-    <MissionContext.Provider value={{ missions, syncFromServer, loading, newlyCompletedMission, clearNewlyCompleted }}>
+    <MissionContext.Provider value={{ missions, syncFromServer, resetAndSync, loading, newlyCompletedMission, clearNewlyCompleted }}>
       {children}
     </MissionContext.Provider>
   )
