@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react'
 import { missionApi } from '../api'
 
 export interface Mission {
@@ -17,6 +17,8 @@ interface MissionContextType {
   missions: Mission[]
   syncFromServer: () => Promise<void>
   loading: boolean
+  newlyCompletedMission: Mission | null
+  clearNewlyCompleted: () => void
 }
 
 const DEFAULT_MISSIONS: Mission[] = [
@@ -75,6 +77,13 @@ const MissionContext = createContext<MissionContextType | null>(null)
 export function MissionProvider({ children }: { children: ReactNode }) {
   const [missions, setMissions] = useState<Mission[]>(DEFAULT_MISSIONS)
   const [loading, setLoading] = useState(false)
+  const [newlyCompletedMission, setNewlyCompletedMission] = useState<Mission | null>(null)
+  const prevCompletedRef = useRef<Set<string>>(new Set())
+  const initialSyncDone = useRef(false)
+
+  const clearNewlyCompleted = useCallback(() => {
+    setNewlyCompletedMission(null)
+  }, [])
 
   const syncFromServer = useCallback(async () => {
     setLoading(true)
@@ -82,18 +91,38 @@ export function MissionProvider({ children }: { children: ReactNode }) {
       const res = await missionApi.getMyMissions()
       const serverMissions = res.data
       if (serverMissions.length > 0) {
-        setMissions(prev => prev.map(m => {
-          const sm = serverMissions.find(s => s.missionId === m.id)
-          if (!sm) return m
-          return {
-            ...m,
-            isCompleted: sm.isCompleted,
-            progress: sm.progress,
-            target: sm.target > 0 ? sm.target : m.target,
-            isUsed: sm.isUsed,
-            usedAt: sm.usedAt,
+        setMissions(prev => {
+          const updated = prev.map(m => {
+            const sm = serverMissions.find(s => s.missionId === m.id)
+            if (!sm) return m
+            return {
+              ...m,
+              isCompleted: sm.isCompleted,
+              progress: sm.progress,
+              target: sm.target > 0 ? sm.target : m.target,
+              isUsed: sm.isUsed,
+              usedAt: sm.usedAt,
+            }
+          })
+
+          // 초기 동기화 이후부터 새로 완료된 미션 감지
+          if (initialSyncDone.current) {
+            const newlyCompleted = updated.find(
+              m => m.isCompleted && !prevCompletedRef.current.has(m.id)
+            )
+            if (newlyCompleted) {
+              setNewlyCompletedMission(newlyCompleted)
+            }
           }
-        }))
+
+          // 현재 완료된 미션 ID 스냅샷 갱신
+          prevCompletedRef.current = new Set(
+            updated.filter(m => m.isCompleted).map(m => m.id)
+          )
+          initialSyncDone.current = true
+
+          return updated
+        })
       }
     } catch {
       // 서버 동기화 실패 시 기본값 유지
@@ -101,6 +130,15 @@ export function MissionProvider({ children }: { children: ReactNode }) {
       setLoading(false)
     }
   }, [])
+
+  // SSE mission-complete 이벤트 수신 시 자동 동기화
+  useEffect(() => {
+    const handler = () => {
+      syncFromServer()
+    }
+    window.addEventListener('mission-complete', handler)
+    return () => window.removeEventListener('mission-complete', handler)
+  }, [syncFromServer])
 
   // 마운트 시 자동으로 서버에서 동기화
   useEffect(() => {
@@ -111,7 +149,7 @@ export function MissionProvider({ children }: { children: ReactNode }) {
   }, [syncFromServer])
 
   return (
-    <MissionContext.Provider value={{ missions, syncFromServer, loading }}>
+    <MissionContext.Provider value={{ missions, syncFromServer, loading, newlyCompletedMission, clearNewlyCompleted }}>
       {children}
     </MissionContext.Provider>
   )

@@ -27,6 +27,7 @@ import AppHeader from './components/AppHeader'
 import Toast from './components/Toast'
 import { ToastProvider } from './components/ToastContext'
 import { MissionProvider } from './components/MissionContext'
+import MissionCompletePopup from './components/MissionCompletePopup'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -90,6 +91,7 @@ export default function App() {
       <MissionProvider>
       <ScrollToTop />
       <Toast />
+      <MissionCompletePopup />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route element={<PrivateLayout />}>

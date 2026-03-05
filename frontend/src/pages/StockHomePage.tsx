@@ -17,22 +17,6 @@ const MISSION_UNIT: Record<string, string> = {
   sincere: '회',
 }
 
-function seededRandom(seed: number) {
-  const x = Math.sin(seed + 1) * 10000
-  return x - Math.floor(x)
-}
-
-const CONFETTI_STYLES: React.CSSProperties[] = Array.from({ length: 40 }, (_, i) => {
-  const colors = ['#6C63FF', '#4593FC', '#F5C842', '#00D68F', '#F04452', '#FF8A65']
-  return {
-    '--x': `${(seededRandom(i * 3) - 0.5) * 300}px`,
-    '--y': `${-seededRandom(i * 3 + 1) * 400 - 100}px`,
-    '--r': `${seededRandom(i * 3 + 2) * 720 - 360}deg`,
-    '--delay': `${i * 0.03}s`,
-    backgroundColor: colors[i % colors.length],
-  } as React.CSSProperties
-})
-
 function BadgeImage({ mission, size = 'normal' }: { mission: Mission; size?: 'normal' | 'large' }) {
   const unlocked = mission.isCompleted
   const sizeClass = size === 'large' ? badgeStyles.hexLarge : ''
@@ -88,10 +72,6 @@ function MiniProgressBar({ mission }: { mission: Mission }) {
   )
 }
 
-function ConfettiParticle({ index }: { index: number }) {
-  return <div className={badgeStyles.confetti} style={CONFETTI_STYLES[index]} />
-}
-
 function RankBadgeLabel({ rank }: { rank: number }) {
   if (rank === 1) return <span className={badgeStyles.rankBadgeGold}>1st</span>
   if (rank === 2) return <span className={badgeStyles.rankBadgeSilver}>2nd</span>
@@ -115,11 +95,10 @@ export default function StockHomePage() {
   const [totalHolding, setTotalHolding] = useState(0)
 
   // Mission 관련 state
-  const { missions, syncFromServer } = useMissions()
+  const { missions } = useMissions()
   const [showRanking, setShowRanking] = useState(false)
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
-  const [showConfetti, setShowConfetti] = useState(false)
   const [selectedFilter, setSelectedFilter] = useState('dream')
   const [rankings, setRankings] = useState<MissionRankingItem[]>([])
   const [myRanking, setMyRanking] = useState<MissionRankingItem | null>(null)
@@ -134,24 +113,6 @@ export default function StockHomePage() {
     }).catch(() => {})
     resultApi.getStockRankingStatus().then(res => setStockRankingEnabled(res.data.enabled)).catch(() => {})
   }, [])
-
-  // SSE mission-complete 이벤트 수신 → 미션 갱신 + 완료 효과
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const { missionId } = (e as CustomEvent).detail
-      syncFromServer().then(() => {
-        const m = missions.find(mi => mi.id === missionId)
-        if (m) {
-          setSelectedMission(m)
-          setShowSuccess(true)
-          setShowConfetti(true)
-          setTimeout(() => setShowConfetti(false), 3000)
-        }
-      })
-    }
-    window.addEventListener('mission-complete', handler)
-    return () => window.removeEventListener('mission-complete', handler)
-  }, [syncFromServer, missions])
 
   useEffect(() => {
     const handler = () => {
@@ -197,13 +158,9 @@ export default function StockHomePage() {
   const rest = rankings.slice(3)
 
   const handleBadgeTap = (mission: Mission) => {
+    setSelectedMission(mission)
     if (mission.isCompleted) {
-      setSelectedMission(mission)
       setShowSuccess(true)
-      setShowConfetti(true)
-      setTimeout(() => setShowConfetti(false), 2000)
-    } else {
-      setSelectedMission(mission)
     }
   }
 
@@ -481,15 +438,6 @@ export default function StockHomePage() {
             </p> */}
             <button className={badgeStyles.successButton} onClick={closeBadgeModal}>확인</button>
           </div>
-        </div>
-      )}
-
-      {/* Confetti */}
-      {showConfetti && (
-        <div className={badgeStyles.confettiContainer}>
-          {Array.from({ length: 40 }).map((_, i) => (
-            <ConfettiParticle key={i} index={i} />
-          ))}
         </div>
       )}
 
