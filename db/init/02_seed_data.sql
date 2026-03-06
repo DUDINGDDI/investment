@@ -80,7 +80,7 @@ INSERT INTO booths (name, category, description, short_description, display_orde
 -- ──────────────────────────────────────────────
 INSERT INTO users (unique_code, name, company, balance) VALUES
 ('U001', '김기범', 'CJ올리브네트웍스', 100000000),
-('U002', '김민지', 'CJ제일제당', 100000000),
+('U002', '박민지', 'CJ제일제당', 100000000),
 ('U003', '엄지윤', 'CJ올리브영', 100000000),
 ('U004', '신예린', 'CJ푸드빌', 100000000),
 ('U005', '정민창', 'CJ대한통운', 100000000),

@@ -3,7 +3,7 @@ import styles from './BottomNavBar.module.css'
 
 const navItems = [
   {
-    label: '오전 투자',
+    label: '하고잡이 투자',
     path: '/stocks',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

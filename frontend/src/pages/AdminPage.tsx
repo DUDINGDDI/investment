@@ -122,20 +122,20 @@ export default function AdminPage() {
         <>
           <div className={styles.controlCard}>
             <div className={styles.statusRow}>
-              <span className={styles.statusLabel}>오전 투자 랭킹</span>
+              <span className={styles.statusLabel}>하고잡이 투자 랭킹</span>
               <span className={`${styles.statusBadge} ${stockRankingEnabled ? styles.statusOn : styles.statusOff}`}>
                 {stockRankingEnabled ? '공개' : '잠금'}
               </span>
             </div>
             <p className={styles.statusDesc}>
               {stockRankingEnabled
-                ? '현재 오전 투자 미션 랭킹이 참가자에게 공개되어 있습니다.'
-                : '오전 투자 미션 랭킹이 잠금 상태입니다. 참가자에게 "랭킹 보기" 버튼이 표시되지 않습니다.'}
+                ? '현재 하고잡이 투자 미션 랭킹이 참가자에게 공개되어 있습니다.'
+                : '하고잡이 투자 미션 랭킹이 잠금 상태입니다. 참가자에게 "랭킹 보기" 버튼이 표시되지 않습니다.'}
             </p>
             <button
               className={`${styles.toggleBtn} ${stockRankingEnabled ? styles.hideBtn : styles.revealBtn}`}
               onClick={async () => {
-                const action = stockRankingEnabled ? '오전 투자 랭킹을 잠그시겠습니까?' : '오전 투자 랭킹을 공개하시겠습니까?'
+                const action = stockRankingEnabled ? '하고잡이 투자 랭킹을 잠그시겠습니까?' : '하고잡이 투자 랭킹을 공개하시겠습니까?'
                 if (!confirm(action)) return
                 setStockRankingToggling(true)
                 try {
@@ -153,20 +153,20 @@ export default function AdminPage() {
 
           <div className={styles.controlCard}>
             <div className={styles.statusRow}>
-              <span className={styles.statusLabel}>오전 투자 (오전)</span>
+              <span className={styles.statusLabel}>하고잡이 투자 (오전)</span>
               <span className={`${styles.statusBadge} ${stockEnabled ? styles.statusOn : styles.statusOff}`}>
                 {stockEnabled ? '활성' : '중단'}
               </span>
             </div>
             <p className={styles.statusDesc}>
               {stockEnabled
-                ? '현재 오전 투자가 활성화되어 있습니다. 참가자가 오전 투자에 접근할 수 있습니다.'
-                : '오전 투자가 중단된 상태입니다. 참가자에게 "Coming Soon"이 표시됩니다.'}
+                ? '현재 하고잡이 투자가 활성화되어 있습니다. 참가자가 하고잡이 투자에 접근할 수 있습니다.'
+                : '하고잡이 투자가 중단된 상태입니다. 참가자에게 "Coming Soon"이 표시됩니다.'}
             </p>
             <button
               className={`${styles.toggleBtn} ${stockEnabled ? styles.hideBtn : styles.revealBtn}`}
               onClick={async () => {
-                const action = stockEnabled ? '오전 투자를 중단하시겠습니까?' : '오전 투자를 활성화하시겠습니까?'
+                const action = stockEnabled ? '하고잡이 투자를 중단하시겠습니까?' : '하고잡이 투자를 활성화하시겠습니까?'
                 if (!confirm(action)) return
                 setStockToggling(true)
                 try {
@@ -178,7 +178,7 @@ export default function AdminPage() {
               }}
               disabled={stockToggling}
             >
-              {stockToggling ? '처리 중...' : stockEnabled ? '오전 투자 중단' : '오전 투자 활성화'}
+              {stockToggling ? '처리 중...' : stockEnabled ? '하고잡이 투자 중단' : '하고잡이 투자 활성화'}
             </button>
           </div>
 
@@ -376,13 +376,13 @@ export default function AdminPage() {
               className={`${styles.rankingSubTab} ${rankingTab === 'am' ? styles.rankingSubTabActive : ''}`}
               onClick={() => setRankingTab('am')}
             >
-              오전 투자 (오전)
+              하고잡이 투자 (오전)
             </button>
           </div>
 
           <div className={styles.rankingSection}>
             <h3 className={styles.sectionTitle}>
-              {rankingTab === 'pm' ? '대표작 투자 순위' : '오전 투자 순위'}
+              {rankingTab === 'pm' ? '대표작 투자 순위' : '하고잡이 투자 순위'}
             </h3>
             <div className={styles.list}>
               {(rankingTab === 'pm' ? ranking : stockRanking).map((item, i) => (
