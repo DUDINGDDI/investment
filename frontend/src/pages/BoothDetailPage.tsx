@@ -144,8 +144,8 @@ export default function BoothDetailPage() {
       showToast('모든 평가 항목을 입력해주세요', 'error')
       return
     }
-    if (reviewText.trim().length > 0 && reviewText.trim().length < 80) {
-      showToast('리뷰는 최소 80자 이상 입력해주세요', 'error')
+    if (reviewText.trim().length > 0 && reviewText.trim().length < 20) {
+      showToast('리뷰는 최소 20자 이상 입력해주세요', 'error')
       return
     }
     setRatingSubmitting(true)
@@ -360,8 +360,8 @@ export default function BoothDetailPage() {
                 disabled={!!myRating && !isEditingRating}
               />
               <div className={styles.charCount}>
-                {reviewText.trim().length > 0 && reviewText.trim().length < 80
-                  ? `${reviewText.trim().length}/80 (최소 80자)`
+                {reviewText.trim().length > 0 && reviewText.trim().length < 20
+                  ? `${reviewText.trim().length}/20 (최소 20자)`
                   : `${reviewText.length} / 500`}
               </div>
             </div>

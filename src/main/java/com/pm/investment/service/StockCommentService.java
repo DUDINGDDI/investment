@@ -56,8 +56,8 @@ public class StockCommentService {
         StockComment comment = new StockComment(user, stockBooth, content);
         stockCommentRepository.save(comment);
 
-        // dream 미션: 150자 이상 댓글 수를 progress로 반영
-        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 150);
+        // dream 미션: 70자 이상 댓글 수를 progress로 반영
+        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 70);
         missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
 
         StockCommentResponse response = StockCommentResponse.builder()
@@ -87,8 +87,8 @@ public class StockCommentService {
         comment.setContent(content);
         stockCommentRepository.save(comment);
 
-        // dream 미션: 수정 후 150자 이상 댓글 수 재계산
-        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 150);
+        // dream 미션: 수정 후 70자 이상 댓글 수 재계산
+        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 70);
         missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
 
         return StockCommentResponse.builder()
@@ -112,8 +112,8 @@ public class StockCommentService {
 
         stockCommentRepository.delete(comment);
 
-        // dream 미션: 삭제 후 150자 이상 댓글 수 재계산
-        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 150);
+        // dream 미션: 삭제 후 70자 이상 댓글 수 재계산
+        long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 70);
         missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
     }
 }

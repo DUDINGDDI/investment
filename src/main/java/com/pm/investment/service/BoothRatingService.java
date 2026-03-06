@@ -29,8 +29,8 @@ public class BoothRatingService {
 
     @Transactional
     public StockRatingResponse submitRating(Long userId, Long boothId, StockRatingRequest request) {
-        if (request.getReview() != null && !request.getReview().isBlank() && request.getReview().trim().length() < 80) {
-            throw new IllegalArgumentException("리뷰는 최소 80자 이상 입력해주세요");
+        if (request.getReview() != null && !request.getReview().isBlank() && request.getReview().trim().length() < 20) {
+            throw new IllegalArgumentException("리뷰는 최소 20자 이상 입력해주세요");
         }
 
         User user = userRepository.findById(userId)

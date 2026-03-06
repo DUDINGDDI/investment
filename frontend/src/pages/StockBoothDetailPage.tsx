@@ -168,8 +168,8 @@ export default function StockBoothDetailPage() {
 
   const handleAddComment = async () => {
     if (!id || !commentInput.trim() || submitting) return
-    if (commentInput.trim().length < 150) {
-      showToast('최소 150자 이상 입력해주세요', 'error')
+    if (commentInput.trim().length < 70) {
+      showToast('최소 70자 이상 입력해주세요', 'error')
       return
     }
     setSubmitting(true)
@@ -188,8 +188,8 @@ export default function StockBoothDetailPage() {
 
   const handleEditComment = async (commentId: number) => {
     if (!id || !editContent.trim() || submitting) return
-    if (editContent.trim().length < 150) {
-      showToast('최소 150자 이상 입력해주세요', 'error')
+    if (editContent.trim().length < 70) {
+      showToast('최소 70자 이상 입력해주세요', 'error')
       return
     }
     setSubmitting(true)
@@ -226,8 +226,8 @@ export default function StockBoothDetailPage() {
       showToast('모든 평가 항목을 입력해주세요', 'error')
       return
     }
-    if (reviewText.trim().length > 0 && reviewText.trim().length < 80) {
-      showToast('리뷰는 최소 80자 이상 입력해주세요', 'error')
+    if (reviewText.trim().length > 0 && reviewText.trim().length < 20) {
+      showToast('리뷰는 최소 20자 이상 입력해주세요', 'error')
       return
     }
     setRatingSubmitting(true)
@@ -426,10 +426,10 @@ export default function StockBoothDetailPage() {
                   <button
                     className={styles.commentSendBtn}
                     onClick={handleAddComment}
-                    disabled={!commentInput.trim() || commentInput.trim().length < 150 || submitting}
+                    disabled={!commentInput.trim() || commentInput.trim().length < 70 || submitting}
                   >
-                    {commentInput.trim().length > 0 && commentInput.trim().length < 150
-                      ? `아이디어 제안하기 (${commentInput.trim().length}/150)`
+                    {commentInput.trim().length > 0 && commentInput.trim().length < 70
+                      ? `아이디어 제안하기 (${commentInput.trim().length}/70)`
                       : '아이디어 제안하기'}
                   </button>
                 </div>
@@ -480,12 +480,12 @@ export default function StockBoothDetailPage() {
                           rows={3}
                         />
                         <div className={styles.editButtons}>
-                          <span className={styles.editCharCount}>{editContent.trim().length}/150</span>
+                          <span className={styles.editCharCount}>{editContent.trim().length}/70</span>
                           <button className={styles.editCancelBtn} onClick={() => { setEditingId(null); setEditContent('') }}>취소</button>
                           <button
                             className={styles.editSaveBtn}
                             onClick={() => handleEditComment(comment.id)}
-                            disabled={!editContent.trim() || editContent.trim().length < 150 || submitting}
+                            disabled={!editContent.trim() || editContent.trim().length < 70 || submitting}
                           >{submitting ? '저장 중...' : '저장'}</button>
                         </div>
                       </div>
@@ -557,8 +557,8 @@ export default function StockBoothDetailPage() {
                     disabled={!!myRating && !isEditingRating}
                   />
                   <div className={styles.charCount}>
-                    {reviewText.trim().length > 0 && reviewText.trim().length < 80
-                      ? `${reviewText.trim().length}/80 (최소 80자)`
+                    {reviewText.trim().length > 0 && reviewText.trim().length < 20
+                      ? `${reviewText.trim().length}/20 (최소 20자)`
                       : `${reviewText.length} / 500`}
                   </div>
                 </div>
