@@ -249,24 +249,18 @@ export default function BoothDetailPage() {
           </button>
         ) : (
           <>
-            {!booth.hasRated && (
-              <p className={styles.tradeGuide}>
-                평가를 완료하면 투자/철회가 가능합니다
-              </p>
-            )}
             {hasInvestment ? (
               <div className={styles.tradeBtnRow}>
                 <button
                   className={styles.withdrawBtn}
                   onClick={() => setModal('withdraw')}
-                  disabled={!booth.hasRated}
                 >
                   철회하기
                 </button>
                 <button
                   className={styles.investBtn}
                   onClick={() => setModal('invest')}
-                  disabled={!booth.hasRated || balance === 0}
+                  disabled={balance === 0}
                 >
                   투자하기
                 </button>
@@ -275,7 +269,7 @@ export default function BoothDetailPage() {
               <button
                 className={styles.investBtnFull}
                 onClick={() => setModal('invest')}
-                disabled={!booth.hasRated || balance === 0}
+                disabled={balance === 0}
               >
                 투자하기
               </button>
