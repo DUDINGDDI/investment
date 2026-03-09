@@ -81,25 +81,26 @@ export default function PriceChart({ priceHistory, themeColor }: PriceChartProps
             strokeLinejoin="round"
           />
 
-          {/* 최고가 점 */}
+          {/* 0 기준선 라벨 */}
+          <text x={paddingX} y={svgHeight - paddingBottom + 12} fill="var(--text-secondary)" fontSize="10">0</text>
+
+          {/* 최고가 점 + 라벨 */}
           {(() => {
             const maxIdx = prices.indexOf(maxPrice)
             const p = points[maxIdx]
-            return <circle cx={p.x} cy={p.y} r={3} fill={themeColor} />
+            const labelX = p.x > svgWidth / 2 ? p.x - 4 : p.x + 4
+            const anchor = p.x > svgWidth / 2 ? 'end' : 'start'
+            return (
+              <>
+                <circle cx={p.x} cy={p.y} r={3} fill={themeColor} />
+                <text x={labelX} y={p.y - 8} textAnchor={anchor} fill={themeColor} fontSize="10" fontWeight="600">
+                  최고 {formatKorean(maxPrice)}
+                </text>
+              </>
+            )
           })()}
 
-          {/* 최저가 점 */}
-          {(() => {
-            const minIdx = prices.indexOf(minPrice)
-            const p = points[minIdx]
-            return <circle cx={p.x} cy={p.y} r={3} fill={themeColor} />
-          })()}
         </svg>
-
-        <div className={styles.priceRange}>
-          <span>최저 {formatKorean(minPrice)}</span>
-          <span>최고 {formatKorean(maxPrice)}</span>
-        </div>
       </div>
     </div>
   )

@@ -16,10 +16,3 @@
   font-size: 14px;
 }
 
-.priceRange {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 11px;
-  color: var(--text-secondary);
-}
