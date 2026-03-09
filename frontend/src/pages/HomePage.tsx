@@ -48,16 +48,16 @@ export default function HomePage() {
       <div className={styles.investCard}>
         <div className={styles.cardTop}>
           <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
-          <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
+          <p className={styles.cardGreeting}><span className={styles.userName}>{userName}</span>님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
             <p className={styles.cardAmount}>{formatKorean(totalInvested)}원</p>
-            <button className={styles.cardBtn} onClick={() => navigate('/booths?tab=portfolio')}>나의 투자 현황</button>
+            <button className={styles.cardBtn} onClick={() => navigate('/booths?tab=portfolio')}>나의 투자 포트폴리오</button>
           </div>
         </div>
         <div className={styles.cardBottom}>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>잔여 투자 금액</span>
+            <span className={styles.cardAssetLabel}>잔여 금액</span>
             <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
           </div>
           <div className={styles.cardBottomItem}>

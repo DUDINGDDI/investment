@@ -30,7 +30,11 @@
       "Bash(JAVA_HOME=\"C:/Users/User/.jdks/openjdk-25.0.1\" PATH=\"C:/Users/User/.jdks/openjdk-25.0.1/bin:$PATH\" /c/Users/User/.jdks/openjdk-25.0.1/bin/java.exe -version)",
       "Bash(JAVA_HOME=\"C:/Users/User/.jdks/openjdk-25.0.1\" PATH=\"C:/Users/User/.jdks/openjdk-25.0.1/bin:$PATH\" ./gradlew build -x test)",
       "Bash(npm run build)",
-      "Bash(xargs grep -l \"BadgePage\\\\|badge\")"
+      "Bash(xargs grep -l \"BadgePage\\\\|badge\")",
+      "Bash(xargs -I {} bash -c \"echo ''=== FILE: {} ==='' && head -5 {}\")",
+      "Bash(ls c:/Users/User/Desktop/repository/investment/frontend/node_modules/.bin/tsc*)",
+      "Bash(where tsc)",
+      "Bash(node -e \"console.log\\(process.execPath\\)\")"
     ]
   }
 }

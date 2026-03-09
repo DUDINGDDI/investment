@@ -122,10 +122,10 @@ export default function BoothListPage() {
         </>
       ) : (
         <>
-          {/* 나의 투자 현황 카드 */}
+          {/* 나의 투자 포트폴리오 카드 */}
           <div className={styles.statusCard}>
             <div className={styles.statusHeader}>
-              <h3 className={styles.statusTitle}>나의 투자 현황</h3>
+              <h3 className={styles.statusTitle}>나의 투자 포트폴리오</h3>
               <button className={styles.historyLink} onClick={() => navigate('/history')}>
                 투자 이력 보기 ›
               </button>

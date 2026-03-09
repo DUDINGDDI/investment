@@ -235,7 +235,7 @@ export default function BoothDetailPage() {
 
       {/* 내 투자금 행 */}
       <div className={styles.myInvestRow}>
-        <span className={styles.myInvestLabel}>내 투자금</span>
+        <span className={styles.myInvestLabel}>금액</span>
         <span className={styles.myInvestValue}>
           {formatKorean(booth.myInvestment)}원
         </span>

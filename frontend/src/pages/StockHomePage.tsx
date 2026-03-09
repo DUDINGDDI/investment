@@ -104,6 +104,8 @@ export default function StockHomePage() {
   const [myRanking, setMyRanking] = useState<MissionRankingItem | null>(null)
   const [rankingLoading, setRankingLoading] = useState(false)
   const [stockRankingEnabled, setStockRankingEnabled] = useState(true)
+  const [rankingPage, setRankingPage] = useState(0)
+  const RANKING_PAGE_SIZE = 10
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
@@ -156,6 +158,8 @@ export default function StockHomePage() {
     : null
   const top3 = rankings.slice(0, 3)
   const rest = rankings.slice(3)
+  const pagedRest = rest.slice(rankingPage * RANKING_PAGE_SIZE, (rankingPage + 1) * RANKING_PAGE_SIZE)
+  const totalRankingPages = Math.ceil(rest.length / RANKING_PAGE_SIZE) || 1
 
   const handleBadgeTap = (mission: Mission) => {
     setSelectedMission(mission)
@@ -175,7 +179,7 @@ export default function StockHomePage() {
       <div className={styles.investCard}>
         <div className={styles.cardTop}>
           <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
-          <p className={styles.cardGreeting}>{userName}님의 현재 투자 금액</p>
+          <p className={styles.cardGreeting}><span className={styles.userName}>{userName}</span>님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
             <p className={styles.cardAmount}>{formatKorean(totalHolding)}원</p>
             <button className={styles.cardBtn} onClick={() => navigate('/stocks/booths')}>투자 종목 보기</button>
@@ -184,7 +188,7 @@ export default function StockHomePage() {
         <div className={styles.cardBottom}>
           <div className={styles.cardBottomItem}>
             <div className={styles.cardAssetDot} style={{ background: '#4FC3F7' }} />
-            <span className={styles.cardAssetLabel}>잔여 투자 금액</span>
+            <span className={styles.cardAssetLabel}>잔여 금액</span>
             <span className={styles.cardAssetValue}>{formatKorean(balance || 0)}원</span>
           </div>
           <div className={styles.cardBottomItem}>
@@ -220,7 +224,7 @@ export default function StockHomePage() {
 
         {!showRanking ? (
           <>
-            <p className={styles.missionSubtitle}>부스를 돌아다니며 아래의 미션을 수행하세요!</p>
+            <p className={styles.missionSubtitle}>부스를 돌아다니며 하고잡이 투자자에 도전하세요!</p>
             <div className={styles.badgeGrid}>
               {row1.map((mission: Mission, i: number) => (
                 <button
@@ -277,7 +281,7 @@ export default function StockHomePage() {
                 <button
                   key={m.id}
                   className={`${badgeStyles.filterChip} ${selectedFilter === m.id ? badgeStyles.filterChipActive : ''}`}
-                  onClick={() => setSelectedFilter(m.id)}
+                  onClick={() => { setSelectedFilter(m.id); setRankingPage(0) }}
                 >
                   <img src={m.icon} alt={m.title} className={badgeStyles.filterChipIcon} />
                   {m.title}
@@ -311,7 +315,7 @@ export default function StockHomePage() {
             {/* 랭킹 헤더 */}
             <div className={badgeStyles.rankingHeader}>
               <p className={badgeStyles.rankingSubtitle}>
-                {currentFilterMission?.title} 순위
+                {currentFilterMission?.title}
               </p>
             </div>
 
@@ -336,10 +340,10 @@ export default function StockHomePage() {
                         <div className={badgeStyles.podiumRankBadge}>
                           <RankBadgeLabel rank={item.rank} />
                         </div>
-                        <div className={badgeStyles.podiumAvatar}>
-                          {item.name.charAt(0)}
+                        <div className={badgeStyles.podiumNameWrap}>
+                          {item.company && <span className={badgeStyles.podiumCompany}>{item.company}</span>}
+                          <span className={badgeStyles.podiumUserName}>{item.name}{selectedFilter !== 'again' ? '' : ''}</span>
                         </div>
-                        <p className={badgeStyles.podiumName}>{item.name}{selectedFilter !== 'again' ? '님' : ''}{selectedFilter !== 'again' && item.company ? ` · ${item.company}` : ''}</p>
                         <div className={badgeStyles.podiumScoreRow}>
                           <span className={badgeStyles.podiumRate}>{item.progress}</span>
                           <span className={badgeStyles.podiumRateUnit}>{currentUnit}</span>
@@ -355,27 +359,48 @@ export default function StockHomePage() {
                 )}
 
                 {rest.length > 0 && (
-                  <div className={badgeStyles.rankList}>
-                    {rest.map((item: MissionRankingItem, i: number) => (
-                      <div
-                        key={item.userId}
-                        className={`${badgeStyles.rankListItem} stagger-item`}
-                        style={{ animationDelay: `${(i + 3) * 0.03}s` }}
-                      >
-                        <span className={badgeStyles.rankListNum}>{item.rank}</span>
-                        <div className={badgeStyles.rankListAvatar}>
-                          {item.name.charAt(0)}
+                  <>
+                    <div className={badgeStyles.rankList}>
+                      {pagedRest.map((item: MissionRankingItem, i: number) => (
+                        <div
+                          key={item.userId}
+                          className={`${badgeStyles.rankListItem} stagger-item`}
+                          style={{ animationDelay: `${(i + 3) * 0.03}s` }}
+                        >
+                          <span className={badgeStyles.rankListNum}>{item.rank}</span>
+                          <div className={badgeStyles.rankListInfo}>
+                            {item.company && <p className={badgeStyles.rankListCompany}>{item.company}</p>}
+                            <p className={badgeStyles.rankListUserName}>{item.name}</p>
+                          </div>
+                          <div className={badgeStyles.rankListScoreArea}>
+                            <span className={badgeStyles.rankListRate}>{item.progress}{currentUnit}</span>
+                            <RankChangeIndicator change={item.rankChange} />
+                          </div>
                         </div>
-                        <div className={badgeStyles.rankListInfo}>
-                          <p className={badgeStyles.rankListName}>{item.name}{selectedFilter !== 'again' ? '님' : ''}{selectedFilter !== 'again' && item.company ? ` · ${item.company}` : ''}</p>
-                        </div>
-                        <div className={badgeStyles.rankListScoreArea}>
-                          <span className={badgeStyles.rankListRate}>{item.progress}{currentUnit}</span>
-                          <RankChangeIndicator change={item.rankChange} />
-                        </div>
+                      ))}
+                    </div>
+                    {totalRankingPages > 1 && (
+                      <div className={badgeStyles.rankPagination}>
+                        <button
+                          className={badgeStyles.rankPageBtn}
+                          disabled={rankingPage === 0}
+                          onClick={() => setRankingPage(rankingPage - 1)}
+                        >
+                          ‹ 이전
+                        </button>
+                        <span className={badgeStyles.rankPageInfo}>
+                          {rankingPage + 1} / {totalRankingPages}
+                        </span>
+                        <button
+                          className={badgeStyles.rankPageBtn}
+                          disabled={rankingPage + 1 >= totalRankingPages}
+                          onClick={() => setRankingPage(rankingPage + 1)}
+                        >
+                          다음 ›
+                        </button>
                       </div>
-                    ))}
-                  </div>
+                    )}
+                  </>
                 )}
               </>
             )}

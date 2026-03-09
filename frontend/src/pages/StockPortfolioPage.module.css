@@ -119,46 +119,105 @@
   margin-bottom: 16px;
 }
 
-.holdingList {
-  display: flex;
-  flex-direction: column;
+/* ── 테이블 ── */
+.tableWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-color);
 }
 
-.holdingItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 4px;
+.visitTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.visitTable thead {
+  background: var(--bg-secondary);
+}
+
+.visitTable th {
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-secondary);
   border-bottom: 1px solid var(--border-color);
-  cursor: pointer;
+  text-align: left;
 }
 
-.holdingItem:last-child {
+.thBooth {
+  min-width: 100px;
+}
+
+.thCenter {
+  text-align: center !important;
+}
+
+.thRight {
+  text-align: right !important;
+}
+
+.tableRow {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tableRow:active {
+  background: var(--bg-secondary);
+}
+
+.tableRow td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tableRow:last-child td {
   border-bottom: none;
 }
 
-.holdingInfo {
-  flex: 1;
-  min-width: 0;
-}
-
-.holdingName {
-  font-size: 15px;
+.tdBooth {
   font-weight: 600;
-  white-space: nowrap;
+  color: var(--text-primary);
+  max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.holdingAmount {
-  flex-shrink: 0;
+.tdCenter {
+  text-align: center;
 }
 
-.amountBadge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 13px;
+.tdRight {
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.checkDone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(108, 92, 231, 0.15);
+  color: #6C5CE7;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.checkNone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 12px;
   font-weight: 700;
 }
 

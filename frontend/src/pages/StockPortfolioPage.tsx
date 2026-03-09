@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { stockApi } from '../api'
+import { stockApi, ideaBoardApi, userApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { StockHoldingResponse } from '../types'
 import styles from './StockPortfolioPage.module.css'
 
 const COLORS = ['#6C5CE7', '#4593FC', '#00D68F', '#F5C842', '#F04452', '#FF8A65', '#a855f7', '#14b8a6', '#f97316', '#ec4899', '#8b5cf6']
 
+interface VisitTableRow {
+  boothId: number
+  boothName: string
+  visitedAt: string
+  hasReview: boolean
+  hasIdeaContent: boolean
+  investmentAmount: number
+}
+
 export default function StockPortfolioPage() {
   const navigate = useNavigate()
   const [balance, setBalance] = useState<number>(0)
   const [holdings, setHoldings] = useState<StockHoldingResponse[]>([])
+  const [tableData, setTableData] = useState<VisitTableRow[]>([])
+  const [tableLoading, setTableLoading] = useState(true)
 
   useEffect(() => {
     stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
     stockApi.getMy().then(res => setHoldings(res.data)).catch(() => {})
+    loadTableData()
   }, [])
 
   useEffect(() => {
@@ -25,6 +37,56 @@ export default function StockPortfolioPage() {
     window.addEventListener('balance-changed', handler)
     return () => window.removeEventListener('balance-changed', handler)
   }, [])
+
+  async function loadTableData() {
+    try {
+      setTableLoading(true)
+      const [visitsRes, holdingsRes, userRes] = await Promise.all([
+        stockApi.getMyVisits(),
+        stockApi.getMy(),
+        userApi.getMe(),
+      ])
+
+      const visits = visitsRes.data
+      const holdingsList = holdingsRes.data
+      const userId = userRes.data.userId
+
+      const holdingsMap = new Map(holdingsList.map(h => [h.boothId, h.amount]))
+
+      const rows = await Promise.all(
+        visits.map(async (visit) => {
+          let hasReview = false
+          let hasIdeaContent = false
+
+          try {
+            const ratingRes = await stockApi.getMyRating(visit.boothId)
+            hasReview = !!(ratingRes.data?.review)
+          } catch { /* no rating */ }
+
+          try {
+            const boardRes = await ideaBoardApi.getBoard(visit.boothId)
+            hasIdeaContent = boardRes.data.comments.some(c => c.userId === userId)
+          } catch { /* no board */ }
+
+          return {
+            boothId: visit.boothId,
+            boothName: visit.boothName,
+            visitedAt: visit.visitedAt,
+            hasReview,
+            hasIdeaContent,
+            investmentAmount: holdingsMap.get(visit.boothId) || 0,
+          }
+        })
+      )
+
+      rows.sort((a, b) => new Date(a.visitedAt).getTime() - new Date(b.visitedAt).getTime())
+      setTableData(rows)
+    } catch (err) {
+      console.error('Failed to load table data', err)
+    } finally {
+      setTableLoading(false)
+    }
+  }
 
   const totalHolding = holdings.reduce((sum, h) => sum + h.amount, 0)
   const totalAsset = balance + totalHolding
@@ -54,10 +116,10 @@ export default function StockPortfolioPage() {
 
   return (
     <div className={styles.container}>
-      {/* 나의 투자 현황 카드 */}
+      {/* 나의 투자 포트폴리오 카드 */}
       <div className={styles.statusCard}>
         <div className={styles.statusHeader}>
-          <h3 className={styles.statusTitle}>나의 투자 현황</h3>
+          <h3 className={styles.statusTitle}>나의 투자 포트폴리오</h3>
           <button className={styles.historyLink} onClick={() => navigate('/stocks/history')}>
             투자 이력 보기 ›
           </button>
@@ -120,33 +182,55 @@ export default function StockPortfolioPage() {
         </div>
       </div>
 
-      {/* 투자 종목 리스트 */}
+      {/* 투자 종목 테이블 */}
       <div className={styles.holdingSection}>
         <h3 className={styles.holdingSectionTitle}>투자 종목</h3>
 
-        {holdings.filter(h => h.amount > 0).length === 0 ? (
+        {tableLoading ? (
           <div className={styles.emptyState}>
-            <p className={styles.emptyText}>아직 투자한 종목이 없습니다</p>
+            <p className={styles.emptyText}>불러오는 중...</p>
+          </div>
+        ) : tableData.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p className={styles.emptyText}>아직 방문한 부스가 없습니다</p>
           </div>
         ) : (
-          <div className={styles.holdingList}>
-            {holdings.filter(h => h.amount > 0).map((h, i) => (
-              <div
-                key={h.boothId}
-                className={`${styles.holdingItem} stagger-item`}
-                style={{ animationDelay: `${i * 0.02}s` }}
-                onClick={() => navigate(`/stocks/booths/${h.boothId}`)}
-              >
-                <div className={styles.holdingInfo}>
-                  <p className={styles.holdingName}>{h.boothName}</p>
-                </div>
-                <div className={styles.holdingAmount}>
-                  <span className={styles.amountBadge} style={{ background: COLORS[i % COLORS.length] + '30', color: COLORS[i % COLORS.length] }}>
-                    {formatKorean(h.amount)}원
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className={styles.tableWrap}>
+            <table className={styles.visitTable}>
+              <thead>
+                <tr>
+                  <th className={styles.thBooth}>방문 부스</th>
+                  <th className={styles.thCenter}>진정성 있게</th>
+                  <th className={styles.thCenter}>내일 더 새롭게</th>
+                  <th className={styles.thRight}>투자금</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tableData.map((row, i) => (
+                  <tr
+                    key={row.boothId}
+                    className={`${styles.tableRow} stagger-item`}
+                    style={{ animationDelay: `${i * 0.02}s` }}
+                    onClick={() => navigate(`/stocks/booths/${row.boothId}`)}
+                  >
+                    <td className={styles.tdBooth}>{row.boothName}</td>
+                    <td className={styles.tdCenter}>
+                      <span className={row.hasReview ? styles.checkDone : styles.checkNone}>
+                        {row.hasReview ? 'O' : 'X'}
+                      </span>
+                    </td>
+                    <td className={styles.tdCenter}>
+                      <span className={row.hasIdeaContent ? styles.checkDone : styles.checkNone}>
+                        {row.hasIdeaContent ? 'O' : 'X'}
+                      </span>
+                    </td>
+                    <td className={styles.tdRight}>
+                      {row.investmentAmount > 0 ? formatKorean(row.investmentAmount) + '원' : '-'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

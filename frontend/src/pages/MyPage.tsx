@@ -130,7 +130,7 @@ export default function MyPage() {
             </svg>
           </button>
         </div>
-        <p className={styles.subtitle}>{userCompany ? `${userCompany} · ` : ''}{userName}님, 안녕하세요</p>
+        <p className={styles.subtitle}>{userCompany ? `${userCompany} · ` : ''}<span className={styles.userName}>{userName}</span>님, 안녕하세요</p>
       </div>
 
       {/* <div className={styles.reportBanner} onClick={() => navigate('/report')}>

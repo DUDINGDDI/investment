@@ -23,6 +23,11 @@
   color: var(--text-secondary);
 }
 
+.userName {
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
 /* 리포트 배너 */
 .reportBanner {
   display: flex;
@@ -154,7 +159,7 @@
 }
 
 .cardName {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 2px;
 }

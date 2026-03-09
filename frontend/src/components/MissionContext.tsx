@@ -26,14 +26,14 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'renew',
     title: '내일 더 새롭게',
-    description: '하고잡이 Wall에 하고잡이 5가지 요건을 작성해 미션을 완료해주세요.',
+    description: "여러분만의 계획과 각오를 '하고잡이 Wall'에 기록하고 \n 미션을 완료해 보세요.",
     isCompleted: false,
     icon: '/image/badge/new.svg',
   },
   {
     id: 'dream',
     title: '꿈을 원대하게',
-    description: '방문 부스의 아이디어 Develop Zone에 디벨롭 의견을 5회 이상 제안해주세요.(70자 이상 작성)',
+    description: '아이디어를 발전시킬 수 있는 의견을 5회 이상 제안해주세요',
     isCompleted: false,
     progress: 0,
     target: 5,
@@ -42,14 +42,14 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'result',
     title: '반드시 결과로',
-    description: "2026 ONLYONE FAIR 준비하시느라 수고 많으셨습니다.\n\n공유회를 통해 '반드시 결과로' 보여주세요.",
+    description: "진정한 하고잡이 투자자로서의 모습을 이번 공유회를 통해 반드시 결과로 증명해주세요",
     isCompleted: false,
     icon: '/image/badge/result.svg',
   },
   {
     id: 'again',
     title: '안돼도 다시',
-    description: '내 부스 방문자 70명 이상 달성해주세요.',
+    description: '본인 아이디어 부스 방문자 70명 이상 달성해주세요',
     isCompleted: false,
     progress: 0,
     target: 70,
@@ -58,7 +58,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'sincere',
     title: '진정성 있게',
-    description: '방문한 부스에 리뷰 12회 이상 작성해주세요.(글자 수 20자 이상일 경우만 인정)',
+    description: '방문한 부스에 대한 진정성 있는 피드백을 12회 이상 작성해주세요',
     isCompleted: false,
     progress: 0,
     target: 12,
@@ -66,8 +66,8 @@ const DEFAULT_MISSIONS: Mission[] = [
   },
   {
     id: 'together',
-    title: '(+) 함께하는 하고잡이',
-    description: '하고잡이 Wall에 AI 포토네컷 사진을 게시하여 미션을 완료해주세요.',
+    title: '(+) 함께하는 \n 하고잡이',
+    description: '하고잡이 Wall에서 네컷사진을 게시해주세요',
     isCompleted: false,
     icon: '/image/badge/together.svg',
   },

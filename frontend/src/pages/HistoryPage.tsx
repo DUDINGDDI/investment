@@ -53,7 +53,7 @@ export default function HistoryPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to="/booths?tab=portfolio" label="나의 투자 현황" />
+      <PageBackButton to="/booths?tab=portfolio" label="나의 투자 포트폴리오" />
 
       <div className={styles.header}>
         <h2 className={styles.title}>투자 이력</h2>

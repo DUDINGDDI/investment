@@ -9,7 +9,7 @@ import { useToast } from '../components/ToastContext'
 import { useMissions } from '../components/MissionContext'
 import styles from './StockBoothDetailPage.module.css'
 
-type TabType = 'discussion' | 'review'
+type TabType = 'rating' | 'invest' | 'sincere' | 'develop'
 
 const RATING_CRITERIA = [
   { key: 'scoreFirst', label: '최초' },
@@ -47,8 +47,8 @@ export default function StockBoothDetailPage() {
   const [stockEnabled, setStockEnabled] = useState(true)
   const [activeTab, setActiveTab] = useState<TabType>(() => {
     const tab = searchParams.get('tab')
-    if (tab === 'review' || tab === 'discussion') return tab
-    return 'discussion'
+    if (tab === 'rating' || tab === 'invest' || tab === 'sincere' || tab === 'develop') return tab
+    return 'rating'
   })
 
   // 메모
@@ -107,13 +107,13 @@ export default function StockBoothDetailPage() {
   // 탭 전환 시 데이터 로드
   useEffect(() => {
     if (!id) return
-    if (activeTab === 'discussion' && !commentsLoaded) {
+    if (activeTab === 'develop' && !commentsLoaded) {
       stockApi.getComments(Number(id)).then(res => {
         setComments(res.data)
         setCommentsLoaded(true)
       })
     }
-    if (activeTab === 'review' && !ratingLoaded) {
+    if ((activeTab === 'rating' || activeTab === 'sincere') && !ratingLoaded) {
       stockApi.getMyRating(Number(id)).then(res => {
         if (res.status === 200 && res.data) {
           setMyRating(res.data)
@@ -130,7 +130,7 @@ export default function StockBoothDetailPage() {
         setRatingLoaded(true)
       }).catch(() => setRatingLoaded(true))
     }
-    if (activeTab === 'review' && !reviewsLoaded) {
+    if (activeTab === 'sincere' && !reviewsLoaded) {
       const loadReviews = async () => {
         try {
           const res = await stockApi.getBoothReviews(Number(id))
@@ -317,89 +317,261 @@ export default function StockBoothDetailPage() {
         </div>
       )}
 
-      {/* 내 투자금 행 */}
-      <div className={styles.myInvestRow}>
-        <span className={styles.myInvestLabel}>내 투자금</span>
-        <span className={styles.myInvestValue}>
-          {formatKorean(booth.myHolding)}원
-        </span>
-      </div>
-
-      {/* 투자하기 / 철회하기 버튼 */}
-      <div className={styles.tradeSection}>
-        {!stockEnabled ? (
-          <button className={styles.investBtnFull} disabled>
-            현재 하고잡이 투자가 중지된 상태입니다
-          </button>
-        ) : (
-          <>
-            {!canTrade && (
-              <p className={styles.tradeGuide}>
-                {!booth.hasVisited
-                  ? 'QR 스캔으로 부스를 방문해주세요'
-                  : '평가를 완료하면 투자/철회가 가능합니다'}
-              </p>
-            )}
-            {hasHolding ? (
-              <div className={styles.tradeBtnRow}>
-                <button
-                  className={styles.withdrawBtn}
-                  onClick={() => setModal('sell')}
-                  disabled={!canTrade}
-                >
-                  철회하기
-                </button>
-                <button
-                  className={styles.investBtn}
-                  onClick={() => setModal('buy')}
-                  disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
-                >
-                  투자하기
-                </button>
-              </div>
-            ) : (
-              <button
-                className={styles.investBtnFull}
-                onClick={() => setModal('buy')}
-                disabled={!canTrade || balance === 0}
-              >
-                투자하기
-              </button>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* 칩 탭: 아이디어 Develop Zone / 평가 */}
+      {/* 칩 탭: 평가 / 투자 / 진정성 있게 / 내일 더 새롭게 */}
       <div className={styles.chipTabBar}>
-        <button
-          className={`${styles.chipTab} ${activeTab === 'discussion' ? styles.chipTabActive : ''}`}
-          onClick={() => setActiveTab('discussion')}
-        >
-          아이디어 Develop Zone
-        </button>
-        <button
-          className={`${styles.chipTab} ${activeTab === 'review' ? styles.chipTabActive : ''}`}
-          onClick={() => setActiveTab('review')}
-        >
-          평가
-        </button>
+        {([
+          { key: 'rating' as TabType, label: '평가' },
+          { key: 'invest' as TabType, label: '투자' },
+          { key: 'sincere' as TabType, label: '진정성 있게' },
+          { key: 'develop' as TabType, label: '내일 더 새롭게' },
+        ]).map(tab => (
+          <button
+            key={tab.key}
+            className={`${styles.chipTab} ${activeTab === tab.key ? styles.chipTabActive : ''}`}
+            onClick={() => setActiveTab(tab.key)}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       {/* 탭 콘텐츠 */}
       <div className={styles.tabContent}>
-        {/* 종목토론방 탭 - Develop Zone */}
-        {activeTab === 'discussion' && (
-          <div className={styles.discussionContainer}>
-            {/* 안내 배너 */}
-            <div className={styles.discussionBanner}>
-              <span className={styles.discussionBannerIcon}>&#x1F4A1;</span>
-              <p className={styles.discussionBannerText}>
-                아이디어를 발전시킬 제안을 남기고 미션을 완료하세요.
-              </p>
+        {/* 평가 탭 - 별점만 */}
+        {activeTab === 'rating' && (
+          <div className={styles.ratingContainer}>
+            {!booth.hasVisited ? (
+              <div className={styles.inputLocked}>
+                <span className={styles.lockIcon}>&#x1F512;</span>
+                <p className={styles.lockTitle}>부스를 방문한 후에 평가할 수 있습니다</p>
+              </div>
+            ) : (
+              <>
+                <div className={styles.discussionBanner}>
+                  <span className={styles.discussionBannerIcon}>&#x1F4A1;</span>
+                  <p className={styles.discussionBannerText}>
+                    투자자의 관점에서 아이디어를 평가하고 미션을 완료하세요.
+                  </p>
+                </div>
+
+                {RATING_CRITERIA.map(({ key, label }) => (
+                  <div key={key} className={styles.ratingCard}>
+                    <div className={styles.ratingCardLabel}>
+                      <span className={styles.ratingCheckIcon}>
+                        {ratingScores[key] > 0 ? '✅' : '⬜'}
+                      </span>
+                      <span className={styles.ratingLabelText}>{label}</span>
+                    </div>
+                    <div className={styles.stars}>
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <button
+                          key={star}
+                          type="button"
+                          className={`${styles.star} ${ratingScores[key] >= star ? styles.starActive : ''}`}
+                          onClick={() => {
+                            if (!myRating || isEditingRating) {
+                              setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))
+                            }
+                          }}
+                          disabled={!!myRating && !isEditingRating}
+                        >
+                          &#9733;
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                {myRating && !isEditingRating ? (
+                  <div>
+                    <div className={styles.ratingCompleted}>
+                      <span>평가 완료 (총점: {myRating.totalScore}/30)</span>
+                    </div>
+                    <div className={styles.ratingActionRow}>
+                      <button className={styles.submitBtn} onClick={handleEditRating}>
+                        평가 수정
+                      </button>
+                    </div>
+                  </div>
+                ) : isEditingRating ? (
+                  <div className={styles.ratingActionRow}>
+                    <button
+                      className={styles.submitBtn}
+                      onClick={handleSubmitRating}
+                      disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                    >
+                      {ratingSubmitting ? '저장 중...' : '수정 완료'}
+                    </button>
+                    <button
+                      className={`${styles.submitBtn} ${styles.submitBtnSecondary}`}
+                      onClick={handleCancelEdit}
+                    >
+                      취소
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className={styles.submitBtnFull}
+                    onClick={handleSubmitRating}
+                    disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                  >
+                    {ratingSubmitting ? '제출 중...' : '완료하기'}
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {/* 투자 탭 */}
+        {activeTab === 'invest' && (
+          <div className={styles.ratingContainer}>
+            {/* 내 투자금 행 */}
+            <div className={styles.myInvestRow}>
+              <span className={styles.myInvestLabel}>금액</span>
+              <span className={styles.myInvestValue}>
+                {formatKorean(booth.myHolding)}원
+              </span>
             </div>
 
-            {/* 입력 영역 */}
+            <div className={styles.tradeSection}>
+              {!stockEnabled ? (
+                <button className={styles.investBtnFull} disabled>
+                  현재 하고잡이 투자가 중지된 상태입니다
+                </button>
+              ) : (
+                <>
+                  {!canTrade && (
+                    <p className={styles.tradeGuide}>
+                      {!booth.hasVisited
+                        ? 'QR 스캔으로 부스를 방문해주세요'
+                        : '평가를 완료하면 투자/철회가 가능합니다'}
+                    </p>
+                  )}
+                  {hasHolding ? (
+                    <div className={styles.tradeBtnRow}>
+                      <button
+                        className={styles.withdrawBtn}
+                        onClick={() => setModal('sell')}
+                        disabled={!canTrade}
+                      >
+                        철회하기
+                      </button>
+                      <button
+                        className={styles.investBtn}
+                        onClick={() => setModal('buy')}
+                        disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
+                      >
+                        투자하기
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className={styles.investBtnFull}
+                      onClick={() => setModal('buy')}
+                      disabled={!canTrade || balance === 0}
+                    >
+                      투자하기
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 진정성 있게 탭 - 리뷰 작성 */}
+        {activeTab === 'sincere' && (
+          <div className={styles.ratingContainer}>
+            {!booth.hasVisited ? (
+              <div className={styles.inputLocked}>
+                <span className={styles.lockIcon}>&#x1F512;</span>
+                <p className={styles.lockTitle}>부스를 방문한 후에 리뷰를 작성할 수 있습니다</p>
+              </div>
+            ) : (
+              <>
+                <div className={styles.reviewSection}>
+                  <textarea
+                    className={styles.reviewInput}
+                    placeholder="리뷰를 작성해주세요 (최소 20자)"
+                    value={reviewText}
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReviewText(e.target.value)}
+                    maxLength={500}
+                    disabled={!!myRating && !isEditingRating}
+                  />
+                  <div className={styles.charCount}>
+                    {reviewText.trim().length > 0 && reviewText.trim().length < 20
+                      ? `${reviewText.trim().length}/20 (최소 20자)`
+                      : `${reviewText.length} / 500`}
+                  </div>
+                </div>
+
+                {myRating && !isEditingRating ? (
+                  <div className={styles.ratingActionRow}>
+                    <button className={styles.submitBtn} onClick={handleEditRating}>
+                      리뷰 수정
+                    </button>
+                    {myRating.review && (
+                      <button
+                        className={`${styles.submitBtn} ${styles.submitBtnDanger}`}
+                        onClick={handleDeleteReview}
+                      >
+                        리뷰 삭제
+                      </button>
+                    )}
+                  </div>
+                ) : isEditingRating ? (
+                  <div className={styles.ratingActionRow}>
+                    <button
+                      className={styles.submitBtn}
+                      onClick={handleSubmitRating}
+                      disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                    >
+                      {ratingSubmitting ? '저장 중...' : '수정 완료'}
+                    </button>
+                    <button
+                      className={`${styles.submitBtn} ${styles.submitBtnSecondary}`}
+                      onClick={handleCancelEdit}
+                    >
+                      취소
+                    </button>
+                  </div>
+                ) : !myRating ? (
+                  <p className={styles.tradeGuide}>평가 탭에서 별점을 먼저 완료해주세요</p>
+                ) : (
+                  <button
+                    className={styles.submitBtnFull}
+                    onClick={handleSubmitRating}
+                    disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                  >
+                    {ratingSubmitting ? '제출 중...' : '리뷰 저장'}
+                  </button>
+                )}
+
+                {boothReviews.length > 0 && (
+                  <div className={styles.reviewList}>
+                    <h4 className={styles.reviewListTitle}>리뷰 ({boothReviews.length})</h4>
+                    {boothReviews.map((r: BoothReviewResponse) => (
+                      <div key={r.id} className={styles.reviewItem}>
+                        <div className={styles.reviewItemHeader}>
+                          <span className={styles.reviewItemAuthor}>
+                            {r.userName}{r.userCompany ? ` · ${r.userCompany}` : ''}
+                          </span>
+                          <span className={styles.reviewItemTime}>{formatCommentTime(r.updatedAt)}</span>
+                        </div>
+                        <p className={styles.reviewItemText}>{r.review}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {/* 내일 더 새롭게 탭 - 아이디어 Develop Zone */}
+        {activeTab === 'develop' && (
+          <div className={styles.discussionContainer}>
             {!booth.hasVisited ? (
               <div className={styles.inputLocked}>
                 <span className={styles.lockIcon}>&#x1F512;</span>
@@ -436,7 +608,10 @@ export default function StockBoothDetailPage() {
               </div>
             )}
 
-            {/* 댓글 리스트 */}
+            <div className={styles.ideaListHeader}>
+              <span className={styles.ideaListTitle}>전체 아이디어 ({comments.length})</span>
+            </div>
+
             <div className={styles.commentList}>
               {comments.length === 0 ? (
                 <div className={styles.emptyDevelop}>
@@ -496,138 +671,6 @@ export default function StockBoothDetailPage() {
                 ))
               )}
             </div>
-          </div>
-        )}
-
-        {/* 평가 탭 */}
-        {activeTab === 'review' && (
-          <div className={styles.ratingContainer}>
-            {!booth.hasVisited ? (
-              <div className={styles.inputLocked}>
-                <span className={styles.lockIcon}>&#x1F512;</span>
-                <p className={styles.lockTitle}>부스를 방문한 후에 평가할 수 있습니다</p>
-              </div>
-            ) : (
-              <>
-                {/* 안내 배너 */}
-                <div className={styles.discussionBanner}>
-                  <span className={styles.discussionBannerIcon}>&#x1F4A1;</span>
-                  <p className={styles.discussionBannerText}>
-                    투자자의 관점에서 아이디어를 평가하고 미션을 완료하세요.
-                  </p>
-                </div>
-
-                {/* 평가 항목 카드들 */}
-                {RATING_CRITERIA.map(({ key, label }) => (
-                  <div key={key} className={styles.ratingCard}>
-                    <div className={styles.ratingCardLabel}>
-                      <span className={styles.ratingCheckIcon}>
-                        {ratingScores[key] > 0 ? '✅' : '⬜'}
-                      </span>
-                      <span className={styles.ratingLabelText}>{label}</span>
-                    </div>
-                    <div className={styles.stars}>
-                      {[1, 2, 3, 4, 5].map(star => (
-                        <button
-                          key={star}
-                          type="button"
-                          className={`${styles.star} ${ratingScores[key] >= star ? styles.starActive : ''}`}
-                          onClick={() => {
-                            if (!myRating || isEditingRating) {
-                              setRatingScores((prev: Record<ScoreKey, number>) => ({ ...prev, [key]: star }))
-                            }
-                          }}
-                          disabled={!!myRating && !isEditingRating}
-                        >
-                          &#9733;
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-
-                {/* 리뷰 텍스트 영역 */}
-                <div className={styles.reviewSection}>
-                  <textarea
-                    className={styles.reviewInput}
-                    placeholder="리뷰를 작성해주세요 (선택)"
-                    value={reviewText}
-                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReviewText(e.target.value)}
-                    maxLength={500}
-                    disabled={!!myRating && !isEditingRating}
-                  />
-                  <div className={styles.charCount}>
-                    {reviewText.trim().length > 0 && reviewText.trim().length < 20
-                      ? `${reviewText.trim().length}/20 (최소 20자)`
-                      : `${reviewText.length} / 500`}
-                  </div>
-                </div>
-
-                {/* 제출/수정 버튼 */}
-                {myRating && !isEditingRating ? (
-                  <div>
-                    <div className={styles.ratingCompleted}>
-                      <span>평가 완료 (총점: {myRating.totalScore}/30)</span>
-                    </div>
-                    <div className={styles.ratingActionRow}>
-                      <button className={styles.submitBtn} onClick={handleEditRating}>
-                        평가 수정
-                      </button>
-                      {myRating.review && (
-                        <button
-                          className={`${styles.submitBtn} ${styles.submitBtnDanger}`}
-                          onClick={handleDeleteReview}
-                        >
-                          리뷰 삭제
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ) : isEditingRating ? (
-                  <div className={styles.ratingActionRow}>
-                    <button
-                      className={styles.submitBtn}
-                      onClick={handleSubmitRating}
-                      disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
-                    >
-                      {ratingSubmitting ? '저장 중...' : '수정 완료'}
-                    </button>
-                    <button
-                      className={`${styles.submitBtn} ${styles.submitBtnSecondary}`}
-                      onClick={handleCancelEdit}
-                    >
-                      취소
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    className={styles.submitBtnFull}
-                    onClick={handleSubmitRating}
-                    disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
-                  >
-                    {ratingSubmitting ? '제출 중...' : '완료하기'}
-                  </button>
-                )}
-
-                {/* 전체 리뷰 목록 */}
-                {boothReviews.length > 0 && (
-                  <div className={styles.reviewList}>
-                    <h4 className={styles.reviewListTitle}>리뷰 ({boothReviews.length})</h4>
-                    {boothReviews.map((r: BoothReviewResponse) => (
-                      <div key={r.id} className={styles.reviewItem}>
-                        <div className={styles.reviewItemHeader}>
-                          <span className={styles.reviewItemAuthor}>
-                            {r.userName}{r.userCompany ? ` · ${r.userCompany}` : ''}
-                          </span>
-                          <span className={styles.reviewItemTime}>{formatCommentTime(r.updatedAt)}</span>
-                        </div>
-                        <p className={styles.reviewItemText}>{r.review}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
           </div>
         )}
       </div>

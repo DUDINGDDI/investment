@@ -155,7 +155,7 @@
 }
 
 .heroName {
-  font-size: 14px;
+  font-size: 18px;
   color: var(--text-secondary);
   margin-bottom: 4px;
 }
@@ -453,7 +453,7 @@
 }
 
 .sharedCardUserName {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--text-primary);
 }

@@ -85,7 +85,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 20px;
-  margin: 0 20px;
+  margin: 0;
   background: var(--bg-secondary);
   border-radius: var(--radius-card);
 }
@@ -179,6 +179,13 @@
   display: flex;
   gap: 8px;
   padding: 8px 20px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.chipTabBar::-webkit-scrollbar {
+  display: none;
 }
 
 .chipTab {
@@ -238,17 +245,27 @@
   line-height: 1.5;
 }
 
+/* 아이디어 리스트 헤더 */
+.ideaListHeader {
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+.ideaListTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
 .commentList {
   flex: 1;
 }
 
 .commentItem {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.commentItem:last-child {
-  border-bottom: none;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 
 .commentHeader {
@@ -265,7 +282,7 @@
 }
 
 .commentAuthor {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
 }
 
@@ -399,6 +416,8 @@
   margin-top: 12px;
   border-top: 1px solid var(--border-color);
   padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .inputRow {
@@ -667,7 +686,7 @@
 }
 
 .reviewItemAuthor {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
 }
 

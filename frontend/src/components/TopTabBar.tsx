@@ -58,7 +58,7 @@ export default function TopTabBar() {
           <span className={styles.unit}> 원</span>
         </p>
         <div className={styles.subRow}>
-          <span className={styles.subItem}>잔여 투자 금액 <strong>{formatKorean(balance || 0)}</strong>원</span>
+          <span className={styles.subItem}>잔여 금액 <strong>{formatKorean(balance || 0)}</strong>원</span>
           <span className={styles.subDivider}>|</span>
           <span className={styles.subItem}>총 자산 <strong>{formatKorean(totalAsset)}</strong>원</span>
         </div>

@@ -1,13 +1,31 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { stockApi } from '../api'
+import { stockApi, ideaBoardApi, userApi } from '../api'
 import { formatKorean } from '../utils/format'
 import PriceChart from '../components/PriceChart'
 import PageBackButton from '../components/PageBackButton'
-import type { StockBoothResponse, StockHoldingResponse, CospiResponse } from '../types'
+import type { StockBoothResponse, StockHoldingResponse, CospiResponse, MyStockVisitResponse } from '../types'
 import styles from './StockBoothListPage.module.css'
 
 const COLORS = ['#6C5CE7', '#4593FC', '#00D68F', '#F5C842', '#F04452', '#FF8A65', '#a855f7', '#14b8a6', '#f97316', '#ec4899', '#8b5cf6']
+
+function formatVisitTime(dateStr: string) {
+  const d = new Date(dateStr)
+  const h = d.getHours()
+  const m = String(d.getMinutes()).padStart(2, '0')
+  const ampm = h < 12 ? '오전' : '오후'
+  const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h
+  return `${ampm} ${h12}:${m}`
+}
+
+interface VisitTableRow {
+  boothId: number
+  boothName: string
+  visitedAt: string
+  hasReview: boolean
+  hasIdeaContent: boolean
+  investmentAmount: number
+}
 
 export default function StockBoothListPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -17,6 +35,8 @@ export default function StockBoothListPage() {
   const [balance, setBalance] = useState<number>(0)
   const [holdings, setHoldings] = useState<StockHoldingResponse[]>([])
   const [boothPage, setBoothPage] = useState(0)
+  const [tableData, setTableData] = useState<VisitTableRow[]>([])
+  const [tableLoading, setTableLoading] = useState(true)
   const PAGE_SIZE = 10
   const navigate = useNavigate()
 
@@ -34,6 +54,7 @@ export default function StockBoothListPage() {
     if (activeTab === 'portfolio') {
       stockApi.getAccount().then(res => setBalance(res.data.balance)).catch(() => {})
       stockApi.getMy().then(res => setHoldings(res.data)).catch(() => {})
+      loadTableData()
     }
   }, [activeTab])
 
@@ -45,6 +66,55 @@ export default function StockBoothListPage() {
     window.addEventListener('balance-changed', handler)
     return () => window.removeEventListener('balance-changed', handler)
   }, [])
+
+  async function loadTableData() {
+    try {
+      setTableLoading(true)
+      const [visitsRes, holdingsRes, userRes] = await Promise.all([
+        stockApi.getMyVisits(),
+        stockApi.getMy(),
+        userApi.getMe(),
+      ])
+
+      const visits: MyStockVisitResponse[] = visitsRes.data
+      const holdingsList: StockHoldingResponse[] = holdingsRes.data
+      const userId = userRes.data.userId
+      const holdingsMap = new Map(holdingsList.map((h: StockHoldingResponse) => [h.boothId, h.amount]))
+
+      const rows: VisitTableRow[] = await Promise.all(
+        visits.map(async (visit: MyStockVisitResponse) => {
+          let hasReview = false
+          let hasIdeaContent = false
+
+          try {
+            const ratingRes = await stockApi.getMyRating(visit.boothId)
+            hasReview = !!(ratingRes.data?.review)
+          } catch { /* no rating */ }
+
+          try {
+            const boardRes = await ideaBoardApi.getBoard(visit.boothId)
+            hasIdeaContent = boardRes.data.comments.some((c: { userId: number }) => c.userId === userId)
+          } catch { /* no board */ }
+
+          return {
+            boothId: visit.boothId,
+            boothName: visit.boothName,
+            visitedAt: visit.visitedAt,
+            hasReview,
+            hasIdeaContent,
+            investmentAmount: holdingsMap.get(visit.boothId) || 0,
+          }
+        })
+      )
+
+      rows.sort((a: VisitTableRow, b: VisitTableRow) => new Date(a.visitedAt).getTime() - new Date(b.visitedAt).getTime())
+      setTableData(rows)
+    } catch (err) {
+      console.error('Failed to load table data', err)
+    } finally {
+      setTableLoading(false)
+    }
+  }
 
   const switchTab = (tab: 'all' | 'portfolio') => {
     setSearchParams(tab === 'portfolio' ? { tab: 'portfolio' } : {})
@@ -106,7 +176,7 @@ export default function StockBoothListPage() {
           className={`${styles.chipTab} ${activeTab === 'portfolio' ? styles.chipActive : ''}`}
           onClick={() => switchTab('portfolio')}
         >
-          나의 투자 정보
+          나의 활동 정보
         </button>
       </div>
 
@@ -189,10 +259,10 @@ export default function StockBoothListPage() {
         </>
       ) : (
         <>
-          {/* 나의 투자 현황 카드 */}
+          {/* 나의 투자 포트폴리오 카드 */}
           <div className={styles.statusCard}>
             <div className={styles.statusHeader}>
-              <h3 className={styles.statusTitle}>나의 투자 현황</h3>
+              <h3 className={styles.statusTitle}>나의 투자 포트폴리오</h3>
               <button className={styles.historyLink} onClick={() => navigate('/stocks/history')}>
                 투자 이력 보기 ›
               </button>
@@ -241,33 +311,72 @@ export default function StockBoothListPage() {
             </div>
           </div>
 
-          {/* 투자 종목 리스트 */}
+          {/* 투자 종목 테이블 */}
           <div className={styles.holdingSection}>
             <h3 className={styles.holdingSectionTitle}>투자 종목</h3>
 
-            {holdings.filter(h => h.amount > 0).length === 0 ? (
+            {tableLoading ? (
               <div className={styles.emptyState}>
-                <p className={styles.emptyText}>아직 투자한 종목이 없습니다</p>
+                <p className={styles.emptyText}>불러오는 중...</p>
+              </div>
+            ) : tableData.length === 0 ? (
+              <div className={styles.emptyState}>
+                <p className={styles.emptyText}>아직 방문한 부스가 없습니다</p>
               </div>
             ) : (
-              <div className={styles.holdingList}>
-                {[...holdings].filter(h => h.amount > 0).sort((a, b) => b.amount - a.amount).map((h, i) => (
-                  <div
-                    key={h.boothId}
-                    className={`${styles.holdingItem} stagger-item`}
-                    style={{ animationDelay: `${i * 0.02}s` }}
-                    onClick={() => navigate(`/stocks/booths/${h.boothId}`, { state: { from: 'portfolio' } })}
-                  >
-                    <div className={styles.holdingInfo}>
-                      <p className={styles.holdingName}>{h.boothName}</p>
-                    </div>
-                    <div className={styles.holdingAmountWrap}>
-                      <span className={styles.amountBadge} style={{ background: COLORS[i % COLORS.length] + '30', color: COLORS[i % COLORS.length] }}>
-                        {formatKorean(h.amount)}원
-                      </span>
-                    </div>
-                  </div>
-                ))}
+              <div className={styles.tableWrap}>
+                <table className={styles.visitTable}>
+                  <thead>
+                    <tr>
+                      <th className={styles.thBooth}>방문 부스</th>
+                      <th className={styles.thCenter}>진정성 있게</th>
+                      <th className={styles.thCenter}>내일 더 새롭게</th>
+                      <th className={styles.thRight}>투자금</th>
+                      <th className={styles.thRight}>방문 시각</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableData.map((row: VisitTableRow, i: number) => (
+                      <tr
+                        key={row.boothId}
+                        className={`${styles.tableRow} stagger-item`}
+                        style={{ animationDelay: `${i * 0.02}s` }}
+                      >
+                        <td
+                          className={styles.tdBooth}
+                          onClick={() => navigate(`/stocks/booths/${row.boothId}`, { state: { from: 'portfolio' } })}
+                        >
+                          {row.boothName}
+                        </td>
+                        <td
+                          className={styles.tdCenter}
+                          onClick={() => navigate(`/stocks/booths/${row.boothId}?tab=sincere`, { state: { from: 'portfolio' } })}
+                        >
+                          <span className={row.hasReview ? styles.checkDone : styles.checkNone}>
+                            {row.hasReview ? 'O' : 'X'}
+                          </span>
+                        </td>
+                        <td
+                          className={styles.tdCenter}
+                          onClick={() => navigate(`/stocks/booths/${row.boothId}?tab=develop`, { state: { from: 'portfolio' } })}
+                        >
+                          <span className={row.hasIdeaContent ? styles.checkDone : styles.checkNone}>
+                            {row.hasIdeaContent ? 'O' : 'X'}
+                          </span>
+                        </td>
+                        <td
+                          className={styles.tdRight}
+                          onClick={() => navigate(`/stocks/booths/${row.boothId}?tab=invest`, { state: { from: 'portfolio' } })}
+                        >
+                          {row.investmentAmount > 0 ? formatKorean(row.investmentAmount) + '원' : '-'}
+                        </td>
+                        <td className={styles.tdTime}>
+                          {formatVisitTime(row.visitedAt)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
