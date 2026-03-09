@@ -246,6 +246,8 @@
   border-radius: var(--radius-card);
   padding: 20px;
   margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
 }
 
 .statusHeader {
@@ -253,6 +255,8 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
 }
 
 .statusTitle {
@@ -276,17 +280,17 @@
 
 /* ── 도넛 차트 (큰 버전) ── */
 .chartWrapLarge {
-  width: 200px;
-  height: 200px;
+  position: relative;
+  width: 100%;
+  max-width: 200px;
   margin: 0 auto 20px;
-  overflow: hidden;
-  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
 }
 
 .donutSvg {
   display: block;
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 .donutLabel {
