@@ -66,7 +66,7 @@ const DEFAULT_MAP_IMAGE = `/image/map/leadership_llf.png?${MAP_VERSION}`
 /** 건물 선택 시 기본 구역 */
 const FLOOR_DEFAULT_ZONE: Record<string, string> = {
   'Leadership Center': 'leadership_llf',
-  'Innovation Center': '손복남홀',
+  'Innovation Center, LL층': '손복남홀',
   'Learning Center': '101',
 }
 
@@ -107,7 +107,7 @@ export default function MapPage() {
   /** floorInfo에서 건물명 파생 (floor 필드 미제공 시 fallback) */
   const getFloor = (zone: ZoneResponse): string => {
     if (zone.floor) return zone.floor
-    if (zone.floorInfo?.includes('INNOVATION')) return 'Innovation Center'
+    if (zone.floorInfo?.includes('INNOVATION')) return 'Innovation Center, LL층'
     if (zone.floorInfo?.includes('LEARNING')) return 'Learning Center'
     return ''
   }
@@ -121,7 +121,7 @@ export default function MapPage() {
   }, [])
 
   // 건물 목록 (고정)
-  const floors = ['Leadership Center', 'Innovation Center', 'Learning Center']
+  const floors = ['Leadership Center', 'Innovation Center, LL층', 'Learning Center']
 
   // 선택된 건물의 서브 층 목록
   const subFloors = useMemo(() => {
@@ -207,8 +207,7 @@ export default function MapPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>행사장 지도</h2>
-        <p className={styles.subtitle}>구역을 선택하여 부스 목록을 확인하세요</p>
+        <h2 className={styles.title}>위치 안내</h2>
       </div>
 
       {/* 건물 필터 */}

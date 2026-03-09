@@ -165,25 +165,19 @@
 /* 핫스팟 */
 .hotspot {
   position: absolute;
-  background: rgba(69, 147, 252, 0.15);
-  border: 2px solid rgba(69, 147, 252, 0.5);
+  background: transparent;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
   padding: 0;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s;
 }
 
 .hotspot:active {
-  background: rgba(69, 147, 252, 0.35);
-  border-color: var(--accent-blue);
   transform: none;
 }
 
 .hotspotSelected {
-  background: rgba(69, 147, 252, 0.35);
-  border-color: var(--accent-blue);
-  border-width: 3px;
-  box-shadow: 0 0 12px rgba(69, 147, 252, 0.5);
 }
 
 /* 부스 목록 섹션 */
