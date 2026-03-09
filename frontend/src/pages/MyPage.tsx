@@ -30,6 +30,7 @@ export default function MyPage() {
   const [amMemos, setAmMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
   const [amMemosLoaded, setAmMemosLoaded] = useState(false)
   const [qrMission, setQrMission] = useState<Mission | null>(null)
+  const [showPhotoQr, setShowPhotoQr] = useState(false)
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [memoPage, setMemoPage] = useState(0)
   const PAGE_SIZE = 10
@@ -73,7 +74,9 @@ export default function MyPage() {
   const ticketMissions = missions
     .filter((m: Mission) => TICKET_MISSIONS.includes(m.id) && m.isCompleted)
     .sort((a, b) => Number(a.isUsed ?? false) - Number(b.isUsed ?? false))
-  const ticketCount = ticketMissions.length
+  const completedCount = missions.filter((m: Mission) => m.isCompleted).length
+  const hasPhotoTicket = completedCount >= 3
+  const ticketCount = ticketMissions.length + (hasPhotoTicket ? 1 : 0)
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -148,13 +151,22 @@ export default function MyPage() {
             <span className={styles.ticketHeaderCount}>{ticketCount}장</span>
           </div>
 
-          {ticketMissions.length === 0 ? (
+          {!hasPhotoTicket && ticketMissions.length === 0 ? (
             <div className={styles.emptyState}>
               <span className={styles.emptyIcon}>🎟️</span>
               <p className={styles.emptyText}>미션을 완료하면 이용권이 발급됩니다</p>
             </div>
           ) : (
             <div className={styles.ticketGrid}>
+              {hasPhotoTicket && (
+                <div
+                  className={`${styles.ticketImageCard} stagger-item`}
+                  style={{ animationDelay: '0s' }}
+                  onClick={() => setShowPhotoQr(true)}
+                >
+                  <img src="/image/ticket/photo.svg" alt="AI 포토네컷" className={styles.ticketFullImg} />
+                </div>
+              )}
               {ticketMissions.map((m: Mission, i: number) => {
                 const imgInfo = TICKET_IMAGE_MAP[m.id]
                 if (!imgInfo) return null
@@ -163,7 +175,7 @@ export default function MyPage() {
                   <div
                     key={m.id}
                     className={`${styles.ticketImageCard} ${m.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
-                    style={{ animationDelay: `${i * 0.03}s` }}
+                    style={{ animationDelay: `${(i + (hasPhotoTicket ? 1 : 0)) * 0.03}s` }}
                     onClick={() => !m.isUsed && setQrMission(m)}
                   >
                     <img src={imgSrc} alt={imgInfo.label} className={styles.ticketFullImg} />
@@ -270,6 +282,28 @@ export default function MyPage() {
             </div>
             <p className={styles.qrGuide}>관리자에게 이 QR 코드를 보여주세요</p>
             <button className={styles.qrClose} onClick={() => { setQrMission(null); syncFromServer() }}>
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showPhotoQr && (
+        <div className={styles.qrOverlay} onClick={() => setShowPhotoQr(false)}>
+          <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
+            <h3 className={styles.qrTitle}>AI 포토네컷</h3>
+            <p className={styles.qrSubtitle}>
+              영구 이용권
+            </p>
+            <div className={styles.qrCode}>
+              <QRCodeSVG
+                value={`photo:${userId}`}
+                size={200}
+                level="M"
+              />
+            </div>
+            <p className={styles.qrGuide}>관리자에게 이 QR 코드를 보여주세요</p>
+            <button className={styles.qrClose} onClick={() => setShowPhotoQr(false)}>
               닫기
             </button>
           </div>
