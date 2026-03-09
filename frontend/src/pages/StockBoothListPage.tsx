@@ -196,7 +196,7 @@ export default function StockBoothListPage() {
 
           {/* COSPI 지수 + 차트 */}
           {cospi && (
-            <>
+            <div className={styles.cospiCard}>
               <div className={styles.cospiPriceRow}>
                 <span className={styles.cospiLabel}>COSPI 지수</span>
                 <span className={styles.cospiValue}>{formatKorean(cospi.currentTotal)}원</span>
@@ -209,7 +209,7 @@ export default function StockBoothListPage() {
                   themeColor={cospi.change >= 0 ? '#ef4444' : '#3b82f6'}
                 />
               </div>
-            </>
+            </div>
           )}
 
           {/* 주식 종목 리스트 */}

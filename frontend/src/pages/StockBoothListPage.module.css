@@ -48,12 +48,20 @@
   line-height: 1.5;
 }
 
+/* ── COSPI 지수 카드 ── */
+.cospiCard {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  margin-bottom: 28px;
+}
+
 /* ── COSPI 지수 행 ── */
 .cospiPriceRow {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 0;
+  padding: 0 0 12px;
   flex-wrap: wrap;
 }
 
@@ -89,14 +97,14 @@
 
 /* ── 차트 ── */
 .chartArea {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-card);
-  padding: 12px;
-  margin-bottom: 28px;
+  padding: 0;
 }
 
 /* ── 주식 종목 섹션 ── */
 .stockSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
   margin-top: 4px;
 }
 
@@ -276,6 +284,9 @@
 
 /* ── 투자 종목 섹션 ── */
 .holdingSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
   margin-top: 4px;
 }
 
@@ -289,7 +300,7 @@
 .tableWrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  border-radius: var(--radius-card);
+  border-radius: 8px;
   border: 1px solid var(--border-color);
 }
 

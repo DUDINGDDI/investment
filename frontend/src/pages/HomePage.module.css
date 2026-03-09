@@ -94,6 +94,9 @@
 
 /* ── Mission 섹션 ── */
 .missionSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
   margin-bottom: 24px;
 }
 
@@ -216,6 +219,9 @@
 
 /* ── 투자 종목 섹션 ── */
 .stockSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
   margin-top: 4px;
 }
 
