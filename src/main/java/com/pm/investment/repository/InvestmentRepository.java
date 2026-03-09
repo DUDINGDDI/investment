@@ -18,6 +18,8 @@ public interface InvestmentRepository extends JpaRepository<Investment, Long> {
     @Query("SELECT i FROM Investment i WHERE i.user.id = :userId AND i.booth.id = :boothId")
     Optional<Investment> findByUserIdAndBoothIdWithLock(@Param("userId") Long userId, @Param("boothId") Long boothId);
 
+    List<Investment> findByBoothId(Long boothId);
+
     List<Investment> findByUserIdAndAmountGreaterThan(Long userId, Long amount);
 
     @Query("SELECT COALESCE(SUM(i.amount), 0) FROM Investment i WHERE i.booth.id = :boothId")
