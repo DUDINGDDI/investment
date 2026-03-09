@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StockService {
 
-    private static final long TRADE_UNIT = 5_000_000L;
+    private static final long TRADE_UNIT = 10_000L;
     private static final long COSPI_CACHE_TTL_MS = 3_000L; // 3초 캐시
 
     private volatile CospiResponse cospiCache;
@@ -235,7 +235,7 @@ public class StockService {
             throw new IllegalArgumentException("금액은 0보다 커야 합니다");
         }
         if (amount % TRADE_UNIT != 0) {
-            throw new IllegalArgumentException("금액은 5,000,000원 단위여야 합니다");
+            throw new IllegalArgumentException("금액은 1만원 단위여야 합니다");
         }
     }
 }

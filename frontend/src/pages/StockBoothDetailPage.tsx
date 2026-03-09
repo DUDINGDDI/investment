@@ -660,6 +660,7 @@ export default function StockBoothDetailPage() {
           type="buy"
           boothName={booth.name}
           maxAmount={Math.min(balance, 30_000_000 - booth.myHolding)}
+          currentHolding={booth.myHolding}
           onConfirm={handleBuy}
           onClose={() => setModal(null)}
         />
@@ -670,6 +671,7 @@ export default function StockBoothDetailPage() {
           type="sell"
           boothName={booth.name}
           maxAmount={booth.myHolding}
+          currentHolding={booth.myHolding}
           onConfirm={handleSell}
           onClose={() => setModal(null)}
         />

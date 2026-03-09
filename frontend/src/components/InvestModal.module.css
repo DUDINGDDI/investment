@@ -38,62 +38,125 @@
 .subtitle {
   font-size: 14px;
   color: var(--text-secondary);
-  margin-bottom: 4px;
+  margin-bottom: 12px;
 }
 
-.maxLabel {
+/* 정보 행 */
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.infoLabel {
   font-size: 13px;
   color: var(--text-secondary);
+}
+
+.infoValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 입력 영역 */
+.inputArea {
+  margin: 16px 0;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+.inputWrap:focus-within {
+  border-bottom-color: var(--color-primary);
+}
+
+.amountInput {
+  flex: 1;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  outline: none;
+  text-align: right;
+  min-width: 0;
+}
+
+.amountInput::placeholder {
+  color: var(--border-color);
+}
+
+.inputUnit {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.amountPreview {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-top: 6px;
+}
+
+.errorText {
+  font-size: 13px;
+  color: #ff4757;
+  text-align: right;
+  margin-top: 6px;
+}
+
+/* 퀵 버튼 */
+.quickBtns {
+  display: flex;
+  gap: 8px;
   margin-bottom: 20px;
 }
 
-.stepper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-  padding: 28px 0;
-  margin-bottom: 24px;
-}
-
-.stepperBtn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
+.quickBtn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
   background: var(--bg-secondary);
-  border: 1.5px solid var(--border-color);
-  font-size: 26px;
-  font-weight: 500;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
   cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
 }
 
-.stepperBtn:active:not(:disabled) {
-  background: var(--color-primary);
+.quickBtn:active {
+  background: rgba(108, 92, 231, 0.15);
   border-color: var(--color-primary);
-  color: #fff;
+  color: var(--color-primary);
 }
 
-.stepperBtn:disabled {
-  opacity: 0.25;
-  cursor: not-allowed;
+.quickBtnReset {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-.stepperValue {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  min-width: 140px;
-  text-align: center;
-  user-select: none;
+.quickBtnReset:active {
+  background: var(--bg-secondary);
 }
 
+/* 확인 버튼 */
 .confirmBtn {
   width: 100%;
   height: 52px;
