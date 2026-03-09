@@ -132,6 +132,8 @@ export interface StockBoothResponse {
   myHolding: number;
   hasVisited: boolean;
   hasRated: boolean;
+  zoneName: string;
+  floorInfo: string;
 }
 
 export interface StockTradeRequest {

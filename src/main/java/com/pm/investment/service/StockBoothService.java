@@ -36,7 +36,7 @@ public class StockBoothService {
 
     @Transactional(readOnly = true)
     public List<StockBoothResponse> getAllStockBooths(Long userId) {
-        List<StockBooth> booths = stockBoothRepository.findAllByOrderByDisplayOrderAsc();
+        List<StockBooth> booths = stockBoothRepository.findAllWithZoneOrderByDisplayOrderAsc();
 
         // 1개 쿼리로 전체 부스 보유 통계 조회 (N+1 제거)
         Map<Long, Long> totalMap = stockHoldingRepository.getTotalHoldingByAllBooths()
@@ -78,6 +78,8 @@ public class StockBoothService {
                 .myHolding(finalMyMap.getOrDefault(booth.getId(), 0L))
                 .hasVisited(finalVisitedSet.contains(booth.getId()))
                 .hasRated(finalRatedSet.contains(booth.getId()))
+                .zoneName(booth.getZone() != null ? booth.getZone().getName() : null)
+                .floorInfo(booth.getZone() != null ? booth.getZone().getFloorInfo() : null)
                 .build()
         ).toList();
     }
@@ -108,6 +110,8 @@ public class StockBoothService {
                 .myHolding(myHolding)
                 .hasVisited(userId != null && stockBoothVisitRepository.existsByUserIdAndStockBoothId(userId, boothId))
                 .hasRated(userId != null && stockRatingRepository.existsByUserIdAndStockBoothId(userId, boothId))
+                .zoneName(booth.getZone() != null ? booth.getZone().getName() : null)
+                .floorInfo(booth.getZone() != null ? booth.getZone().getFloorInfo() : null)
                 .build();
     }
 

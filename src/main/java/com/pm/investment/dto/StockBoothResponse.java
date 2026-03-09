@@ -21,4 +21,6 @@ public class StockBoothResponse {
     private Long myHolding;
     private Boolean hasVisited;
     private Boolean hasRated;
+    private String zoneName;
+    private String floorInfo;
 }
