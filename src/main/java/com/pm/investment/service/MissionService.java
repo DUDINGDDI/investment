@@ -224,12 +224,14 @@ public class MissionService {
                 .map(entry -> {
                     UserMission um = missionMap.get(entry.getKey());
 
-                    // "again" 미션은 실시간 방문자 수로 덮어쓰기
+                    // "again" 미션은 실시간 방문자 수로 덮어쓰기 (단, DB에서 이미 완료된 경우 유지)
                     if ("again".equals(entry.getKey())) {
-                        boolean completed = againProgress >= entry.getValue();
+                        boolean dbCompleted = um != null && um.getIsCompleted();
+                        int displayProgress = dbCompleted ? Math.max(againProgress, entry.getValue()) : againProgress;
+                        boolean completed = dbCompleted || againProgress >= entry.getValue();
                         return new UserMissionResponse(
-                                entry.getKey(), againProgress, entry.getValue(),
-                                completed, entry.getValue() > 0 ? (double) againProgress / entry.getValue() * 100 : 0.0,
+                                entry.getKey(), displayProgress, entry.getValue(),
+                                completed, entry.getValue() > 0 ? Math.min((double) displayProgress / entry.getValue() * 100, 100.0) : 0.0,
                                 um != null ? um.getIsUsed() : false,
                                 um != null ? um.getUsedAt() : null
                         );
