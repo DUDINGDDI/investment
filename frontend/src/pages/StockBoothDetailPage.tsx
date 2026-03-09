@@ -551,7 +551,7 @@ export default function StockBoothDetailPage() {
                       <div key={r.id} className={styles.reviewItem}>
                         <div className={styles.reviewItemHeader}>
                           <span className={styles.reviewItemAuthor}>
-                            {r.userName}{r.userCompany ? ` · ${r.userCompany}` : ''}
+                            {r.userName}<span className={styles.reviewItemCompany}>님</span> {r.userCompany && <span className={styles.reviewItemCompany}>{r.userCompany}</span>}
                           </span>
                           <span className={styles.reviewItemTime}>{formatCommentTime(r.updatedAt)}</span>
                         </div>
@@ -608,7 +608,7 @@ export default function StockBoothDetailPage() {
                   <div key={comment.id} className={`${styles.reviewItem} stagger-item`} style={{ animationDelay: `${index * 0.02}s` }}>
                     <div className={styles.reviewItemHeader}>
                       <span className={styles.reviewItemAuthor}>
-                        {comment.userName}{comment.userCompany ? ` · ${comment.userCompany}` : ''}
+                        {comment.userName}<span className={styles.reviewItemCompany}>님</span> {comment.userCompany && <span className={styles.reviewItemCompany}>{comment.userCompany}</span>}
                       </span>
                       <span className={styles.reviewItemTime}>
                         {formatCommentTime(comment.createdAt)}
