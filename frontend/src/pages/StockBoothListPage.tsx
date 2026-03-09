@@ -37,6 +37,7 @@ export default function StockBoothListPage() {
   const [boothPage, setBoothPage] = useState(0)
   const [tableData, setTableData] = useState<VisitTableRow[]>([])
   const [tableLoading, setTableLoading] = useState(true)
+  const [visitedBoothIds, setVisitedBoothIds] = useState<Set<number>>(new Set())
   const PAGE_SIZE = 10
   const navigate = useNavigate()
 
@@ -48,6 +49,9 @@ export default function StockBoothListPage() {
       setBooths(sorted)
     })
     stockApi.getCospi().then(res => setCospi(res.data)).catch(() => {})
+    stockApi.getMyVisits().then(res => {
+      setVisitedBoothIds(new Set(res.data.map((v: MyStockVisitResponse) => v.boothId)))
+    }).catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -218,20 +222,23 @@ export default function StockBoothListPage() {
             <p className={styles.stockSectionSubtitle}>여러 투자 종목을 살펴보고 관심 있는 종목에 투자하세요.</p>
 
             <div className={styles.list}>
-              {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (
-                <div
-                  key={booth.id}
-                  className={`${styles.item} stagger-item`}
-                  style={{ animationDelay: `${i * 0.02}s` }}
-                  onClick={() => navigate(`/stocks/booths/${booth.id}`)}
-                >
-                  <div className={styles.info}>
-                    <p className={styles.name}>{booth.name}</p>
-                    <p className={styles.category}>{booth.category}</p>
+              {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => {
+                const visited = visitedBoothIds.has(booth.id)
+                return (
+                  <div
+                    key={booth.id}
+                    className={`${styles.item} ${!visited ? styles.itemDisabled : ''} stagger-item`}
+                    style={{ animationDelay: `${i * 0.02}s` }}
+                    onClick={visited ? () => navigate(`/stocks/booths/${booth.id}`) : undefined}
+                  >
+                    <div className={styles.info}>
+                      <p className={styles.name}>{booth.name}</p>
+                      <p className={styles.category}>{booth.category}</p>
+                    </div>
+                    {visited ? <div className={styles.arrow}>›</div> : <span className={styles.visitBadge}>미방문</span>}
                   </div>
-                  <div className={styles.arrow}>›</div>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             {(
