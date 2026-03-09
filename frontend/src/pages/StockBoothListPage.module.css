@@ -277,6 +277,7 @@
 /* ── 도넛 차트 (큰 버전) ── */
 .chartWrapLarge {
   width: 200px;
+  height: 200px;
   margin: 0 auto 20px;
 }
 
@@ -284,6 +285,7 @@
   display: block;
   width: 100%;
   height: auto;
+  overflow: visible;
 }
 
 .donutLabel {
