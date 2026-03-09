@@ -285,27 +285,34 @@ export default function StockBoothListPage() {
 
             {/* 도넛 차트 */}
             <div className={styles.chartWrapLarge}>
-              <svg viewBox="0 0 200 200" className={styles.donutSvg}>
-                {donutSegments.map((seg, i) => {
-                  const dashLength = (seg.pct / 100) * circumference + 0.5
-                  const dashGap = circumference - dashLength
-                  const offset = segmentOffsets[i]
-                  return (
-                    <circle
-                      key={seg.boothId}
-                      cx="100" cy="100" r="70"
-                      fill="none"
-                      stroke={seg.color}
-                      strokeWidth="16"
-                      strokeDasharray={`${dashLength} ${Math.max(0, dashGap)}`}
-                      strokeDashoffset={-offset}
-                      strokeLinecap="butt"
-                      style={{ transform: 'rotate(-90deg)', transformOrigin: '100px 100px' }}
-                    />
-                  )
-                })}
-                <text x="100" y="95" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
-                <text x="100" y="115" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
+              <svg viewBox="0 0 200 200" className={styles.donutSvg} xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <clipPath id="donutClip">
+                    <rect x="0" y="0" width="200" height="200" />
+                  </clipPath>
+                </defs>
+                <g clipPath="url(#donutClip)">
+                  {donutSegments.map((seg, i) => {
+                    const dashLength = (seg.pct / 100) * circumference + 0.5
+                    const dashGap = circumference - dashLength
+                    const offset = segmentOffsets[i]
+                    return (
+                      <circle
+                        key={seg.boothId}
+                        cx="100" cy="100" r="70"
+                        fill="none"
+                        stroke={seg.color}
+                        strokeWidth="16"
+                        strokeDasharray={`${dashLength} ${Math.max(0, dashGap)}`}
+                        strokeDashoffset={-offset}
+                        strokeLinecap="butt"
+                        transform="rotate(-90 100 100)"
+                      />
+                    )
+                  })}
+                  <text x="100" y="95" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
+                  <text x="100" y="115" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
+                </g>
               </svg>
             </div>
 
