@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { boothApi, stockApi, missionApi } from '../api'
-import type { UserMissionResponse, MyStockVisitResponse, MyStockBoothVisitorResponse } from '../types'
+import type { UserMissionResponse } from '../types'
 import { useMissions, type Mission } from '../components/MissionContext'
 import type { BoothResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
@@ -23,13 +23,8 @@ export default function MyPage() {
   const userName = localStorage.getItem('userName') || ''
   const userCompany = localStorage.getItem('userCompany') || ''
   const userId = localStorage.getItem('userId') || ''
-  const [activeTab, setActiveTab] = useState<'booths' | 'tickets' | 'memos'>('booths')
+  const [activeTab, setActiveTab] = useState<'tickets' | 'memos'>('tickets')
   const { missions, syncFromServer } = useMissions()
-  const [visits, setVisits] = useState<MyStockVisitResponse[]>([])
-  const [visitsLoaded, setVisitsLoaded] = useState(false)
-  const [boothVisitors, setBoothVisitors] = useState<MyStockBoothVisitorResponse | null>(null)
-  const [boothVisitorsLoaded, setBoothVisitorsLoaded] = useState(false)
-  const [visitPage, setVisitPage] = useState(0)
   const [memoSubTab, setMemoSubTab] = useState<'pm' | 'am'>('am')
   const [pmMemos, setPmMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
   const [pmMemosLoaded, setPmMemosLoaded] = useState(false)
@@ -41,22 +36,6 @@ export default function MyPage() {
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [memoPage, setMemoPage] = useState(0)
   const PAGE_SIZE = 10
-
-  // 부스 탭: 방문 데이터 로드
-  useEffect(() => {
-    if (activeTab === 'booths' && !visitsLoaded) {
-      stockApi.getMyVisits().then((res: { data: MyStockVisitResponse[] }) => {
-        setVisits(res.data)
-        setVisitsLoaded(true)
-      }).catch(() => setVisitsLoaded(true))
-    }
-    if (activeTab === 'booths' && !boothVisitorsLoaded) {
-      stockApi.getMyBoothVisitors().then((res: { data: MyStockBoothVisitorResponse | null }) => {
-        setBoothVisitors(res.data ?? null)
-        setBoothVisitorsLoaded(true)
-      }).catch(() => setBoothVisitorsLoaded(true))
-    }
-  }, [activeTab, visitsLoaded, boothVisitorsLoaded])
 
   // 이용권 탭: 포토 미션 데이터 로드
   useEffect(() => {
@@ -130,7 +109,7 @@ export default function MyPage() {
             </svg>
           </button>
         </div>
-        <p className={styles.subtitle}>{userCompany ? `${userCompany} · ` : ''}<span className={styles.userName}>{userName}</span>님, 안녕하세요</p>
+        <p className={styles.subtitle}>{userCompany ? `${userCompany} ` : ''}<span className={styles.userName}>{userName}</span>님</p>
       </div>
 
       {/* <div className={styles.reportBanner} onClick={() => navigate('/report')}>
@@ -144,12 +123,6 @@ export default function MyPage() {
 
       <div className={styles.tabsChip}>
         <button
-          className={`${styles.chipTab} ${activeTab === 'booths' ? styles.chipActive : ''}`}
-          onClick={() => setActiveTab('booths')}
-        >
-          부스
-        </button>
-        <button
           className={`${styles.chipTab} ${activeTab === 'tickets' ? styles.chipActive : ''}`}
           onClick={() => setActiveTab('tickets')}
         >
@@ -162,78 +135,6 @@ export default function MyPage() {
           메모
         </button>
       </div>
-
-      {activeTab === 'booths' && (
-        <>
-          {boothVisitors && (
-            <div className={styles.myBoothSection}>
-              <div className={styles.myBoothCard}>
-                <div className={styles.myBoothLeft}>
-                  <div>
-                    <p className={styles.myBoothLabel}>내 소속 부스</p>
-                    <p className={styles.myBoothNameInline}>{boothVisitors.boothName}</p>
-                  </div>
-                </div>
-                <div className={styles.myBoothRight}>
-                  <p className={styles.myBoothVisitorCount}>{boothVisitors.visitorCount}</p>
-                  <p className={styles.myBoothVisitorLabel}>방문자 수</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionTitle}>방문한 부스</span>
-            <span className={styles.sectionCount}>{visits.length}곳</span>
-          </div>
-
-          {visits.length > 0 ? (
-            <>
-              <div className={styles.list}>
-                {visits.slice(visitPage * PAGE_SIZE, (visitPage + 1) * PAGE_SIZE).map((v, i) => (
-                  <div
-                    key={v.boothId}
-                    className={`${styles.card} stagger-item`}
-                    style={{ animationDelay: `${i * 0.02}s` }}
-                    onClick={() => navigate(`/stocks/booths/${v.boothId}`)}
-                  >
-                    <div className={styles.cardBody}>
-                      <p className={styles.cardName}>{v.boothName}</p>
-                      <p className={styles.cardSub}>{new Date(v.visitedAt).toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {visits.length > PAGE_SIZE && (
-                <div className={styles.pagination}>
-                  <button
-                    className={styles.pageBtn}
-                    disabled={visitPage === 0}
-                    onClick={() => setVisitPage(visitPage - 1)}
-                  >
-                    ‹ 이전
-                  </button>
-                  <span className={styles.pageInfo}>
-                    {visitPage + 1} / {Math.ceil(visits.length / PAGE_SIZE)}
-                  </span>
-                  <button
-                    className={styles.pageBtn}
-                    disabled={(visitPage + 1) * PAGE_SIZE >= visits.length}
-                    onClick={() => setVisitPage(visitPage + 1)}
-                  >
-                    다음 ›
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className={styles.emptyState}>
-              <span className={styles.emptyIcon}>📍</span>
-              <p className={styles.emptyText}>아직 방문한 부스가 없습니다</p>
-            </div>
-          )}
-        </>
-      )}
 
       {activeTab === 'tickets' && (
         <>
