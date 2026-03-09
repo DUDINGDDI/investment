@@ -3,7 +3,7 @@
 }
 
 .header {
-  padding: 24px 0 20px;
+  padding: 24px 0 8px;
 }
 
 .headerTop {
@@ -270,7 +270,7 @@
 
 /* 소속 부스 섹션 (통합 부스 탭 상단) */
 .myBoothSection {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .myBoothCard {
