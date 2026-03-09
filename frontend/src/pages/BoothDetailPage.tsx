@@ -8,7 +8,7 @@ import PageBackButton from '../components/PageBackButton'
 import { useToast } from '../components/ToastContext'
 import styles from './BoothDetailPage.module.css'
 
-type TabType = 'info' | 'review'
+type TabType = 'review'
 
 const RATING_CRITERIA = [
   { key: 'scoreFirst', label: '최초' },
@@ -42,7 +42,7 @@ export default function BoothDetailPage() {
   const [balance, setBalance] = useState(0)
   const [modal, setModal] = useState<'invest' | 'withdraw' | null>(null)
   const [investmentEnabled, setInvestmentEnabled] = useState(true)
-  const [activeTab, setActiveTab] = useState<TabType>('info')
+  const [activeTab] = useState<TabType>('review')
 
   // 메모
   const [memoOpen, setMemoOpen] = useState(false)
@@ -206,7 +206,7 @@ export default function BoothDetailPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to={fromPortfolio ? '/booths?tab=portfolio' : '/booths'} label={fromPortfolio ? '나의 투자정보' : '부스 목록'} style={{ paddingLeft: 20 }} />
+      <PageBackButton to={fromPortfolio ? '/booths?tab=portfolio' : '/home'} label={fromPortfolio ? '나의 투자정보' : '대표작 투자'} style={{ paddingLeft: 20 }} />
 
       {/* 종목 헤더 */}
       <div className={styles.header}>
@@ -278,32 +278,8 @@ export default function BoothDetailPage() {
         )}
       </div>
 
-      {/* 칩 탭: 종목 정보 / 평가 */}
-      <div className={styles.chipTabBar}>
-        <button
-          className={`${styles.chipTab} ${activeTab === 'info' ? styles.chipTabActive : ''}`}
-          onClick={() => setActiveTab('info')}
-        >
-          종목 정보
-        </button>
-        <button
-          className={`${styles.chipTab} ${activeTab === 'review' ? styles.chipTabActive : ''}`}
-          onClick={() => setActiveTab('review')}
-        >
-          평가
-        </button>
-      </div>
-
-      {/* 탭 콘텐츠 */}
+      {/* 평가 콘텐츠 */}
       <div className={styles.tabContent}>
-        {/* 종목 정보 탭 - 기본 빈 상태 (추후 확장 가능) */}
-        {activeTab === 'info' && (
-          <div className={styles.infoEmpty}>
-            <p className={styles.infoEmptyText}>추가 정보가 없습니다.</p>
-          </div>
-        )}
-
-        {/* 평가 탭 */}
         {activeTab === 'review' && (
           <div className={styles.ratingContainer}>
             {/* 안내 배너 */}
