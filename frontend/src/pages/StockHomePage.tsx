@@ -342,7 +342,7 @@ export default function StockHomePage() {
                         </div>
                         <div className={badgeStyles.podiumNameWrap}>
                           {item.company && <span className={badgeStyles.podiumCompany}>{item.company}</span>}
-                          <span className={badgeStyles.podiumUserName}>{item.name}{selectedFilter !== 'again' ? '' : ''}</span>
+                          <span className={badgeStyles.podiumUserName}>{item.name}님</span>
                         </div>
                         <div className={badgeStyles.podiumScoreRow}>
                           <span className={badgeStyles.podiumRate}>{item.progress}</span>
@@ -370,7 +370,7 @@ export default function StockHomePage() {
                           <span className={badgeStyles.rankListNum}>{item.rank}</span>
                           <div className={badgeStyles.rankListInfo}>
                             {item.company && <p className={badgeStyles.rankListCompany}>{item.company}</p>}
-                            <p className={badgeStyles.rankListUserName}>{item.name}</p>
+                            <p className={badgeStyles.rankListUserName}>{item.name}님</p>
                           </div>
                           <div className={badgeStyles.rankListScoreArea}>
                             <span className={badgeStyles.rankListRate}>{item.progress}{currentUnit}</span>
