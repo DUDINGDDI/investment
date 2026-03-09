@@ -147,18 +147,25 @@
 }
 
 .itemDisabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: default;
+  filter: grayscale(100%);
+}
+
+.itemDisabled .name,
+.itemDisabled .category {
+  color: var(--text-secondary);
 }
 
 .visitBadge {
   font-size: 11px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.08);
-  padding: 4px 8px;
+  font-weight: 700;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.12);
+  padding: 4px 10px;
   border-radius: 12px;
   flex-shrink: 0;
+  filter: none;
 }
 
 .info {

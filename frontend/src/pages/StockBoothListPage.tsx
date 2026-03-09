@@ -235,7 +235,7 @@ export default function StockBoothListPage() {
                       <p className={styles.name}>{booth.name}</p>
                       <p className={styles.category}>{booth.category}</p>
                     </div>
-                    {visited ? <div className={styles.arrow}>›</div> : <span className={styles.visitBadge}>미방문</span>}
+                    {visited ? <div className={styles.arrow}>›</div> : <span className={styles.visitBadge}>🔒 미방문</span>}
                   </div>
                 )
               })}
