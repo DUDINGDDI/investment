@@ -285,7 +285,7 @@ export default function StockBoothListPage() {
 
             {/* 도넛 차트 */}
             <div className={styles.chartWrapLarge}>
-              <svg viewBox="0 0 180 180" className={styles.donutSvg}>
+              <svg viewBox="0 0 200 200" className={styles.donutSvg}>
                 {donutSegments.map((seg, i) => {
                   const dashLength = (seg.pct / 100) * circumference + 0.5
                   const dashGap = circumference - dashLength
@@ -293,19 +293,19 @@ export default function StockBoothListPage() {
                   return (
                     <circle
                       key={seg.boothId}
-                      cx="90" cy="90" r="70"
+                      cx="100" cy="100" r="70"
                       fill="none"
                       stroke={seg.color}
                       strokeWidth="16"
                       strokeDasharray={`${dashLength} ${Math.max(0, dashGap)}`}
                       strokeDashoffset={-offset}
                       strokeLinecap="butt"
-                      style={{ transform: 'rotate(-90deg)', transformOrigin: '90px 90px' }}
+                      style={{ transform: 'rotate(-90deg)', transformOrigin: '100px 100px' }}
                     />
                   )
                 })}
-                <text x="90" y="85" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
-                <text x="90" y="105" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
+                <text x="100" y="95" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
+                <text x="100" y="115" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
               </svg>
             </div>
 

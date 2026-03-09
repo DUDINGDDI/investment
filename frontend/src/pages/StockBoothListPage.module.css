@@ -279,13 +279,14 @@
   width: 200px;
   height: 200px;
   margin: 0 auto 20px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .donutSvg {
   display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
+  width: 200px;
+  height: 200px;
 }
 
 .donutLabel {
