@@ -38,7 +38,6 @@ export default function StockTradeModal({ type, boothName, maxAmount, currentHol
     const manwon = value / 10_000
     const current = parseInt(inputValue, 10) || 0
     const next = current + manwon
-    const nextAmount = next * 10_000
 
     if (isBuy) {
       const maxManwon = Math.floor(Math.min(maxAmount, MAX_PER_BOOTH - currentHolding) / 10_000)

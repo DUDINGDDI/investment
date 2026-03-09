@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { userApi, investmentApi, boothApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { BoothResponse } from '../types'
-import { useMissions } from '../components/MissionContext'
 import styles from './HomePage.module.css'
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const { missions } = useMissions()
   const userName = localStorage.getItem('userName') || ''
   const userCompany = localStorage.getItem('userCompany') || ''
   const [balance, setBalance] = useState<number | null>(null)
