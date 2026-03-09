@@ -66,7 +66,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   },
   {
     id: 'together',
-    title: '(+) 함께하는 \n 하고잡이',
+    title: '함께하는 \n 하고잡이',
     description: '하고잡이 Wall에서 네컷사진을 게시해주세요',
     isCompleted: false,
     icon: '/image/badge/together.svg',

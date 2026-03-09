@@ -145,7 +145,7 @@ export default function QrPage() {
           <div className={styles.successModal} onClick={e => e.stopPropagation()}>
             <img src="/image/badge/together.svg" alt="함께하는 하고잡이 배지" className={styles.badgeImage} />
             <h3 className={styles.successTitle}>미션 완료!</h3>
-            <p className={styles.successMissionName}>(+) 함께하는 하고잡이</p>
+            <p className={styles.successMissionName}>함께하는 하고잡이</p>
             <p className={styles.successDesc}>
               함께하는 하고잡이 배지를 획득했습니다.
             </p>
