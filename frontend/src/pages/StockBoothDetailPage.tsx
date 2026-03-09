@@ -239,7 +239,7 @@ export default function StockBoothDetailPage() {
       setMyRating(res.data)
       setIsEditingRating(false)
       setReviewsLoaded(false)
-      showToast(myRating ? '평가가 수정되었습니다!' : '평가가 완료되었습니다!', 'success')
+      showToast(isEditingRating ? '수정되었습니다!' : myRating ? '리뷰가 저장되었습니다!' : '평가가 완료되었습니다!', 'success')
       loadData()
       syncFromServer()
     } catch (err: unknown) {
@@ -497,7 +497,7 @@ export default function StockBoothDetailPage() {
                     value={reviewText}
                     onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReviewText(e.target.value)}
                     maxLength={500}
-                    disabled={!!myRating && !isEditingRating}
+                    disabled={!!myRating?.review && !isEditingRating}
                   />
                   <div className={styles.charCount}>
                     {reviewText.trim().length > 0 && reviewText.trim().length < 20
@@ -538,7 +538,7 @@ export default function StockBoothDetailPage() {
                   <button
                     className={styles.submitBtnFull}
                     onClick={handleSubmitRating}
-                    disabled={!myRating || ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                    disabled={!myRating || ratingSubmitting || Object.values(ratingScores).some(v => v === 0) || reviewText.trim().length < 20}
                   >
                     {!myRating ? '평가 탭에서 별점을 먼저 완료해주세요' : ratingSubmitting ? '제출 중...' : '리뷰 저장'}
                   </button>
@@ -650,12 +650,6 @@ export default function StockBoothDetailPage() {
               </div>
             )}
 
-            {comments.length === 0 && booth.hasVisited && (
-              <div className={styles.reviewList}>
-                <h4 className={styles.reviewListTitle}>전체 아이디어 (0)</h4>
-                <p className={styles.emptyText} style={{ textAlign: 'center', padding: '20px 0' }}>아직 제안이 없습니다. 첫 번째 멘토가 되어주세요!</p>
-              </div>
-            )}
           </div>
         )}
       </div>

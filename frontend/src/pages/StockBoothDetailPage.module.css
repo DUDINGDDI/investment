@@ -553,7 +553,7 @@
 
 /* 리뷰 입력 */
 .reviewSection {
-  margin-top: 16px;
+  margin-top: 8;
 }
 
 .reviewInput {
@@ -677,6 +677,7 @@
   background: var(--bg-secondary);
   border-radius: 8px;
   margin-bottom: 8px;
+  overflow: hidden;
 }
 
 .reviewItemHeader {
@@ -700,6 +701,8 @@
   color: var(--text-secondary);
   line-height: 1.5;
   margin: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* ── 메모 팝업 ── */
