@@ -34,7 +34,16 @@
       "Bash(xargs -I {} bash -c \"echo ''=== FILE: {} ==='' && head -5 {}\")",
       "Bash(ls c:/Users/User/Desktop/repository/investment/frontend/node_modules/.bin/tsc*)",
       "Bash(where tsc)",
-      "Bash(node -e \"console.log\\(process.execPath\\)\")"
+      "Bash(node -e \"console.log\\(process.execPath\\)\")",
+      "Bash(comm -23 /tmp/user_codes.txt /tmp/mapping_codes.txt)",
+      "Bash(comm -13 /tmp/user_codes.txt /tmp/mapping_codes.txt)",
+      "Bash(for code in 13414729 13565 204713 263574 315819 315838 315840 836088 836120 838438)",
+      "Bash(do grep \"$code\" \"c:/Users/User/Desktop/repository/investment/user.sql\")",
+      "Bash(done)",
+      "Bash(python3 -c \":*)",
+      "Bash(node -e \":*)",
+      "Bash(docker compose down -v)",
+      "Bash(docker compose up -d --build)"
     ]
   }
 }
