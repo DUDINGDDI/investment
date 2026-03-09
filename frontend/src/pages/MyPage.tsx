@@ -97,7 +97,7 @@ export default function MyPage() {
             </svg>
           </button>
         </div>
-        <p className={styles.subtitle}>{userCompany ? `${userCompany} ` : ''}<span className={styles.userName}>{userName}</span>님</p>
+        <p className={styles.subtitle}>{userCompany ? `${userCompany} ` : ''}<span className={styles.userName}>{userName}</span>{missions.filter(m => m.isCompleted).length >= 3 && <img src="/image/ticket/photo.svg" alt="뱃지" className={styles.nameBadge} />}님</p>
       </div>
 
       {/* <div className={styles.reportBanner} onClick={() => navigate('/report')}>

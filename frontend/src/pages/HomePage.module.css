@@ -31,6 +31,13 @@
   font-weight: 700;
 }
 
+.nameBadge {
+  width: 20px;
+  height: 20px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
 .cardAmountRow {
   display: flex;
   align-items: center;

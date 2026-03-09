@@ -179,7 +179,7 @@ export default function StockHomePage() {
       <div className={styles.investCard}>
         <div className={styles.cardTop}>
           <p className={styles.cardCompany}>{userCompany || '2026 ONLYONE FAIR'}</p>
-          <p className={styles.cardGreeting}><span className={styles.userName}>{userName}</span>님의 현재 투자 금액</p>
+          <p className={styles.cardGreeting}><span className={styles.userName}>{userName}</span>{missions.filter(m => m.isCompleted).length >= 3 && <img src="/image/ticket/photo.svg" alt="뱃지" className={styles.nameBadge} />}님의 현재 투자 금액</p>
           <div className={styles.cardAmountRow}>
             <p className={styles.cardAmount}>{formatKorean(totalHolding)}원</p>
             <button className={styles.cardBtn} onClick={() => navigate('/stocks/booths')}>투자 종목 보기</button>

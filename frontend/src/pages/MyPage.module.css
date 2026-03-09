@@ -28,6 +28,13 @@
   font-weight: 700;
 }
 
+.nameBadge {
+  width: 20px;
+  height: 20px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
 /* 리포트 배너 */
 .reportBanner {
   display: flex;
