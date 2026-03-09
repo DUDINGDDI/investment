@@ -44,67 +44,67 @@ INSERT INTO zones (zone_code, name, floor_info, floor, display_order) VALUES
 -- ──────────────────────────────────────────────
 INSERT INTO stock_booths (name, category, booth_uuid, description, display_order, zone_id) VALUES
 -- 1. 올리브영 (7개)
-('SWIPICK', '올리브영', 'sb-oly-0001', '''Like or Pass'' 좌우 스와이프 기반 직관적인 K-뷰티 탐색 서비스\n기존 리스트형 UI의 정보 과부하로 인한 글로벌 고객의 선택 피로도 해소\n실시간 행동 데이터를 학습하는 AI 기반 초개인화 상품 추천\n올리브영 MD의 기획력과 AI가 결합된 맥락 있는 맞춤형 상품 제안', 1, 1),
-('THE GIANT OLIVE', '올리브영', 'sb-oly-0002', '글로벌 오프라인 진출을 앞두며 확실한 브랜드를 각인할 필요성 대두\n진출 국가의 핵심 상권에 대형 올리브 조형물 설치\n참여자의 외침으로 열리는 자이언트 올리브 구조물 속에서 K뷰티 경험\n올리브영의 글로벌 진출의 상징적 아이콘 ''오프닝 세레머니'' IP 빌딩', 2, 1),
-('WAZAK! : 와작', '올리브영', 'sb-oly-0003', '글로벌 Gen-Z 타겟의 부수고 섞으며 노는 새로운 체험형 색조 브랜드\n현재 K-색조 시장에는 글로벌 소비자가 즐길 수 있는 체험형 브랜드 부재\n직접 고르고, ''와작'' 부수고, 섞으며 완성하는 커스텀 제품 구현\nDIY와 ASMR을 결합해 차별화된 올인원 체험 제공', 3, 1),
-('OLLYU: 올리유', '올리브영', 'sb-oly-0004', '탐색, 체험, 포장까지 최초의 H&B 특화 올인원 선물 플랫폼\n획일화된 온라인 선물에 대한 거부감과 다양한 H&B 취향 존재\n5가지 핵심 선물 유형에 따른 공간과 제품 큐레이션\n기존의 효율 중심 방식을 탈피하여 2030 선물 시장 주도권 확보', 4, 1),
-('Cap In App : 캐비넷', '올리브영', 'sb-oly-0005', '캡처 이미지를 AI로 인식해 앱에 바로 저장되는 아카이빙 서비스\n캡처 이미지들을 방치하는 2030 고객들의 페인포인트 존재\n취향 매칭을 통한 위시템 공유 및 개인화 큐레이션\n모든 탐색의 종착지를 올리브영으로, 2030 고객 리텐션 및 매출 증대', 5, 1),
-('ALL WAY', '올리브영', 'sb-oly-0006', '올리브영의 색조 경쟁력 강화를 위한 컬러뷰티 특화 쇼잉 IP 콘텐츠\n런웨이를 통해 컬러뷰티 브랜드의 제품과 무드를 입체적으로 전달\n고객이 ''룩 단위''의 차별화된 브랜드 비주얼을 경험하는 만남의 장', 6, 1),
-('베러링', '올리브영', 'sb-oly-0007', '일상 속 ''더 나은 순간''을 나만의 습관으로 만드는 3초 기록 서비스\n웰니스 트렌드를 리딩하는 Z세대의 인증샷 트렌드에 집중\nNFC 태깅 및 촬영 후 웰니스 행동을 AI가 올리브베러의 6대 Well로 분류\n재밌는 방식의 웰니스로, 올리브베러에 Z세대 고객 유입 및 락인', 7, 1),
+('SWIPICK', '올리브영', '10000001-0001-4000-8000-000000000001', '''Like or Pass'' 좌우 스와이프 기반 직관적인 K-뷰티 탐색 서비스\n기존 리스트형 UI의 정보 과부하로 인한 글로벌 고객의 선택 피로도 해소\n실시간 행동 데이터를 학습하는 AI 기반 초개인화 상품 추천\n올리브영 MD의 기획력과 AI가 결합된 맥락 있는 맞춤형 상품 제안', 1, 1),
+('THE GIANT OLIVE', '올리브영', '10000001-0002-4000-8000-000000000002', '글로벌 오프라인 진출을 앞두며 확실한 브랜드를 각인할 필요성 대두\n진출 국가의 핵심 상권에 대형 올리브 조형물 설치\n참여자의 외침으로 열리는 자이언트 올리브 구조물 속에서 K뷰티 경험\n올리브영의 글로벌 진출의 상징적 아이콘 ''오프닝 세레머니'' IP 빌딩', 2, 1),
+('WAZAK! : 와작', '올리브영', '10000001-0003-4000-8000-000000000003', '글로벌 Gen-Z 타겟의 부수고 섞으며 노는 새로운 체험형 색조 브랜드\n현재 K-색조 시장에는 글로벌 소비자가 즐길 수 있는 체험형 브랜드 부재\n직접 고르고, ''와작'' 부수고, 섞으며 완성하는 커스텀 제품 구현\nDIY와 ASMR을 결합해 차별화된 올인원 체험 제공', 3, 1),
+('OLLYU: 올리유', '올리브영', '10000001-0004-4000-8000-000000000004', '탐색, 체험, 포장까지 최초의 H&B 특화 올인원 선물 플랫폼\n획일화된 온라인 선물에 대한 거부감과 다양한 H&B 취향 존재\n5가지 핵심 선물 유형에 따른 공간과 제품 큐레이션\n기존의 효율 중심 방식을 탈피하여 2030 선물 시장 주도권 확보', 4, 1),
+('Cap In App : 캐비넷', '올리브영', '10000001-0005-4000-8000-000000000005', '캡처 이미지를 AI로 인식해 앱에 바로 저장되는 아카이빙 서비스\n캡처 이미지들을 방치하는 2030 고객들의 페인포인트 존재\n취향 매칭을 통한 위시템 공유 및 개인화 큐레이션\n모든 탐색의 종착지를 올리브영으로, 2030 고객 리텐션 및 매출 증대', 5, 1),
+('ALL WAY', '올리브영', '10000001-0006-4000-8000-000000000006', '올리브영의 색조 경쟁력 강화를 위한 컬러뷰티 특화 쇼잉 IP 콘텐츠\n런웨이를 통해 컬러뷰티 브랜드의 제품과 무드를 입체적으로 전달\n고객이 ''룩 단위''의 차별화된 브랜드 비주얼을 경험하는 만남의 장', 6, 1),
+('베러링', '올리브영', '10000001-0007-4000-8000-000000000007', '일상 속 ''더 나은 순간''을 나만의 습관으로 만드는 3초 기록 서비스\n웰니스 트렌드를 리딩하는 Z세대의 인증샷 트렌드에 집중\nNFC 태깅 및 촬영 후 웰니스 행동을 AI가 올리브베러의 6대 Well로 분류\n재밌는 방식의 웰니스로, 올리브베러에 Z세대 고객 유입 및 락인', 7, 1),
 
 -- 2. CJ ENM (4개)
-('엠플메이트', 'CJ ENM', 'sb-enm-0001', '글로벌 K-pop 팬덤 타겟의 맞춤형 ''덕질 메이트'' 매칭 서비스\nK-pop 팬덤을 아우르는 ''덕질 친구 사귀기'' 니즈 충족\n스냅샷, 채팅, 덕질 캘린더 등의 다양한 서비스로 일상적 방문 유도', 8, 1),
-('아 그그그 뭐였더라?', 'CJ ENM', 'sb-enm-0002', '장면/프로그램명을 질문하면 회차/타임라인을 찾아주는 대화형 AI 챗봇\n대화를 통한 상황 기반 초개인화 큐레이션 가능\n회차별 소액 결제 서비스 ''조각티빙''으로 비구독자 유입', 9, 1),
-('찜질방', 'CJ ENM', 'sb-enm-0003', '''찜''한 대로 ''질''문하자! 스포 없는 초개인화 커뮤니티\n티빙 내 커뮤니티 신설을 통한 CJ ENM 콘텐츠 트래픽 회수\n티빙 시청 데이터와 연동하여 커뮤니티 내 스포일러 자동 필터링\n시청량 기반 유저 추천으로 커뮤니티 소속감 강화 및 충성 유저 육성', 10, 1),
-('리얼레이서', 'CJ ENM', 'sb-enm-0004', '도로 위 운전자들이 레이서의 꿈에 도전하는 모터스포츠 서바이벌\n모터스포츠에 대한 관심 증가 대비 소비할 수 있는 콘텐츠 부족\n경쟁과 성장 서사를 통해 팬덤 몰입을 유도하는 스토리 기반 포맷\n콘텐츠 → 팬덤 → 리그 유입으로 이어지는 모터스포츠 IP 확장 모델', 11, 1),
+('엠플메이트', 'CJ ENM', '20000002-0001-4000-8000-000000000008', '글로벌 K-pop 팬덤 타겟의 맞춤형 ''덕질 메이트'' 매칭 서비스\nK-pop 팬덤을 아우르는 ''덕질 친구 사귀기'' 니즈 충족\n스냅샷, 채팅, 덕질 캘린더 등의 다양한 서비스로 일상적 방문 유도', 8, 1),
+('아 그그그 뭐였더라?', 'CJ ENM', '20000002-0002-4000-8000-000000000009', '장면/프로그램명을 질문하면 회차/타임라인을 찾아주는 대화형 AI 챗봇\n대화를 통한 상황 기반 초개인화 큐레이션 가능\n회차별 소액 결제 서비스 ''조각티빙''으로 비구독자 유입', 9, 1),
+('찜질방', 'CJ ENM', '20000002-0003-4000-8000-000000000010', '''찜''한 대로 ''질''문하자! 스포 없는 초개인화 커뮤니티\n티빙 내 커뮤니티 신설을 통한 CJ ENM 콘텐츠 트래픽 회수\n티빙 시청 데이터와 연동하여 커뮤니티 내 스포일러 자동 필터링\n시청량 기반 유저 추천으로 커뮤니티 소속감 강화 및 충성 유저 육성', 10, 1),
+('리얼레이서', 'CJ ENM', '20000002-0004-4000-8000-000000000011', '도로 위 운전자들이 레이서의 꿈에 도전하는 모터스포츠 서바이벌\n모터스포츠에 대한 관심 증가 대비 소비할 수 있는 콘텐츠 부족\n경쟁과 성장 서사를 통해 팬덤 몰입을 유도하는 스토리 기반 포맷\n콘텐츠 → 팬덤 → 리그 유입으로 이어지는 모터스포츠 IP 확장 모델', 11, 1),
 
 -- 3. 대한통운 건설부문 (3개)
-('ALI-GO', '대한통운 건설부문', 'sb-con-0001', '미디어아트와 시즌 스토리텔링을 결합하여 프리미엄 다이닝 기준 제시\n분기별 테마를 전환하여 VIPS 방문 동기 극대화, 지속적 재방문 유도\nVIPS의 시즌 컨셉 극대화를 위한 맛, 공간, 서비스의 유기적 통합\nVIPS의 정체성과 경험소비 트렌드를 결합한 NEXT VIPS 미식 경험 모델', 12, 1),
-('PROTRACK', '대한통운 건설부문', 'sb-con-0002', '월간 공종별 인당 생산성 대시보드 생성 자동화\n철근콘크리트공사의 작업별·층별 생산성 현황 직관적 제시\nAI 기반 작업별 생산성 저하 원인 예측 및 적정 맞춤 개선안 제공\n공정 지연 사례 아카이빙 및 협력사 관리 안내문 원클릭 자동 생성', 13, 1),
-('HEAT-DECK', '대한통운 건설부문', 'sb-con-0003', '데크 하부 열선 설치로 동절기 콘크리트 양생의 효율성 향상\n자석 탈부착 방식으로 작업 편의성 확보 및 열선 재사용 가능\n화기 작업 및 등유 보충 과정에서 발생할 수 있는 안전 리스크 제거\n기존 열풍기 대비 약 60% 수준의 비용으로 운영하여 원가 경쟁력 확보', 14, 1),
+('ALI-GO', '대한통운 건설부문', '30000003-0001-4000-8000-000000000012', '미디어아트와 시즌 스토리텔링을 결합하여 프리미엄 다이닝 기준 제시\n분기별 테마를 전환하여 VIPS 방문 동기 극대화, 지속적 재방문 유도\nVIPS의 시즌 컨셉 극대화를 위한 맛, 공간, 서비스의 유기적 통합\nVIPS의 정체성과 경험소비 트렌드를 결합한 NEXT VIPS 미식 경험 모델', 12, 1),
+('PROTRACK', '대한통운 건설부문', '30000003-0002-4000-8000-000000000013', '월간 공종별 인당 생산성 대시보드 생성 자동화\n철근콘크리트공사의 작업별·층별 생산성 현황 직관적 제시\nAI 기반 작업별 생산성 저하 원인 예측 및 적정 맞춤 개선안 제공\n공정 지연 사례 아카이빙 및 협력사 관리 안내문 원클릭 자동 생성', 13, 1),
+('HEAT-DECK', '대한통운 건설부문', '30000003-0003-4000-8000-000000000014', '데크 하부 열선 설치로 동절기 콘크리트 양생의 효율성 향상\n자석 탈부착 방식으로 작업 편의성 확보 및 열선 재사용 가능\n화기 작업 및 등유 보충 과정에서 발생할 수 있는 안전 리스크 제거\n기존 열풍기 대비 약 60% 수준의 비용으로 운영하여 원가 경쟁력 확보', 14, 1),
 
 -- 4. 올리브네트웍스 (3개)
-('TwInsight', '올리브네트웍스', 'sb-onw-0001', '공장 운영 데이터를 기반으로 위험 시나리오를 자동 생성\n디지털 트윈에서 사고 상황을 자동 시뮬레이션\n최적 대응 전략을 검증, 추천\n결과를 대시보드로 시각화, 의사결정을 지원', 15, 1),
-('BO''DA', '올리브네트웍스', 'sb-onw-0002', 'Physical AI 시장 확대 및 학습 데이터 가뭄 현상\nPhysical AI를 위한 1인칭 학습 데이터 구축 비용 상승\n기존의 3인칭 영상 데이터를 1인칭으로 변환하여 데이터 부족 문제 해결', 16, 1),
-('Gotcha', '올리브네트웍스', 'sb-onw-0003', 'Vision AI 활용 교란종 탐지, Physical AI 기반 포획 솔루션 제공\n교란종으로 인한 전 세계적 농작물, 시설 피해 규모 530조 육박\n관리 지자체 증가, 현상금 등 현행 인력 기반 관리로는 역부족\n포획 대상 종 특성에 맞는 최적화 포획 솔루션', 17, 1),
+('TwInsight', '올리브네트웍스', '40000004-0001-4000-8000-000000000015', '공장 운영 데이터를 기반으로 위험 시나리오를 자동 생성\n디지털 트윈에서 사고 상황을 자동 시뮬레이션\n최적 대응 전략을 검증, 추천\n결과를 대시보드로 시각화, 의사결정을 지원', 15, 1),
+('BO''DA', '올리브네트웍스', '40000004-0002-4000-8000-000000000016', 'Physical AI 시장 확대 및 학습 데이터 가뭄 현상\nPhysical AI를 위한 1인칭 학습 데이터 구축 비용 상승\n기존의 3인칭 영상 데이터를 1인칭으로 변환하여 데이터 부족 문제 해결', 16, 1),
+('Gotcha', '올리브네트웍스', '40000004-0003-4000-8000-000000000017', 'Vision AI 활용 교란종 탐지, Physical AI 기반 포획 솔루션 제공\n교란종으로 인한 전 세계적 농작물, 시설 피해 규모 530조 육박\n관리 지자체 증가, 현상금 등 현행 인력 기반 관리로는 역부족\n포획 대상 종 특성에 맞는 최적화 포획 솔루션', 17, 1),
 
 -- 5. ENM 커머스 (2개)
-('온스탁', 'ENM 커머스', 'sb-com-0001', '소비자가 원하는 브랜드에 투표하고, 투자하고, 얻은 수익으로 구매까지\n단순한 물건 구매를 넘어, 브랜드에 직접 참여·기여하는 팬슈머 증가\n고객의 브랜드 투자를 통한 자사 포트폴리오 다양화 및 고객 만족도 증진', 18, 1),
-('ON-FLIGHT', 'ENM 커머스', 'sb-com-0002', '비행기에서 시청하는 K-콘텐츠와 주문하면 당일 배송되는 K-커머스\n여행의 퍼스트마일에서 콘텐츠 몰입이 가능한 비행기를 세일즈 거점화\n글로벌 판매 접점 확장 및 항공사·방한객을 중개하는 신규 BM 구축', 19, 1),
+('온스탁', 'ENM 커머스', '50000005-0001-4000-8000-000000000018', '소비자가 원하는 브랜드에 투표하고, 투자하고, 얻은 수익으로 구매까지\n단순한 물건 구매를 넘어, 브랜드에 직접 참여·기여하는 팬슈머 증가\n고객의 브랜드 투자를 통한 자사 포트폴리오 다양화 및 고객 만족도 증진', 18, 1),
+('ON-FLIGHT', 'ENM 커머스', '50000005-0002-4000-8000-000000000019', '비행기에서 시청하는 K-콘텐츠와 주문하면 당일 배송되는 K-커머스\n여행의 퍼스트마일에서 콘텐츠 몰입이 가능한 비행기를 세일즈 거점화\n글로벌 판매 접점 확장 및 항공사·방한객을 중개하는 신규 BM 구축', 19, 1),
 
 -- 6. 프레시웨이 (8개)
-('GO:ON', '프레시웨이', 'sb-frw-0001', '음식 표면 측정 온도계 및 인덕션 유선 연결로 주찬 온도 자동 조절\n기존 인덕션의 보온 기능은 음식 온도를 반영한 세밀한 조절이 어려움\n온도계에서 인덕션으로 온도값 전송. 기준 온도 이탈 시 자동 조절\n자동화된 적온 조절로 이동급식 업장 간 품질 표준화 달성', 20, 1),
-('Ｋ－Ｖｉｌｌａｇｅ', '프레시웨이', 'sb-frw-0002', '세계 공항에서 경험하는 작은 한국\n인천공항 고메브릿지 성공 스토리 기반의 사업 확장\n식음 서비스를 넘어 CJ의 다양한 K-콘텐츠 제공\n글로벌 플랫폼으로 성장하여 해외매출 확대', 21, 1),
-('카페IN봄', '프레시웨이', 'sb-frw-0003', '카페 사장님의 디저트 고민을 해결하는 식봄 카페 전용탭\nAI 파티시에가 사장님 매장에 딱 맞는 시그니처 디저트 조합 완성\n베이스부터 토핑까지 단계별 추천, 수만 가지 조합 생성 가능\n프레시웨이 플랫폼 운영 역량과 푸드빌의 제조 역량 시너지 기대', 22, 1),
-('아코디온;溫', '프레시웨이', 'sb-frw-0004', '현재 접이 불가한 이동급식 보온박스 사용으로 동선 효율성 저하\n자바라 방식을 활용한 새로운 형태의 보온 모듈 아이디어 제안\n사업 확장 시 거점 최적화를 통한 비효율적인 부동산 비용 절감\n최초 전용 박스 제작을 통한 이동급식 시장 초격차 역량 확보', 23, 1),
-('오이배송', '프레시웨이', 'sb-frw-0005', '영업 중 식자재 필요시 온라인으로 주문하고 바로 받을 서비스 부재\n식자재 마트 온라인 시장 진출 니즈 있으나 DT 역량 부족\n이 둘을 연결하여 식봄 플랫폼의 선순환 성장을 가져올 서비스 도입\n식사재 마트의 온라인 플랫폼 편입을 통한 식자재유통 산업화 가속화', 24, 1),
-('TOK TALK', '프레시웨이', 'sb-frw-0006', '식봄 내 리뷰 부재로 인한 구매 의사결정 지연 문제 해결\n톡톡은 간편합니다! 용도, 품질, 포장상태 키워드를 선택\n톡톡은 빠릅니다! 단 3초면 리뷰가 완성\n톡톡은 쌓입니다! 업종별, 용도별 식봄 만의 데이터 자산이 축적', 25, 1),
-('픽플(pick+)', '프레시웨이', 'sb-frw-0007', '로드셀 기반 식수 자동화 트래킹 시스템\n現) 식수는 수기 또는 경험 기반 집계, 정확한 데이터 수집 어려움\n고객이 식판 집는 순간 차감된 무게를 측정 → 식수 데이터로 전환\n정확한 데이터 수집을 통해 단체 급식 사업을 데이터 기반으로 전환 가능', 26, 1),
-('아이누리터', '프레시웨이', 'sb-frw-0008', '어? 우리 아이 편식이 사라졌네? 아이누리 터!\n어? 원장님은 만족, 부모님은 신뢰하는! 아이누리 티!\n어? 키즈 시장 초격차 1등? 아이누리 터!', 27, 1),
+('GO:ON', '프레시웨이', '60000006-0001-4000-8000-000000000020', '음식 표면 측정 온도계 및 인덕션 유선 연결로 주찬 온도 자동 조절\n기존 인덕션의 보온 기능은 음식 온도를 반영한 세밀한 조절이 어려움\n온도계에서 인덕션으로 온도값 전송. 기준 온도 이탈 시 자동 조절\n자동화된 적온 조절로 이동급식 업장 간 품질 표준화 달성', 20, 1),
+('Ｋ－Ｖｉｌｌａｇｅ', '프레시웨이', '60000006-0002-4000-8000-000000000021', '세계 공항에서 경험하는 작은 한국\n인천공항 고메브릿지 성공 스토리 기반의 사업 확장\n식음 서비스를 넘어 CJ의 다양한 K-콘텐츠 제공\n글로벌 플랫폼으로 성장하여 해외매출 확대', 21, 1),
+('카페IN봄', '프레시웨이', '60000006-0003-4000-8000-000000000022', '카페 사장님의 디저트 고민을 해결하는 식봄 카페 전용탭\nAI 파티시에가 사장님 매장에 딱 맞는 시그니처 디저트 조합 완성\n베이스부터 토핑까지 단계별 추천, 수만 가지 조합 생성 가능\n프레시웨이 플랫폼 운영 역량과 푸드빌의 제조 역량 시너지 기대', 22, 1),
+('아코디온;溫', '프레시웨이', '60000006-0004-4000-8000-000000000023', '현재 접이 불가한 이동급식 보온박스 사용으로 동선 효율성 저하\n자바라 방식을 활용한 새로운 형태의 보온 모듈 아이디어 제안\n사업 확장 시 거점 최적화를 통한 비효율적인 부동산 비용 절감\n최초 전용 박스 제작을 통한 이동급식 시장 초격차 역량 확보', 23, 1),
+('오이배송', '프레시웨이', '60000006-0005-4000-8000-000000000024', '영업 중 식자재 필요시 온라인으로 주문하고 바로 받을 서비스 부재\n식자재 마트 온라인 시장 진출 니즈 있으나 DT 역량 부족\n이 둘을 연결하여 식봄 플랫폼의 선순환 성장을 가져올 서비스 도입\n식사재 마트의 온라인 플랫폼 편입을 통한 식자재유통 산업화 가속화', 24, 1),
+('TOK TALK', '프레시웨이', '60000006-0006-4000-8000-000000000025', '식봄 내 리뷰 부재로 인한 구매 의사결정 지연 문제 해결\n톡톡은 간편합니다! 용도, 품질, 포장상태 키워드를 선택\n톡톡은 빠릅니다! 단 3초면 리뷰가 완성\n톡톡은 쌓입니다! 업종별, 용도별 식봄 만의 데이터 자산이 축적', 25, 1),
+('픽플(pick+)', '프레시웨이', '60000006-0007-4000-8000-000000000026', '로드셀 기반 식수 자동화 트래킹 시스템\n現) 식수는 수기 또는 경험 기반 집계, 정확한 데이터 수집 어려움\n고객이 식판 집는 순간 차감된 무게를 측정 → 식수 데이터로 전환\n정확한 데이터 수집을 통해 단체 급식 사업을 데이터 기반으로 전환 가능', 26, 1),
+('아이누리터', '프레시웨이', '60000006-0008-4000-8000-000000000027', '어? 우리 아이 편식이 사라졌네? 아이누리 터!\n어? 원장님은 만족, 부모님은 신뢰하는! 아이누리 티!\n어? 키즈 시장 초격차 1등? 아이누리 터!', 27, 1),
 
 -- 7. CGV/4DPLEX (2개)
-('CGV POPSDAQ', 'CGV/4DPLEX', 'sb-cgv-0001', '국내 최초, 가상 화폐(POP)로 흥행 실시간 예측하는 참여형 게임 서비스\n관객의 영화 관심도를 높이고, 행동 데이터를 확보할 수 있는 전략 필요\n개봉 전 흥행 규모 예측 + 개봉 후 흥행 변동 예측 기반 거래로 수익 실현\n고객은 재미와 보상을, CGV는 바이럴·데이터 활용·수익 창출 기회 확보', 28, 1),
-('IMMERSIUM', 'CGV/4DPLEX', 'sb-cgv-0002', '콘텐츠 세계관 속으로 들어가는 BIG IP × 신기술 기반 몰입 경험 플랫폼\n극장 외 브랜드 경험 확장과 인지도 제고를 위한 신규 공간 필요\n도심 속 인터랙티브 기술 공간을 콘텐츠 교체형으로 운영\n브랜딩·네트워크·기술 전반에서 차별화된 경쟁력과 사업 확장 기반 마련', 29, 1),
+('CGV POPSDAQ', 'CGV/4DPLEX', '70000007-0001-4000-8000-000000000028', '국내 최초, 가상 화폐(POP)로 흥행 실시간 예측하는 참여형 게임 서비스\n관객의 영화 관심도를 높이고, 행동 데이터를 확보할 수 있는 전략 필요\n개봉 전 흥행 규모 예측 + 개봉 후 흥행 변동 예측 기반 거래로 수익 실현\n고객은 재미와 보상을, CGV는 바이럴·데이터 활용·수익 창출 기회 확보', 28, 1),
+('IMMERSIUM', 'CGV/4DPLEX', '70000007-0002-4000-8000-000000000029', '콘텐츠 세계관 속으로 들어가는 BIG IP × 신기술 기반 몰입 경험 플랫폼\n극장 외 브랜드 경험 확장과 인지도 제고를 위한 신규 공간 필요\n도심 속 인터랙티브 기술 공간을 콘텐츠 교체형으로 운영\n브랜딩·네트워크·기술 전반에서 차별화된 경쟁력과 사업 확장 기반 마련', 29, 1),
 
 -- 8. 제일제당 (7개)
-('GACHI SAUCE', '제일제당', 'sb-cjd-0001', 'GACHI: 퓨전 K-소스와 김 플레이크를 ''같이'' 써서 더 맛있는 듀얼 소스\n이국적인 맛·크런치·간편함을 선호하는 미국 Gen Z 타깃\n미국 내 한식 선호를 기회로, S&S를 활용한 내식으로의 침투 가속화\n일상식에 K-Flavor를 더하는 쿠킹 소스로 시작해 테이블 소스로 확장', 30, 1),
-('Dip-Pokki', '제일제당', 'sb-cjd-0002', '기존 떡볶이 국물을 디핑 소스로 만든 최초의 RTE 떡볶이 맛 소스\n미국 ''Swicy'' 맛 선호와 ''Dip & Drizzle'' 트렌드에 맞춘 꾸덕한 디핑 소스\n에스닉 소스의 검증된 성공 방식을 바탕으로 미국 일상 소스로의 안착', 31, 1),
-('비빔선생', '제일제당', 'sb-cjd-0003', '원물감이 살아있는 생선살 토핑을 밥에 바로 비벼 먹는 완성형 소스\n급부상한 솥밥 메뉴 트렌드 대비 완성형 소스가 부재한 기회 영역 확보\n2030 1인 가구·맞벌이 부부의 간편 혼웰식 니즈 공략\nFirst-to-market → Domestic Growth → Global Expansion', 32, 1),
-('ONDA Spread', '제일제당', 'sb-cjd-0004', '美 고추장 수출 & 관심 증가 BUT 일상화 전략의 부재\n''간편&건강'' 식문화에 맞춘 차세대 H&W 고추장 스프레드\n고추장의 일상 소비 접점 확대로 美 스프레드 시장 내 新 카테고리 리딩\n美 2030 세대 타깃한 AI기반 디지털 마케팅 전략 제시', 33, 1),
-('칰칰칩', '제일제당', 'sb-cjd-0005', '[시장] 국내 스낵 시장 8조 규모, 원물·크런치 트렌드 활용\n[제품] CJ R&D 역량으로 상온에서도 진한 소스 풍미와 바삭함 구현\n[전략] 2030 ''보상 스낵'' 포지셔닝 → 플레이버·K-치킨 글로벌 확장', 34, 1),
-('AmiNoLoss', '제일제당', 'sb-cjd-0006', 'GLP-1 비만치료제 확산에 따른 GLP-1 보조제 시장의 고성장\n단백질 시장 내 위장관 장애·근손실·맛을 동시에 개선하는 보조제 부재\n필수 아미노산 9종 + 글루타민 + TNR의 최적 배합\n개발부터 출시까지 GLP-1 타겟 제품의 전주기 지원 B2B 통합 솔루션', 35, 1),
-('PHABY', '제일제당', 'sb-cjd-0007', '미세플라스틱이 나오지 않는 인체 무해한 생분해성 일회용 젖병\n기존 일회용 젖병의 미세플라스틱 문제 및 대체재 부재로 소비자 불안多\n높은 PHA 단가를 수용할 수 있는 ''안심 소재'' 민감 유아용품 시장 공략\n일회용 젖병에서 시작하여 다양한 유아용 일회용품들로 시장 확장', 36, 1),
+('GACHI SAUCE', '제일제당', '80000008-0001-4000-8000-000000000030', 'GACHI: 퓨전 K-소스와 김 플레이크를 ''같이'' 써서 더 맛있는 듀얼 소스\n이국적인 맛·크런치·간편함을 선호하는 미국 Gen Z 타깃\n미국 내 한식 선호를 기회로, S&S를 활용한 내식으로의 침투 가속화\n일상식에 K-Flavor를 더하는 쿠킹 소스로 시작해 테이블 소스로 확장', 30, 1),
+('Dip-Pokki', '제일제당', '80000008-0002-4000-8000-000000000031', '기존 떡볶이 국물을 디핑 소스로 만든 최초의 RTE 떡볶이 맛 소스\n미국 ''Swicy'' 맛 선호와 ''Dip & Drizzle'' 트렌드에 맞춘 꾸덕한 디핑 소스\n에스닉 소스의 검증된 성공 방식을 바탕으로 미국 일상 소스로의 안착', 31, 1),
+('비빔선생', '제일제당', '80000008-0003-4000-8000-000000000032', '원물감이 살아있는 생선살 토핑을 밥에 바로 비벼 먹는 완성형 소스\n급부상한 솥밥 메뉴 트렌드 대비 완성형 소스가 부재한 기회 영역 확보\n2030 1인 가구·맞벌이 부부의 간편 혼웰식 니즈 공략\nFirst-to-market → Domestic Growth → Global Expansion', 32, 1),
+('ONDA Spread', '제일제당', '80000008-0004-4000-8000-000000000033', '美 고추장 수출 & 관심 증가 BUT 일상화 전략의 부재\n''간편&건강'' 식문화에 맞춘 차세대 H&W 고추장 스프레드\n고추장의 일상 소비 접점 확대로 美 스프레드 시장 내 新 카테고리 리딩\n美 2030 세대 타깃한 AI기반 디지털 마케팅 전략 제시', 33, 1),
+('칰칰칩', '제일제당', '80000008-0005-4000-8000-000000000034', '[시장] 국내 스낵 시장 8조 규모, 원물·크런치 트렌드 활용\n[제품] CJ R&D 역량으로 상온에서도 진한 소스 풍미와 바삭함 구현\n[전략] 2030 ''보상 스낵'' 포지셔닝 → 플레이버·K-치킨 글로벌 확장', 34, 1),
+('AmiNoLoss', '제일제당', '80000008-0006-4000-8000-000000000035', 'GLP-1 비만치료제 확산에 따른 GLP-1 보조제 시장의 고성장\n단백질 시장 내 위장관 장애·근손실·맛을 동시에 개선하는 보조제 부재\n필수 아미노산 9종 + 글루타민 + TNR의 최적 배합\n개발부터 출시까지 GLP-1 타겟 제품의 전주기 지원 B2B 통합 솔루션', 35, 1),
+('PHABY', '제일제당', '80000008-0007-4000-8000-000000000036', '미세플라스틱이 나오지 않는 인체 무해한 생분해성 일회용 젖병\n기존 일회용 젖병의 미세플라스틱 문제 및 대체재 부재로 소비자 불안多\n높은 PHA 단가를 수용할 수 있는 ''안심 소재'' 민감 유아용품 시장 공략\n일회용 젖병에서 시작하여 다양한 유아용 일회용품들로 시장 확장', 36, 1),
 
 -- 9. 대한통운 (4개)
-('ANY O-NE', '대한통운', 'sb-dht-0001', '멀티모달 AI로 음성, 이미지 등을 통한 정보인식 및 자동 입력\n사용자 편의성 제고를 통한 택배 접수 접근성 강화로 C2C 물량 확대\n채널혁신을 통해 택배 서비스 접근 문턱 낮춰 C2C 성장 동력 확보', 37, 1),
-('THE A-PRO [더 앞으로]', '대한통운', 'sb-dht-0002', 'ONLYONE적 플랫폼/기술 기반 유통물류 퍼스트마일 시장 장악\n합리적 운임을 제공하는 화주 向 퍼스트마일 서비스 브랜드 구축\n주문/배차/라우팅/관제 등 디지털 기반 자동화 솔루션 통한 편의성 향상', 38, 1),
-('ONE-AIR [오네어]', '대한통운', 'sb-dht-0003', '해외 CJ 거점에서 한국 집 앞까지 배송하는 End to End 짐배송 서비스\nCJ대한통운의 글로벌 물류 역량과 국내 최고의 LMD 역량 결합\n고객 만족, 글로벌 물량 확대를 통한 win-win 생태계 구축', 39, 1),
-('RE-WORK', '대한통운', 'sb-dht-0004', '일일보고, 가마감 등 수기로 처리하는 반복적 업무로 인한 비효율 발생\nAI를 기반으로 반복적 수기 위주 업무의 자동화를 통한 업무 효율 향상\n산재되어 있던 주요 데이터의 체계적 축적을 통한 내부 자산화', 40, 1),
+('ANY O-NE', '대한통운', '90000009-0001-4000-8000-000000000037', '멀티모달 AI로 음성, 이미지 등을 통한 정보인식 및 자동 입력\n사용자 편의성 제고를 통한 택배 접수 접근성 강화로 C2C 물량 확대\n채널혁신을 통해 택배 서비스 접근 문턱 낮춰 C2C 성장 동력 확보', 37, 1),
+('THE A-PRO [더 앞으로]', '대한통운', '90000009-0002-4000-8000-000000000038', 'ONLYONE적 플랫폼/기술 기반 유통물류 퍼스트마일 시장 장악\n합리적 운임을 제공하는 화주 向 퍼스트마일 서비스 브랜드 구축\n주문/배차/라우팅/관제 등 디지털 기반 자동화 솔루션 통한 편의성 향상', 38, 1),
+('ONE-AIR [오네어]', '대한통운', '90000009-0003-4000-8000-000000000039', '해외 CJ 거점에서 한국 집 앞까지 배송하는 End to End 짐배송 서비스\nCJ대한통운의 글로벌 물류 역량과 국내 최고의 LMD 역량 결합\n고객 만족, 글로벌 물량 확대를 통한 win-win 생태계 구축', 39, 1),
+('RE-WORK', '대한통운', '90000009-0004-4000-8000-000000000040', '일일보고, 가마감 등 수기로 처리하는 반복적 업무로 인한 비효율 발생\nAI를 기반으로 반복적 수기 위주 업무의 자동화를 통한 업무 효율 향상\n산재되어 있던 주요 데이터의 체계적 축적을 통한 내부 자산화', 40, 1),
 
 -- 10. 푸드빌 (3개)
-('CAKE-OUT', '푸드빌', 'sb-fvl-0001', '미니케이크에서 홀케이크 전환의 선순환 구조를 설계한 시그니처 상품\n2030 직장인은 시간/장소 제약 없이 디저트를 즐기고 싶은 니즈 존재\n음료와 미니케이크를 결합한 원핸드 디저트로 소비 경험 활성화\n케이크 소비 수요를 선점해 신규 매출 창출, 홀케이크 구매 전환율 증대', 41, 1),
-('TelL : J', '푸드빌', 'sb-fvl-0002', '''음성''을 기반으로 DM 업무를 효율화하는 AI 서비스\n언제 어디서나 음성만으로 end-to-end 점포 관리 업무 수행\n분산되었던 DM별 노하우와 경험을 본사의 데이터로 축적 및 활용\n북미 가맹 사업의 지속가능한 성장을 지원하는 핵심 인프라', 42, 1),
-('VIPS : PACE', '푸드빌', 'sb-fvl-0003', '미디어아트와 시즌 스토리텔링을 결합하여 프리미엄 다이닝 기준 제시\n분기별 테마를 전환하여 VIPS 방문 동기 극대화, 지속적 재방문 유도\nVIPS의 시즌 컨셉 극대화를 위한 맛, 공간, 서비스의 유기적 통합\nVIPS의 정체성과 경험소비 트렌드를 결합한 NEXT VIPS 미식 경험 모델', 43, 1);
+('CAKE-OUT', '푸드빌', 'a000000a-0001-4000-8000-000000000041', '미니케이크에서 홀케이크 전환의 선순환 구조를 설계한 시그니처 상품\n2030 직장인은 시간/장소 제약 없이 디저트를 즐기고 싶은 니즈 존재\n음료와 미니케이크를 결합한 원핸드 디저트로 소비 경험 활성화\n케이크 소비 수요를 선점해 신규 매출 창출, 홀케이크 구매 전환율 증대', 41, 1),
+('TelL : J', '푸드빌', 'a000000a-0002-4000-8000-000000000042', '''음성''을 기반으로 DM 업무를 효율화하는 AI 서비스\n언제 어디서나 음성만으로 end-to-end 점포 관리 업무 수행\n분산되었던 DM별 노하우와 경험을 본사의 데이터로 축적 및 활용\n북미 가맹 사업의 지속가능한 성장을 지원하는 핵심 인프라', 42, 1),
+('VIPS : PACE', '푸드빌', 'a000000a-0003-4000-8000-000000000043', '미디어아트와 시즌 스토리텔링을 결합하여 프리미엄 다이닝 기준 제시\n분기별 테마를 전환하여 VIPS 방문 동기 극대화, 지속적 재방문 유도\nVIPS의 시즌 컨셉 극대화를 위한 맛, 공간, 서비스의 유기적 통합\nVIPS의 정체성과 경험소비 트렌드를 결합한 NEXT VIPS 미식 경험 모델', 43, 1);
 
 -- ──────────────────────────────────────────────
 -- users + stock_accounts
@@ -895,472 +895,472 @@ INSERT INTO stock_accounts (user_id, balance, created_at, updated_at) VALUES
 -- booth_uuid로 stock_booth를 참조하여 UPDATE
 
 -- ========================================
--- 1. 올리브영 - SWIPICK (sb-oly-0001)
+-- 1. 올리브영 - SWIPICK (10000001-0001-4000-8000-000000000001)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838465'; -- 김나영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838489'; -- 김다은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838482'; -- 김지원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838430'; -- 김현진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838462'; -- 남은탁
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838485'; -- 문승혜
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838521'; -- 브엉후엔
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838436'; -- 신동준
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838495'; -- 이민정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0001') WHERE unique_code = '838523'; -- 전동재
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838465'; -- 김나영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838489'; -- 김다은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838482'; -- 김지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838430'; -- 김현진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838462'; -- 남은탁
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838485'; -- 문승혜
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838521'; -- 브엉후엔
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838436'; -- 신동준
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838495'; -- 이민정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0001-4000-8000-000000000001') WHERE unique_code = '838523'; -- 전동재
 
 -- ========================================
--- 1. 올리브영 - THE GIANT OLIVE (sb-oly-0002)
+-- 1. 올리브영 - THE GIANT OLIVE (10000001-0002-4000-8000-000000000002)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838469'; -- 김나윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838483'; -- 김민채
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838478'; -- 김상윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838454'; -- 김주영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838524'; -- 도김치
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838457'; -- 손다운
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838491'; -- 이서연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838480'; -- 장송희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0002') WHERE unique_code = '838494'; -- 최민영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838469'; -- 김나윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838483'; -- 김민채
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838478'; -- 김상윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838454'; -- 김주영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838524'; -- 도김치
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838457'; -- 손다운
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838491'; -- 이서연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838480'; -- 장송희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0002-4000-8000-000000000002') WHERE unique_code = '838494'; -- 최민영
 
 -- ========================================
--- 1. 올리브영 - WAZAK! : 와작 (sb-oly-0003)
+-- 1. 올리브영 - WAZAK! : 와작 (10000001-0003-4000-8000-000000000003)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838437'; -- 강승연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838459'; -- 강희진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838455'; -- 김다희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838432'; -- 김민정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838471'; -- 김세현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838451'; -- 김희연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838463'; -- 오지민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838474'; -- 이윤재
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838522'; -- 이케다나나
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0003') WHERE unique_code = '838442'; -- 홍세림
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838437'; -- 강승연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838459'; -- 강희진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838455'; -- 김다희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838432'; -- 김민정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838471'; -- 김세현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838451'; -- 김희연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838463'; -- 오지민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838474'; -- 이윤재
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838522'; -- 이케다나나
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0003-4000-8000-000000000003') WHERE unique_code = '838442'; -- 홍세림
 
 -- ========================================
--- 1. 올리브영 - OLLYU: 올리유 (sb-oly-0004)
+-- 1. 올리브영 - OLLYU: 올리유 (10000001-0004-4000-8000-000000000004)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838472'; -- 강기연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838447'; -- 강유진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838490'; -- 김근아
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838429'; -- 오은솔
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838443'; -- 유상화
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838492'; -- 이지민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838453'; -- 임주희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838488'; -- 표세빈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838428'; -- 황서인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0004') WHERE unique_code = '838481'; -- 황현정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838472'; -- 강기연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838447'; -- 강유진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838490'; -- 김근아
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838429'; -- 오은솔
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838443'; -- 유상화
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838492'; -- 이지민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838453'; -- 임주희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838488'; -- 표세빈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838428'; -- 황서인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0004-4000-8000-000000000004') WHERE unique_code = '838481'; -- 황현정
 
 -- ========================================
--- 1. 올리브영 - Cap In App : 캐비넷 (sb-oly-0005)
+-- 1. 올리브영 - Cap In App : 캐비넷 (10000001-0005-4000-8000-000000000005)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838460'; -- 강어진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838444'; -- 고유진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838441'; -- 김민서
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838452'; -- 김혜은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838439'; -- 박서린
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838479'; -- 박성춘
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838470'; -- 이예림
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838476'; -- 이현지
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838487'; -- 정지현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0005') WHERE unique_code = '838475'; -- 최윤서
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838460'; -- 강어진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838444'; -- 고유진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838441'; -- 김민서
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838452'; -- 김혜은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838439'; -- 박서린
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838479'; -- 박성춘
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838470'; -- 이예림
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838476'; -- 이현지
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838487'; -- 정지현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0005-4000-8000-000000000005') WHERE unique_code = '838475'; -- 최윤서
 
 -- ========================================
--- 1. 올리브영 - ALL WAY (sb-oly-0006)
+-- 1. 올리브영 - ALL WAY (10000001-0006-4000-8000-000000000006)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838464'; -- 김경화
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838458'; -- 박소현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838446'; -- 엄유리
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838484'; -- 유소연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838473'; -- 이수민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838434'; -- 이승주
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838477'; -- 허정원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838496'; -- 홍윤지
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0006') WHERE unique_code = '838445'; -- 황수진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838464'; -- 김경화
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838458'; -- 박소현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838446'; -- 엄유리
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838484'; -- 유소연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838473'; -- 이수민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838434'; -- 이승주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838477'; -- 허정원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838496'; -- 홍윤지
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0006-4000-8000-000000000006') WHERE unique_code = '838445'; -- 황수진
 
 -- ========================================
--- 1. 올리브영 - 베러링 (sb-oly-0007)
+-- 1. 올리브영 - 베러링 (10000001-0007-4000-8000-000000000007)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838449'; -- 고정미
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838486'; -- 김규리
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838431'; -- 김다윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838440'; -- 박조은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838433'; -- 박효진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838467'; -- 송현우
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838435'; -- 신혜인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838448'; -- 이은주
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838461'; -- 최유정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-oly-0007') WHERE unique_code = '838450'; -- 최윤서
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838449'; -- 고정미
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838486'; -- 김규리
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838431'; -- 김다윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838440'; -- 박조은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838433'; -- 박효진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838467'; -- 송현우
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838435'; -- 신혜인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838448'; -- 이은주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838461'; -- 최유정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '10000001-0007-4000-8000-000000000007') WHERE unique_code = '838450'; -- 최윤서
 
 -- ========================================
--- 2. CJ ENM - 엠플메이트 (sb-enm-0001)
+-- 2. CJ ENM - 엠플메이트 (20000002-0001-4000-8000-000000000008)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0001') WHERE unique_code = 'D100337'; -- 김지혜
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0001') WHERE unique_code = 'T100515'; -- 변희주
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0001') WHERE unique_code = 'T100516'; -- 이다현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0001') WHERE unique_code = '13569'; -- 이시은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0001') WHERE unique_code = '13567'; -- 이주현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0001') WHERE unique_code = '13571'; -- 한아름
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = 'D100337'; -- 김지혜
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = 'T100515'; -- 변희주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = 'T100516'; -- 이다현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '13569'; -- 이시은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '13567'; -- 이주현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '13571'; -- 한아름
 
 -- ========================================
--- 2. CJ ENM - 아 그그그 뭐였더라? (sb-enm-0002)
+-- 2. CJ ENM - 아 그그그 뭐였더라? (20000002-0002-4000-8000-000000000009)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0002') WHERE unique_code = '13561'; -- 김수
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0002') WHERE unique_code = '13559'; -- 위다현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0002') WHERE unique_code = 'T100517'; -- 윤진노
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0002') WHERE unique_code = '13568'; -- 이나영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0002') WHERE unique_code = '13560'; -- 최다연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0002') WHERE unique_code = '13558'; -- 카와하라사쿠라
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13561'; -- 김수
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13559'; -- 위다현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = 'T100517'; -- 윤진노
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13568'; -- 이나영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13560'; -- 최다연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13558'; -- 카와하라사쿠라
 
 -- ========================================
--- 2. CJ ENM - 찜질방 (sb-enm-0003)
+-- 2. CJ ENM - 찜질방 (20000002-0003-4000-8000-000000000010)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0003') WHERE unique_code = '13562'; -- 김가영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0003') WHERE unique_code = 'T100514'; -- 김도연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0003') WHERE unique_code = '13563'; -- 이건하
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0003') WHERE unique_code = '13566'; -- 최정인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0003') WHERE unique_code = 'D100336'; -- 황혜욱
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '13562'; -- 김가영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = 'T100514'; -- 김도연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '13563'; -- 이건하
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '13566'; -- 최정인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = 'D100336'; -- 황혜욱
 
 -- ========================================
--- 2. CJ ENM - 리얼레이서 (sb-enm-0004)
+-- 2. CJ ENM - 리얼레이서 (20000002-0004-4000-8000-000000000011)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0004') WHERE unique_code = '13573'; -- 김서현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0004') WHERE unique_code = '13572'; -- 박소언
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0004') WHERE unique_code = 'T100513'; -- 박소영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0004') WHERE unique_code = '13564'; -- 박지현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0004') WHERE unique_code = '13574'; -- 임세원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-enm-0004') WHERE unique_code = '13570'; -- 한재환
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13573'; -- 김서현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13572'; -- 박소언
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = 'T100513'; -- 박소영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13564'; -- 박지현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13574'; -- 임세원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13570'; -- 한재환
 
 -- ========================================
--- 3. 대한통운 건설부문 - ALI-GO (sb-con-0001)
+-- 3. 대한통운 건설부문 - ALI-GO (30000003-0001-4000-8000-000000000012)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0001') WHERE unique_code = '13414736'; -- 김경민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0001') WHERE unique_code = '13414744'; -- 김영주
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0001') WHERE unique_code = '13414746'; -- 박성진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0001') WHERE unique_code = '13414748'; -- 박인영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0001') WHERE unique_code = '13414749'; -- 안훈희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0001') WHERE unique_code = '13414739'; -- 조형탁
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0001') WHERE unique_code = '13414753'; -- 최현우
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0001-4000-8000-000000000012') WHERE unique_code = '13414736'; -- 김경민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0001-4000-8000-000000000012') WHERE unique_code = '13414744'; -- 김영주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0001-4000-8000-000000000012') WHERE unique_code = '13414746'; -- 박성진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0001-4000-8000-000000000012') WHERE unique_code = '13414748'; -- 박인영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0001-4000-8000-000000000012') WHERE unique_code = '13414749'; -- 안훈희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0001-4000-8000-000000000012') WHERE unique_code = '13414739'; -- 조형탁
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0001-4000-8000-000000000012') WHERE unique_code = '13414753'; -- 최현우
 
 -- ========================================
--- 3. 대한통운 건설부문 - PROTRACK (sb-con-0002)
+-- 3. 대한통운 건설부문 - PROTRACK (30000003-0002-4000-8000-000000000013)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0002') WHERE unique_code = '13414737'; -- 권혁균
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0002') WHERE unique_code = '13414740'; -- 김민석
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0002') WHERE unique_code = '13414743'; -- 김지원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0002') WHERE unique_code = '13414741'; -- 박태인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0002') WHERE unique_code = '13414751'; -- 신보연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0002') WHERE unique_code = '13414754'; -- 이원종
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0002-4000-8000-000000000013') WHERE unique_code = '13414737'; -- 권혁균
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0002-4000-8000-000000000013') WHERE unique_code = '13414740'; -- 김민석
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0002-4000-8000-000000000013') WHERE unique_code = '13414743'; -- 김지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0002-4000-8000-000000000013') WHERE unique_code = '13414741'; -- 박태인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0002-4000-8000-000000000013') WHERE unique_code = '13414751'; -- 신보연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0002-4000-8000-000000000013') WHERE unique_code = '13414754'; -- 이원종
 
 -- ========================================
--- 3. 대한통운 건설부문 - HEAT-DECK (sb-con-0003)
+-- 3. 대한통운 건설부문 - HEAT-DECK (30000003-0003-4000-8000-000000000014)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0003') WHERE unique_code = '13414750'; -- 김경천
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0003') WHERE unique_code = '13414747'; -- 김태형
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0003') WHERE unique_code = '13414745'; -- 신범호
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0003') WHERE unique_code = '13414735'; -- 이지연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0003') WHERE unique_code = '13414752'; -- 이한성
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0003') WHERE unique_code = '13414738'; -- 홍성민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-con-0003') WHERE unique_code = '13414742'; -- 홍인표
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0003-4000-8000-000000000014') WHERE unique_code = '13414750'; -- 김경천
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0003-4000-8000-000000000014') WHERE unique_code = '13414747'; -- 김태형
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0003-4000-8000-000000000014') WHERE unique_code = '13414745'; -- 신범호
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0003-4000-8000-000000000014') WHERE unique_code = '13414735'; -- 이지연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0003-4000-8000-000000000014') WHERE unique_code = '13414752'; -- 이한성
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0003-4000-8000-000000000014') WHERE unique_code = '13414738'; -- 홍성민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '30000003-0003-4000-8000-000000000014') WHERE unique_code = '13414742'; -- 홍인표
 
 -- ========================================
--- 4. 올리브네트웍스 - TwInsight (sb-onw-0001)
+-- 4. 올리브네트웍스 - TwInsight (40000004-0001-4000-8000-000000000015)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0001') WHERE unique_code = '836133'; -- 권지윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0001') WHERE unique_code = '836125'; -- 박도훈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0001') WHERE unique_code = '836122'; -- 오준혁
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0001') WHERE unique_code = '836128'; -- 유지희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0001') WHERE unique_code = '836127'; -- 이유찬
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0001-4000-8000-000000000015') WHERE unique_code = '836133'; -- 권지윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0001-4000-8000-000000000015') WHERE unique_code = '836125'; -- 박도훈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0001-4000-8000-000000000015') WHERE unique_code = '836122'; -- 오준혁
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0001-4000-8000-000000000015') WHERE unique_code = '836128'; -- 유지희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0001-4000-8000-000000000015') WHERE unique_code = '836127'; -- 이유찬
 
 -- ========================================
--- 4. 올리브네트웍스 - BO'DA (sb-onw-0002)
+-- 4. 올리브네트웍스 - BO'DA (40000004-0002-4000-8000-000000000016)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0002') WHERE unique_code = '836121'; -- 고경태
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0002') WHERE unique_code = '836131'; -- 김경이
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0002') WHERE unique_code = '836119'; -- 박재성
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0002') WHERE unique_code = '836116'; -- 이나연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0002') WHERE unique_code = '836132'; -- 이연진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0002') WHERE unique_code = '836117'; -- 정민경
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0002-4000-8000-000000000016') WHERE unique_code = '836121'; -- 고경태
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0002-4000-8000-000000000016') WHERE unique_code = '836131'; -- 김경이
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0002-4000-8000-000000000016') WHERE unique_code = '836119'; -- 박재성
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0002-4000-8000-000000000016') WHERE unique_code = '836116'; -- 이나연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0002-4000-8000-000000000016') WHERE unique_code = '836132'; -- 이연진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0002-4000-8000-000000000016') WHERE unique_code = '836117'; -- 정민경
 
 -- ========================================
--- 4. 올리브네트웍스 - Gotcha (sb-onw-0003)
+-- 4. 올리브네트웍스 - Gotcha (40000004-0003-4000-8000-000000000017)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0003') WHERE unique_code = '836129'; -- 노형준
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0003') WHERE unique_code = '836124'; -- 박이내
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0003') WHERE unique_code = '836123'; -- 안현주
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0003') WHERE unique_code = '836126'; -- 유가람
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-onw-0003') WHERE unique_code = '836130'; -- 이근탁
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0003-4000-8000-000000000017') WHERE unique_code = '836129'; -- 노형준
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0003-4000-8000-000000000017') WHERE unique_code = '836124'; -- 박이내
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0003-4000-8000-000000000017') WHERE unique_code = '836123'; -- 안현주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0003-4000-8000-000000000017') WHERE unique_code = '836126'; -- 유가람
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '40000004-0003-4000-8000-000000000017') WHERE unique_code = '836130'; -- 이근탁
 
 -- ========================================
--- 5. ENM 커머스 - 온스탁 (sb-com-0001)
+-- 5. ENM 커머스 - 온스탁 (50000005-0001-4000-8000-000000000018)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0001') WHERE unique_code = '13546'; -- 김미래
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0001') WHERE unique_code = '13549'; -- 김유정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0001') WHERE unique_code = '13547'; -- 김예빈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0001') WHERE unique_code = '13545'; -- 최예현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13546'; -- 김미래
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13549'; -- 김유정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13547'; -- 김예빈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13545'; -- 최예현
 
 -- ========================================
--- 5. ENM 커머스 - ON-FLIGHT (sb-com-0002)
+-- 5. ENM 커머스 - ON-FLIGHT (50000005-0002-4000-8000-000000000019)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0002') WHERE unique_code = '13542'; -- 김윤아
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0002') WHERE unique_code = '13541'; -- 박유진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0002') WHERE unique_code = '13548'; -- 민규리
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0002') WHERE unique_code = '13543'; -- 민지원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-com-0002') WHERE unique_code = '13544'; -- 황병휘
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13542'; -- 김윤아
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13541'; -- 박유진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13548'; -- 민규리
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13543'; -- 민지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13544'; -- 황병휘
 
 -- ========================================
--- 6. 프레시웨이 - GO:ON (sb-frw-0001)
+-- 6. 프레시웨이 - GO:ON (60000006-0001-4000-8000-000000000020)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0001') WHERE unique_code = '263563'; -- 김다진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0001') WHERE unique_code = '263551'; -- 박상윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0001') WHERE unique_code = '263582'; -- 박희선
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0001') WHERE unique_code = '263598'; -- 변혜교
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0001') WHERE unique_code = '263560'; -- 오윤서
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0001') WHERE unique_code = '263555'; -- 이은찬
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0001') WHERE unique_code = '263558'; -- 한현구
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0001-4000-8000-000000000020') WHERE unique_code = '263563'; -- 김다진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0001-4000-8000-000000000020') WHERE unique_code = '263551'; -- 박상윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0001-4000-8000-000000000020') WHERE unique_code = '263582'; -- 박희선
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0001-4000-8000-000000000020') WHERE unique_code = '263598'; -- 변혜교
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0001-4000-8000-000000000020') WHERE unique_code = '263560'; -- 오윤서
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0001-4000-8000-000000000020') WHERE unique_code = '263555'; -- 이은찬
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0001-4000-8000-000000000020') WHERE unique_code = '263558'; -- 한현구
 
 -- ========================================
--- 6. 프레시웨이 - K-Village (sb-frw-0002)
+-- 6. 프레시웨이 - K-Village (60000006-0002-4000-8000-000000000021)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0002') WHERE unique_code = '263579'; -- 김민주
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0002') WHERE unique_code = '263572'; -- 김유진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0002') WHERE unique_code = '263599'; -- 김종안
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0002') WHERE unique_code = '263575'; -- 박주희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0002') WHERE unique_code = '263597'; -- 우하진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0002') WHERE unique_code = '263547'; -- 이무연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0002') WHERE unique_code = '263603'; -- 최인영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0002-4000-8000-000000000021') WHERE unique_code = '263579'; -- 김민주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0002-4000-8000-000000000021') WHERE unique_code = '263572'; -- 김유진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0002-4000-8000-000000000021') WHERE unique_code = '263599'; -- 김종안
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0002-4000-8000-000000000021') WHERE unique_code = '263575'; -- 박주희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0002-4000-8000-000000000021') WHERE unique_code = '263597'; -- 우하진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0002-4000-8000-000000000021') WHERE unique_code = '263547'; -- 이무연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0002-4000-8000-000000000021') WHERE unique_code = '263603'; -- 최인영
 
 -- ========================================
--- 6. 프레시웨이 - 카페IN봄 (sb-frw-0003)
+-- 6. 프레시웨이 - 카페IN봄 (60000006-0003-4000-8000-000000000022)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0003') WHERE unique_code = '263548'; -- 김대안
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0003') WHERE unique_code = '263576'; -- 김민채
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0003') WHERE unique_code = '263550'; -- 배현우
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0003') WHERE unique_code = '263591'; -- 윤나경
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0003') WHERE unique_code = '263554'; -- 이상윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0003') WHERE unique_code = '263562'; -- 한나연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0003') WHERE unique_code = '263570'; -- 한동호
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0003-4000-8000-000000000022') WHERE unique_code = '263548'; -- 김대안
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0003-4000-8000-000000000022') WHERE unique_code = '263576'; -- 김민채
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0003-4000-8000-000000000022') WHERE unique_code = '263550'; -- 배현우
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0003-4000-8000-000000000022') WHERE unique_code = '263591'; -- 윤나경
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0003-4000-8000-000000000022') WHERE unique_code = '263554'; -- 이상윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0003-4000-8000-000000000022') WHERE unique_code = '263562'; -- 한나연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0003-4000-8000-000000000022') WHERE unique_code = '263570'; -- 한동호
 
 -- ========================================
--- 6. 프레시웨이 - 아코디온;溫 (sb-frw-0004)
+-- 6. 프레시웨이 - 아코디온;溫 (60000006-0004-4000-8000-000000000023)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0004') WHERE unique_code = '263596'; -- 강보영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0004') WHERE unique_code = '263569'; -- 박무송
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0004') WHERE unique_code = '263584'; -- 박홍범
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0004') WHERE unique_code = '263580'; -- 정승민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0004') WHERE unique_code = '263577'; -- 최민수
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0004') WHERE unique_code = '263601'; -- 최정원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0004') WHERE unique_code = '263568'; -- 황유경
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0004-4000-8000-000000000023') WHERE unique_code = '263596'; -- 강보영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0004-4000-8000-000000000023') WHERE unique_code = '263569'; -- 박무송
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0004-4000-8000-000000000023') WHERE unique_code = '263584'; -- 박홍범
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0004-4000-8000-000000000023') WHERE unique_code = '263580'; -- 정승민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0004-4000-8000-000000000023') WHERE unique_code = '263577'; -- 최민수
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0004-4000-8000-000000000023') WHERE unique_code = '263601'; -- 최정원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0004-4000-8000-000000000023') WHERE unique_code = '263568'; -- 황유경
 
 -- ========================================
--- 6. 프레시웨이 - 오이배송 (sb-frw-0005)
+-- 6. 프레시웨이 - 오이배송 (60000006-0005-4000-8000-000000000024)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0005') WHERE unique_code = '263602'; -- 김지상
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0005') WHERE unique_code = '263573'; -- 김혜리
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0005') WHERE unique_code = '263571'; -- 박찬혜
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0005') WHERE unique_code = '263594'; -- 윤성준
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0005') WHERE unique_code = '263595'; -- 이유연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0005') WHERE unique_code = '263586'; -- 임정은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0005') WHERE unique_code = '263545'; -- 허민정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0005-4000-8000-000000000024') WHERE unique_code = '263602'; -- 김지상
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0005-4000-8000-000000000024') WHERE unique_code = '263573'; -- 김혜리
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0005-4000-8000-000000000024') WHERE unique_code = '263571'; -- 박찬혜
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0005-4000-8000-000000000024') WHERE unique_code = '263594'; -- 윤성준
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0005-4000-8000-000000000024') WHERE unique_code = '263595'; -- 이유연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0005-4000-8000-000000000024') WHERE unique_code = '263586'; -- 임정은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0005-4000-8000-000000000024') WHERE unique_code = '263545'; -- 허민정
 
 -- ========================================
--- 6. 프레시웨이 - TOK TALK (sb-frw-0006)
+-- 6. 프레시웨이 - TOK TALK (60000006-0006-4000-8000-000000000025)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0006') WHERE unique_code = '263565'; -- 강원중
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0006') WHERE unique_code = '263578'; -- 김주현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0006') WHERE unique_code = '263556'; -- 김지홍
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0006') WHERE unique_code = '263561'; -- 박시윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0006') WHERE unique_code = '263585'; -- 서채현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0006') WHERE unique_code = '263549'; -- 이정민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0006') WHERE unique_code = '263588'; -- 이지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0006-4000-8000-000000000025') WHERE unique_code = '263565'; -- 강원중
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0006-4000-8000-000000000025') WHERE unique_code = '263578'; -- 김주현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0006-4000-8000-000000000025') WHERE unique_code = '263556'; -- 김지홍
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0006-4000-8000-000000000025') WHERE unique_code = '263561'; -- 박시윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0006-4000-8000-000000000025') WHERE unique_code = '263585'; -- 서채현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0006-4000-8000-000000000025') WHERE unique_code = '263549'; -- 이정민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0006-4000-8000-000000000025') WHERE unique_code = '263588'; -- 이지원
 
 -- ========================================
--- 6. 프레시웨이 - 픽플(pick+) (sb-frw-0007)
+-- 6. 프레시웨이 - 픽플(pick+) (60000006-0007-4000-8000-000000000026)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263581'; -- 김예린
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263566'; -- 김지수
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263593'; -- 서민정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263592'; -- 서유진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263546'; -- 이은지
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263564'; -- 이준영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263590'; -- 장길평
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0007') WHERE unique_code = '263589'; -- 조윤서
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263581'; -- 김예린
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263566'; -- 김지수
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263593'; -- 서민정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263592'; -- 서유진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263546'; -- 이은지
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263564'; -- 이준영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263590'; -- 장길평
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0007-4000-8000-000000000026') WHERE unique_code = '263589'; -- 조윤서
 
 -- ========================================
--- 6. 프레시웨이 - 아이누리터 (sb-frw-0008)
+-- 6. 프레시웨이 - 아이누리터 (60000006-0008-4000-8000-000000000027)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263553'; -- 김욱종
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263559'; -- 김지원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263587'; -- 손유진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263583'; -- 안수현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263600'; -- 윤형준
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263557'; -- 이유리
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263552'; -- 이은지
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-frw-0008') WHERE unique_code = '263567'; -- 최찬혁
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263553'; -- 김욱종
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263559'; -- 김지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263587'; -- 손유진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263583'; -- 안수현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263600'; -- 윤형준
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263557'; -- 이유리
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263552'; -- 이은지
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '60000006-0008-4000-8000-000000000027') WHERE unique_code = '263567'; -- 최찬혁
 
 -- ========================================
--- 7. CGV/4DPLEX - CGV POPSDAQ (sb-cgv-0001)
+-- 7. CGV/4DPLEX - CGV POPSDAQ (70000007-0001-4000-8000-000000000028)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0001') WHERE unique_code = '200928'; -- 김나연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0001') WHERE unique_code = '100921'; -- 김민주B
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0001') WHERE unique_code = '100922'; -- 김세영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0001') WHERE unique_code = '200926'; -- 설다연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0001') WHERE unique_code = '200927'; -- 유승민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0001') WHERE unique_code = '100924'; -- 이지연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0001-4000-8000-000000000028') WHERE unique_code = '200928'; -- 김나연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0001-4000-8000-000000000028') WHERE unique_code = '100921'; -- 김민주B
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0001-4000-8000-000000000028') WHERE unique_code = '100922'; -- 김세영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0001-4000-8000-000000000028') WHERE unique_code = '200926'; -- 설다연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0001-4000-8000-000000000028') WHERE unique_code = '200927'; -- 유승민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0001-4000-8000-000000000028') WHERE unique_code = '100924'; -- 이지연
 
 -- ========================================
--- 7. CGV/4DPLEX - IMMERSIUM (sb-cgv-0002)
+-- 7. CGV/4DPLEX - IMMERSIUM (70000007-0002-4000-8000-000000000029)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0002') WHERE unique_code = '100920'; -- 김민주A
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0002') WHERE unique_code = '200930'; -- 김선혁
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0002') WHERE unique_code = '100923'; -- 여송원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0002') WHERE unique_code = '200925'; -- 전우진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0002') WHERE unique_code = '100925'; -- 정해원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cgv-0002') WHERE unique_code = '200929'; -- 정혜진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0002-4000-8000-000000000029') WHERE unique_code = '100920'; -- 김민주A
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0002-4000-8000-000000000029') WHERE unique_code = '200930'; -- 김선혁
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0002-4000-8000-000000000029') WHERE unique_code = '100923'; -- 여송원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0002-4000-8000-000000000029') WHERE unique_code = '200925'; -- 전우진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0002-4000-8000-000000000029') WHERE unique_code = '100925'; -- 정해원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '70000007-0002-4000-8000-000000000029') WHERE unique_code = '200929'; -- 정혜진
 
 -- ========================================
--- 8. 제일제당 - GACHI SAUCE (sb-cjd-0001)
+-- 8. 제일제당 - GACHI SAUCE (80000008-0001-4000-8000-000000000030)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0001') WHERE unique_code = '315811'; -- 강호영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0001') WHERE unique_code = '315817'; -- 고화정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0001') WHERE unique_code = '315821'; -- 민예지
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0001') WHERE unique_code = '315850'; -- 박은총
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0001') WHERE unique_code = '315833'; -- 신세아
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0001') WHERE unique_code = '315798'; -- 이수민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0001') WHERE unique_code = '315804'; -- 진희정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0001-4000-8000-000000000030') WHERE unique_code = '315811'; -- 강호영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0001-4000-8000-000000000030') WHERE unique_code = '315817'; -- 고화정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0001-4000-8000-000000000030') WHERE unique_code = '315821'; -- 민예지
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0001-4000-8000-000000000030') WHERE unique_code = '315850'; -- 박은총
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0001-4000-8000-000000000030') WHERE unique_code = '315833'; -- 신세아
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0001-4000-8000-000000000030') WHERE unique_code = '315798'; -- 이수민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0001-4000-8000-000000000030') WHERE unique_code = '315804'; -- 진희정
 
 -- ========================================
--- 8. 제일제당 - Dip-Pokki (sb-cjd-0002)
+-- 8. 제일제당 - Dip-Pokki (80000008-0002-4000-8000-000000000031)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315836'; -- 김우림
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315806'; -- 김정연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315831'; -- 김혜빈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315835'; -- 박준서
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315799'; -- 이기혁
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315818'; -- 이용임
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315802'; -- 이하은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0002') WHERE unique_code = '315829'; -- 천민주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315836'; -- 김우림
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315806'; -- 김정연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315831'; -- 김혜빈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315835'; -- 박준서
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315799'; -- 이기혁
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315818'; -- 이용임
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315802'; -- 이하은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0002-4000-8000-000000000031') WHERE unique_code = '315829'; -- 천민주
 
 -- ========================================
--- 8. 제일제당 - 비빔선생 (sb-cjd-0003)
+-- 8. 제일제당 - 비빔선생 (80000008-0003-4000-8000-000000000032)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0003') WHERE unique_code = '315808'; -- 김가은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0003') WHERE unique_code = '315794'; -- 김려원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0003') WHERE unique_code = '315834'; -- 임연수
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0003') WHERE unique_code = '315830'; -- 정민우
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0003') WHERE unique_code = '315800'; -- 정소희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0003') WHERE unique_code = '315814'; -- 정유선
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0003') WHERE unique_code = '315820'; -- 허의정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0003-4000-8000-000000000032') WHERE unique_code = '315808'; -- 김가은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0003-4000-8000-000000000032') WHERE unique_code = '315794'; -- 김려원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0003-4000-8000-000000000032') WHERE unique_code = '315834'; -- 임연수
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0003-4000-8000-000000000032') WHERE unique_code = '315830'; -- 정민우
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0003-4000-8000-000000000032') WHERE unique_code = '315800'; -- 정소희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0003-4000-8000-000000000032') WHERE unique_code = '315814'; -- 정유선
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0003-4000-8000-000000000032') WHERE unique_code = '315820'; -- 허의정
 
 -- ========================================
--- 8. 제일제당 - ONDA Spread (sb-cjd-0004)
+-- 8. 제일제당 - ONDA Spread (80000008-0004-4000-8000-000000000033)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0004') WHERE unique_code = '315824'; -- 박지원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0004') WHERE unique_code = '315815'; -- 서윤지
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0004') WHERE unique_code = '315816'; -- 손호영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0004') WHERE unique_code = '315839'; -- 오세영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0004') WHERE unique_code = '315858'; -- 이수진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0004') WHERE unique_code = '315805'; -- 이새봄
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0004') WHERE unique_code = '315801'; -- 장재훈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315824'; -- 박지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315815'; -- 서윤지
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315816'; -- 손호영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315839'; -- 오세영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315858'; -- 이수진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315805'; -- 이새봄
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315801'; -- 장재훈
 
 -- ========================================
--- 8. 제일제당 - 칰칰칩 (sb-cjd-0005)
+-- 8. 제일제당 - 칰칰칩 (80000008-0005-4000-8000-000000000034)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315823'; -- 김성아
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315812'; -- 김종휘
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315810'; -- 안세인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315828'; -- 유송희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315813'; -- 유혜수
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315826'; -- 이보경
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315841'; -- 정진수
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0005') WHERE unique_code = '315807'; -- 최민영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315823'; -- 김성아
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315812'; -- 김종휘
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315810'; -- 안세인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315828'; -- 유송희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315813'; -- 유혜수
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315826'; -- 이보경
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315841'; -- 정진수
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0005-4000-8000-000000000034') WHERE unique_code = '315807'; -- 최민영
 
 -- ========================================
--- 8. 제일제당 - AmiNoLoss (sb-cjd-0006)
+-- 8. 제일제당 - AmiNoLoss (80000008-0006-4000-8000-000000000035)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0006') WHERE unique_code = '315778'; -- 강인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0006') WHERE unique_code = '315803'; -- 김시온
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0006') WHERE unique_code = '315785'; -- 김시현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0006') WHERE unique_code = '315781'; -- 신동민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0006') WHERE unique_code = '315779'; -- 임은민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0006') WHERE unique_code = '315784'; -- 장서인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0006') WHERE unique_code = '315825'; -- 최지민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315778'; -- 강인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315803'; -- 김시온
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315785'; -- 김시현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315781'; -- 신동민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315779'; -- 임은민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315784'; -- 장서인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315825'; -- 최지민
 
 -- ========================================
--- 8. 제일제당 - PHABY (sb-cjd-0007)
+-- 8. 제일제당 - PHABY (80000008-0007-4000-8000-000000000036)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315777'; -- 김유림
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315782'; -- 김윤재
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315786'; -- 김혜린
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315809'; -- 서수림
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315783'; -- 유주희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315780'; -- 이승철
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315832'; -- 정민제
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-cjd-0007') WHERE unique_code = '315822'; -- 최가은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315777'; -- 김유림
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315782'; -- 김윤재
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315786'; -- 김혜린
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315809'; -- 서수림
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315783'; -- 유주희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315780'; -- 이승철
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315832'; -- 정민제
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0007-4000-8000-000000000036') WHERE unique_code = '315822'; -- 최가은
 
 -- ========================================
--- 9. 대한통운 - ANY O-NE (sb-dht-0001)
+-- 9. 대한통운 - ANY O-NE (90000009-0001-4000-8000-000000000037)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0001') WHERE unique_code = '13414715'; -- 김민재
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0001') WHERE unique_code = '13414722'; -- 심병규
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0001') WHERE unique_code = '13414717'; -- 유민주
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0001') WHERE unique_code = '13414730'; -- 윤현정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0001') WHERE unique_code = '13414716'; -- 이정훈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0001') WHERE unique_code = '13414705'; -- 최태규
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0001-4000-8000-000000000037') WHERE unique_code = '13414715'; -- 김민재
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0001-4000-8000-000000000037') WHERE unique_code = '13414722'; -- 심병규
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0001-4000-8000-000000000037') WHERE unique_code = '13414717'; -- 유민주
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0001-4000-8000-000000000037') WHERE unique_code = '13414730'; -- 윤현정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0001-4000-8000-000000000037') WHERE unique_code = '13414716'; -- 이정훈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0001-4000-8000-000000000037') WHERE unique_code = '13414705'; -- 최태규
 
 -- ========================================
--- 9. 대한통운 - THE A-PRO [더 앞으로] (sb-dht-0002)
+-- 9. 대한통운 - THE A-PRO [더 앞으로] (90000009-0002-4000-8000-000000000038)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0002') WHERE unique_code = '13414726'; -- 김희진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0002') WHERE unique_code = '13414721'; -- 손유정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0002') WHERE unique_code = '13414706'; -- 홍창언
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0002') WHERE unique_code = '13414723'; -- 황은유
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0002') WHERE unique_code = '13414710'; -- 황준화
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0002-4000-8000-000000000038') WHERE unique_code = '13414726'; -- 김희진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0002-4000-8000-000000000038') WHERE unique_code = '13414721'; -- 손유정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0002-4000-8000-000000000038') WHERE unique_code = '13414706'; -- 홍창언
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0002-4000-8000-000000000038') WHERE unique_code = '13414723'; -- 황은유
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0002-4000-8000-000000000038') WHERE unique_code = '13414710'; -- 황준화
 
 -- ========================================
--- 9. 대한통운 - ONE-AIR [오네어] (sb-dht-0003)
+-- 9. 대한통운 - ONE-AIR [오네어] (90000009-0003-4000-8000-000000000039)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0003') WHERE unique_code = '13414728'; -- 도유영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0003') WHERE unique_code = '13414711'; -- 박연진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0003') WHERE unique_code = '13414704'; -- 배정윤
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0003') WHERE unique_code = '13414713'; -- 배호진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0003') WHERE unique_code = '13414719'; -- 이정범
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0003') WHERE unique_code = '13414708'; -- 정유빈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0003-4000-8000-000000000039') WHERE unique_code = '13414728'; -- 도유영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0003-4000-8000-000000000039') WHERE unique_code = '13414711'; -- 박연진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0003-4000-8000-000000000039') WHERE unique_code = '13414704'; -- 배정윤
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0003-4000-8000-000000000039') WHERE unique_code = '13414713'; -- 배호진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0003-4000-8000-000000000039') WHERE unique_code = '13414719'; -- 이정범
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0003-4000-8000-000000000039') WHERE unique_code = '13414708'; -- 정유빈
 
 -- ========================================
--- 9. 대한통운 - RE-WORK (sb-dht-0004)
+-- 9. 대한통운 - RE-WORK (90000009-0004-4000-8000-000000000040)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0004') WHERE unique_code = '13414712'; -- 나현지
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0004') WHERE unique_code = '13414714'; -- 박석훈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0004') WHERE unique_code = '13414720'; -- 소지원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0004') WHERE unique_code = '13414718'; -- 유영민
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0004') WHERE unique_code = '13414707'; -- 이승우
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-dht-0004') WHERE unique_code = '13414724'; -- 진태광
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0004-4000-8000-000000000040') WHERE unique_code = '13414712'; -- 나현지
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0004-4000-8000-000000000040') WHERE unique_code = '13414714'; -- 박석훈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0004-4000-8000-000000000040') WHERE unique_code = '13414720'; -- 소지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0004-4000-8000-000000000040') WHERE unique_code = '13414718'; -- 유영민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0004-4000-8000-000000000040') WHERE unique_code = '13414707'; -- 이승우
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '90000009-0004-4000-8000-000000000040') WHERE unique_code = '13414724'; -- 진태광
 
 -- ========================================
--- 10. 푸드빌 - CAKE-OUT (sb-fvl-0001)
+-- 10. 푸드빌 - CAKE-OUT (a000000a-0001-4000-8000-000000000041)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0001') WHERE unique_code = '204705'; -- 김민찬
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0001') WHERE unique_code = '204707'; -- 김현준
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0001') WHERE unique_code = '204712'; -- 서온비
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0001') WHERE unique_code = '204714'; -- 윤가영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0001') WHERE unique_code = '204715'; -- 윤종화
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0001') WHERE unique_code = '204720'; -- 정예림
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0001-4000-8000-000000000041') WHERE unique_code = '204705'; -- 김민찬
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0001-4000-8000-000000000041') WHERE unique_code = '204707'; -- 김현준
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0001-4000-8000-000000000041') WHERE unique_code = '204712'; -- 서온비
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0001-4000-8000-000000000041') WHERE unique_code = '204714'; -- 윤가영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0001-4000-8000-000000000041') WHERE unique_code = '204715'; -- 윤종화
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0001-4000-8000-000000000041') WHERE unique_code = '204720'; -- 정예림
 
 -- ========================================
--- 10. 푸드빌 - TelL : J (sb-fvl-0002)
+-- 10. 푸드빌 - TelL : J (a000000a-0002-4000-8000-000000000042)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0002') WHERE unique_code = '204706'; -- 김동연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0002') WHERE unique_code = '204708'; -- 김혜인
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0002') WHERE unique_code = '204709'; -- 문소영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0002') WHERE unique_code = '204717'; -- 이승빈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0002') WHERE unique_code = '204718'; -- 이어진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0002') WHERE unique_code = '204719'; -- 전혜진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0002-4000-8000-000000000042') WHERE unique_code = '204706'; -- 김동연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0002-4000-8000-000000000042') WHERE unique_code = '204708'; -- 김혜인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0002-4000-8000-000000000042') WHERE unique_code = '204709'; -- 문소영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0002-4000-8000-000000000042') WHERE unique_code = '204717'; -- 이승빈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0002-4000-8000-000000000042') WHERE unique_code = '204718'; -- 이어진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0002-4000-8000-000000000042') WHERE unique_code = '204719'; -- 전혜진
 
 -- ========================================
--- 10. 푸드빌 - VIPS : PACE (sb-fvl-0003)
+-- 10. 푸드빌 - VIPS : PACE (a000000a-0003-4000-8000-000000000043)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0003') WHERE unique_code = '204721'; -- 김경희
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0003') WHERE unique_code = '204722'; -- 박가은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0003') WHERE unique_code = '204710'; -- 박소연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0003') WHERE unique_code = '204711'; -- 배하은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0003') WHERE unique_code = '204716'; -- 이수환
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'sb-fvl-0003') WHERE unique_code = '204723'; -- 정세비
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204721'; -- 김경희
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204722'; -- 박가은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204710'; -- 박소연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204711'; -- 배하은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204716'; -- 이수환
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204723'; -- 정세비

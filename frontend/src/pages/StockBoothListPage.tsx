@@ -42,16 +42,21 @@ export default function StockBoothListPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    stockApi.getBooths().then(res => {
-      const sorted = [...res.data].sort((a, b) =>
-        b.totalHolding - a.totalHolding || a.displayOrder - b.displayOrder
-      )
+    Promise.all([
+      stockApi.getBooths(),
+      stockApi.getMyVisits().catch(() => ({ data: [] })),
+    ]).then(([boothsRes, visitsRes]) => {
+      const visited = new Set(visitsRes.data.map((v: MyStockVisitResponse) => v.boothId))
+      setVisitedBoothIds(visited)
+      const sorted = [...boothsRes.data].sort((a, b) => {
+        const aVisited = visited.has(a.id) ? 0 : 1
+        const bVisited = visited.has(b.id) ? 0 : 1
+        if (aVisited !== bVisited) return aVisited - bVisited
+        return b.totalHolding - a.totalHolding || a.displayOrder - b.displayOrder
+      })
       setBooths(sorted)
     })
     stockApi.getCospi().then(res => setCospi(res.data)).catch(() => {})
-    stockApi.getMyVisits().then(res => {
-      setVisitedBoothIds(new Set(res.data.map((v: MyStockVisitResponse) => v.boothId)))
-    }).catch(() => {})
   }, [])
 
   useEffect(() => {
