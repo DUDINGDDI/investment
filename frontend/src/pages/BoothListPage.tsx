@@ -92,7 +92,7 @@ export default function BoothListPage() {
                     <p className={styles.name}>{booth.name}</p>
                     <p className={styles.category}>{booth.category}</p>
                   </div>
-                  <div className={styles.arrow}>›</div>
+                  <span className={styles.investChip}>투자하기</span>
                 </div>
               ))}
             </div>

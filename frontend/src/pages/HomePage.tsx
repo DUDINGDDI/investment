@@ -86,7 +86,7 @@ export default function HomePage() {
                   <p className={styles.boothName}>{booth.name}</p>
                   <p className={styles.boothCategory}>{booth.category}</p>
                 </div>
-                <div className={styles.boothArrow}>›</div>
+                <span className={styles.investChip}>투자하기</span>
               </div>
             ))}
           </div>
