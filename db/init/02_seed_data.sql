@@ -117,7 +117,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('315817', '고화정', 'CJ제일제당', 100000000, false),
 ('836133', '권지윤', 'CJ올리브네트웍스', 100000000, false),
 ('13414737', '권혁균', 'CJ대한통운 건설부문', 100000000, false),
-('13562', '김가영', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013562', '김가영', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('315808', '김가은', 'CJ제일제당', 100000000, false),
 ('13414736', '김경민', 'CJ대한통운 건설부문', 100000000, false),
 ('836131', '김경이', 'CJ올리브네트웍스', 100000000, false),
@@ -138,7 +138,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('T100514', '김도연', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('204706', '김동연', 'CJ푸드빌', 100000000, false),
 ('315794', '김려원', 'CJ제일제당', 100000000, false),
-('13546', '김미래', 'CJ ENM 커머스부문', 100000000, false),
+('013546', '김미래', 'CJ ENM 커머스부문', 100000000, false),
 ('838441', '김민서', 'CJ올리브영', 100000000, false),
 ('13414740', '김민석', 'CJ대한통운 건설부문', 100000000, false),
 ('13414715', '김민재', 'CJ대한통운', 100000000, false),
@@ -151,23 +151,23 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('263576', '김민채', 'CJ프레시웨이', 100000000, false),
 ('838483', '김민채', 'CJ올리브영', 100000000, false),
 ('838478', '김상윤', 'CJ올리브영', 100000000, false),
-('13573', '김서현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013573', '김서현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('200930', '김선혁', 'CJ CGV', 100000000, false),
 ('315823', '김성아', 'CJ제일제당', 100000000, false),
 ('100922', '김세영', 'CJ 4DPLEX', 100000000, false),
 ('838471', '김세현', 'CJ올리브영', 100000000, false),
-('13561', '김수', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013561', '김수', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('315803', '김시온', 'CJ제일제당', 100000000, false),
 ('315785', '김시현', 'CJ제일제당', 100000000, false),
 ('13414744', '김영주', 'CJ대한통운 건설부문', 100000000, false),
 ('263581', '김예린', 'CJ프레시웨이', 100000000, false),
-('13547', '김예빈', 'CJ ENM 커머스부문', 100000000, false),
+('013547', '김예빈', 'CJ ENM 커머스부문', 100000000, false),
 ('315836', '김우림', 'CJ제일제당', 100000000, false),
 ('263553', '김욱종', 'CJ프레시웨이', 100000000, false),
 ('315777', '김유림', 'CJ제일제당', 100000000, false),
-('13549', '김유정', 'CJ ENM 커머스부문', 100000000, false),
+('013549', '김유정', 'CJ ENM 커머스부문', 100000000, false),
 ('263572', '김유진', 'CJ프레시웨이', 100000000, false),
-('13542', '김윤아', 'CJ ENM 커머스부문', 100000000, false),
+('013542', '김윤아', 'CJ ENM 커머스부문', 100000000, false),
 ('315782', '김윤재', 'CJ제일제당', 100000000, false),
 ('315806', '김정연', 'CJ제일제당', 100000000, false),
 ('263599', '김종안', 'CJ프레시웨이', 100000000, false),
@@ -197,9 +197,9 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('13414728', '도유영', 'CJ대한통운', 100000000, false),
 ('204709', '문소영', 'CJ푸드빌', 100000000, false),
 ('838485', '문승혜', 'CJ올리브영', 100000000, false),
-('13548', '민규리', 'CJ ENM 커머스부문', 100000000, false),
+('013548', '민규리', 'CJ ENM 커머스부문', 100000000, false),
 ('315821', '민예지', 'CJ제일제당', 100000000, false),
-('13543', '민지원', 'CJ ENM 커머스부문', 100000000, false),
+('013543', '민지원', 'CJ ENM 커머스부문', 100000000, false),
 ('204722', '박가은', 'CJ푸드빌', 100000000, false),
 ('836125', '박도훈', 'CJ올리브네트웍스', 100000000, false),
 ('263569', '박무송', 'CJ프레시웨이', 100000000, false),
@@ -209,13 +209,13 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('13414714', '박석훈', 'CJ대한통운', 100000000, false),
 ('13414746', '박성진', 'CJ대한통운 건설부문', 100000000, false),
 ('838479', '박성춘', 'CJ올리브영', 100000000, false),
-('13572', '박소언', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013572', '박소언', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('204710', '박소연', 'CJ푸드빌', 100000000, false),
 ('T100513', '박소영', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('838458', '박소현', 'CJ올리브영', 100000000, false),
 ('263561', '박시윤', 'CJ프레시웨이', 100000000, false),
 ('13414711', '박연진', 'CJ대한통운', 100000000, false),
-('13541', '박유진', 'CJ ENM 커머스부문', 100000000, false),
+('013541', '박유진', 'CJ ENM 커머스부문', 100000000, false),
 ('315850', '박은총', 'CJ제일제당', 100000000, false),
 ('836124', '박이내', 'CJ올리브네트웍스', 100000000, false),
 ('13414748', '박인영', 'CJ대한통운 건설부문', 100000000, false),
@@ -224,7 +224,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('263575', '박주희', 'CJ프레시웨이', 100000000, false),
 ('315835', '박준서', 'CJ제일제당', 100000000, false),
 ('315824', '박지원', 'CJ제일제당', 100000000, false),
-('13564', '박지현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013564', '박지현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('263571', '박찬혜', 'CJ프레시웨이', 100000000, false),
 ('13414741', '박태인', 'CJ대한통운 건설부문', 100000000, false),
 ('263584', '박홍범', 'CJ프레시웨이', 100000000, false),
@@ -269,9 +269,9 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('838429', '오은솔', 'CJ올리브영', 100000000, false),
 ('836122', '오준혁', 'CJ올리브네트웍스', 100000000, false),
 ('838463', '오지민', 'CJ올리브영', 100000000, false),
-('13565', '오현지', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013565', '오현지', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('263597', '우하진', 'CJ프레시웨이', 100000000, false),
-('13559', '위다현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013559', '위다현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('836126', '유가람', 'CJ올리브네트웍스', 100000000, false),
 ('13414717', '유민주', 'CJ대한통운', 100000000, false),
 ('838443', '유상화', 'CJ올리브영', 100000000, false),
@@ -289,11 +289,11 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('T100517', '윤진노', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('13414730', '윤현정', 'CJ대한통운', 100000000, false),
 ('263600', '윤형준', 'CJ프레시웨이', 100000000, false),
-('13563', '이건하', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013563', '이건하', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('836130', '이근탁', 'CJ올리브네트웍스', 100000000, false),
 ('315799', '이기혁', 'CJ제일제당', 100000000, false),
 ('836116', '이나연', 'CJ올리브네트웍스', 100000000, false),
-('13568', '이나영', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013568', '이나영', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('T100516', '이다현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('263547', '이무연', 'CJ프레시웨이', 100000000, false),
 ('838495', '이민정', 'CJ올리브영', 100000000, false),
@@ -309,7 +309,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('13414707', '이승우', 'CJ대한통운', 100000000, false),
 ('838434', '이승주', 'CJ올리브영', 100000000, false),
 ('315780', '이승철', 'CJ제일제당', 100000000, false),
-('13569', '이시은', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013569', '이시은', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('204718', '이어진', 'CJ푸드빌', 100000000, false),
 ('836132', '이연진', 'CJ올리브네트웍스', 100000000, false),
 ('838470', '이예림', 'CJ올리브영', 100000000, false),
@@ -326,7 +326,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('263549', '이정민', 'CJ프레시웨이', 100000000, false),
 ('13414719', '이정범', 'CJ대한통운', 100000000, false),
 ('13414716', '이정훈', 'CJ대한통운', 100000000, false),
-('13567', '이주현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013567', '이주현', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('263564', '이준영', 'CJ프레시웨이', 100000000, false),
 ('838492', '이지민', 'CJ올리브영', 100000000, false),
 ('100924', '이지연', 'CJ 4DPLEX', 100000000, false),
@@ -335,7 +335,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('315802', '이하은', 'CJ제일제당', 100000000, false),
 ('13414752', '이한성', 'CJ대한통운 건설부문', 100000000, false),
 ('838476', '이현지', 'CJ올리브영', 100000000, false),
-('13574', '임세원', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013574', '임세원', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('315834', '임연수', 'CJ제일제당', 100000000, false),
 ('315779', '임은민', 'CJ제일제당', 100000000, false),
 ('263586', '임정은', 'CJ프레시웨이', 100000000, false),
@@ -368,27 +368,27 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('315804', '진희정', 'CJ제일제당', 100000000, false),
 ('315829', '천민주', 'CJ제일제당', 100000000, false),
 ('315822', '최가은', 'CJ제일제당', 100000000, false),
-('13560', '최다연', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013560', '최다연', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('263577', '최민수', 'CJ프레시웨이', 100000000, false),
 ('838494', '최민영', 'CJ올리브영', 100000000, false),
 ('315807', '최민영', 'CJ제일제당', 100000000, false),
-('13545', '최예현', 'CJ ENM 커머스부문', 100000000, false),
+('013545', '최예현', 'CJ ENM 커머스부문', 100000000, false),
 ('838461', '최유정', 'CJ올리브영', 100000000, false),
 ('838450', '최윤서', 'CJ올리브영', 100000000, false),
 ('838475', '최윤서', 'CJ올리브영', 100000000, false),
 ('263603', '최인영', 'CJ프레시웨이', 100000000, false),
 ('263601', '최정원', 'CJ프레시웨이', 100000000, false),
-('13566', '최정인', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013566', '최정인', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('315825', '최지민', 'CJ제일제당', 100000000, false),
 ('263567', '최찬혁', 'CJ프레시웨이', 100000000, false),
 ('13414705', '최태규', 'CJ대한통운', 100000000, false),
 ('13414753', '최현우', 'CJ대한통운 건설부문', 100000000, false),
-('13558', '카와하라사쿠라', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013558', '카와하라사쿠라', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('838488', '표세빈', 'CJ올리브영', 100000000, false),
 ('263562', '한나연', 'CJ프레시웨이', 100000000, false),
 ('263570', '한동호', 'CJ프레시웨이', 100000000, false),
-('13571', '한아름', 'CJ ENM 엔터테인먼트부문', 100000000, false),
-('13570', '한재환', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013571', '한아름', 'CJ ENM 엔터테인먼트부문', 100000000, false),
+('013570', '한재환', 'CJ ENM 엔터테인먼트부문', 100000000, false),
 ('263558', '한현구', 'CJ프레시웨이', 100000000, false),
 ('263545', '허민정', 'CJ프레시웨이', 100000000, false),
 ('315820', '허의정', 'CJ제일제당', 100000000, false),
@@ -398,7 +398,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive) VALUES
 ('838496', '홍윤지', 'CJ올리브영', 100000000, false),
 ('13414742', '홍인표', 'CJ대한통운 건설부문', 100000000, false),
 ('13414706', '홍창언', 'CJ대한통운', 100000000, false),
-('13544', '황병휘', 'CJ ENM 커머스부문', 100000000, false),
+('013544', '황병휘', 'CJ ENM 커머스부문', 100000000, false),
 ('838428', '황서인', 'CJ올리브영', 100000000, false),
 ('838445', '황수진', 'CJ올리브영', 100000000, false),
 ('263568', '황유경', 'CJ프레시웨이', 100000000, false),
@@ -988,38 +988,38 @@ UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE b
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = 'D100337'; -- 김지혜
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = 'T100515'; -- 변희주
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = 'T100516'; -- 이다현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '13569'; -- 이시은
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '13567'; -- 이주현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '13571'; -- 한아름
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '013569'; -- 이시은
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '013567'; -- 이주현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0001-4000-8000-000000000008') WHERE unique_code = '013571'; -- 한아름
 
 -- ========================================
 -- 2. CJ ENM 엔터테인먼트부문 - 아 그그그 뭐였더라? (20000002-0002-4000-8000-000000000009)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13561'; -- 김수
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13559'; -- 위다현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '013561'; -- 김수
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '013559'; -- 위다현
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = 'T100517'; -- 윤진노
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13568'; -- 이나영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13560'; -- 최다연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '13558'; -- 카와하라사쿠라
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '013568'; -- 이나영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '013560'; -- 최다연
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0002-4000-8000-000000000009') WHERE unique_code = '013558'; -- 카와하라사쿠라
 
 -- ========================================
 -- 2. CJ ENM 엔터테인먼트부문 - 찜질방 (20000002-0003-4000-8000-000000000010)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '13562'; -- 김가영
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '013562'; -- 김가영
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = 'T100514'; -- 김도연
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '13563'; -- 이건하
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '13566'; -- 최정인
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '013563'; -- 이건하
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = '013566'; -- 최정인
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0003-4000-8000-000000000010') WHERE unique_code = 'D100336'; -- 황혜욱
 
 -- ========================================
 -- 2. CJ ENM 엔터테인먼트부문 - 리얼레이서 (20000002-0004-4000-8000-000000000011)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13573'; -- 김서현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13572'; -- 박소언
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '013573'; -- 김서현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '013572'; -- 박소언
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = 'T100513'; -- 박소영
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13564'; -- 박지현
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13574'; -- 임세원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '13570'; -- 한재환
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '013564'; -- 박지현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '013574'; -- 임세원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '20000002-0004-4000-8000-000000000011') WHERE unique_code = '013570'; -- 한재환
 
 -- ========================================
 -- 3. CJ대한통운 건설부문 - ALI-GO (30000003-0001-4000-8000-000000000012)
@@ -1084,19 +1084,19 @@ UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE b
 -- ========================================
 -- 5. CJ ENM 커머스부문 - 온스탁 (50000005-0001-4000-8000-000000000018)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13546'; -- 김미래
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13549'; -- 김유정
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13547'; -- 김예빈
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '13545'; -- 최예현
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '013546'; -- 김미래
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '013549'; -- 김유정
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '013547'; -- 김예빈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0001-4000-8000-000000000018') WHERE unique_code = '013545'; -- 최예현
 
 -- ========================================
 -- 5. CJ ENM 커머스부문 - ON-FLIGHT (50000005-0002-4000-8000-000000000019)
 -- ========================================
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13542'; -- 김윤아
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13541'; -- 박유진
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13548'; -- 민규리
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13543'; -- 민지원
-UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '13544'; -- 황병휘
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '013542'; -- 김윤아
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '013541'; -- 박유진
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '013548'; -- 민규리
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '013543'; -- 민지원
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '50000005-0002-4000-8000-000000000019') WHERE unique_code = '013544'; -- 황병휘
 
 -- ========================================
 -- 6. CJ프레시웨이 - GO:ON (60000006-0001-4000-8000-000000000020)
