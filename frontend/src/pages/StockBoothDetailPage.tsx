@@ -506,19 +506,17 @@ export default function StockBoothDetailPage() {
                   </div>
                 </div>
 
-                {myRating && !isEditingRating ? (
+                {myRating && myRating.review && !isEditingRating ? (
                   <div className={styles.ratingActionRow}>
                     <button className={styles.submitBtn} onClick={handleEditRating}>
                       리뷰 수정
                     </button>
-                    {myRating.review && (
-                      <button
-                        className={`${styles.submitBtn} ${styles.submitBtnDanger}`}
-                        onClick={handleDeleteReview}
-                      >
-                        리뷰 삭제
-                      </button>
-                    )}
+                    <button
+                      className={`${styles.submitBtn} ${styles.submitBtnDanger}`}
+                      onClick={handleDeleteReview}
+                    >
+                      리뷰 삭제
+                    </button>
                   </div>
                 ) : isEditingRating ? (
                   <div className={styles.ratingActionRow}>
@@ -536,15 +534,13 @@ export default function StockBoothDetailPage() {
                       취소
                     </button>
                   </div>
-                ) : !myRating ? (
-                  <p className={styles.tradeGuide}>평가 탭에서 별점을 먼저 완료해주세요</p>
                 ) : (
                   <button
                     className={styles.submitBtnFull}
                     onClick={handleSubmitRating}
-                    disabled={ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
+                    disabled={!myRating || ratingSubmitting || Object.values(ratingScores).some(v => v === 0)}
                   >
-                    {ratingSubmitting ? '제출 중...' : '리뷰 저장'}
+                    {!myRating ? '평가 탭에서 별점을 먼저 완료해주세요' : ratingSubmitting ? '제출 중...' : '리뷰 저장'}
                   </button>
                 )}
 
@@ -571,106 +567,95 @@ export default function StockBoothDetailPage() {
 
         {/* 내일 더 새롭게 탭 - 아이디어 Develop Zone */}
         {activeTab === 'develop' && (
-          <div className={styles.discussionContainer}>
+          <div className={styles.ratingContainer}>
             {!booth.hasVisited ? (
               <div className={styles.inputLocked}>
                 <span className={styles.lockIcon}>&#x1F512;</span>
                 <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
               </div>
             ) : (
-              <div className={styles.commentInputArea}>
-                <div className={styles.inputRow}>
+              <>
+                <div className={styles.reviewSection}>
                   <textarea
-                    className={styles.commentTextarea}
-                    placeholder="개선 아이디어를 제안해주세요."
+                    className={styles.reviewInput}
+                    placeholder="개선 아이디어를 제안해주세요 (최소 70자)"
                     value={commentInput}
                     onChange={e => setCommentInput(e.target.value)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault()
-                        handleAddComment()
-                      }
-                    }}
-                    disabled={submitting}
                     maxLength={500}
-                    rows={1}
+                    disabled={submitting}
                   />
-                  <button
-                    className={styles.commentSendBtn}
-                    onClick={handleAddComment}
-                    disabled={!commentInput.trim() || commentInput.trim().length < 70 || submitting}
-                  >
+                  <div className={styles.charCount}>
                     {commentInput.trim().length > 0 && commentInput.trim().length < 70
-                      ? `아이디어 제안하기 (${commentInput.trim().length}/70)`
-                      : '아이디어 제안하기'}
-                  </button>
+                      ? `${commentInput.trim().length}/70 (최소 70자)`
+                      : `${commentInput.length} / 500`}
+                  </div>
                 </div>
-              </div>
+
+                <button
+                  className={styles.submitBtnFull}
+                  onClick={handleAddComment}
+                  disabled={!commentInput.trim() || commentInput.trim().length < 70 || submitting}
+                >
+                  {submitting ? '제출 중...' : '아이디어 제안하기'}
+                </button>
+              </>
             )}
 
-            <div className={styles.ideaListHeader}>
-              <span className={styles.ideaListTitle}>전체 아이디어 ({comments.length})</span>
-            </div>
-
-            <div className={styles.commentList}>
-              {comments.length === 0 ? (
-                <div className={styles.emptyDevelop}>
-                  <p className={styles.emptyText}>아직 제안이 없습니다. 첫 번째 멘토가 되어주세요!</p>
-                </div>
-              ) : (
-                comments.map((comment, index) => (
-                  <div
-                    key={comment.id}
-                    className={`${styles.commentItem} stagger-item`}
-                    style={{ animationDelay: `${index * 0.02}s` }}
-                  >
-                    <div className={styles.commentHeader}>
-                      <div className={styles.commentAuthorRow}>
-                        <span className={styles.commentAuthor}>{comment.userName}</span>
-                        {comment.userCompany && <span className={styles.commentCompany}>{comment.userCompany}</span>}
-                      </div>
-                      <div className={styles.commentHeaderRight}>
-                        <span className={styles.commentTime}>{formatCommentTime(comment.createdAt)}</span>
+            {comments.length > 0 && (
+              <div className={styles.reviewList}>
+                <h4 className={styles.reviewListTitle}>전체 아이디어 ({comments.length})</h4>
+                {comments.map((comment, index) => (
+                  <div key={comment.id} className={`${styles.reviewItem} stagger-item`} style={{ animationDelay: `${index * 0.02}s` }}>
+                    <div className={styles.reviewItemHeader}>
+                      <span className={styles.reviewItemAuthor}>
+                        {comment.userName}{comment.userCompany ? ` · ${comment.userCompany}` : ''}
+                      </span>
+                      <span className={styles.reviewItemTime}>
+                        {formatCommentTime(comment.createdAt)}
                         {comment.userId === currentUserId && editingId !== comment.id && (
-                          <div className={styles.commentActions}>
-                            <button
-                              className={styles.commentActionBtn}
-                              onClick={() => { setEditingId(comment.id); setEditContent(comment.content) }}
-                            >수정</button>
-                            <button
-                              className={`${styles.commentActionBtn} ${styles.commentDeleteBtn}`}
-                              onClick={() => handleDeleteComment(comment.id)}
-                            >삭제</button>
-                          </div>
+                          <>
+                            <button className={styles.commentActionBtn} onClick={() => { setEditingId(comment.id); setEditContent(comment.content) }}>수정</button>
+                            <button className={`${styles.commentActionBtn} ${styles.commentDeleteBtn}`} onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                          </>
                         )}
-                      </div>
+                      </span>
                     </div>
                     {editingId === comment.id ? (
-                      <div className={styles.editArea}>
+                      <div className={styles.reviewSection}>
                         <textarea
-                          className={styles.commentTextarea}
+                          className={styles.reviewInput}
                           value={editContent}
                           onChange={e => setEditContent(e.target.value)}
                           maxLength={500}
                           rows={3}
                         />
-                        <div className={styles.editButtons}>
-                          <span className={styles.editCharCount}>{editContent.trim().length}/70</span>
-                          <button className={styles.editCancelBtn} onClick={() => { setEditingId(null); setEditContent('') }}>취소</button>
+                        <div className={styles.charCount}>{editContent.trim().length}/70</div>
+                        <div className={styles.ratingActionRow}>
                           <button
-                            className={styles.editSaveBtn}
+                            className={styles.submitBtn}
                             onClick={() => handleEditComment(comment.id)}
                             disabled={!editContent.trim() || editContent.trim().length < 70 || submitting}
                           >{submitting ? '저장 중...' : '저장'}</button>
+                          <button
+                            className={`${styles.submitBtn} ${styles.submitBtnSecondary}`}
+                            onClick={() => { setEditingId(null); setEditContent('') }}
+                          >취소</button>
                         </div>
                       </div>
                     ) : (
-                      <p className={styles.commentContent}>{comment.content}</p>
+                      <p className={styles.reviewItemText}>{comment.content}</p>
                     )}
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
+
+            {comments.length === 0 && booth.hasVisited && (
+              <div className={styles.reviewList}>
+                <h4 className={styles.reviewListTitle}>전체 아이디어 (0)</h4>
+                <p className={styles.emptyText} style={{ textAlign: 'center', padding: '20px 0' }}>아직 제안이 없습니다. 첫 번째 멘토가 되어주세요!</p>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
-import { boothApi, stockApi, missionApi } from '../api'
-import type { UserMissionResponse, MyStockBoothVisitorResponse } from '../types'
+import { boothApi, stockApi } from '../api'
+import type { MyStockBoothVisitorResponse } from '../types'
 import { useMissions, type Mission } from '../components/MissionContext'
 import type { BoothResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
 
 const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together']
-const PHOTO_MISSIONS = ['photo_0', 'photo_1', 'photo_2', 'photo_3', 'photo_4', 'photo_5']
-const PHOTO_TOTAL = 6
 const TICKET_IMAGE_MAP: Record<string, { normal: string; complete: string; label: string }> = {
   renew: { normal: '/image/ticket/renew.svg', complete: '/image/ticket/renew_complete.svg', label: '내일더 새롭게' },
   dream: { normal: '/image/ticket/dream.svg', complete: '/image/ticket/dream_complete.svg', label: '꿈을 원대하게' },
@@ -32,8 +30,6 @@ export default function MyPage() {
   const [amMemos, setAmMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
   const [amMemosLoaded, setAmMemosLoaded] = useState(false)
   const [qrMission, setQrMission] = useState<Mission | null>(null)
-  const [photoMissions, setPhotoMissions] = useState<UserMissionResponse[]>([])
-  const [photoLoaded, setPhotoLoaded] = useState(false)
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [memoPage, setMemoPage] = useState(0)
   const PAGE_SIZE = 10
@@ -44,16 +40,6 @@ export default function MyPage() {
       setBoothVisitors(res.data ?? null)
     }).catch(() => {})
   }, [])
-
-  // 이용권 탭: 포토 미션 데이터 로드
-  useEffect(() => {
-    if (activeTab === 'tickets' && !photoLoaded) {
-      missionApi.getMyMissions().then(res => {
-        setPhotoMissions(res.data.filter((m: UserMissionResponse) => PHOTO_MISSIONS.includes(m.missionId)))
-        setPhotoLoaded(true)
-      }).catch(() => setPhotoLoaded(true))
-    }
-  }, [activeTab, photoLoaded])
 
   useEffect(() => {
     if (activeTab === 'memos' && memoSubTab === 'pm' && !pmMemosLoaded) {
@@ -88,12 +74,6 @@ export default function MyPage() {
     .filter((m: Mission) => TICKET_MISSIONS.includes(m.id) && m.isCompleted)
     .sort((a, b) => Number(a.isUsed ?? false) - Number(b.isUsed ?? false))
   const ticketCount = ticketMissions.length
-
-  // 포토 교환권 계산
-  const photoCompleted = photoMissions.filter(m => m.isCompleted).length
-  const photoUsed = photoMissions.filter(m => m.isUsed).length
-  const photoRemaining = photoCompleted - photoUsed
-  const nextAvailablePhoto = photoMissions.find(m => m.isCompleted && !m.isUsed)
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -165,82 +145,33 @@ export default function MyPage() {
         <>
           <div className={styles.ticketHeader}>
             <span className={styles.ticketHeaderLabel}>보유 이용권</span>
-            <span className={styles.ticketHeaderCount}>{ticketCount + photoRemaining}장</span>
+            <span className={styles.ticketHeaderCount}>{ticketCount}장</span>
           </div>
 
-          {(() => {
-            type TicketItem =
-              | { kind: 'ticket'; mission: Mission; isUsed: boolean }
-              | { kind: 'photo'; isUsed: boolean }
-
-            const items: TicketItem[] = []
-            ticketMissions.forEach((m: Mission) => {
-              items.push({ kind: 'ticket', mission: m, isUsed: !!m.isUsed })
-            })
-            if (photoCompleted > 0) {
-              items.push({ kind: 'photo', isUsed: photoRemaining === 0 })
-            }
-            items.sort((a, b) => Number(a.isUsed) - Number(b.isUsed))
-
-            if (items.length === 0) {
-              return (
-                <div className={styles.emptyState}>
-                  <span className={styles.emptyIcon}>🎟️</span>
-                  <p className={styles.emptyText}>미션을 완료하면 이용권이 발급됩니다</p>
-                </div>
-              )
-            }
-
-            return (
-              <div className={styles.ticketGrid}>
-                {items.map((item, i) => {
-                  if (item.kind === 'ticket') {
-                    const imgInfo = TICKET_IMAGE_MAP[item.mission.id]
-                    if (!imgInfo) return null
-                    const imgSrc = item.isUsed ? imgInfo.complete : imgInfo.normal
-                    return (
-                      <div
-                        key={item.mission.id}
-                        className={`${styles.ticketImageCard} ${item.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
-                        style={{ animationDelay: `${i * 0.03}s` }}
-                        onClick={() => !item.isUsed && setQrMission(item.mission)}
-                      >
-                        <img src={imgSrc} alt={imgInfo.label} className={styles.ticketFullImg} />
-                      </div>
-                    )
-                  }
-                  // photo
-                  return (
-                    <div
-                      key="photo"
-                      className={`${styles.ticketImageCard} ${item.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
-                      style={{ animationDelay: `${i * 0.03}s` }}
-                      onClick={() => {
-                        if (photoRemaining > 0 && nextAvailablePhoto) {
-                          setQrMission({
-                            id: nextAvailablePhoto.missionId,
-                            title: 'AI 포토 교환권',
-                            description: '',
-                            isCompleted: true,
-                            icon: '/image/ticket/photo.svg',
-                          })
-                        }
-                      }}
-                    >
-                      <img
-                        src={photoRemaining > 0 ? '/image/ticket/photo.svg' : '/image/ticket/photo_complete.svg'}
-                        alt="AI 포토 교환권"
-                        className={styles.ticketFullImg}
-                      />
-                      <div className={styles.photoCountOverlay}>
-                        <span className={styles.photoCountText}>{photoRemaining}/{PHOTO_TOTAL}</span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            )
-          })()}
+          {ticketMissions.length === 0 ? (
+            <div className={styles.emptyState}>
+              <span className={styles.emptyIcon}>🎟️</span>
+              <p className={styles.emptyText}>미션을 완료하면 이용권이 발급됩니다</p>
+            </div>
+          ) : (
+            <div className={styles.ticketGrid}>
+              {ticketMissions.map((m: Mission, i: number) => {
+                const imgInfo = TICKET_IMAGE_MAP[m.id]
+                if (!imgInfo) return null
+                const imgSrc = m.isUsed ? imgInfo.complete : imgInfo.normal
+                return (
+                  <div
+                    key={m.id}
+                    className={`${styles.ticketImageCard} ${m.isUsed ? styles.ticketUsedCard : ''} stagger-item`}
+                    style={{ animationDelay: `${i * 0.03}s` }}
+                    onClick={() => !m.isUsed && setQrMission(m)}
+                  >
+                    <img src={imgSrc} alt={imgInfo.label} className={styles.ticketFullImg} />
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </>
       )}
 
@@ -324,11 +255,11 @@ export default function MyPage() {
       )}
 
       {qrMission && (
-        <div className={styles.qrOverlay} onClick={() => { setQrMission(null); syncFromServer(); setPhotoLoaded(false) }}>
+        <div className={styles.qrOverlay} onClick={() => { setQrMission(null); syncFromServer() }}>
           <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
             <h3 className={styles.qrTitle}>{qrMission.title}</h3>
             <p className={styles.qrSubtitle}>
-              {qrMission.id.startsWith('photo_') ? 'AI 포토 교환권' : '이벤트존 이용권'}
+              이벤트존 이용권
             </p>
             <div className={styles.qrCode}>
               <QRCodeSVG
@@ -338,7 +269,7 @@ export default function MyPage() {
               />
             </div>
             <p className={styles.qrGuide}>관리자에게 이 QR 코드를 보여주세요</p>
-            <button className={styles.qrClose} onClick={() => { setQrMission(null); syncFromServer(); setPhotoLoaded(false) }}>
+            <button className={styles.qrClose} onClick={() => { setQrMission(null); syncFromServer() }}>
               닫기
             </button>
           </div>
