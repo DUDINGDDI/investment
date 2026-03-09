@@ -31,6 +31,9 @@ public class User {
     @Column(nullable = false)
     private Long balance = 100_000_000L;
 
+    @Column(name = "is_executive", nullable = false)
+    private Boolean isExecutive = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "belonging_stock_booth_id")
     private StockBooth belongingStockBooth;
