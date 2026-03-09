@@ -218,7 +218,7 @@ export default function StockBoothListPage() {
 
           {/* 주식 종목 리스트 */}
           <div className={styles.stockSection}>
-            <h3 className={styles.stockSectionTitle}>투자 종목</h3>
+            <h3 className={styles.stockSectionTitle}>투자 종목 <span className={styles.visitCount}>{visitedBoothIds.size}/{booths.length}</span></h3>
             <p className={styles.stockSectionSubtitle}>여러 부스를 살펴보고 관심있는 아이디어에 투자하세요.</p>
 
             <div className={styles.list}>

@@ -114,6 +114,13 @@
   margin-bottom: 4px;
 }
 
+.visitCount {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6C5CE7;
+  margin-left: 4px;
+}
+
 .stockSectionSubtitle {
   font-size: 13px;
   color: var(--text-secondary);

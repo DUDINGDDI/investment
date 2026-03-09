@@ -147,7 +147,7 @@ export default function QrPage() {
             <h3 className={styles.successTitle}>미션 완료!</h3>
             <p className={styles.successMissionName}>(+) 함께하는 하고잡이</p>
             <p className={styles.successDesc}>
-              지구본 콘텐츠 방문 미션을 완료했습니다
+              함께하는 하고잡이 배지를 획득했습니다.
             </p>
             <button
               className={styles.successButton}
@@ -167,7 +167,7 @@ export default function QrPage() {
             <h3 className={styles.successTitle}>미션 완료!</h3>
             <p className={styles.successMissionName}>내일 더 새롭게</p>
             <p className={styles.successDesc}>
-              특별 QR 코드 스캔 미션을 완료했습니다
+              내일 더 새롭게 배지를 획득했습니다.
             </p>
             <p className={styles.rewardText}>
               투자금 +1억원이 추가 지급되었습니다!

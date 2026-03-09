@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { boothApi, stockApi, missionApi } from '../api'
-import type { UserMissionResponse } from '../types'
+import type { UserMissionResponse, MyStockBoothVisitorResponse } from '../types'
 import { useMissions, type Mission } from '../components/MissionContext'
 import type { BoothResponse, StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
@@ -25,6 +25,7 @@ export default function MyPage() {
   const userId = localStorage.getItem('userId') || ''
   const [activeTab, setActiveTab] = useState<'tickets' | 'memos'>('tickets')
   const { missions, syncFromServer } = useMissions()
+  const [boothVisitors, setBoothVisitors] = useState<MyStockBoothVisitorResponse | null>(null)
   const [memoSubTab, setMemoSubTab] = useState<'pm' | 'am'>('am')
   const [pmMemos, setPmMemos] = useState<{ boothId: number; boothName: string; memo: string }[]>([])
   const [pmMemosLoaded, setPmMemosLoaded] = useState(false)
@@ -36,6 +37,13 @@ export default function MyPage() {
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [memoPage, setMemoPage] = useState(0)
   const PAGE_SIZE = 10
+
+  // 나의 부스 로드
+  useEffect(() => {
+    stockApi.getMyBoothVisitors().then((res: { data: MyStockBoothVisitorResponse | null }) => {
+      setBoothVisitors(res.data ?? null)
+    }).catch(() => {})
+  }, [])
 
   // 이용권 탭: 포토 미션 데이터 로드
   useEffect(() => {
@@ -120,6 +128,23 @@ export default function MyPage() {
         </div>
         <span className={styles.reportBannerArrow}>›</span>
       </div> */}
+
+      {boothVisitors && (
+        <div className={styles.myBoothSection}>
+          <div className={styles.myBoothCard}>
+            <div className={styles.myBoothLeft}>
+              <div>
+                <p className={styles.myBoothLabel}>나의 부스</p>
+                <p className={styles.myBoothNameInline}>{boothVisitors.boothName}</p>
+              </div>
+            </div>
+            <div className={styles.myBoothRight}>
+              <p className={styles.myBoothVisitorCount}>{boothVisitors.visitorCount}</p>
+              <p className={styles.myBoothVisitorLabel}>방문자 수</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className={styles.tabsChip}>
         <button
