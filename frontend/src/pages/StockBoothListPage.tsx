@@ -234,7 +234,7 @@ export default function StockBoothListPage() {
                     key={booth.id}
                     className={`${styles.item} ${!visited ? styles.itemDisabled : ''} stagger-item`}
                     style={{ animationDelay: `${i * 0.02}s` }}
-                    onClick={visited ? () => navigate(`/stocks/booths/${booth.id}`) : undefined}
+                    onClick={() => navigate(`/stocks/booths/${booth.id}`)}
                   >
                     <div className={styles.info}>
                       <p className={styles.name}>{booth.name}</p>
