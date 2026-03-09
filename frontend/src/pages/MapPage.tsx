@@ -57,17 +57,19 @@ const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = 
   '202': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
   '203': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
   '204': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
-  '301': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토네컷', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토네컷 교환권을 사용하실 수 있습니다.' },
-  '302': { name: '2026 ONLYONE FAIR 대표작 전시 및 AI 포토네컷', description: '2026 ONLYONE FAIR 대표작 전시 공간임과 동시에 미션 완료시 부여받는 AI 포토네컷 교환권을 사용하실 수 있습니다.' },
+  '301': { name: 'AI포토네컷', description: '하고잡이 미션을 3가지 이상 달성시 AI포토네컷을 이용할 수 있는 장소입니다.' },
+  '302': { name: 'AI포토네컷', description: '하고잡이 미션을 3가지 이상 달성시 AI포토네컷을 이용할 수 있는 장소입니다.' },
 }
 
 const DEFAULT_MAP_IMAGE = `/image/map/leadership_llf.png?${MAP_VERSION}`
 
 /** 건물 선택 시 기본 구역 */
 const FLOOR_DEFAULT_ZONE: Record<string, string> = {
-  'Leadership Center': 'leadership_llf',
+  'Grand Hall, Lobby': 'leadership_llf',
   'Innovation Center, LL층': '손복남홀',
-  'Learning Center': '101',
+  'Leadership Center, 1층': '101',
+  'Leadership Center, 2층': '201',
+  'Leadership Center, 3층': '301',
 }
 
 /** 층(floorInfo) 선택 시 기본 구역 */
@@ -98,7 +100,7 @@ let zoneCache: ZoneResponse[] | null = null
 
 export default function MapPage() {
   const [zones, setZones] = useState<ZoneResponse[]>(zoneCache ?? [])
-  const [selectedFloor, setSelectedFloor] = useState<string>('Leadership Center')
+  const [selectedFloor, setSelectedFloor] = useState<string>('Grand Hall, Lobby')
   const [filterZoneCode, setFilterZoneCode] = useState<string>('leadership_llf')
   const [page, setPage] = useState(1)
   const navigate = useNavigate()
@@ -106,9 +108,12 @@ export default function MapPage() {
 
   /** floorInfo에서 건물명 파생 (floor 필드 미제공 시 fallback) */
   const getFloor = (zone: ZoneResponse): string => {
+    if (zone.floor === 'Leadership Center') return 'Grand Hall, Lobby'
     if (zone.floor) return zone.floor
     if (zone.floorInfo?.includes('INNOVATION')) return 'Innovation Center, LL층'
-    if (zone.floorInfo?.includes('LEARNING')) return 'Learning Center'
+    if (zone.floorInfo === 'LEARNING CENTER 1층') return 'Leadership Center, 1층'
+    if (zone.floorInfo === 'LEARNING CENTER 2층') return 'Leadership Center, 2층'
+    if (zone.floorInfo === 'LEARNING CENTER 3층') return 'Leadership Center, 3층'
     return ''
   }
 
@@ -121,7 +126,7 @@ export default function MapPage() {
   }, [])
 
   // 건물 목록 (고정)
-  const floors = ['Leadership Center', 'Innovation Center, LL층', 'Learning Center']
+  const floors = ['Grand Hall, Lobby', 'Innovation Center, LL층', 'Leadership Center, 1층', 'Leadership Center, 2층', 'Leadership Center, 3층']
 
   // 선택된 건물의 서브 층 목록
   const subFloors = useMemo(() => {
