@@ -286,22 +286,22 @@ public class MissionService {
     }
 
     @Transactional
-    public int useAllTickets(Long userId) {
+    public List<String> useAllTickets(Long userId) {
         List<UserMission> missions = userMissionRepository.findByUser_Id(userId);
-        int count = 0;
+        List<String> usedMissionIds = new java.util.ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
         for (UserMission um : missions) {
             if (um.getIsCompleted() && !um.getIsUsed()) {
                 um.setIsUsed(true);
                 um.setUsedAt(now);
                 userMissionRepository.save(um);
-                count++;
+                usedMissionIds.add(um.getMissionId());
             }
         }
-        if (count == 0) {
+        if (usedMissionIds.isEmpty()) {
             throw new IllegalStateException("사용 가능한 이용권이 없습니다");
         }
-        return count;
+        return usedMissionIds;
     }
 
     /**

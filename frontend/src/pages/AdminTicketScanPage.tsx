@@ -8,9 +8,19 @@ import styles from './AdminTicketScanPage.module.css'
 const TICKET_REGEX = /^ticket:(\d+):(\w+)$/
 const TICKET_ALL_REGEX = /^ticket-all:(\d+)$/
 
+const MISSION_LABELS: Record<string, string> = {
+  renew: '내일 더 새롭게',
+  dream: '꿈을 원대하게',
+  result: '반드시 결과로',
+  again: '안돼도 다시',
+  sincere: '진정성 있게',
+  together: '함께하는 하고잡이',
+}
+
 interface ScanResult {
   missionId: string
   usedCount?: number
+  usedMissions?: string[]
   userName?: string
 }
 
@@ -68,7 +78,7 @@ export default function AdminTicketScanPage() {
       if (allMatch) {
         const userId = Number(allMatch[1])
         const res = await adminApi.useAllTickets(userId)
-        setScanResult({ missionId: 'all', usedCount: res.data.usedCount })
+        setScanResult({ missionId: 'all', usedCount: res.data.usedCount, usedMissions: res.data.usedMissions })
         return
       }
 
@@ -149,9 +159,18 @@ export default function AdminTicketScanPage() {
             <h3 className={styles.successTitle}>사용 처리 완료</h3>
             <p className={styles.successDesc}>
               {scanResult.missionId === 'all'
-                ? `이용권 ${scanResult.usedCount}장이 일괄 사용 처리되었습니다.`
-                : '이용권이 정상적으로 사용 처리되었습니다.'}
+                ? `키캡 교환권 ${scanResult.usedCount}장이 사용 처리되었습니다.`
+                : `${MISSION_LABELS[scanResult.missionId] || scanResult.missionId} 교환권이 사용 처리되었습니다.`}
             </p>
+            {scanResult.missionId === 'all' && scanResult.usedMissions && (
+              <ul className={styles.usedList}>
+                {scanResult.usedMissions.map(id => (
+                  <li key={id} className={styles.usedListItem}>
+                    {MISSION_LABELS[id] || id}
+                  </li>
+                ))}
+              </ul>
+            )}
             <button className={styles.successButton} onClick={handleCloseResult}>
               다음 스캔
             </button>

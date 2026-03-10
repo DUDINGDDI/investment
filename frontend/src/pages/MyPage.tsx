@@ -155,7 +155,7 @@ export default function MyPage() {
             </div>
             {unusedTicketCount > 0 && (
               <button className={styles.useAllBtn} onClick={() => setShowAllQr(true)}>
-                한번에 사용 ({unusedTicketCount})
+                키캡 교환권 전부 사용 ({unusedTicketCount})
               </button>
             )}
           </div>
@@ -324,7 +324,7 @@ export default function MyPage() {
           <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
             <h3 className={styles.qrTitle}>모든 이용권 사용</h3>
             <p className={styles.qrSubtitle}>
-              미사용 이용권 {unusedTicketCount}장을 한번에 사용합니다
+              키캡 교환권 {unusedTicketCount}장을 전부 사용합니다
             </p>
             <div className={styles.qrCode}>
               <QRCodeSVG
