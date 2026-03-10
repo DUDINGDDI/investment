@@ -297,7 +297,7 @@ export default function StockHomePage() {
                 </div>
                 <div className={badgeStyles.myRankInfo}>
                   <p className={badgeStyles.myRankLabel}>내 순위</p>
-                  <p className={badgeStyles.myRankName}>{selectedFilter === 'again' ? (myRanking ? `${myRanking.name} · ${userName}님` : '-') : (userName ? `${userName}님` : '-')}</p>
+                  <p className={badgeStyles.myRankName}>{selectedFilter === 'again' ? (myRanking ? `${myRanking.name} · ${userName}` : '-') : (userName ? <>{userName}<span className={badgeStyles.nameSuffix}>님</span></> : '-')}</p>
                   <div className={badgeStyles.myRankScoreRow}>
                     <span className={badgeStyles.myRankScore}>
                       {myRanking ? myRanking.progress : 0}
@@ -337,12 +337,13 @@ export default function StockHomePage() {
                         className={`${badgeStyles.rankPodiumItem} ${i === 0 ? badgeStyles.rankFirst : i === 1 ? badgeStyles.rankSecond : badgeStyles.rankThird} stagger-item`}
                         style={{ animationDelay: `${i * 0.08}s` }}
                       >
+                        {item.rank === 1 && <div className={badgeStyles.crownIcon}>👑</div>}
                         <div className={badgeStyles.podiumRankBadge}>
                           <RankBadgeLabel rank={item.rank} />
                         </div>
                         <div className={badgeStyles.podiumNameWrap}>
                           {item.company && <span className={badgeStyles.podiumCompany}>{item.company}</span>}
-                          <span className={badgeStyles.podiumUserName}>{item.name}님</span>
+                          <span className={badgeStyles.podiumUserName}>{item.name}{selectedFilter !== 'again' && <span className={badgeStyles.nameSuffix}>님</span>}</span>
                         </div>
                         <div className={badgeStyles.podiumScoreRow}>
                           <span className={badgeStyles.podiumRate}>{item.progress}</span>
@@ -370,7 +371,7 @@ export default function StockHomePage() {
                           <span className={badgeStyles.rankListNum}>{item.rank}</span>
                           <div className={badgeStyles.rankListInfo}>
                             {item.company && <p className={badgeStyles.rankListCompany}>{item.company}</p>}
-                            <p className={badgeStyles.rankListUserName}>{item.name}님</p>
+                            <p className={badgeStyles.rankListUserName}>{item.name}{selectedFilter !== 'again' && <span className={badgeStyles.nameSuffix}>님</span>}</p>
                           </div>
                           <div className={badgeStyles.rankListScoreArea}>
                             <span className={badgeStyles.rankListRate}>{item.progress}{currentUnit}</span>

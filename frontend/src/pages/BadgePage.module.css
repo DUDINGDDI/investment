@@ -645,17 +645,36 @@
 .rankFirst {
   order: 0;
   background: linear-gradient(180deg, #2A2820 0%, #33301E 100%);
-  box-shadow: 0 2px 12px rgba(255, 199, 0, 0.10);
+  border: 1.5px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 16px rgba(255, 199, 0, 0.25), 0 0 6px rgba(255, 215, 0, 0.15) inset;
+  transform: scale(1.04);
 }
 
 .rankSecond {
   order: -1;
   margin-top: 3.5%;
+  border: 1.5px solid rgba(168, 168, 176, 0.45);
+  box-shadow: 0 0 12px rgba(168, 168, 176, 0.2);
 }
 
 .rankThird {
   order: 1;
   margin-top: 5%;
+  border: 1.5px solid rgba(205, 127, 50, 0.45);
+  box-shadow: 0 0 12px rgba(205, 127, 50, 0.2);
+}
+
+.crownIcon {
+  font-size: clamp(20px, 6cqw, 28px);
+  text-align: center;
+  margin-bottom: 2%;
+  filter: drop-shadow(0 2px 4px rgba(255, 199, 0, 0.4));
+  animation: crownFloat 2s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
 
 .podiumRankBadge {
@@ -735,6 +754,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+}
+
+.nameSuffix {
+  font-size: clamp(9px, 2.5cqw, 11px);
+  font-weight: 400;
+  color: var(--text-secondary);
 }
 
 .podiumName {
