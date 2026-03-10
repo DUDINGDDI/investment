@@ -58,7 +58,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'sincere',
     title: '진정성 있게',
-    description: '방문한 부스에 대한 진정성 있는 피드백을 12회 이상 작성해주세요',
+    description: '방문한 부스에 대한 \'진정성 있는\'피드백을\n12회 이상 작성해주세요',
     isCompleted: false,
     progress: 0,
     target: 12,
@@ -67,7 +67,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'together',
     title: '함께하는 \n 하고잡이',
-    description: '하고잡이 Wall에서 네컷사진을 게시해주세요',
+    description: '\'하고잡이 Wall\'에 네컷사진을 부착해주세요',
     isCompleted: false,
     icon: '/image/badge/together.svg',
   },
