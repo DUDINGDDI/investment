@@ -276,7 +276,7 @@ export default function MapPage() {
               }
             </h3>
             {selectedZone && (
-              <span className={styles.boothFloorInfo}>{selectedZone.floorInfo}</span>
+              <span className={styles.boothFloorInfo}>{selectedZone.floorInfo.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}</span>
             )}
           </div>
 
