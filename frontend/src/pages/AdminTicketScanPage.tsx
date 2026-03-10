@@ -6,9 +6,11 @@ import { useToast } from '../components/ToastContext'
 import styles from './AdminTicketScanPage.module.css'
 
 const TICKET_REGEX = /^ticket:(\d+):(\w+)$/
+const TICKET_ALL_REGEX = /^ticket-all:(\d+)$/
 
 interface ScanResult {
   missionId: string
+  usedCount?: number
   userName?: string
 }
 
@@ -61,6 +63,16 @@ export default function AdminTicketScanPage() {
         setIsScanning(false)
       }
 
+      // 모든 이용권 일괄 사용
+      const allMatch = text.match(TICKET_ALL_REGEX)
+      if (allMatch) {
+        const userId = Number(allMatch[1])
+        const res = await adminApi.useAllTickets(userId)
+        setScanResult({ missionId: 'all', usedCount: res.data.usedCount })
+        return
+      }
+
+      // 개별 이용권 사용
       const match = text.match(TICKET_REGEX)
       if (!match) {
         showToast('유효하지 않은 이용권 QR 코드입니다', 'error')
@@ -136,7 +148,9 @@ export default function AdminTicketScanPage() {
             <div className={styles.successIcon}>✅</div>
             <h3 className={styles.successTitle}>사용 처리 완료</h3>
             <p className={styles.successDesc}>
-              이용권 AI 포토네컷 이용권이 정상적으로 사용 처리되었습니다.
+              {scanResult.missionId === 'all'
+                ? `이용권 ${scanResult.usedCount}장이 일괄 사용 처리되었습니다.`
+                : '이용권이 정상적으로 사용 처리되었습니다.'}
             </p>
             <button className={styles.successButton} onClick={handleCloseResult}>
               다음 스캔

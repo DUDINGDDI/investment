@@ -285,6 +285,25 @@ public class MissionService {
         );
     }
 
+    @Transactional
+    public int useAllTickets(Long userId) {
+        List<UserMission> missions = userMissionRepository.findByUser_Id(userId);
+        int count = 0;
+        LocalDateTime now = LocalDateTime.now();
+        for (UserMission um : missions) {
+            if (um.getIsCompleted() && !um.getIsUsed()) {
+                um.setIsUsed(true);
+                um.setUsedAt(now);
+                userMissionRepository.save(um);
+                count++;
+            }
+        }
+        if (count == 0) {
+            throw new IllegalStateException("사용 가능한 이용권이 없습니다");
+        }
+        return count;
+    }
+
     /**
      * 미션별 랭킹: progress 내림차순, 등락 포함 (페이지 접속 시 실시간 계산)
      */

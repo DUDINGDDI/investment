@@ -152,6 +152,13 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/tickets/use-all")
+    public ResponseEntity<Map<String, Object>> useAllTickets(@RequestBody Map<String, Long> body) {
+        Long userId = body.get("userId");
+        int count = missionService.useAllTickets(userId);
+        return ResponseEntity.ok(Map.of("userId", userId, "usedCount", count));
+    }
+
     @PostMapping("/missions/complete-all")
     public ResponseEntity<Map<String, Object>> completeMissionForAll(@RequestBody Map<String, String> body) {
         String missionId = body.get("missionId");

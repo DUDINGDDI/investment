@@ -31,6 +31,7 @@ export default function MyPage() {
   const [amMemosLoaded, setAmMemosLoaded] = useState(false)
   const [qrMission, setQrMission] = useState<Mission | null>(null)
   const [showPhotoQr, setShowPhotoQr] = useState(false)
+  const [showAllQr, setShowAllQr] = useState(false)
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [memoPage, setMemoPage] = useState(0)
   const PAGE_SIZE = 10
@@ -77,6 +78,7 @@ export default function MyPage() {
   const completedCount = missions.filter((m: Mission) => m.isCompleted).length
   const hasPhotoTicket = completedCount >= 3
   const ticketCount = ticketMissions.length + (hasPhotoTicket ? 1 : 0)
+  const unusedTicketCount = ticketMissions.filter((m: Mission) => !m.isUsed).length
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -147,8 +149,15 @@ export default function MyPage() {
       {activeTab === 'tickets' && (
         <>
           <div className={styles.ticketHeader}>
-            <span className={styles.ticketHeaderLabel}>보유 이용권</span>
-            <span className={styles.ticketHeaderCount}>{ticketCount}장</span>
+            <div className={styles.ticketHeaderLeft}>
+              <span className={styles.ticketHeaderLabel}>보유 이용권</span>
+              <span className={styles.ticketHeaderCount}>{ticketCount}장</span>
+            </div>
+            {unusedTicketCount > 0 && (
+              <button className={styles.useAllBtn} onClick={() => setShowAllQr(true)}>
+                한번에 사용 ({unusedTicketCount})
+              </button>
+            )}
           </div>
 
           {!hasPhotoTicket && ticketMissions.length === 0 ? (
@@ -304,6 +313,28 @@ export default function MyPage() {
             </div>
             <p className={styles.qrGuide}>관리자에게 이 QR 코드를 보여주세요</p>
             <button className={styles.qrClose} onClick={() => setShowPhotoQr(false)}>
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showAllQr && (
+        <div className={styles.qrOverlay} onClick={() => { setShowAllQr(false); syncFromServer() }}>
+          <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
+            <h3 className={styles.qrTitle}>모든 이용권 사용</h3>
+            <p className={styles.qrSubtitle}>
+              미사용 이용권 {unusedTicketCount}장을 한번에 사용합니다
+            </p>
+            <div className={styles.qrCode}>
+              <QRCodeSVG
+                value={`ticket-all:${userId}`}
+                size={200}
+                level="M"
+              />
+            </div>
+            <p className={styles.qrGuide}>관리자에게 이 QR 코드를 보여주세요</p>
+            <button className={styles.qrClose} onClick={() => { setShowAllQr(false); syncFromServer() }}>
               닫기
             </button>
           </div>

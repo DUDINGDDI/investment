@@ -180,8 +180,14 @@
 .ticketHeader {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
   margin-bottom: 12px;
+}
+
+.ticketHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .ticketHeaderLabel {
@@ -193,6 +199,21 @@
   font-size: 13px;
   font-weight: 700;
   color: var(--primary);
+}
+
+.useAllBtn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent-purple, #6C5CE7);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.useAllBtn:active {
+  opacity: 0.7;
 }
 
 /* 이용권 이미지 그리드 */

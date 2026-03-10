@@ -161,6 +161,8 @@ export const adminApi = {
   getPmBoothRatings: () => api.get<AdminBoothRatingResponse[]>('/admin/booth-ratings'),
   useTicket: (userId: number, missionId: string) =>
     api.post<UserMissionResponse>('/admin/tickets/use', { userId, missionId }),
+  useAllTickets: (userId: number) =>
+    api.post<{ userId: number; usedCount: number }>('/admin/tickets/use-all', { userId }),
   completeMissionForAll: (missionId: string) =>
     api.post<{ missionId: string; completedCount: number }>('/admin/missions/complete-all', { missionId }),
   uncompleteMissionForAll: (missionId: string) =>
