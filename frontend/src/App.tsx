@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
+import { initPushNotifications } from './utils/pushNotifications'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import BoothListPage from './pages/BoothListPage'
@@ -67,6 +68,10 @@ function WithStockTopTabBar() {
 }
 
 export default function App() {
+  useEffect(() => {
+    initPushNotifications()
+  }, [])
+
   useEffect(() => {
     const root = document.getElementById('root')
     if (!root) return

@@ -41,6 +41,8 @@ export const authApi = {
 
 export const userApi = {
   getMe: () => api.get<UserResponse>('/users/me'),
+  registerFcmToken: (token: string) => api.post('/users/fcm-token', { token }),
+  removeFcmToken: (token: string) => api.delete('/users/fcm-token', { data: { token } }),
 };
 
 export const boothApi = {
