@@ -218,12 +218,6 @@ export default function BoothDetailPage() {
             </div>
           </div>
         </div>
-        <button
-          className={`${styles.memoBtn} ${memoSaved ? styles.memoBtnActive : ''}`}
-          onClick={() => setMemoOpen(true)}
-        >
-          메모
-        </button>
       </div>
 
       {/* 소개 */}
@@ -276,6 +270,31 @@ export default function BoothDetailPage() {
             )}
           </>
         )}
+      </div>
+
+      {/* 메모 */}
+      <div className={styles.memoSection}>
+        <h4 className={styles.memoSectionTitle}>메모</h4>
+        <p className={styles.memoSectionDesc}>해당 아이디어에 투자한 이유를 적어주세요</p>
+        <textarea
+          className={styles.memoTextarea}
+          placeholder="메모를 작성하세요..."
+          value={memo}
+          onChange={e => setMemo(e.target.value)}
+        />
+        <div className={styles.memoActions}>
+          {memoSaved && (
+            <button
+              className={styles.memoDeleteBtn}
+              onClick={() => { setMemo(''); localStorage.removeItem(`booth_memo_${id}`); setMemoSaved(''); }}
+            >
+              삭제
+            </button>
+          )}
+          <button className={styles.memoSaveBtn} onClick={handleMemoSave}>
+            저장
+          </button>
+        </div>
       </div>
 
       {/* 평가 콘텐츠 */}
@@ -422,42 +441,6 @@ export default function BoothDetailPage() {
           onConfirm={handleWithdraw}
           onClose={() => setModal(null)}
         />
-      )}
-
-      {/* 메모 팝업 */}
-      {memoOpen && (
-        <div className={styles.memoOverlay} onClick={() => { setMemo(memoSaved); setMemoOpen(false) }}>
-          <div className={styles.memoPopup} onClick={e => e.stopPropagation()}>
-            <div className={styles.memoPopupHeader}>
-              <h3 className={styles.memoPopupTitle}>메모</h3>
-              <button className={styles.memoCloseBtn} onClick={() => { setMemo(memoSaved); setMemoOpen(false) }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </button>
-            </div>
-            <textarea
-              className={styles.memoTextarea}
-              placeholder="이 부스에 대한 메모를 작성하세요..."
-              value={memo}
-              onChange={e => setMemo(e.target.value)}
-              autoFocus
-            />
-            <div className={styles.memoActions}>
-              {memoSaved && (
-                <button
-                  className={styles.memoDeleteBtn}
-                  onClick={() => { setMemo(''); localStorage.removeItem(`booth_memo_${id}`); setMemoSaved(''); setMemoOpen(false) }}
-                >
-                  삭제
-                </button>
-              )}
-              <button className={styles.memoSaveBtn} onClick={handleMemoSave}>
-                저장
-              </button>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   )

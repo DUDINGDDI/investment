@@ -504,6 +504,23 @@
   cursor: pointer;
 }
 
+.memoSection {
+  margin-top: 20px;
+  padding: 0 20px 20px;
+}
+
+.memoSectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.memoSectionDesc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
 .memoTextarea {
   width: 100%;
   min-height: 160px;
