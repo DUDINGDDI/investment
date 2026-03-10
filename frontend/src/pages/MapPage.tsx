@@ -270,14 +270,26 @@ export default function MapPage() {
       <div className={styles.boothSection}>
           <div className={styles.boothHeader}>
             <h3 className={styles.boothTitle}>
-              {STATIC_ZONE_INFO[filterZoneCode]
-                ? `${selectedZone?.name ?? ''} 구역 안내`
-                : `${selectedZone?.name ?? ''} 구역 부스`
+              {filterZoneCode === 'leadership_llf'
+                ? '그랜드홀 구역 부스'
+                : STATIC_ZONE_INFO[filterZoneCode]
+                  ? `${selectedZone?.name ?? ''} 구역 안내`
+                  : `${selectedZone?.name ?? ''} 구역 부스`
               }
             </h3>
-            {selectedZone && (
-              <span className={styles.boothFloorInfo}>{selectedZone.floorInfo.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}</span>
-            )}
+            <span className={styles.boothFloorInfo}>
+              {filterZoneCode === 'leadership_llf'
+                ? 'Grand Hall, Lobby'
+                : selectedZone?.floorInfo
+                  ? (() => {
+                      const parts = selectedZone.floorInfo.split(' ')
+                      const floor = parts[parts.length - 1]
+                      const building = parts.slice(0, -1).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')
+                      return `${building}, ${floor === 'LL' ? 'LL층' : floor}`
+                    })()
+                  : ''
+              }
+            </span>
           </div>
 
           {STATIC_ZONE_INFO[filterZoneCode] ? (
