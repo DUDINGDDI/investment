@@ -109,7 +109,6 @@ export default function BoothDetailPage() {
     if (!id) return
     localStorage.setItem(`booth_memo_${id}`, memo)
     setMemoSaved(memo)
-    setMemoOpen(false)
   }
 
   const handleInvest = async (amount: number) => {

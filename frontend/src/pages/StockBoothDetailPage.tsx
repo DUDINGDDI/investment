@@ -100,7 +100,6 @@ export default function StockBoothDetailPage() {
     if (!id) return
     localStorage.setItem(`stock_memo_${id}`, memo)
     setMemoSaved(memo)
-    setMemoOpen(false)
   }
 
   // 탭 전환 시 데이터 로드
