@@ -11,4 +11,5 @@ public class LoginResponse {
     private String company;
     private Long balance;
     private String token;
+    private Boolean isExecutive;
 }

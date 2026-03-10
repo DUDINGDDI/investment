@@ -228,7 +228,8 @@ export default function StockBoothListPage() {
 
             <div className={styles.list}>
               {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => {
-                const visited = visitedBoothIds.has(booth.id)
+                const isExec = localStorage.getItem('isExecutive') === 'true'
+                const visited = isExec || visitedBoothIds.has(booth.id)
                 return (
                   <div
                     key={booth.id}

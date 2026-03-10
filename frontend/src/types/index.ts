@@ -9,6 +9,7 @@ export interface LoginResponse {
   company: string | null;
   balance: number;
   token: string;
+  isExecutive: boolean;
 }
 
 export interface UserResponse {
@@ -17,6 +18,7 @@ export interface UserResponse {
   name: string;
   company: string | null;
   balance: number;
+  isExecutive: boolean;
 }
 
 export interface BoothResponse {

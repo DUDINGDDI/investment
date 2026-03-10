@@ -27,6 +27,7 @@ export default function LoginPage() {
       localStorage.setItem('userId', String(data.userId))
       localStorage.setItem('userName', data.name)
       localStorage.setItem('userCompany', data.company || '')
+      localStorage.setItem('isExecutive', String(data.isExecutive ?? false))
       await resetAndSync()
       navigate('/stocks', { replace: true })
     } catch {

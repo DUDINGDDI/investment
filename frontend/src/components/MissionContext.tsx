@@ -98,9 +98,13 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     try {
       const res = await missionApi.getMyMissions()
       const serverMissions = res.data
+      const isExec = localStorage.getItem('isExecutive') === 'true'
       if (serverMissions.length > 0) {
         const updated = DEFAULT_MISSIONS.map(m => {
           const sm = serverMissions.find(s => s.missionId === m.id)
+          if (isExec) {
+            return { ...m, isCompleted: true, progress: m.target, ...(sm ? { isUsed: sm.isUsed, usedAt: sm.usedAt } : {}) }
+          }
           if (!sm) return m
           return {
             ...m,
@@ -116,6 +120,11 @@ export function MissionProvider({ children }: { children: ReactNode }) {
         )
         initialSyncDone.current = true
         setMissions(updated)
+      } else if (isExec) {
+        const updated = DEFAULT_MISSIONS.map(m => ({ ...m, isCompleted: true, progress: m.target }))
+        prevCompletedRef.current = new Set(updated.map(m => m.id))
+        initialSyncDone.current = true
+        setMissions(updated)
       }
     } catch {
       // 실패 시 기본값 유지
@@ -129,10 +138,14 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     try {
       const res = await missionApi.getMyMissions()
       const serverMissions = res.data
+      const isExec = localStorage.getItem('isExecutive') === 'true'
       if (serverMissions.length > 0) {
         setMissions(prev => {
           const updated = prev.map(m => {
             const sm = serverMissions.find(s => s.missionId === m.id)
+            if (isExec) {
+              return { ...m, isCompleted: true, progress: m.target, ...(sm ? { isUsed: sm.isUsed, usedAt: sm.usedAt } : {}) }
+            }
             if (!sm) return m
             return {
               ...m,

@@ -11,4 +11,5 @@ public class UserResponse {
     private String name;
     private String company;
     private Long balance;
+    private Boolean isExecutive;
 }
