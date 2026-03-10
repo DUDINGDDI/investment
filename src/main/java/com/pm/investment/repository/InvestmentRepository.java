@@ -33,4 +33,7 @@ public interface InvestmentRepository extends JpaRepository<Investment, Long> {
 
     @Query("SELECT i.booth.id, i.amount FROM Investment i WHERE i.user.id = :userId AND i.amount > 0")
     List<Object[]> getMyInvestmentAmounts(@Param("userId") Long userId);
+
+    @Query("SELECT i FROM Investment i JOIN FETCH i.user u JOIN FETCH i.booth b WHERE u.isExecutive = true AND i.amount > 0 ORDER BY u.name, b.name")
+    List<Investment> findAllByExecutiveUsersWithAmount();
 }

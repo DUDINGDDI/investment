@@ -10,6 +10,7 @@ import MapPage from './pages/MapPage'
 
 import AdminPage from './pages/AdminPage'
 import AdminTicketScanPage from './pages/AdminTicketScanPage'
+import AdminExecutivePage from './pages/AdminExecutivePage'
 import IdeaBoardPage from './pages/IdeaBoardPage'
 import MyPage from './pages/MyPage'
 import QrPage from './pages/QrPage'
@@ -118,6 +119,7 @@ export default function App() {
         </Route>
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/ticket-scan" element={<AdminTicketScanPage />} />
+        <Route path="/executive" element={<AdminExecutivePage />} />
         <Route path="/idea-board/:boothId" element={<IdeaBoardPage />} />
       </Routes>
       </MissionProvider>

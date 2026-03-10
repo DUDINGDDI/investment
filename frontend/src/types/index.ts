@@ -345,3 +345,34 @@ export interface SharedReportResponse {
   vision: string;
   createdAt: string;
 }
+
+// === 임원 투자 집계 ===
+export interface ExecutiveInvestmentResponse {
+  executives: ExecutiveDetail[];
+  boothSummaries: BoothSummaryItem[];
+}
+
+export interface ExecutiveDetail {
+  userId: number;
+  name: string;
+  company: string | null;
+  balance: number;
+  totalInvested: number;
+  investments: ExecutiveInvestmentItem[];
+}
+
+export interface ExecutiveInvestmentItem {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  amount: number;
+}
+
+export interface BoothSummaryItem {
+  boothId: number;
+  boothName: string;
+  logoEmoji: string;
+  themeColor: string;
+  executiveInvestment: number;
+  executiveInvestorCount: number;
+}

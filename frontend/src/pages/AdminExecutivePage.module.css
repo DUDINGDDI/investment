@@ -1,0 +1,227 @@
+.container {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 8px 0 16px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.tabBar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 4px;
+}
+
+.tabBtn {
+  flex: 1;
+  height: 40px;
+  border-radius: calc(var(--radius-card) - 2px);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabBtnActive {
+  background: var(--color-invest);
+  color: white;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 임원별 카드 */
+.execCard {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 16px;
+}
+
+.execHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.execInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.execName {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.execCompany {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.execAmount {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.execTotal {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-invest);
+}
+
+.execBalance {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.execInvestments {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 10px;
+}
+
+.investRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.investEmoji {
+  font-size: 16px;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.investName {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.investAmount {
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* 미투자 임원 */
+.notInvestedSection {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  margin-top: 8px;
+}
+
+.notInvestedTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.notInvestedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.notInvestedItem {
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.notInvestedCompany {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* 부스별 집계 */
+.boothItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.boothItem:last-child {
+  border-bottom: none;
+}
+
+.boothRank {
+  width: 28px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.topRank {
+  color: var(--color-invest);
+}
+
+.boothEmoji {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.boothInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.boothName {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.boothMeta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.boothAmount {
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.emptyText {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}

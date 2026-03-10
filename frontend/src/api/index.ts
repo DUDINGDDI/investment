@@ -28,6 +28,7 @@ import type {
   MyStockBoothVisitorResponse,
   BoothReviewResponse,
   IdeaBoardResponse,
+  ExecutiveInvestmentResponse,
   // ReportEligibilityResponse,
   // ReportResponse,
   // ShareReportRequest,
@@ -167,4 +168,6 @@ export const adminApi = {
     api.post<{ missionId: string; completedCount: number }>('/admin/missions/complete-all', { missionId }),
   uncompleteMissionForAll: (missionId: string) =>
     api.post<{ missionId: string; uncompletedCount: number }>('/admin/missions/uncomplete-all', { missionId }),
+  getExecutiveInvestments: () =>
+    api.get<ExecutiveInvestmentResponse>('/admin/executive-investments'),
 };

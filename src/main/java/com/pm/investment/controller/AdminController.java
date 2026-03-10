@@ -1,6 +1,7 @@
 package com.pm.investment.controller;
 
 import com.pm.investment.dto.AdminBoothRatingResponse;
+import com.pm.investment.dto.ExecutiveInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.dto.StockPriceChangeRequest;
 import com.pm.investment.dto.TicketUseRequest;
@@ -165,6 +166,11 @@ public class AdminController {
         int count = missionService.completeForAll(missionId);
         sseEmitterService.broadcastMissionComplete(missionId);
         return ResponseEntity.ok(Map.of("missionId", missionId, "completedCount", count));
+    }
+
+    @GetMapping("/executive-investments")
+    public ResponseEntity<ExecutiveInvestmentResponse> getExecutiveInvestments() {
+        return ResponseEntity.ok(rankingService.getExecutiveInvestments());
     }
 
     @PostMapping("/missions/uncomplete-all")

@@ -291,6 +291,17 @@ export default function AdminPage() {
           </div>
 
           <div className={styles.controlCard}>
+            <p className={styles.statusLabel}>임원 투자 집계</p>
+            <p className={styles.statusDesc}>임원분들의 대표작 투자 내역과 부스별 임원 투자 현황을 확인합니다.</p>
+            <button
+              className={`${styles.toggleBtn} ${styles.revealBtn}`}
+              onClick={() => navigate('/executive')}
+            >
+              임원 내역 집계
+            </button>
+          </div>
+
+          <div className={styles.controlCard}>
             <p className={styles.statusLabel}>이용권 관리</p>
             <p className={styles.statusDesc}>참가자의 이벤트존 이용권 QR 코드를 스캔하여 사용 처리합니다.</p>
             <button

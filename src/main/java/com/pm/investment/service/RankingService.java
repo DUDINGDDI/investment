@@ -1,19 +1,21 @@
 package com.pm.investment.service;
 
+import com.pm.investment.dto.ExecutiveInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.entity.Booth;
+import com.pm.investment.entity.Investment;
 import com.pm.investment.entity.StockBooth;
+import com.pm.investment.entity.User;
 import com.pm.investment.repository.BoothRepository;
 import com.pm.investment.repository.InvestmentRepository;
 import com.pm.investment.repository.StockBoothRepository;
 import com.pm.investment.repository.StockHoldingRepository;
+import com.pm.investment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ public class RankingService {
     private final InvestmentRepository investmentRepository;
     private final StockBoothRepository stockBoothRepository;
     private final StockHoldingRepository stockHoldingRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<RankingResponse> getRanking() {
@@ -111,5 +114,68 @@ public class RankingService {
                 .investorCount(r.getInvestorCount())
                 .build()
         ).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ExecutiveInvestmentResponse getExecutiveInvestments() {
+        List<Investment> investments = investmentRepository.findAllByExecutiveUsersWithAmount();
+
+        // 임원별 투자 내역
+        Map<Long, List<Investment>> byUser = investments.stream()
+                .collect(Collectors.groupingBy(i -> i.getUser().getId(), LinkedHashMap::new, Collectors.toList()));
+
+        // 투자하지 않은 임원도 포함
+        List<User> allExecutives = userRepository.findAll().stream()
+                .filter(u -> Boolean.TRUE.equals(u.getIsExecutive()))
+                .sorted(Comparator.comparing(User::getName))
+                .toList();
+
+        List<ExecutiveInvestmentResponse.ExecutiveDetail> executives = allExecutives.stream().map(user -> {
+            List<Investment> userInvestments = byUser.getOrDefault(user.getId(), List.of());
+            long totalInvested = userInvestments.stream().mapToLong(Investment::getAmount).sum();
+            List<ExecutiveInvestmentResponse.InvestmentItem> items = userInvestments.stream().map(inv ->
+                    ExecutiveInvestmentResponse.InvestmentItem.builder()
+                            .boothId(inv.getBooth().getId())
+                            .boothName(inv.getBooth().getName())
+                            .logoEmoji(inv.getBooth().getLogoEmoji())
+                            .amount(inv.getAmount())
+                            .build()
+            ).toList();
+            return ExecutiveInvestmentResponse.ExecutiveDetail.builder()
+                    .userId(user.getId())
+                    .name(user.getName())
+                    .company(user.getCompany())
+                    .balance(user.getBalance())
+                    .totalInvested(totalInvested)
+                    .investments(items)
+                    .build();
+        }).toList();
+
+        // 부스별 임원 투자 합계
+        List<Booth> allBooths = boothRepository.findAllByOrderByDisplayOrderAsc();
+        Map<Long, long[]> boothStats = new HashMap<>();
+        for (Investment inv : investments) {
+            long[] stats = boothStats.computeIfAbsent(inv.getBooth().getId(), k -> new long[]{0L, 0});
+            stats[0] += inv.getAmount();
+            stats[1]++;
+        }
+
+        List<ExecutiveInvestmentResponse.BoothSummary> boothSummaries = allBooths.stream().map(booth -> {
+            long[] stats = boothStats.getOrDefault(booth.getId(), new long[]{0L, 0});
+            return ExecutiveInvestmentResponse.BoothSummary.builder()
+                    .boothId(booth.getId())
+                    .boothName(booth.getName())
+                    .logoEmoji(booth.getLogoEmoji())
+                    .themeColor(booth.getThemeColor())
+                    .executiveInvestment(stats[0])
+                    .executiveInvestorCount((int) stats[1])
+                    .build();
+        }).sorted(Comparator.comparingLong(ExecutiveInvestmentResponse.BoothSummary::getExecutiveInvestment).reversed())
+                .toList();
+
+        return ExecutiveInvestmentResponse.builder()
+                .executives(executives)
+                .boothSummaries(boothSummaries)
+                .build();
     }
 }
