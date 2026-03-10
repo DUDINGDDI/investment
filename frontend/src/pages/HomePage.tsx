@@ -72,7 +72,7 @@ export default function HomePage() {
       <div className={styles.boothSection}>
         <div className={styles.stockSection}>
           <h3 className={styles.stockSectionTitle}>투자 종목</h3>
-          <p className={styles.stockSectionSubtitle}>여러 부스를 살펴보고 관심있는 아이디어에 투자하세요.</p>
+          <p className={styles.stockSectionSubtitle}>대표작 발표를 듣고 온리원 아이디어에 투자하세요.</p>
 
           <div className={styles.list}>
             {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (

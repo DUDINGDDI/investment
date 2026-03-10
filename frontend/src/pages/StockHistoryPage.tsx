@@ -56,12 +56,12 @@ export default function StockHistoryPage() {
       <PageBackButton to="/stocks/booths?tab=portfolio" label="나의 투자 포트폴리오" />
 
       <div className={styles.header}>
-        <h2 className={styles.title}>거래 이력</h2>
+        <h2 className={styles.title}>투자 이력</h2>
       </div>
 
       {history.length === 0 ? (
         <div className={styles.emptyState}>
-          <p>거래 이력이 없습니다</p>
+          <p>투자 이력이 없습니다</p>
         </div>
       ) : (
         grouped.map((group, gi) => (

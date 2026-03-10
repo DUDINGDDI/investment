@@ -78,7 +78,7 @@ export default function BoothListPage() {
           {/* 투자 종목 리스트 */}
           <div className={styles.stockSection}>
             <h3 className={styles.stockSectionTitle}>투자 종목</h3>
-            <p className={styles.stockSectionSubtitle}>여러 부스를 살펴보고 관심있는 아이디어에 투자하세요.</p>
+            <p className={styles.stockSectionSubtitle}>대표작 발표를 듣고 온리원 아이디어에 투자하세요.</p>
 
             <div className={styles.list}>
               {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (
@@ -181,7 +181,7 @@ export default function BoothListPage() {
 
             {holdings.filter(h => h.amount > 0).length === 0 ? (
               <div className={styles.emptyState}>
-                <p className={styles.emptyText}>아직 투자한 종목이 없습니다</p>
+                <p className={styles.emptyText}>아직 투자한 아이디어가 없습니다</p>
               </div>
             ) : (
               <div className={styles.holdingList}>
