@@ -12,4 +12,5 @@ public class LoginResponse {
     private Long balance;
     private String token;
     private Boolean isExecutive;
+    private Boolean isRookie;
 }

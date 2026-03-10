@@ -34,6 +34,9 @@ public class User {
     @Column(name = "is_executive", nullable = false)
     private Boolean isExecutive = false;
 
+    @Column(name = "is_rookie", nullable = false)
+    private Boolean isRookie = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "belonging_stock_booth_id")
     private StockBooth belongingStockBooth;
