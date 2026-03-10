@@ -1269,6 +1269,7 @@ UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE b
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315858'; -- 이수진
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315805'; -- 이새봄
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315801'; -- 장재훈
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0004-4000-8000-000000000033') WHERE unique_code = '315840'; -- 오성헌
 
 -- ========================================
 -- 8. CJ제일제당 - 칰칰칩 (80000008-0005-4000-8000-000000000034)
@@ -1292,6 +1293,7 @@ UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE b
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315779'; -- 임은민
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315784'; -- 장서인
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315825'; -- 최지민
+UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = '80000008-0006-4000-8000-000000000035') WHERE unique_code = '315819'; -- 정채린
 
 -- ========================================
 -- 8. CJ제일제당 - PHABY (80000008-0007-4000-8000-000000000036)
