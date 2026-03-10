@@ -1375,3 +1375,121 @@ UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE b
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204711'; -- 배하은
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204716'; -- 이수환
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204723'; -- 정세비
+
+-- ========================================
+-- 여기 아래 삭제
+-- 임원 투자 더미데이터 (PM 대표작 투자)
+-- ========================================
+INSERT INTO investments (user_id, booth_id, amount, created_at, updated_at) VALUES
+-- 이선호 (312) - CJ주식회사
+(312, 1, 200000000, NOW(), NOW()),
+(312, 4, 150000000, NOW(), NOW()),
+(312, 6, 100000000, NOW(), NOW()),
+-- 김석규 (313) - CJ주식회사
+(313, 2, 180000000, NOW(), NOW()),
+(313, 8, 120000000, NOW(), NOW()),
+-- 이보배 (314) - CJ주식회사
+(314, 1, 250000000, NOW(), NOW()),
+(314, 10, 100000000, NOW(), NOW()),
+(314, 5, 80000000, NOW(), NOW()),
+-- 김도한 (315) - CJ인베스트먼트
+(315, 3, 200000000, NOW(), NOW()),
+(315, 7, 150000000, NOW(), NOW()),
+(315, 11, 50000000, NOW(), NOW()),
+-- 정유진 (316) - CJ제일제당
+(316, 1, 300000000, NOW(), NOW()),
+(316, 9, 100000000, NOW(), NOW()),
+-- 한지호 (317) - CJ제일제당
+(317, 1, 200000000, NOW(), NOW()),
+(317, 4, 180000000, NOW(), NOW()),
+-- 신대철 (318) - CJ제일제당
+(318, 2, 150000000, NOW(), NOW()),
+(318, 6, 200000000, NOW(), NOW()),
+(318, 10, 80000000, NOW(), NOW()),
+-- 윤상민 (319) - CJ제일제당
+(319, 5, 250000000, NOW(), NOW()),
+(319, 8, 100000000, NOW(), NOW()),
+-- 이종훈 (320) - CJ대한통운
+(320, 2, 300000000, NOW(), NOW()),
+(320, 3, 100000000, NOW(), NOW()),
+-- 김정태 (321) - CJ대한통운
+(321, 4, 200000000, NOW(), NOW()),
+(321, 7, 150000000, NOW(), NOW()),
+(321, 11, 50000000, NOW(), NOW()),
+-- 최정필 (322) - CJ대한통운 건설부문
+(322, 3, 350000000, NOW(), NOW()),
+(322, 1, 100000000, NOW(), NOW()),
+-- 한승훈 (323) - CJ대한통운 건설부문
+(323, 3, 200000000, NOW(), NOW()),
+(323, 9, 150000000, NOW(), NOW()),
+-- 이영아 (324) - CJ올리브영
+(324, 4, 300000000, NOW(), NOW()),
+(324, 6, 100000000, NOW(), NOW()),
+(324, 11, 80000000, NOW(), NOW()),
+-- 이은애 (325) - CJ올리브영
+(325, 4, 250000000, NOW(), NOW()),
+(325, 1, 120000000, NOW(), NOW()),
+-- 신근섭 (326) - CJ ENM 엔터부문
+(326, 6, 350000000, NOW(), NOW()),
+(326, 10, 100000000, NOW(), NOW()),
+-- 김정민 (327) - CJ ENM 엔터부문
+(327, 6, 200000000, NOW(), NOW()),
+(327, 5, 150000000, NOW(), NOW()),
+-- 김지현 (328) - CJ ENM 커머스부문
+(328, 7, 300000000, NOW(), NOW()),
+(328, 2, 80000000, NOW(), NOW()),
+-- 장영동 (329) - CJ ENM 커머스부문
+(329, 7, 250000000, NOW(), NOW()),
+(329, 9, 100000000, NOW(), NOW()),
+-- 유태우 (330) - CJ프레시웨이
+(330, 8, 300000000, NOW(), NOW()),
+(330, 4, 100000000, NOW(), NOW()),
+-- 김의환 (331) - CJ프레시웨이
+(331, 8, 200000000, NOW(), NOW()),
+(331, 3, 150000000, NOW(), NOW()),
+-- 양수민 (332) - CJ CGV
+(332, 9, 300000000, NOW(), NOW()),
+(332, 11, 100000000, NOW(), NOW()),
+-- 남천 (333) - CJ CGV
+(333, 9, 250000000, NOW(), NOW()),
+(333, 5, 80000000, NOW(), NOW()),
+-- 허지수 (334) - CJ푸드빌
+(334, 10, 300000000, NOW(), NOW()),
+(334, 1, 100000000, NOW(), NOW()),
+-- 이정철 (335) - CJ푸드빌
+(335, 10, 200000000, NOW(), NOW()),
+(335, 2, 150000000, NOW(), NOW()),
+-- 이장욱 (336) - CJ올리브네트웍스
+(336, 5, 300000000, NOW(), NOW()),
+(336, 7, 100000000, NOW(), NOW()),
+-- 이용욱 (337) - CJ올리브네트웍스
+(337, 5, 200000000, NOW(), NOW()),
+(337, 11, 150000000, NOW(), NOW());
+
+-- 임원 잔액 차감 (투자금만큼)
+UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 312;
+UPDATE users SET balance = 1000000000 - 300000000 WHERE id = 313;
+UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 314;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 315;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 316;
+UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 317;
+UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 318;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 319;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 320;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 321;
+UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 322;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 323;
+UPDATE users SET balance = 1000000000 - 480000000 WHERE id = 324;
+UPDATE users SET balance = 1000000000 - 370000000 WHERE id = 325;
+UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 326;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 327;
+UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 328;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 329;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 330;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 331;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 332;
+UPDATE users SET balance = 1000000000 - 330000000 WHERE id = 333;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 334;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 335;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 336;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 337;
