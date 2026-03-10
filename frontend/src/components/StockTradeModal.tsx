@@ -79,7 +79,6 @@ export default function StockTradeModal({ type, boothName, maxAmount, currentHol
               placeholder="0"
               value={inputValue}
               onChange={handleInput}
-              autoFocus
             />
             <span className={styles.inputUnit}>만원</span>
           </div>

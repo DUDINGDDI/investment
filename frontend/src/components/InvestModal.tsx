@@ -63,7 +63,6 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
               placeholder="0"
               value={inputValue}
               onChange={handleInput}
-              autoFocus
             />
             <span className={styles.inputUnit}>만원</span>
           </div>
