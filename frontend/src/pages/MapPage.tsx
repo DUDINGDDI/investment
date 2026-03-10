@@ -108,7 +108,7 @@ export default function MapPage() {
 
   /** floorInfo에서 건물명 파생 (floor 필드 미제공 시 fallback) */
   const getFloor = (zone: ZoneResponse): string => {
-    if (zone.floor === 'Learning Center') return 'Grand Hall, Lobby'
+    if (zone.floor === 'Grand Hall') return 'Grand Hall, Lobby'
     if (zone.floor) return zone.floor
     if (zone.floorInfo?.includes('INNOVATION')) return 'Innovation Center, LL층'
     if (zone.floorInfo === 'LEARNING CENTER 1층') return 'Learning Center, 1층'

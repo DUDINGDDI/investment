@@ -241,7 +241,7 @@ export default function StockBoothListPage() {
                       <p className={styles.category}>{booth.category}</p>
                     </div>
                     <div className={styles.itemRight}>
-                      {booth.zoneName && <span className={styles.locationBadge}>{booth.zoneName}</span>}
+                      {booth.zoneName && <span className={styles.locationBadge}>{booth.zoneName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}</span>}
                       {visited ? <div className={styles.arrow}>›</div> : <span className={styles.visitBadge}>🔒 미방문</span>}
                     </div>
                   </div>
