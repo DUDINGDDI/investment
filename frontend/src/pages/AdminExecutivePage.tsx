@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { adminApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { ExecutiveInvestmentResponse } from '../types'
-import { PageBackButton } from '../components/PageBackButton'
+import PageBackButton from '../components/PageBackButton'
 import styles from './AdminExecutivePage.module.css'
 
 type ViewTab = 'executives' | 'booths'
