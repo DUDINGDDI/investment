@@ -45,7 +45,6 @@ export default function BoothDetailPage() {
   const [activeTab] = useState<TabType>('review')
 
   // 메모
-  const [memoOpen, setMemoOpen] = useState(false)
   const initialMemo = id ? (localStorage.getItem(`booth_memo_${id}`) || '') : ''
   const [memo, setMemo] = useState(initialMemo)
   const [memoSaved, setMemoSaved] = useState(initialMemo)

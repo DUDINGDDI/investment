@@ -52,7 +52,6 @@ export default function StockBoothDetailPage() {
   })
 
   // 메모
-  const [memoOpen, setMemoOpen] = useState(() => searchParams.get('memo') === 'open')
   const [memo, setMemo] = useState('')
   const [memoSaved, setMemoSaved] = useState('')
 
