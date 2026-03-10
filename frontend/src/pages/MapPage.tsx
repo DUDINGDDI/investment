@@ -67,9 +67,9 @@ const DEFAULT_MAP_IMAGE = `/image/map/leadership_llf.png?${MAP_VERSION}`
 const FLOOR_DEFAULT_ZONE: Record<string, string> = {
   'Grand Hall, Lobby': 'leadership_llf',
   'Innovation Center, LL층': '손복남홀',
-  'Leadership Center, 1층': '101',
-  'Leadership Center, 2층': '201',
-  'Leadership Center, 3층': '301',
+  'Learning Center, 1층': '101',
+  'Learning Center, 2층': '201',
+  'Learning Center, 3층': '301',
 }
 
 /** 층(floorInfo) 선택 시 기본 구역 */
@@ -108,12 +108,12 @@ export default function MapPage() {
 
   /** floorInfo에서 건물명 파생 (floor 필드 미제공 시 fallback) */
   const getFloor = (zone: ZoneResponse): string => {
-    if (zone.floor === 'Leadership Center') return 'Grand Hall, Lobby'
+    if (zone.floor === 'Learning Center') return 'Grand Hall, Lobby'
     if (zone.floor) return zone.floor
     if (zone.floorInfo?.includes('INNOVATION')) return 'Innovation Center, LL층'
-    if (zone.floorInfo === 'LEARNING CENTER 1층') return 'Leadership Center, 1층'
-    if (zone.floorInfo === 'LEARNING CENTER 2층') return 'Leadership Center, 2층'
-    if (zone.floorInfo === 'LEARNING CENTER 3층') return 'Leadership Center, 3층'
+    if (zone.floorInfo === 'LEARNING CENTER 1층') return 'Learning Center, 1층'
+    if (zone.floorInfo === 'LEARNING CENTER 2층') return 'Learning Center, 2층'
+    if (zone.floorInfo === 'LEARNING CENTER 3층') return 'Learning Center, 3층'
     return ''
   }
 
@@ -126,7 +126,7 @@ export default function MapPage() {
   }, [])
 
   // 건물 목록 (고정)
-  const floors = ['Grand Hall, Lobby', 'Innovation Center, LL층', 'Leadership Center, 1층', 'Leadership Center, 2층', 'Leadership Center, 3층']
+  const floors = ['Grand Hall, Lobby', 'Innovation Center, LL층', 'Learning Center, 1층', 'Learning Center, 2층', 'Learning Center, 3층']
 
   // 선택된 건물의 서브 층 목록
   const subFloors = useMemo(() => {
