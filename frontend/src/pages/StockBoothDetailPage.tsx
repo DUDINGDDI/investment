@@ -283,8 +283,8 @@ export default function StockBoothDetailPage() {
 
   if (!booth) return null
 
-  const isExecutive = localStorage.getItem('isExecutive') === 'true'
-  const canTrade = isExecutive || (booth.hasVisited && booth.hasRated)
+  const isBypass = localStorage.getItem('isRookie') === 'false'
+  const canTrade = isBypass || (booth.hasVisited && booth.hasRated)
   const hasHolding = booth.myHolding > 0
 
   return (
@@ -333,7 +333,7 @@ export default function StockBoothDetailPage() {
         {/* 평가 탭 - 별점만 */}
         {activeTab === 'rating' && (
           <div className={styles.ratingContainer}>
-            {!isExecutive && !booth.hasVisited ? (
+            {!isBypass && !booth.hasVisited ? (
               <div className={styles.inputLocked}>
                 <span className={styles.lockIcon}>&#x1F512;</span>
                 <p className={styles.lockTitle}>부스를 방문한 후에 평가할 수 있습니다</p>
@@ -436,7 +436,7 @@ export default function StockBoothDetailPage() {
                 <>
                   {!canTrade && (
                     <p className={styles.tradeGuide}>
-                      {!isExecutive && !booth.hasVisited
+                      {!isBypass && !booth.hasVisited
                         ? 'QR 스캔으로 부스를 방문해주세요'
                         : '평가를 완료하면 투자/철회가 가능합니다'}
                     </p>
@@ -479,7 +479,7 @@ export default function StockBoothDetailPage() {
                 <div className={styles.inputLocked}>
                   <span className={styles.lockIcon}>&#x1F512;</span>
                   <p className={styles.lockTitle}>
-                    {!isExecutive && !booth.hasVisited
+                    {!isBypass && !booth.hasVisited
                       ? 'QR 스캔으로 부스를 방문해주세요'
                       : '평가를 완료하면 메모를 작성할 수 있습니다'}
                   </p>
@@ -514,7 +514,7 @@ export default function StockBoothDetailPage() {
         {/* 진정성 있게 탭 - 리뷰 작성 */}
         {activeTab === 'sincere' && (
           <div className={styles.ratingContainer}>
-            {!isExecutive && !booth.hasVisited ? (
+            {!isBypass && !booth.hasVisited ? (
               <div className={styles.inputLocked}>
                 <span className={styles.lockIcon}>&#x1F512;</span>
                 <p className={styles.lockTitle}>부스를 방문한 후에 리뷰를 작성할 수 있습니다</p>
@@ -599,7 +599,7 @@ export default function StockBoothDetailPage() {
         {/* 내일 더 새롭게 탭 - 아이디어 Develop Zone */}
         {activeTab === 'develop' && (
           <div className={styles.ratingContainer}>
-            {!isExecutive && !booth.hasVisited ? (
+            {!isBypass && !booth.hasVisited ? (
               <div className={styles.inputLocked}>
                 <span className={styles.lockIcon}>&#x1F512;</span>
                 <p className={styles.lockTitle}>부스를 방문한 후에 제안을 남길 수 있습니다</p>
