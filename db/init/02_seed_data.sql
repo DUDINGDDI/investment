@@ -454,7 +454,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive, is_rookie)
 ('202726', '이정철', 'CJ푸드빌', 1000000000, true, false),
 ('835740', '이장욱', 'CJ올리브네트웍스', 1000000000, true, false),
 ('835774', '이용욱', 'CJ올리브네트웍스', 1000000000, true, false),
---- 밑으로는 팀장님, 인재원
+-- 밑으로는 팀장님, 인재원
 ('308751', '김지혜', 'CJ제일제당', 100000000, false, false),
 ('313608', '이상준', 'CJ제일제당', 100000000, false, false),
 ('997371', '송은경', 'CJ제일제당', 100000000, false, false),
