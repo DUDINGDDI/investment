@@ -57,6 +57,7 @@
 /* ── 상위 3개 포디움 ── */
 .podium {
   display: flex;
+  align-items: flex-end;
   gap: 8px;
   margin-bottom: 24px;
   padding: 8px 0;
@@ -73,18 +74,17 @@
 
 .first {
   order: 0;
+  padding-top: 32px;
   background: linear-gradient(180deg, #2A2820 0%, #33301E 100%);
   box-shadow: 0 2px 12px rgba(255, 199, 0, 0.10);
 }
 
 .second {
   order: -1;
-  margin-top: 16px;
 }
 
 .third {
   order: 1;
-  margin-top: 16px;
 }
 
 .podiumRank {
