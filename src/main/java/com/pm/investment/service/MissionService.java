@@ -378,6 +378,7 @@ public class MissionService {
             Long boothId = (Long) row[0];
             String boothName = (String) row[1];
             int visitorCount = ((Number) row[2]).intValue();
+            String category = (String) row[3];
             int rank = i + 1;
             int prevRank = snapshot.getOrDefault(boothId, 0);
             int rankChange = prevRank > 0 ? prevRank - rank : 0;
@@ -386,7 +387,7 @@ public class MissionService {
                     rank,
                     boothId,
                     boothName,
-                    null,
+                    category,
                     visitorCount,
                     rankChange
             ));
