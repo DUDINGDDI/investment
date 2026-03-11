@@ -1531,3 +1531,12 @@ UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 334;
 UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 335;
 UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 336;
 UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 337;
+
+-- ──────────────────────────────────────────────
+-- CJ인재원 운영진 전체 부스 방문 처리 (장한빈, 문선우, 강슬기, 한필우)
+-- ──────────────────────────────────────────────
+INSERT INTO stock_booth_visits (user_id, stock_booth_id, visited_at)
+SELECT u.id, sb.id, NOW()
+FROM users u
+         CROSS JOIN stock_booths sb
+WHERE u.unique_code IN ('305950', '312497', '304603', '315531');

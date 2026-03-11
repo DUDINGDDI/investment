@@ -1381,3 +1381,12 @@ UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE b
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204711'; -- 배하은
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204716'; -- 이수환
 UPDATE users SET belonging_stock_booth_id = (SELECT id FROM stock_booths WHERE booth_uuid = 'a000000a-0003-4000-8000-000000000043') WHERE unique_code = '204723'; -- 정세비
+
+-- ──────────────────────────────────────────────
+-- CJ인재원 운영진 전체 부스 방문 처리 (장한빈, 문선우, 강슬기, 한필우)
+-- ──────────────────────────────────────────────
+INSERT INTO stock_booth_visits (user_id, stock_booth_id, visited_at)
+SELECT u.id, sb.id, NOW()
+FROM users u
+CROSS JOIN stock_booths sb
+WHERE u.unique_code IN ('305950', '312497', '304603', '315531');
