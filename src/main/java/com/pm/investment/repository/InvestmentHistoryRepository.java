@@ -21,4 +21,7 @@ public interface InvestmentHistoryRepository extends JpaRepository<InvestmentHis
 
     @Query("SELECT ih FROM InvestmentHistory ih WHERE ih.type = :type AND ih.user.isRookie = true ORDER BY ih.createdAt DESC LIMIT 1")
     Optional<InvestmentHistory> findLatestByTypeAndRookie(@Param("type") InvestmentHistory.InvestmentType type);
+
+    @Query("SELECT ih.user.id, MAX(ih.createdAt) FROM InvestmentHistory ih WHERE ih.user.isRookie = true GROUP BY ih.user.id")
+    List<Object[]> getLatestTimeByRookieUser();
 }

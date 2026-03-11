@@ -176,4 +176,6 @@ export const adminApi = {
     api.get<ExecutiveInvestmentResponse>('/admin/executive-investments'),
   getAwards: () =>
     api.get<{ awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }[]>('/admin/awards'),
+  getAwardRanking: (index: number) =>
+    api.get<{ rank: number; name: string; company: string; value: string; time: string | null }[]>(`/admin/awards/${index}/ranking`),
 };

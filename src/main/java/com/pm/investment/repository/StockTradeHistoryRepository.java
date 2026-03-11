@@ -22,4 +22,7 @@ public interface StockTradeHistoryRepository extends JpaRepository<StockTradeHis
 
     @Query("SELECT sth FROM StockTradeHistory sth WHERE sth.user.isRookie = true ORDER BY sth.createdAt DESC LIMIT 1")
     Optional<StockTradeHistory> findLatestByRookieUser();
+
+    @Query("SELECT sth.user.id, MAX(sth.createdAt) FROM StockTradeHistory sth WHERE sth.user.isRookie = true GROUP BY sth.user.id")
+    List<Object[]> getLatestTimeByRookieUser();
 }

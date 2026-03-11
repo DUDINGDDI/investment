@@ -479,3 +479,94 @@
   flex-shrink: 0;
   margin-left: 12px;
 }
+
+/* 시상 랭킹 모달 */
+.awardRankingModal {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 24px 20px;
+  width: calc(100% - 40px);
+  max-width: 440px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.awardRankingTitle {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.awardRankingList {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.awardRankingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.awardRankingRow:last-child {
+  border-bottom: none;
+}
+
+.awardRankingTop .awardRankingRank {
+  color: var(--color-invest);
+}
+
+.awardRankingTop .awardRankingName {
+  color: #FBBF24;
+}
+
+.awardRankingRank {
+  width: 28px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.awardRankingInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.awardRankingName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.awardRankingCompany {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.awardRankingRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  gap: 2px;
+}
+
+.awardRankingValue {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.awardRankingTime {
+  font-size: 12px;
+  color: var(--color-invest);
+  font-weight: 600;
+}

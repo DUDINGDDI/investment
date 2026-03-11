@@ -1,6 +1,7 @@
 package com.pm.investment.controller;
 
 import com.pm.investment.dto.AdminBoothRatingResponse;
+import com.pm.investment.dto.AwardRankingItem;
 import com.pm.investment.dto.AwardResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
@@ -186,5 +187,10 @@ public class AdminController {
     @GetMapping("/awards")
     public ResponseEntity<List<AwardResponse>> getAwards() {
         return ResponseEntity.ok(awardService.getAwards());
+    }
+
+    @GetMapping("/awards/{index}/ranking")
+    public ResponseEntity<List<AwardRankingItem>> getAwardRanking(@PathVariable int index) {
+        return ResponseEntity.ok(awardService.getAwardRanking(index));
     }
 }

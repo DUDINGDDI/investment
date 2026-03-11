@@ -1,5 +1,6 @@
 package com.pm.investment.service;
 
+import com.pm.investment.dto.AwardRankingItem;
 import com.pm.investment.dto.AwardResponse;
 import com.pm.investment.entity.*;
 import com.pm.investment.repository.*;
@@ -342,6 +343,282 @@ public class AwardService {
                 .winnerCompany(category)
                 .detail("방문자 " + count + "명")
                 .build();
+    }
+
+    // ──────────────────────────────────────────────
+    // 전체 랭킹 조회 (시상 종목별 상세)
+    // ──────────────────────────────────────────────
+
+    @Transactional(readOnly = true)
+    public List<AwardRankingItem> getAwardRanking(int index) {
+        return switch (index) {
+            case 0 -> ranking11thBooth();
+            case 1 -> rankingTopProfit();
+            case 2 -> rankingOctopus();
+            case 3 -> rankingFootwork();
+            case 4 -> rankingEarlyBird();
+            case 5 -> rankingTransfer();
+            case 6 -> rankingLastTrain();
+            case 7 -> rankingDreamBig();
+            case 8 -> rankingTryAgain();
+            default -> List.of();
+        };
+    }
+
+    /** 11번째 발표 부스 — 부스별 총 투자금 순위 */
+    private List<AwardRankingItem> ranking11thBooth() {
+        List<Object[]> holdings = stockHoldingRepository.getTotalHoldingByAllBooths();
+        List<AwardRankingItem> items = new ArrayList<>();
+        long prevAmount = -1;
+        int prevRank = 0;
+        for (int i = 0; i < holdings.size(); i++) {
+            Long boothId = (Long) holdings.get(i)[0];
+            long amount = ((Number) holdings.get(i)[1]).longValue();
+            int rank = (amount == prevAmount) ? prevRank : i + 1;
+            prevAmount = amount;
+            prevRank = rank;
+            StockBooth booth = stockBoothRepository.findById(boothId).orElse(null);
+            items.add(AwardRankingItem.builder()
+                    .rank(rank)
+                    .name(booth != null ? booth.getName() : "없음")
+                    .company(booth != null ? booth.getCategory() : "")
+                    .value(formatAmount(amount))
+                    .build());
+        }
+        return items;
+    }
+
+    /** 하고잡이 투자자상 — 가중치 점수 순위 */
+    private List<AwardRankingItem> rankingTopProfit() {
+        List<Object[]> boothHoldings = stockHoldingRepository.getTotalHoldingByAllBooths();
+        Map<Long, Integer> boothWeightMap = new HashMap<>();
+        for (int i = 0; i < boothHoldings.size(); i++) {
+            boothWeightMap.put((Long) boothHoldings.get(i)[0], rankToWeight(i + 1));
+        }
+
+        List<StockHolding> allHoldings = stockHoldingRepository.findByAmountGreaterThan(0L);
+        Map<Long, User> rookieMap = getRookieMap();
+
+        Map<Long, Long> scoreMap = new HashMap<>();
+        for (StockHolding holding : allHoldings) {
+            Long userId = holding.getUser().getId();
+            if (!rookieMap.containsKey(userId)) continue;
+            int weight = boothWeightMap.getOrDefault(holding.getStockBooth().getId(), 1);
+            scoreMap.merge(userId, holding.getAmount() * weight, Long::sum);
+        }
+
+        List<Map.Entry<Long, Long>> sorted = scoreMap.entrySet().stream()
+                .sorted(Map.Entry.<Long, Long>comparingByValue().reversed())
+                .toList();
+
+        List<AwardRankingItem> items = new ArrayList<>();
+        long prevScore = -1;
+        int prevRank = 0;
+        for (int i = 0; i < sorted.size(); i++) {
+            long score = sorted.get(i).getValue();
+            int rank = (score == prevScore) ? prevRank : i + 1;
+            prevScore = score;
+            prevRank = rank;
+            User user = rookieMap.get(sorted.get(i).getKey());
+            items.add(AwardRankingItem.builder()
+                    .rank(rank)
+                    .name(user.getName())
+                    .company(user.getCompany())
+                    .value(formatAmount(score))
+                    .build());
+        }
+        return items;
+    }
+
+    /** 문어발 투자자상 — 투자 부스 수 순위 */
+    private List<AwardRankingItem> rankingOctopus() {
+        return buildSimpleRanking(stockHoldingRepository.getBoothCountByRookieUser(), "개 부스");
+    }
+
+    /** 발품투자자상 — 방문 부스 수 순위 */
+    private List<AwardRankingItem> rankingFootwork() {
+        return buildSimpleRanking(stockBoothVisitRepository.getVisitCountByRookieUser(), "개 부스");
+    }
+
+    /** 얼리버드 투자자상 — 미션 완수 시각 순위 */
+    private List<AwardRankingItem> rankingEarlyBird() {
+        List<UserMission> allMissions = userMissionRepository.findByMissionIdIn(MISSION_IDS);
+        Map<Long, User> rookieMap = getRookieMap();
+
+        Map<Long, List<UserMission>> byUser = allMissions.stream()
+                .filter(um -> Boolean.TRUE.equals(um.getIsCompleted()))
+                .filter(um -> rookieMap.containsKey(um.getUser().getId()))
+                .collect(Collectors.groupingBy(um -> um.getUser().getId()));
+
+        // 유저별 (완료 미션 수, 마지막 완료 시각)
+        List<long[]> userIds = new ArrayList<>();
+        Map<Long, LocalDateTime> completionTimeMap = new HashMap<>();
+        Map<Long, Integer> completedCountMap = new HashMap<>();
+
+        for (Map.Entry<Long, List<UserMission>> entry : byUser.entrySet()) {
+            Set<String> completedMissions = entry.getValue().stream()
+                    .map(UserMission::getMissionId)
+                    .collect(Collectors.toSet());
+
+            int completedCount = (int) MISSION_IDS.stream().filter(completedMissions::contains).count();
+            completedCountMap.put(entry.getKey(), completedCount);
+
+            LocalDateTime lastCompleted = entry.getValue().stream()
+                    .filter(um -> MISSION_IDS.contains(um.getMissionId()))
+                    .map(UserMission::getCompletedAt)
+                    .filter(Objects::nonNull)
+                    .max(LocalDateTime::compareTo)
+                    .orElse(null);
+            completionTimeMap.put(entry.getKey(), lastCompleted);
+        }
+
+        // 정렬: 완료 미션 수 DESC → 마지막 완료 시각 ASC
+        List<Long> sortedUserIds = byUser.keySet().stream()
+                .sorted(Comparator.<Long, Integer>comparing(id -> completedCountMap.getOrDefault(id, 0)).reversed()
+                        .thenComparing(id -> completionTimeMap.getOrDefault(id, LocalDateTime.MAX)))
+                .toList();
+
+        List<AwardRankingItem> items = new ArrayList<>();
+        int prevCount = -1;
+        LocalDateTime prevTime = null;
+        int prevRank = 0;
+        for (int i = 0; i < sortedUserIds.size(); i++) {
+            Long userId = sortedUserIds.get(i);
+            User user = rookieMap.get(userId);
+            int count = completedCountMap.getOrDefault(userId, 0);
+            LocalDateTime time = completionTimeMap.get(userId);
+            boolean tied = (count == prevCount) && Objects.equals(time, prevTime);
+            int rank = tied ? prevRank : i + 1;
+            prevCount = count;
+            prevTime = time;
+            prevRank = rank;
+            items.add(AwardRankingItem.builder()
+                    .rank(rank)
+                    .name(user.getName())
+                    .company(user.getCompany())
+                    .value(count + "/" + MISSION_IDS.size() + " 완료")
+                    .time(time != null ? time.format(TIME_FMT) : null)
+                    .build());
+        }
+        return items;
+    }
+
+    /** 환승투자자상 — 철회 횟수 순위 */
+    private List<AwardRankingItem> rankingTransfer() {
+        return buildSimpleRanking(
+                investmentHistoryRepository.countByTypeGroupedByRookieUser(InvestmentHistory.InvestmentType.WITHDRAW),
+                "회");
+    }
+
+    /** 막차투자자상 — 마지막 투자 시각 순위 */
+    private List<AwardRankingItem> rankingLastTrain() {
+        Map<Long, User> rookieMap = getRookieMap();
+
+        // PM 최종 투자 시각
+        Map<Long, LocalDateTime> pmTimeMap = investmentHistoryRepository.getLatestTimeByRookieUser()
+                .stream().collect(Collectors.toMap(r -> (Long) r[0], r -> (LocalDateTime) r[1]));
+
+        // AM 최종 거래 시각
+        Map<Long, LocalDateTime> amTimeMap = stockTradeHistoryRepository.getLatestTimeByRookieUser()
+                .stream().collect(Collectors.toMap(r -> (Long) r[0], r -> (LocalDateTime) r[1]));
+
+        // 합산: 더 늦은 시각
+        Map<Long, LocalDateTime> mergedMap = new HashMap<>();
+        Set<Long> allUserIds = new HashSet<>(pmTimeMap.keySet());
+        allUserIds.addAll(amTimeMap.keySet());
+
+        for (Long userId : allUserIds) {
+            if (!rookieMap.containsKey(userId)) continue;
+            LocalDateTime pm = pmTimeMap.get(userId);
+            LocalDateTime am = amTimeMap.get(userId);
+            LocalDateTime latest = pm;
+            if (am != null && (latest == null || am.isAfter(latest))) latest = am;
+            mergedMap.put(userId, latest);
+        }
+
+        // 시각 내림차순 (가장 늦은 사람이 1위)
+        List<Map.Entry<Long, LocalDateTime>> sorted = mergedMap.entrySet().stream()
+                .sorted(Map.Entry.<Long, LocalDateTime>comparingByValue().reversed())
+                .toList();
+
+        List<AwardRankingItem> items = new ArrayList<>();
+        LocalDateTime prevTime = null;
+        int prevRank = 0;
+        for (int i = 0; i < sorted.size(); i++) {
+            User user = rookieMap.get(sorted.get(i).getKey());
+            LocalDateTime time = sorted.get(i).getValue();
+            int rank = Objects.equals(time, prevTime) ? prevRank : i + 1;
+            prevTime = time;
+            prevRank = rank;
+            items.add(AwardRankingItem.builder()
+                    .rank(rank)
+                    .name(user.getName())
+                    .company(user.getCompany())
+                    .value("")
+                    .time(time != null ? time.format(TIME_FMT) : null)
+                    .build());
+        }
+        return items;
+    }
+
+    /** 꿈을 원대하게상 — 댓글 수 순위 */
+    private List<AwardRankingItem> rankingDreamBig() {
+        return buildSimpleRanking(stockCommentRepository.getCommentCountByRookieUser(), "개");
+    }
+
+    /** 안돼도 다시 상 — 부스별 방문자 수 순위 (공동 순위 적용) */
+    private List<AwardRankingItem> rankingTryAgain() {
+        List<Object[]> visitors = stockBoothVisitRepository.getVisitorCountByBooth();
+        List<AwardRankingItem> items = new ArrayList<>();
+        long prevCount = -1;
+        int prevRank = 0;
+        for (int i = 0; i < visitors.size(); i++) {
+            long count = ((Number) visitors.get(i)[2]).longValue();
+            int rank = (count == prevCount) ? prevRank : i + 1;
+            prevCount = count;
+            prevRank = rank;
+            items.add(AwardRankingItem.builder()
+                    .rank(rank)
+                    .name((String) visitors.get(i)[1])
+                    .company((String) visitors.get(i)[3])
+                    .value(count + "명")
+                    .build());
+        }
+        return items;
+    }
+
+    // ──────── 공통 헬퍼 ────────
+
+    /** userId → User (rookie만) */
+    private Map<Long, User> getRookieMap() {
+        return userRepository.findAll().stream()
+                .filter(u -> Boolean.TRUE.equals(u.getIsRookie()))
+                .collect(Collectors.toMap(User::getId, u -> u));
+    }
+
+    /** [userId, count] 형태 쿼리 결과를 랭킹으로 변환 (공동 순위 적용) */
+    private List<AwardRankingItem> buildSimpleRanking(List<Object[]> rows, String unit) {
+        Map<Long, User> rookieMap = getRookieMap();
+        List<AwardRankingItem> items = new ArrayList<>();
+        long prevCount = -1;
+        int prevRank = 0;
+        for (int i = 0; i < rows.size(); i++) {
+            Long userId = (Long) rows.get(i)[0];
+            long count = ((Number) rows.get(i)[1]).longValue();
+            User user = rookieMap.get(userId);
+            if (user == null) continue;
+            int position = items.size() + 1;
+            int rank = (count == prevCount) ? prevRank : position;
+            prevCount = count;
+            prevRank = rank;
+            items.add(AwardRankingItem.builder()
+                    .rank(rank)
+                    .name(user.getName())
+                    .company(user.getCompany())
+                    .value(count + unit)
+                    .build());
+        }
+        return items;
     }
 
     private AwardResponse emptyAward(String name, String description) {

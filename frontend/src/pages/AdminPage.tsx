@@ -8,6 +8,7 @@ import styles from './AdminPage.module.css'
 
 type RatingSortKey = 'avgTotal' | 'totalScoreSum' | 'ratingCount' | 'avgFirst' | 'avgBest' | 'avgDifferent' | 'avgNumberOne' | 'avgGap' | 'avgGlobal'
 type AwardItem = { awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }
+type AwardRankingItem = { rank: number; name: string; company: string; value: string; time: string | null }
 type AdminTab = 'common' | 'ranking' | 'awards' | 'settings'
 
 const SORT_OPTIONS: { key: RatingSortKey; label: string }[] = [
@@ -48,6 +49,10 @@ export default function AdminPage() {
   const [awards, setAwards] = useState<AwardItem[]>([])
   const [awardsLoading, setAwardsLoading] = useState(false)
   const [awardsLoaded, setAwardsLoaded] = useState(false)
+  const [awardRanking, setAwardRanking] = useState<AwardRankingItem[]>([])
+  const [awardRankingTitle, setAwardRankingTitle] = useState('')
+  const [awardRankingOpen, setAwardRankingOpen] = useState(false)
+  const [awardRankingLoading, setAwardRankingLoading] = useState(false)
 
   const loadData = async () => {
     try {
@@ -510,7 +515,24 @@ export default function AdminPage() {
           </div>
 
           {awardsLoaded && awards.map((award, i) => (
-            <div key={i} className={styles.awardCard}>
+            <div
+              key={i}
+              className={styles.awardCard}
+              style={{ cursor: 'pointer' }}
+              onClick={async () => {
+                setAwardRankingTitle(award.awardName)
+                setAwardRankingOpen(true)
+                setAwardRankingLoading(true)
+                try {
+                  const res = await adminApi.getAwardRanking(i)
+                  setAwardRanking(res.data)
+                } catch {
+                  setAwardRanking([])
+                } finally {
+                  setAwardRankingLoading(false)
+                }
+              }}
+            >
               <div className={styles.awardHeader}>
                 <span className={styles.awardBadge}>{i + 1}</span>
                 <div className={styles.awardTitle}>{award.awardName}</div>
@@ -530,6 +552,36 @@ export default function AdminPage() {
             </div>
           ))}
         </>
+      )}
+
+      {awardRankingOpen && (
+        <div className={styles.qrOverlay} onClick={() => setAwardRankingOpen(false)}>
+          <div className={styles.awardRankingModal} onClick={e => e.stopPropagation()}>
+            <h3 className={styles.awardRankingTitle}>{awardRankingTitle}</h3>
+            {awardRankingLoading ? (
+              <p className={styles.statusDesc}>조회 중...</p>
+            ) : awardRanking.length === 0 ? (
+              <p className={styles.statusDesc}>데이터가 없습니다.</p>
+            ) : (
+              <div className={styles.awardRankingList}>
+                {awardRanking.map(item => (
+                  <div key={item.rank} className={`${styles.awardRankingRow} ${item.rank <= 3 ? styles.awardRankingTop : ''}`}>
+                    <span className={styles.awardRankingRank}>{item.rank}</span>
+                    <div className={styles.awardRankingInfo}>
+                      <span className={styles.awardRankingName}>{item.name}</span>
+                      <span className={styles.awardRankingCompany}>{item.company}</span>
+                    </div>
+                    <div className={styles.awardRankingRight}>
+                      {item.value && <span className={styles.awardRankingValue}>{item.value}</span>}
+                      {item.time && <span className={styles.awardRankingTime}>{item.time}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button className={styles.qrModalClose} onClick={() => setAwardRankingOpen(false)}>닫기</button>
+          </div>
+        </div>
       )}
 
       {activeQr && (
