@@ -39,8 +39,6 @@ export default function HomePage() {
     return () => window.removeEventListener('balance-changed', handler)
   }, [])
 
-  const [boothPage, setBoothPage] = useState(0)
-  const PAGE_SIZE = 10
 
   return (
     <div className={styles.container}>
@@ -75,7 +73,7 @@ export default function HomePage() {
           <p className={styles.stockSectionSubtitle}>대표작 발표를 듣고 온리원 아이디어에 투자하세요.</p>
 
           <div className={styles.list}>
-            {booths.slice(boothPage * PAGE_SIZE, (boothPage + 1) * PAGE_SIZE).map((booth, i) => (
+            {booths.map((booth, i) => (
               <div
                 key={booth.id}
                 className={`${styles.boothItem} stagger-item`}
@@ -90,28 +88,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
-          {(
-            <div className={styles.pagination}>
-              <button
-                className={styles.pageBtn}
-                disabled={boothPage === 0}
-                onClick={() => setBoothPage(boothPage - 1)}
-              >
-                ‹ 이전
-              </button>
-              <span className={styles.pageInfo}>
-                {boothPage + 1} / {Math.ceil(booths.length / PAGE_SIZE)}
-              </span>
-              <button
-                className={styles.pageBtn}
-                disabled={(boothPage + 1) * PAGE_SIZE >= booths.length}
-                onClick={() => setBoothPage(boothPage + 1)}
-              >
-                다음 ›
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>
