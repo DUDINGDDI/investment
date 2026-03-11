@@ -71,11 +71,13 @@ export default function ResultPage() {
               <div className={styles.podiumRank}>
                 <RankBadge rank={item.rank} />
               </div>
-              <p className={styles.podiumName}>{item.boothName}</p>
-              <p className={styles.podiumCategory}>{item.category}</p>
-              <p className={styles.podiumAmount}>{formatKorean(item.totalInvestment)}</p>
-              <p className={styles.podiumUnit}>원</p>
-              <p className={styles.podiumInvestors}>{item.investorCount}명 투자</p>
+              <div className={styles.podiumContent}>
+                <p className={styles.podiumName}>{item.boothName}</p>
+                <p className={styles.podiumCategory}>{item.category}</p>
+                <p className={styles.podiumAmount}>{formatKorean(item.totalInvestment)}</p>
+                <p className={styles.podiumUnit}>원</p>
+                <p className={styles.podiumInvestors}>{item.investorCount}명 투자</p>
+              </div>
             </div>
           ))}
         </div>
