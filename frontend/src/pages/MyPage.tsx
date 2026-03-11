@@ -169,7 +169,6 @@ export default function MyPage() {
                 <div
                   className={`${styles.ticketImageCard} stagger-item`}
                   style={{ animationDelay: '0s' }}
-                  onClick={() => setShowPhotoQr(true)}
                 >
                   <img src="/image/ticket/photo.svg" alt="AI 포토네컷" className={styles.ticketFullImg} />
                 </div>
