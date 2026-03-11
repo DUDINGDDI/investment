@@ -310,13 +310,13 @@ export default function StockBoothDetailPage() {
         </div>
       )}
 
-      {/* 칩 탭: 평가 / 투자 / 진정성 있게 / 내일 더 새롭게 */}
+      {/* 칩 탭: 평가 / 투자 / 진정성 있게 / 꿈을 원대하게 */}
       <div className={styles.chipTabBar}>
         {([
           { key: 'rating' as TabType, label: '평가' },
           { key: 'invest' as TabType, label: '투자' },
           { key: 'sincere' as TabType, label: '진정성 있게' },
-          { key: 'develop' as TabType, label: '내일 더 새롭게' },
+          { key: 'develop' as TabType, label: '꿈을 원대하게' },
         ]).map(tab => (
           <button
             key={tab.key}
