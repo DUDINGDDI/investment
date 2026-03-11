@@ -404,3 +404,78 @@
   text-align: right;
   flex-shrink: 0;
 }
+
+/* 시상 섹션 */
+.awardCard {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+.awardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.awardBadge {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-invest);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.awardTitle {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.awardDesc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+  padding-left: 36px;
+}
+
+.awardWinner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-primary);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.awardWinnerInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.awardWinnerName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FBBF24;
+}
+
+.awardWinnerCompany {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.awardDetail {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  margin-left: 12px;
+}

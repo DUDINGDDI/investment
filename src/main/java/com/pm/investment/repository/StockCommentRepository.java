@@ -17,4 +17,7 @@ public interface StockCommentRepository extends JpaRepository<StockComment, Long
     long countByUserIdAndContentMinLength(@Param("userId") Long userId, @Param("minLength") int minLength);
 
     boolean existsByUserIdAndStockBoothId(Long userId, Long stockBoothId);
+
+    @Query("SELECT sc.user.id, COUNT(sc) FROM StockComment sc WHERE sc.user.isRookie = true GROUP BY sc.user.id ORDER BY COUNT(sc) DESC")
+    List<Object[]> getCommentCountByRookieUser();
 }

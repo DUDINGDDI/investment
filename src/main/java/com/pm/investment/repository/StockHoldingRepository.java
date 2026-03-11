@@ -31,4 +31,9 @@ public interface StockHoldingRepository extends JpaRepository<StockHolding, Long
     
     @Query("SELECT COUNT(sh) FROM StockHolding sh WHERE sh.stockBooth.id = :stockBoothId AND sh.amount > 0")
     Long getHolderCountByStockBoothId(@Param("stockBoothId") Long stockBoothId);
+
+    @Query("SELECT sh.user.id, COUNT(sh) FROM StockHolding sh WHERE sh.amount > 0 AND sh.user.isRookie = true GROUP BY sh.user.id ORDER BY COUNT(sh) DESC")
+    List<Object[]> getBoothCountByRookieUser();
+
+    List<StockHolding> findByAmountGreaterThan(Long amount);
 }

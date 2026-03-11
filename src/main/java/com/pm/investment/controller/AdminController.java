@@ -1,11 +1,13 @@
 package com.pm.investment.controller;
 
 import com.pm.investment.dto.AdminBoothRatingResponse;
+import com.pm.investment.dto.AwardResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.dto.StockPriceChangeRequest;
 import com.pm.investment.dto.TicketUseRequest;
 import com.pm.investment.dto.UserMissionResponse;
+import com.pm.investment.service.AwardService;
 import com.pm.investment.service.MissionService;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.SettingService;
@@ -28,6 +30,7 @@ public class AdminController {
 
     private final SettingService settingService;
     private final RankingService rankingService;
+    private final AwardService awardService;
     private final SseEmitterService sseEmitterService;
     private final StockPriceService stockPriceService;
     private final StockRatingService stockRatingService;
@@ -178,5 +181,10 @@ public class AdminController {
         String missionId = body.get("missionId");
         int count = missionService.uncompleteForAll(missionId);
         return ResponseEntity.ok(Map.of("missionId", missionId, "uncompletedCount", count));
+    }
+
+    @GetMapping("/awards")
+    public ResponseEntity<List<AwardResponse>> getAwards() {
+        return ResponseEntity.ok(awardService.getAwards());
     }
 }

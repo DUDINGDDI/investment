@@ -7,7 +7,8 @@ import type { RankingResponse, AdminBoothRatingResponse } from '../types'
 import styles from './AdminPage.module.css'
 
 type RatingSortKey = 'avgTotal' | 'totalScoreSum' | 'ratingCount' | 'avgFirst' | 'avgBest' | 'avgDifferent' | 'avgNumberOne' | 'avgGap' | 'avgGlobal'
-type AdminTab = 'common' | 'ranking' | 'settings'
+type AwardItem = { awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }
+type AdminTab = 'common' | 'ranking' | 'awards' | 'settings'
 
 const SORT_OPTIONS: { key: RatingSortKey; label: string }[] = [
   { key: 'avgTotal', label: '전체 평균' },
@@ -44,6 +45,9 @@ export default function AdminPage() {
   const [resultMissionLoading, setResultMissionLoading] = useState(false)
   const [resultMissionCompleted, setResultMissionCompleted] = useState(false)
   const [activeQr, setActiveQr] = useState<{ value: string; label: string } | null>(null)
+  const [awards, setAwards] = useState<AwardItem[]>([])
+  const [awardsLoading, setAwardsLoading] = useState(false)
+  const [awardsLoaded, setAwardsLoaded] = useState(false)
 
   const loadData = async () => {
     try {
@@ -109,6 +113,12 @@ export default function AdminPage() {
           onClick={() => setTab('ranking')}
         >
           투자 순위
+        </button>
+        <button
+          className={`${styles.tabBtn} ${tab === 'awards' ? styles.tabBtnActive : ''}`}
+          onClick={() => setTab('awards')}
+        >
+          시상
         </button>
         <button
           className={`${styles.tabBtn} ${tab === 'settings' ? styles.tabBtnActive : ''}`}
@@ -470,6 +480,58 @@ export default function AdminPage() {
           </div>
         </>
       )}
+      {tab === 'awards' && (
+        <>
+          <div className={styles.controlCard}>
+            <p className={styles.statusLabel}>시상 결과 조회</p>
+            <p className={styles.statusDesc}>
+              {awardsLoaded
+                ? '시상 결과가 아래에 표시됩니다.'
+                : '버튼을 눌러 각 상의 수상자를 조회합니다.'}
+            </p>
+            <button
+              className={`${styles.toggleBtn} ${styles.revealBtn}`}
+              disabled={awardsLoading}
+              onClick={async () => {
+                setAwardsLoading(true)
+                try {
+                  const res = await adminApi.getAwards()
+                  setAwards(res.data)
+                  setAwardsLoaded(true)
+                } catch {
+                  alert('시상 결과 조회 중 오류가 발생했습니다.')
+                } finally {
+                  setAwardsLoading(false)
+                }
+              }}
+            >
+              {awardsLoading ? '조회 중...' : awardsLoaded ? '다시 조회' : '시상 결과 조회'}
+            </button>
+          </div>
+
+          {awardsLoaded && awards.map((award, i) => (
+            <div key={i} className={styles.awardCard}>
+              <div className={styles.awardHeader}>
+                <span className={styles.awardBadge}>{i + 1}</span>
+                <div className={styles.awardTitle}>{award.awardName}</div>
+              </div>
+              <p className={styles.awardDesc}>{award.description}</p>
+              <div className={styles.awardWinner}>
+                <div className={styles.awardWinnerInfo}>
+                  <p className={styles.awardWinnerName}>{award.winnerName}</p>
+                  {award.winnerCompany && (
+                    <p className={styles.awardWinnerCompany}>{award.winnerCompany}</p>
+                  )}
+                </div>
+                {award.detail && (
+                  <span className={styles.awardDetail}>{award.detail}</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+
       {activeQr && (
         <div className={styles.qrOverlay} onClick={() => setActiveQr(null)}>
           <div className={styles.qrModal} onClick={e => e.stopPropagation()}>

@@ -174,4 +174,6 @@ export const adminApi = {
     api.post<{ missionId: string; uncompletedCount: number }>('/admin/missions/uncomplete-all', { missionId }),
   getExecutiveInvestments: () =>
     api.get<ExecutiveInvestmentResponse>('/admin/executive-investments'),
+  getAwards: () =>
+    api.get<{ awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }[]>('/admin/awards'),
 };
