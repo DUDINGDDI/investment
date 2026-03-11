@@ -44,7 +44,7 @@ export default function AdminExecutivePage() {
 
   const investedExecutives = data.executives.filter(e => e.totalInvested > 0)
   const notInvestedExecutives = data.executives.filter(e => e.totalInvested === 0)
-  const investedBooths = data.boothSummaries.filter(b => b.executiveInvestment > 0)
+  const investedBooths = data.boothSummaries.filter(b => b.executiveInvestment > 0).sort((a, b) => b.executiveInvestment - a.executiveInvestment)
   const totalExecInvestment = data.executives.reduce((sum, e) => sum + e.totalInvested, 0)
   const now = new Date()
   const dateStr = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}. ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} 기준`
