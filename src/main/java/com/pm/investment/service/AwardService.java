@@ -16,15 +16,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AwardService {
 
-    private static final long INITIAL_BALANCE = 100_000_000L;
     private static final List<String> MISSION_IDS = List.of("renew", "dream", "result", "again", "sincere", "together");
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     private final StockHoldingRepository stockHoldingRepository;
     private final StockBoothRepository stockBoothRepository;
     private final StockBoothVisitRepository stockBoothVisitRepository;
-    private final StockAccountRepository stockAccountRepository;
-    private final StockPriceRepository stockPriceRepository;
     private final UserMissionRepository userMissionRepository;
     private final InvestmentHistoryRepository investmentHistoryRepository;
     private final StockTradeHistoryRepository stockTradeHistoryRepository;
@@ -72,56 +69,71 @@ public class AwardService {
     }
 
     /**
-     * 하고잡이 투자자상: 오전 투자에서 가장 많은 수익금을 낸 개인 (is_rookie만)
+     * 하고잡이 투자자상: 투자처 순위 가중치 기반 점수가 가장 높은 개인 (is_rookie만)
+     *
+     * 부스 순위별 가중치:
+     * 1위=10, 2위=9, 3위=8, 4위=7, 5위=6, 6~7위=5, 8~10위=4, 11~15위=3, 16~22위=2, 23위~=1
+     *
+     * 점수 = SUM(투자금액 × 해당 부스의 가중치)
      */
     private AwardResponse getTopProfitInvestor() {
-        List<StockAccount> accounts = stockAccountRepository.findAll();
-        List<StockHolding> allHoldings = stockHoldingRepository.findByAmountGreaterThan(0L);
-        List<StockPrice> allPrices = stockPriceRepository.findAll();
+        // 1. 부스별 총 투자금 순위 산출
+        List<Object[]> boothHoldings = stockHoldingRepository.getTotalHoldingByAllBooths();
 
-        // rookie 유저 ID 세트
+        // boothId → 가중치 매핑
+        Map<Long, Integer> boothWeightMap = new HashMap<>();
+        for (int i = 0; i < boothHoldings.size(); i++) {
+            Long boothId = (Long) boothHoldings.get(i)[0];
+            boothWeightMap.put(boothId, rankToWeight(i + 1));
+        }
+
+        // 2. rookie 유저의 보유 주식으로 가중치 점수 계산
+        List<StockHolding> allHoldings = stockHoldingRepository.findByAmountGreaterThan(0L);
+
         Set<Long> rookieIds = userRepository.findAll().stream()
                 .filter(u -> Boolean.TRUE.equals(u.getIsRookie()))
                 .map(User::getId)
                 .collect(Collectors.toSet());
 
-        Map<Long, Long> priceMap = allPrices.stream()
-                .collect(Collectors.toMap(p -> p.getStockBooth().getId(), StockPrice::getCurrentPrice));
-
-        // 유저별 보유 주식 가치 합계
-        Map<Long, Long> holdingValueMap = allHoldings.stream()
-                .filter(h -> rookieIds.contains(h.getUser().getId()))
-                .collect(Collectors.groupingBy(
-                        h -> h.getUser().getId(),
-                        Collectors.summingLong(h -> h.getAmount() * priceMap.getOrDefault(h.getStockBooth().getId(), 0L))
-                ));
-
-        Long bestUserId = null;
-        long bestProfit = Long.MIN_VALUE;
-
-        for (StockAccount account : accounts) {
-            Long userId = account.getUser().getId();
+        // 유저별 가중치 점수 합산
+        Map<Long, Long> scoreMap = new HashMap<>();
+        for (StockHolding holding : allHoldings) {
+            Long userId = holding.getUser().getId();
             if (!rookieIds.contains(userId)) continue;
-            long totalAsset = account.getBalance() + holdingValueMap.getOrDefault(userId, 0L);
-            long profit = totalAsset - INITIAL_BALANCE;
-            if (profit > bestProfit) {
-                bestProfit = profit;
-                bestUserId = userId;
-            }
+            int weight = boothWeightMap.getOrDefault(holding.getStockBooth().getId(), 1);
+            scoreMap.merge(userId, holding.getAmount() * weight, Long::sum);
         }
 
-        if (bestUserId == null) {
-            return emptyAward("하고잡이 투자자상", "오전 투자에서 가장 많은 수익금을 낸 개인");
+        if (scoreMap.isEmpty()) {
+            return emptyAward("하고잡이 투자자상", "투자처 순위 가중치 점수가 가장 높은 개인");
         }
 
-        User winner = userRepository.findById(bestUserId).orElse(null);
+        // 3. 최고 점수 유저
+        Map.Entry<Long, Long> best = scoreMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElse(null);
+
+        User winner = userRepository.findById(best.getKey()).orElse(null);
         return AwardResponse.builder()
                 .awardName("하고잡이 투자자상")
-                .description("오전 투자에서 가장 많은 수익금을 낸 개인")
+                .description("투자처 순위 가중치 점수가 가장 높은 개인")
                 .winnerName(winner != null ? winner.getName() : "없음")
                 .winnerCompany(winner != null ? winner.getCompany() : "")
-                .detail("수익금 " + formatAmount(bestProfit))
+                .detail("가중치 점수 " + formatAmount(best.getValue()))
                 .build();
+    }
+
+    private int rankToWeight(int rank) {
+        if (rank == 1) return 10;
+        if (rank == 2) return 9;
+        if (rank == 3) return 8;
+        if (rank == 4) return 7;
+        if (rank == 5) return 6;
+        if (rank <= 7) return 5;
+        if (rank <= 10) return 4;
+        if (rank <= 15) return 3;
+        if (rank <= 22) return 2;
+        return 1;
     }
 
     /**
