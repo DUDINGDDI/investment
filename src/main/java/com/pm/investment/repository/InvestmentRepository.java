@@ -28,7 +28,7 @@ public interface InvestmentRepository extends JpaRepository<Investment, Long> {
     @Query("SELECT COUNT(i) FROM Investment i WHERE i.booth.id = :boothId AND i.amount > 0")
     Long getInvestorCountByBoothId(@Param("boothId") Long boothId);
 
-    @Query("SELECT i.booth.id, COALESCE(SUM(i.amount), 0), COUNT(i) FROM Investment i WHERE i.amount > 0 GROUP BY i.booth.id")
+    @Query("SELECT i.booth.id, COALESCE(SUM(i.amount), 0), COUNT(i), MAX(i.updatedAt) FROM Investment i WHERE i.amount > 0 GROUP BY i.booth.id")
     List<Object[]> getInvestmentStatsByBooth();
 
     @Query("SELECT i.booth.id, i.amount FROM Investment i WHERE i.user.id = :userId AND i.amount > 0")

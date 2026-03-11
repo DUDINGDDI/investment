@@ -22,6 +22,6 @@ public interface StockBoothVisitRepository extends JpaRepository<StockBoothVisit
     @Query("SELECT bv.stockBooth.id FROM StockBoothVisit bv WHERE bv.user.id = :userId")
     List<Long> findVisitedStockBoothIdsByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT bv.stockBooth.id, bv.stockBooth.name, COUNT(bv), bv.stockBooth.category FROM StockBoothVisit bv GROUP BY bv.stockBooth.id, bv.stockBooth.name, bv.stockBooth.category ORDER BY COUNT(bv) DESC")
+    @Query("SELECT bv.stockBooth.id, bv.stockBooth.name, COUNT(bv), bv.stockBooth.category, MAX(bv.visitedAt) FROM StockBoothVisit bv GROUP BY bv.stockBooth.id, bv.stockBooth.name, bv.stockBooth.category ORDER BY COUNT(bv) DESC, MAX(bv.visitedAt) ASC")
     List<Object[]> getVisitorCountByBooth();
 }

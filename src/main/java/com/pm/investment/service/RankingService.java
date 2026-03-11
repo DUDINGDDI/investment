@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -37,25 +38,31 @@ public class RankingService {
         List<Booth> booths = boothRepository.findAll();
 
         // 1개 쿼리로 전체 부스 투자 통계 조회 (N+1 제거)
-        Map<Long, long[]> statsMap = investmentRepository.getInvestmentStatsByBooth()
+        Map<Long, Object[]> statsMap = investmentRepository.getInvestmentStatsByBooth()
                 .stream()
                 .collect(Collectors.toMap(
                         row -> (Long) row[0],
-                        row -> new long[]{((Number) row[1]).longValue(), ((Number) row[2]).longValue()}
+                        row -> row
                 ));
 
+        // 동률 시 먼저 달성한 부스(lastUpdatedAt이 빠른)가 높은 순위
         List<RankingResponse> unsorted = booths.stream().map(booth -> {
-            long[] stats = statsMap.getOrDefault(booth.getId(), new long[]{0L, 0L});
+            Object[] row = statsMap.get(booth.getId());
+            long totalInvestment = row != null ? ((Number) row[1]).longValue() : 0L;
+            long investorCount = row != null ? ((Number) row[2]).longValue() : 0L;
+            LocalDateTime lastUpdatedAt = row != null ? (LocalDateTime) row[3] : LocalDateTime.MAX;
             return RankingResponse.builder()
                     .boothId(booth.getId())
                     .boothName(booth.getName())
                     .category(booth.getCategory())
                     .logoEmoji(booth.getLogoEmoji())
                     .themeColor(booth.getThemeColor())
-                    .totalInvestment(stats[0])
-                    .investorCount(stats[1])
+                    .totalInvestment(totalInvestment)
+                    .investorCount(investorCount)
+                    .lastUpdatedAt(lastUpdatedAt)
                     .build();
-        }).sorted(Comparator.comparingLong(RankingResponse::getTotalInvestment).reversed())
+        }).sorted(Comparator.comparingLong(RankingResponse::getTotalInvestment).reversed()
+                .thenComparing(RankingResponse::getLastUpdatedAt))
                 .toList();
 
         AtomicInteger rankCounter = new AtomicInteger(1);
@@ -76,33 +83,39 @@ public class RankingService {
     public List<RankingResponse> getStockRanking() {
         List<StockBooth> booths = stockBoothRepository.findAllByOrderByDisplayOrderAsc();
 
-        Map<Long, long[]> holdingMap = stockHoldingRepository.getTotalHoldingByAllBooths()
+        Map<Long, Object[]> holdingMap = stockHoldingRepository.getTotalHoldingByAllBooths()
                 .stream()
                 .collect(Collectors.toMap(
                         row -> (Long) row[0],
-                        row -> new long[]{((Number) row[1]).longValue(), 0L}
+                        row -> row
                 ));
 
         // 투자자 수 계산
+        Map<Long, Long> holderCountMap = new HashMap<>();
         for (StockBooth booth : booths) {
-            long[] stats = holdingMap.get(booth.getId());
-            if (stats != null) {
-                stats[1] = stockHoldingRepository.getHolderCountByStockBoothId(booth.getId());
+            if (holdingMap.containsKey(booth.getId())) {
+                holderCountMap.put(booth.getId(), stockHoldingRepository.getHolderCountByStockBoothId(booth.getId()));
             }
         }
 
+        // 동률 시 먼저 달성한 부스(lastUpdatedAt이 빠른)가 높은 순위
         List<RankingResponse> unsorted = booths.stream().map(booth -> {
-            long[] stats = holdingMap.getOrDefault(booth.getId(), new long[]{0L, 0L});
+            Object[] row = holdingMap.get(booth.getId());
+            long totalInvestment = row != null ? ((Number) row[1]).longValue() : 0L;
+            long investorCount = holderCountMap.getOrDefault(booth.getId(), 0L);
+            LocalDateTime lastUpdatedAt = row != null ? (LocalDateTime) row[2] : LocalDateTime.MAX;
             return RankingResponse.builder()
                     .boothId(booth.getId())
                     .boothName(booth.getName())
                     .category(booth.getCategory())
                     .logoEmoji(booth.getLogoEmoji())
                     .themeColor(booth.getThemeColor())
-                    .totalInvestment(stats[0])
-                    .investorCount(stats[1])
+                    .totalInvestment(totalInvestment)
+                    .investorCount(investorCount)
+                    .lastUpdatedAt(lastUpdatedAt)
                     .build();
-        }).sorted(Comparator.comparingLong(RankingResponse::getTotalInvestment).reversed())
+        }).sorted(Comparator.comparingLong(RankingResponse::getTotalInvestment).reversed()
+                .thenComparing(RankingResponse::getLastUpdatedAt))
                 .toList();
 
         AtomicInteger rankCounter = new AtomicInteger(1);

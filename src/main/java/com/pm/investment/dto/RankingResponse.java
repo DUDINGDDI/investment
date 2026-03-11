@@ -1,8 +1,11 @@
 package com.pm.investment.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -16,4 +19,6 @@ public class RankingResponse {
     private String themeColor;
     private Long totalInvestment;
     private Long investorCount;
+    @JsonIgnore
+    private LocalDateTime lastUpdatedAt;
 }
