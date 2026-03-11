@@ -421,9 +421,10 @@
 /* 메모 */
 .memoWrap {
   margin: 4px 0 0;
-  max-height: 42px;
-  overflow: hidden;
-  position: relative;
+  background: #f3f0ff;
+  border-radius: 4px;
+  border-left: 2px solid #6C5CE7;
+  padding: 4px 8px;
   cursor: pointer;
 }
 
@@ -432,10 +433,10 @@
   color: #6C5CE7;
   font-style: italic;
   line-height: 1.4;
-  padding: 4px 8px;
-  background: #f3f0ff;
-  border-radius: 4px;
-  border-left: 2px solid #6C5CE7;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* 메모 팝업 */
