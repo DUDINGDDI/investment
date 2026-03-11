@@ -116,7 +116,7 @@ export default function StockBoothListPage() {
         })
       )
 
-      rows.sort((a: VisitTableRow, b: VisitTableRow) => new Date(a.visitedAt).getTime() - new Date(b.visitedAt).getTime())
+      rows.sort((a: VisitTableRow, b: VisitTableRow) => b.investmentAmount - a.investmentAmount || new Date(a.visitedAt).getTime() - new Date(b.visitedAt).getTime())
       setTableData(rows)
     } catch (err) {
       console.error('Failed to load table data', err)
