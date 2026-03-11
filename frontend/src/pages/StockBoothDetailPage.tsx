@@ -488,7 +488,7 @@ export default function StockBoothDetailPage() {
                 <>
                   <textarea
                     className={styles.memoTextarea}
-                    placeholder="메모를 작성하세요..."
+                    placeholder=""
                     value={memo}
                     onChange={e => setMemo(e.target.value)}
                   />

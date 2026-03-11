@@ -146,7 +146,7 @@ export default function BoothDetailPage() {
         <p className={styles.memoSectionDesc}>해당 아이디어에 투자한 이유를 적어주세요</p>
         <textarea
           className={styles.memoTextarea}
-          placeholder="메모를 작성하세요..."
+          placeholder=""
           value={memo}
           onChange={e => setMemo(e.target.value)}
         />
