@@ -14,8 +14,8 @@ const INNOVATION_LL_HOTSPOTS: Hotspot[] = [
 ]
 
 const LEARNING_1F_HOTSPOTS: Hotspot[] = [
-  { zoneId: '101', left: 21, top: 14, width: 26, height: 49 },
-  { zoneId: '102', left: 53, top: 14, width: 26, height: 49 },
+  { zoneId: '102', left: 21, top: 14, width: 26, height: 49 },
+  { zoneId: '101', left: 53, top: 14, width: 26, height: 49 },
 ]
 
 const LEARNING_2F_HOTSPOTS: Hotspot[] = [
@@ -26,8 +26,8 @@ const LEARNING_2F_HOTSPOTS: Hotspot[] = [
 ]
 
 const LEARNING_3F_HOTSPOTS: Hotspot[] = [
-  { zoneId: '301', left: 21, top: 14, width: 25, height: 51 },
-  { zoneId: '302', left: 54, top: 14, width: 25, height: 51 },
+  { zoneId: '302', left: 21, top: 14, width: 25, height: 51 },
+  { zoneId: '301', left: 54, top: 14, width: 25, height: 51 },
 ]
 
 const LEADERSHIP_LLF_HOTSPOTS: Hotspot[] = []
@@ -271,10 +271,10 @@ export default function MapPage() {
           <div className={styles.boothHeader}>
             <h3 className={styles.boothTitle}>
               {filterZoneCode === 'leadership_llf'
-                ? '그랜드홀 구역 부스'
+                ? '그랜드홀 로비 안내'
                 : STATIC_ZONE_INFO[filterZoneCode]
-                  ? `${selectedZone?.name ?? ''} 구역 안내`
-                  : `${selectedZone?.name ?? ''} 구역 부스`
+                  ? `${selectedZone?.name ?? ''} 안내`
+                  : `${selectedZone?.name ?? ''} 부스`
               }
             </h3>
             <span className={styles.boothFloorInfo}>
