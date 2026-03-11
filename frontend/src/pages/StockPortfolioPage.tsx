@@ -126,40 +126,54 @@ export default function StockPortfolioPage() {
         </div>
 
         <div className={styles.statusBody}>
-          {/* 도넛 차트 */}
-          <div className={styles.chartWrap}>
-            <svg viewBox="0 0 180 180" className={styles.donutSvg}>
-              {/* 배경 원 */}
-              <circle
-                cx="90" cy="90" r={radius}
-                fill="none"
-                stroke="var(--border-color)"
-                strokeWidth="16"
-              />
-              {/* 투자 세그먼트 */}
-              {donutSegments.map((seg, i) => {
-                const dashLength = (seg.pct / 100) * circumference
-                const dashGap = circumference - dashLength
-                const offset = segmentOffsets[i]
+          {/* 도넛 차트 + 범례 */}
+          <div className={styles.chartRow}>
+            <div className={styles.chartWrap}>
+              <svg viewBox="0 0 180 180" className={styles.donutSvg}>
+                {/* 배경 원 */}
+                <circle
+                  cx="90" cy="90" r={radius}
+                  fill="none"
+                  stroke="var(--border-color)"
+                  strokeWidth="16"
+                />
+                {/* 투자 세그먼트 */}
+                {donutSegments.map((seg, i) => {
+                  const dashLength = (seg.pct / 100) * circumference
+                  const dashGap = circumference - dashLength
+                  const offset = segmentOffsets[i]
 
-                return (
-                  <circle
-                    key={seg.boothId}
-                    cx="90" cy="90" r={radius}
-                    fill="none"
-                    stroke={seg.color}
-                    strokeWidth="16"
-                    strokeDasharray={`${dashLength} ${dashGap}`}
-                    strokeDashoffset={-offset}
-                    strokeLinecap="butt"
-                    style={{ transform: 'rotate(-90deg)', transformOrigin: '90px 90px' }}
-                  />
-                )
-              })}
-              {/* 가운데 텍스트 */}
-              <text x="90" y="85" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
-              <text x="90" y="105" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
-            </svg>
+                  return (
+                    <circle
+                      key={seg.boothId}
+                      cx="90" cy="90" r={radius}
+                      fill="none"
+                      stroke={seg.color}
+                      strokeWidth="16"
+                      strokeDasharray={`${dashLength} ${dashGap}`}
+                      strokeDashoffset={-offset}
+                      strokeLinecap="butt"
+                      style={{ transform: 'rotate(-90deg)', transformOrigin: '90px 90px' }}
+                    />
+                  )
+                })}
+                {/* 가운데 텍스트 */}
+                <text x="90" y="85" textAnchor="middle" className={styles.donutLabel}>투자 비중</text>
+                <text x="90" y="105" textAnchor="middle" className={styles.donutValue}>{holdingPct}%</text>
+              </svg>
+            </div>
+            <div className={styles.chartLegend}>
+              {investedSegments.map(seg => (
+                <div key={seg.boothId} className={styles.legendItem}>
+                  <span className={styles.legendDot} style={{ background: seg.color }} />
+                  <span className={styles.legendName}>{seg.boothName}</span>
+                </div>
+              ))}
+              <div className={styles.legendItem}>
+                <span className={styles.legendDot} style={{ background: 'var(--border-color)' }} />
+                <span className={styles.legendName}>잔액</span>
+              </div>
+            </div>
           </div>
 
           {/* 자산 정보 */}
