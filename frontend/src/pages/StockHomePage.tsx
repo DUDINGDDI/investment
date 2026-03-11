@@ -156,10 +156,6 @@ export default function StockHomePage() {
   const freshMission = selectedMission
     ? missions.find(m => m.id === selectedMission.id) ?? selectedMission
     : null
-  const top3 = rankings.slice(0, 3)
-  const rest = rankings.slice(3)
-  const pagedRest = rest.slice(rankingPage * RANKING_PAGE_SIZE, (rankingPage + 1) * RANKING_PAGE_SIZE)
-  const totalRankingPages = Math.ceil(rest.length / RANKING_PAGE_SIZE) || 1
 
   const handleBadgeTap = (mission: Mission) => {
     setSelectedMission(mission)
@@ -329,79 +325,39 @@ export default function StockHomePage() {
               </div>
             ) : (
               <>
-                {top3.length > 0 && (
-                  <div className={badgeStyles.rankPodium}>
-                    {top3.map((item: MissionRankingItem, i: number) => (
+                <div className={badgeStyles.rankList}>
+                  {rankings.slice(0, rankingPage * RANKING_PAGE_SIZE + RANKING_PAGE_SIZE).map((item: MissionRankingItem, i: number) => {
+                    const isTop = item.rank <= 3
+                    const topClass = item.rank === 1 ? badgeStyles.rankTopFirst : item.rank === 2 ? badgeStyles.rankTopSecond : item.rank === 3 ? badgeStyles.rankTopThird : ''
+                    return (
                       <div
                         key={item.userId}
-                        className={`${badgeStyles.rankPodiumItem} ${i === 0 ? badgeStyles.rankFirst : i === 1 ? badgeStyles.rankSecond : badgeStyles.rankThird} stagger-item`}
-                        style={{ animationDelay: `${i * 0.08}s` }}
+                        className={`${badgeStyles.rankListItem} ${isTop ? `${badgeStyles.rankTopItem} ${topClass}` : ''} stagger-item`}
+                        style={{ animationDelay: `${i * 0.03}s` }}
                       >
-                        {item.rank === 1 && <div className={badgeStyles.crownIcon}>👑</div>}
-                        <div className={badgeStyles.podiumRankBadge}>
-                          <RankBadgeLabel rank={item.rank} />
-                        </div>
-                        <div className={badgeStyles.podiumNameWrap}>
-                          {item.company && <span className={badgeStyles.podiumCompany}>{item.company}</span>}
-                          <span className={badgeStyles.podiumUserName}>{item.name}{selectedFilter !== 'again' && <span className={badgeStyles.nameSuffix}>님</span>}</span>
-                        </div>
-                        <div className={badgeStyles.podiumScoreRow}>
-                          <span className={badgeStyles.podiumRate}>{item.progress}</span>
-                          <span className={badgeStyles.podiumRateUnit}>{currentUnit}</span>
-                        </div>
-                        {item.rankChange !== 0 && (
-                          <div className={badgeStyles.podiumChange}>
-                            <RankChangeIndicator change={item.rankChange} />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {rest.length > 0 && (
-                  <>
-                    <div className={badgeStyles.rankList}>
-                      {pagedRest.map((item: MissionRankingItem, i: number) => (
-                        <div
-                          key={item.userId}
-                          className={`${badgeStyles.rankListItem} stagger-item`}
-                          style={{ animationDelay: `${(i + 3) * 0.03}s` }}
-                        >
-                          <span className={badgeStyles.rankListNum}>{item.rank}</span>
-                          <div className={badgeStyles.rankListInfo}>
-                            {item.company && <p className={badgeStyles.rankListCompany}>{item.company}</p>}
-                            <p className={badgeStyles.rankListUserName}>{item.name}{selectedFilter !== 'again' && <span className={badgeStyles.nameSuffix}>님</span>}</p>
-                          </div>
-                          <div className={badgeStyles.rankListScoreArea}>
-                            <span className={badgeStyles.rankListRate}>{item.progress}{currentUnit}</span>
-                            <RankChangeIndicator change={item.rankChange} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    {totalRankingPages > 1 && (
-                      <div className={badgeStyles.rankPagination}>
-                        <button
-                          className={badgeStyles.rankPageBtn}
-                          disabled={rankingPage === 0}
-                          onClick={() => setRankingPage(rankingPage - 1)}
-                        >
-                          ‹ 이전
-                        </button>
-                        <span className={badgeStyles.rankPageInfo}>
-                          {rankingPage + 1} / {totalRankingPages}
+                        <span className={badgeStyles.rankListNum}>
+                          {item.rank <= 3 && <span className={badgeStyles.rankCrown}>{item.rank === 1 ? '👑' : item.rank === 2 ? '🥈' : '🥉'}</span>}
+                          {item.rank}
                         </span>
-                        <button
-                          className={badgeStyles.rankPageBtn}
-                          disabled={rankingPage + 1 >= totalRankingPages}
-                          onClick={() => setRankingPage(rankingPage + 1)}
-                        >
-                          다음 ›
-                        </button>
+                        <div className={badgeStyles.rankListInfo}>
+                          {item.company && <p className={badgeStyles.rankListCompany}>{item.company}</p>}
+                          <p className={badgeStyles.rankListUserName}>{item.name}{selectedFilter !== 'again' && <span className={badgeStyles.nameSuffix}>님</span>}</p>
+                        </div>
+                        <div className={badgeStyles.rankListScoreArea}>
+                          <span className={badgeStyles.rankListRate}>{item.progress}{currentUnit}</span>
+                          <RankChangeIndicator change={item.rankChange} />
+                        </div>
                       </div>
-                    )}
-                  </>
+                    )
+                  })}
+                </div>
+                {rankings.length > rankingPage * RANKING_PAGE_SIZE + RANKING_PAGE_SIZE && (
+                  <button
+                    className={badgeStyles.rankLoadMoreBtn}
+                    onClick={() => setRankingPage(rankingPage + 1)}
+                  >
+                    더보기
+                  </button>
                 )}
               </>
             )}
