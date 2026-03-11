@@ -70,6 +70,9 @@
   padding: 16px 8px;
   text-align: center;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .first {
