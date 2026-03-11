@@ -33,7 +33,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'dream',
     title: '꿈을 원대하게',
-    description: '아이디어를 발전시킬 수 있는 의견을 5회 이상 제안해주세요',
+    description: '아이디어를 발전시킬 수 있는 의견을 5회 이상 제안해주세요.',
     isCompleted: false,
     progress: 0,
     target: 5,
@@ -42,14 +42,14 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'result',
     title: '반드시 결과로',
-    description: "진정한 하고잡이 투자자로서의 모습을 이번 공유회를 통해 반드시 결과로 증명해주세요",
+    description: "진정한 하고잡이 투자자로서의 모습을 이번 공유회를 통해 반드시 결과로 증명해주세요.",
     isCompleted: false,
     icon: '/image/badge/result.svg',
   },
   {
     id: 'again',
     title: '안돼도 다시',
-    description: '본인 아이디어 부스 방문자 70명 이상 달성해주세요',
+    description: '본인 아이디어 부스 방문자 70명 이상 달성해주세요.',
     isCompleted: false,
     progress: 0,
     target: 70,
@@ -58,7 +58,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'sincere',
     title: '진정성 있게',
-    description: '방문한 부스에 대한 \'진정성 있는\'피드백을\n12회 이상 작성해주세요',
+    description: '방문한 부스에 대한 \'진정성 있는\' 피드백을\n12회 이상 작성해주세요.',
     isCompleted: false,
     progress: 0,
     target: 12,
@@ -67,7 +67,7 @@ const DEFAULT_MISSIONS: Mission[] = [
   {
     id: 'together',
     title: '함께하는 \n 하고잡이',
-    description: '\'하고잡이 Wall\'에 네컷사진을 부착해주세요',
+    description: '\'하고잡이 Wall\'에 네컷사진을 부착해주세요.',
     isCompleted: false,
     icon: '/image/badge/together.svg',
   },
