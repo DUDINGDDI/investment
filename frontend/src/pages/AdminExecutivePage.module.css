@@ -478,6 +478,12 @@
   margin: 0;
 }
 
+.memoPopupCompany {
+  font-size: 13px;
+  font-weight: 400;
+  color: #999;
+}
+
 .memoPopupSub {
   font-size: 13px;
   color: #999;

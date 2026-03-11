@@ -10,7 +10,7 @@ export default function AdminExecutivePage() {
   const [data, setData] = useState<ExecutiveInvestmentResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState<TabType>('booth')
-  const [memoPopup, setMemoPopup] = useState<{ name: string; boothName: string; category: string; memo: string } | null>(null)
+  const [memoPopup, setMemoPopup] = useState<{ name: string; company: string | null; boothName: string; category: string; memo: string } | null>(null)
 
   useEffect(() => {
     adminApi.getExecutiveInvestments().then(res => {
@@ -117,7 +117,7 @@ export default function AdminExecutivePage() {
                       <td className={styles.tdNameCol}>
                         {inv.name}님
                         {inv.memo && (
-                          <div className={styles.memoWrap} onClick={() => setMemoPopup({ name: inv.name, boothName: booth.boothName, category: booth.category, memo: inv.memo! })}>
+                          <div className={styles.memoWrap} onClick={() => setMemoPopup({ name: inv.name, company: inv.company, boothName: booth.boothName, category: booth.category, memo: inv.memo! })}>
                             <div className={styles.memoInner}>{inv.memo}</div>
                           </div>
                         )}
@@ -166,7 +166,7 @@ export default function AdminExecutivePage() {
                       <td>
                         {inv.boothName} <span className={styles.boothCategory}>{inv.category}</span>
                         {inv.memo && (
-                          <div className={styles.memoWrap} onClick={() => setMemoPopup({ name: exec.name, boothName: inv.boothName, category: inv.category, memo: inv.memo! })}>
+                          <div className={styles.memoWrap} onClick={() => setMemoPopup({ name: exec.name, company: exec.company, boothName: inv.boothName, category: inv.category, memo: inv.memo! })}>
                             <div className={styles.memoInner}>{inv.memo}</div>
                           </div>
                         )}
@@ -222,7 +222,7 @@ export default function AdminExecutivePage() {
           <div className={styles.memoPopup} onClick={e => e.stopPropagation()}>
             <div className={styles.memoPopupHeader}>
               <div>
-                <h3 className={styles.memoPopupTitle}>{memoPopup.name}님의 메모</h3>
+                <h3 className={styles.memoPopupTitle}>{memoPopup.name}님{memoPopup.company && <span className={styles.memoPopupCompany}> {memoPopup.company}</span>}의 메모</h3>
                 <p className={styles.memoPopupSub}>{memoPopup.boothName} · {memoPopup.category}</p>
               </div>
               <button className={styles.memoPopupClose} onClick={() => setMemoPopup(null)}>✕</button>
