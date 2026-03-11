@@ -1,227 +1,310 @@
-.container {
-  padding: 20px;
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  background: #ffffff;
   min-height: 100vh;
+  color: #1a1a1a;
+  font-family: 'Pretendard', -apple-system, sans-serif;
 }
 
-.header {
-  padding: 8px 0 16px;
+.loadingText {
+  text-align: center;
+  padding: 80px 0;
+  font-size: 15px;
+  color: #888;
 }
 
-.title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 4px;
+/* 보고서 헤더 */
+.reportHeader {
+  text-align: center;
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid #1a1a1a;
 }
 
-.subtitle {
+.reportLabel {
   font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.tabBar {
-  display: flex;
-  gap: 0;
-  margin-bottom: 20px;
-  background: var(--bg-secondary);
-  border-radius: var(--radius-card);
-  padding: 4px;
-}
-
-.tabBtn {
-  flex: 1;
-  height: 40px;
-  border-radius: calc(var(--radius-card) - 2px);
-  font-size: 14px;
+  letter-spacing: 2px;
+  color: #6C5CE7;
   font-weight: 600;
-  color: var(--text-secondary);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
+  margin-bottom: 8px;
 }
 
-.tabBtnActive {
-  background: var(--color-invest);
-  color: white;
+.reportTitle {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 8px;
 }
 
-.section {
+.reportDate {
+  font-size: 13px;
+  color: #999;
+}
+
+/* 요약 카드 */
+.summaryRow {
   display: flex;
-  flex-direction: column;
   gap: 12px;
+  margin-bottom: 32px;
 }
 
-/* 임원별 카드 */
-.execCard {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-card);
+.summaryCard {
+  flex: 1;
+  background: #f8f8fa;
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.summaryLabel {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.summaryValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.summaryUnit {
+  font-size: 13px;
+  font-weight: 500;
+  color: #999;
+  margin-left: 2px;
+}
+
+/* 섹션 공통 */
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionHeader {
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sectionTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+}
+
+.sectionDesc {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+}
+
+/* 테이블 (부스별, 미투자) */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table thead {
+  background: #f4f4f6;
+}
+
+.table th {
+  padding: 10px 8px;
+  font-weight: 600;
+  color: #666;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.thRank {
+  width: 44px;
+  text-align: center !important;
+}
+
+.thName {
+  text-align: left;
+}
+
+.thCount {
+  width: 80px;
+  text-align: center !important;
+}
+
+.thAmount {
+  width: 110px;
+  text-align: right !important;
+}
+
+.table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tdRank {
+  text-align: center;
+  color: #999;
+  font-weight: 600;
+}
+
+.tdName {
+  font-weight: 500;
+}
+
+.tdCount {
+  text-align: center;
+  color: #666;
+}
+
+.tdAmount {
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tdEmpty {
+  text-align: center;
+  padding: 24px 0;
+  color: #bbb;
+}
+
+.trTop {
+  background: #faf9ff;
+}
+
+.trTop .tdRank {
+  color: #6C5CE7;
+  font-weight: 700;
+}
+
+.trTop .tdAmount {
+  color: #6C5CE7;
+}
+
+/* 임원별 상세 블록 */
+.execBlock {
+  background: #fafafa;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
   padding: 16px;
-}
-
-.execHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 12px;
 }
 
-.execInfo {
+.execBlockHeader {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.execNum {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #6C5CE7;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.execIdentity {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
 }
 
 .execName {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
+  color: #1a1a1a;
 }
 
 .execCompany {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: #999;
 }
 
-.execAmount {
-  text-align: right;
+.execSummary {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 2px;
+  flex-shrink: 0;
 }
 
-.execTotal {
-  font-size: 15px;
+.execInvested {
+  font-size: 13px;
   font-weight: 700;
-  color: var(--color-invest);
+  color: #6C5CE7;
 }
 
 .execBalance {
   font-size: 11px;
-  color: var(--text-secondary);
+  color: #999;
 }
 
-.execInvestments {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  border-top: 1px solid var(--border-color);
-  padding-top: 10px;
-}
-
-.investRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.investEmoji {
-  font-size: 16px;
-  width: 24px;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.investName {
-  flex: 1;
+/* 임원 서브 테이블 */
+.subTable {
+  width: 100%;
+  border-collapse: collapse;
   font-size: 13px;
-  color: var(--text-primary);
 }
 
-.investAmount {
-  font-size: 13px;
+.subTable th {
+  padding: 8px;
   font-weight: 600;
-  flex-shrink: 0;
+  color: #888;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 12px;
 }
 
-/* 미투자 임원 */
-.notInvestedSection {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-card);
-  padding: 16px;
-  margin-top: 8px;
+.subTable th:last-child {
+  text-align: right;
 }
 
-.notInvestedTitle {
-  font-size: 14px;
+.subTable td {
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #444;
+}
+
+.subTdAmount {
+  text-align: right;
   font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
+  font-variant-numeric: tabular-nums;
 }
 
-.notInvestedList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.subTotalRow {
+  background: #f0f0f2;
 }
 
-.notInvestedItem {
-  font-size: 13px;
-  color: var(--text-primary);
-  background: var(--bg-primary);
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-}
-
-.notInvestedCompany {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-/* 부스별 집계 */
-.boothItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.boothItem:last-child {
+.subTotalRow td {
+  font-weight: 700;
+  color: #1a1a1a;
   border-bottom: none;
 }
 
-.boothRank {
-  width: 28px;
+/* 푸터 */
+.footer {
   text-align: center;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  flex-shrink: 0;
+  padding: 24px 0 0;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 16px;
 }
 
-.topRank {
-  color: var(--color-invest);
-}
-
-.boothEmoji {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.boothInfo {
-  flex: 1;
-  min-width: 0;
-}
-
-.boothName {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.boothMeta {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.boothAmount {
-  font-size: 14px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.emptyText {
-  text-align: center;
-  padding: 40px 0;
-  color: var(--text-secondary);
-  font-size: 14px;
+.footer p {
+  font-size: 11px;
+  color: #bbb;
+  margin: 0;
 }
