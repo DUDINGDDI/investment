@@ -74,9 +74,12 @@
 
 .first {
   order: 0;
-  padding-top: 32px;
   background: linear-gradient(180deg, #2A2820 0%, #33301E 100%);
   box-shadow: 0 2px 12px rgba(255, 199, 0, 0.10);
+}
+
+.first .podiumRank {
+  padding-top: 32px;
 }
 
 .second {
