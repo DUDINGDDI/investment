@@ -313,6 +313,12 @@
 }
 
 /* 정적 구역 안내 카드 */
+.staticZoneList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .staticZoneCard {
   padding: 20px;
   background: var(--bg-secondary);

@@ -52,13 +52,26 @@ const ZONE_MAP: Record<string, { image: string; hotspots: Hotspot[] }> = {
 }
 
 /** 부스 미매핑 구역 — 정적 상세 설명 */
-const STATIC_ZONE_INFO: Record<string, { name: string; description: string }> = {
-  // '201': { name: '교환소', description: '미션 완료시 부여받는 이용권을 굿즈로 교환하실 수 있습니다.' },
-  '202': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
-  '203': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
-  '204': { name: '교환소', description: '미션 완료시 부여받는 키캡 교환권을 사용하실 수 있습니다.' },
-  '301': { name: 'AI포토네컷', description: '하고잡이 미션을 3가지 이상 달성시 AI포토네컷을 이용할 수 있는 장소입니다.' },
-  '302': { name: 'AI포토네컷', description: '하고잡이 미션을 3가지 이상 달성시 AI포토네컷을 이용할 수 있는 장소입니다.' },
+const STATIC_ZONE_INFO: Record<string, { name: string; description: string }[]> = {
+  'leadership_llf': [
+    { name: '하고잡이 Wall', description: '하고잡이로서의 나의 미래 모습을 적어 붙이고, 네컷사진을 부착하여 미션을 완료해 보세요!' },
+    { name: '포토월', description: '온리원 페어의 추억을 간직할 네컷사진을 촬영해 보세요!' },
+  ],
+  '202': [
+    { name: '교환소', description: '미션 완료 시 부여받는 키캡 교환권을 사용해 보세요!' },
+  ],
+  '203': [
+    { name: '교환소', description: '미션 완료 시 부여받는 키캡 교환권을 사용해 보세요!' },
+  ],
+  '204': [
+    { name: '교환소', description: '미션 완료 시 부여받는 키캡 교환권을 사용해 보세요!' },
+  ],
+  '301': [
+    { name: 'AI 포토네컷', description: '하고잡이 미션을 3가지 이상 달성하고 AI 포토네컷을 촬영해 보세요!' },
+  ],
+  '302': [
+    { name: 'AI 포토네컷', description: '하고잡이 미션을 3가지 이상 달성하고 AI 포토네컷을 촬영해 보세요!' },
+  ],
 }
 
 const DEFAULT_MAP_IMAGE = `/image/map/leadership_llf.png?${MAP_VERSION}`
@@ -293,9 +306,13 @@ export default function MapPage() {
           </div>
 
           {STATIC_ZONE_INFO[filterZoneCode] ? (
-            <div className={styles.staticZoneCard}>
-              <p className={styles.staticZoneName}>{STATIC_ZONE_INFO[filterZoneCode].name}</p>
-              <p className={styles.staticZoneDesc}>{STATIC_ZONE_INFO[filterZoneCode].description}</p>
+            <div className={styles.staticZoneList}>
+              {STATIC_ZONE_INFO[filterZoneCode].map((info, i) => (
+                <div key={i} className={styles.staticZoneCard}>
+                  <p className={styles.staticZoneName}>{info.name}</p>
+                  <p className={styles.staticZoneDesc}>{info.description}</p>
+                </div>
+              ))}
             </div>
           ) : pagedBooths.length > 0 ? (
             <>
