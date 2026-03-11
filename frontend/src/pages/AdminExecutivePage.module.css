@@ -295,6 +295,19 @@
   border-bottom: none;
 }
 
+/* 메모 */
+.memoText {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #6C5CE7;
+  font-style: italic;
+  line-height: 1.4;
+  padding: 4px 8px;
+  background: #f3f0ff;
+  border-radius: 4px;
+  border-left: 2px solid #6C5CE7;
+}
+
 /* 푸터 */
 .footer {
   text-align: center;

@@ -366,6 +366,7 @@ export interface ExecutiveInvestmentItem {
   boothName: string;
   logoEmoji: string;
   amount: number;
+  memo: string | null;
 }
 
 export interface BoothSummaryItem {

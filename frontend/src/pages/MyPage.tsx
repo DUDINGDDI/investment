@@ -4,7 +4,7 @@ import { QRCodeSVG } from 'qrcode.react'
 import { boothApi, stockApi } from '../api'
 import type { MyStockBoothVisitorResponse } from '../types'
 import { useMissions, type Mission } from '../components/MissionContext'
-import type { BoothResponse, StockBoothResponse } from '../types'
+import type { StockBoothResponse } from '../types'
 import styles from './MyPage.module.css'
 
 const TICKET_MISSIONS = ['renew', 'dream', 'again', 'sincere', 'together']
@@ -45,14 +45,12 @@ export default function MyPage() {
 
   useEffect(() => {
     if (activeTab === 'memos' && memoSubTab === 'pm' && !pmMemosLoaded) {
-      boothApi.getAll().then(res => {
-        const boothList: BoothResponse[] = res.data
-        const memoList = boothList
-          .map(b => {
-            const memo = localStorage.getItem(`booth_memo_${b.id}`) || ''
-            return { boothId: b.id, boothName: b.name, memo }
-          })
-          .filter(m => m.memo)
+      boothApi.getAllMemos().then(res => {
+        const memoList = res.data.map(m => ({
+          boothId: m.boothId,
+          boothName: m.boothName,
+          memo: m.content,
+        }))
         setPmMemos(memoList)
         setPmMemosLoaded(true)
       }).catch(() => setPmMemosLoaded(true))

@@ -1,5 +1,6 @@
 SET REFERENTIAL_INTEGRITY FALSE;
 
+TRUNCATE TABLE booth_memos;
 TRUNCATE TABLE investment_history;
 TRUNCATE TABLE investments;
 TRUNCATE TABLE user_missions;

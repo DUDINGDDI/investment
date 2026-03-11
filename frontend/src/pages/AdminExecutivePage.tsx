@@ -111,7 +111,12 @@ export default function AdminExecutivePage() {
               <tbody>
                 {exec.investments.map(inv => (
                   <tr key={inv.boothId}>
-                    <td>{inv.boothName}</td>
+                    <td>
+                      {inv.boothName}
+                      {inv.memo && (
+                        <p className={styles.memoText}>{inv.memo}</p>
+                      )}
+                    </td>
                     <td className={styles.subTdAmount}>{formatKorean(inv.amount)}원</td>
                   </tr>
                 ))}

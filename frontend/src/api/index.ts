@@ -51,6 +51,10 @@ export const boothApi = {
   getMyRating: (boothId: number) => api.get<StockRatingResponse>(`/booths/${boothId}/rating`),
   getBoothReviews: (boothId: number) => api.get<BoothReviewResponse[]>(`/booths/${boothId}/reviews`),
   deleteReview: (boothId: number) => api.delete(`/booths/${boothId}/rating/review`),
+  getAllMemos: () => api.get<{ boothId: number; boothName: string; content: string }[]>('/booths/memos'),
+  getMemo: (boothId: number) => api.get<{ content: string }>(`/booths/${boothId}/memo`),
+  saveMemo: (boothId: number, content: string) => api.post<{ content: string }>(`/booths/${boothId}/memo`, { content }),
+  deleteMemo: (boothId: number) => api.delete(`/booths/${boothId}/memo`),
 };
 
 export const investmentApi = {

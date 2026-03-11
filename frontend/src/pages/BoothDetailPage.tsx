@@ -19,15 +19,18 @@ export default function BoothDetailPage() {
   const [investmentEnabled, setInvestmentEnabled] = useState(true)
 
   // 메모
-  const initialMemo = id ? (localStorage.getItem(`booth_memo_${id}`) || '') : ''
-  const [memo, setMemo] = useState(initialMemo)
-  const [memoSaved, setMemoSaved] = useState(initialMemo)
+  const [memo, setMemo] = useState('')
+  const [memoSaved, setMemoSaved] = useState('')
 
   const loadData = useCallback(() => {
     if (!id) return
     boothApi.getById(Number(id)).then(res => setBooth(res.data))
     userApi.getMe().then(res => setBalance(res.data.balance))
     resultApi.getInvestmentStatus().then(res => setInvestmentEnabled(res.data.enabled))
+    boothApi.getMemo(Number(id)).then(res => {
+      setMemo(res.data.content || '')
+      setMemoSaved(res.data.content || '')
+    }).catch(() => {})
   }, [id])
 
   useEffect(() => {
@@ -36,8 +39,9 @@ export default function BoothDetailPage() {
 
   const handleMemoSave = () => {
     if (!id) return
-    localStorage.setItem(`booth_memo_${id}`, memo)
-    setMemoSaved(memo)
+    boothApi.saveMemo(Number(id), memo).then(() => {
+      setMemoSaved(memo)
+    }).catch(() => {})
   }
 
   const handleInvest = async (amount: number) => {
@@ -150,7 +154,7 @@ export default function BoothDetailPage() {
           {memoSaved && (
             <button
               className={styles.memoDeleteBtn}
-              onClick={() => { setMemo(''); localStorage.removeItem(`booth_memo_${id}`); setMemoSaved(''); }}
+              onClick={() => { setMemo(''); boothApi.deleteMemo(Number(id)).catch(() => {}); setMemoSaved(''); }}
             >
               삭제
             </button>

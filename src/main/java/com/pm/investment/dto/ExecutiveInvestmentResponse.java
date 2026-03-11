@@ -33,6 +33,7 @@ public class ExecutiveInvestmentResponse {
         private String boothName;
         private String logoEmoji;
         private Long amount;
+        private String memo;
     }
 
     @Getter

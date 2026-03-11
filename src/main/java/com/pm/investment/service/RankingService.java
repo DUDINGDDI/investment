@@ -6,6 +6,8 @@ import com.pm.investment.entity.Booth;
 import com.pm.investment.entity.Investment;
 import com.pm.investment.entity.StockBooth;
 import com.pm.investment.entity.User;
+import com.pm.investment.entity.BoothMemo;
+import com.pm.investment.repository.BoothMemoRepository;
 import com.pm.investment.repository.BoothRepository;
 import com.pm.investment.repository.InvestmentRepository;
 import com.pm.investment.repository.StockBoothRepository;
@@ -28,6 +30,7 @@ public class RankingService {
     private final StockBoothRepository stockBoothRepository;
     private final StockHoldingRepository stockHoldingRepository;
     private final UserRepository userRepository;
+    private final BoothMemoRepository boothMemoRepository;
 
     @Transactional(readOnly = true)
     public List<RankingResponse> getRanking() {
@@ -130,6 +133,15 @@ public class RankingService {
                 .sorted(Comparator.comparing(User::getName))
                 .toList();
 
+        // 임원들의 메모 조회
+        List<Long> execUserIds = allExecutives.stream().map(User::getId).toList();
+        Map<String, String> memoMap = new HashMap<>();
+        if (!execUserIds.isEmpty()) {
+            boothMemoRepository.findAllByUserIdIn(execUserIds).forEach(memo ->
+                    memoMap.put(memo.getUser().getId() + "_" + memo.getBooth().getId(), memo.getContent())
+            );
+        }
+
         List<ExecutiveInvestmentResponse.ExecutiveDetail> executives = allExecutives.stream().map(user -> {
             List<Investment> userInvestments = byUser.getOrDefault(user.getId(), List.of());
             long totalInvested = userInvestments.stream().mapToLong(Investment::getAmount).sum();
@@ -139,6 +151,7 @@ public class RankingService {
                             .boothName(inv.getBooth().getName())
                             .logoEmoji(inv.getBooth().getLogoEmoji())
                             .amount(inv.getAmount())
+                            .memo(memoMap.get(user.getId() + "_" + inv.getBooth().getId()))
                             .build()
             ).toList();
             return ExecutiveInvestmentResponse.ExecutiveDetail.builder()
