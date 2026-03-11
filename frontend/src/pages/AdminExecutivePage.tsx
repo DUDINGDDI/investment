@@ -117,9 +117,9 @@ export default function AdminExecutivePage() {
                       <td className={styles.tdNameCol}>
                         {inv.name}님
                         {inv.memo && (
-                          <p className={styles.memoText} onClick={() => setMemoPopup({ name: inv.name, boothName: booth.boothName, category: booth.category, memo: inv.memo! })}>
-                            {inv.memo}
-                          </p>
+                          <div className={styles.memoWrap} onClick={() => setMemoPopup({ name: inv.name, boothName: booth.boothName, category: booth.category, memo: inv.memo! })}>
+                            <div className={styles.memoInner}>{inv.memo}</div>
+                          </div>
                         )}
                       </td>
                       <td className={styles.tdCompanyCol}>{inv.company || '-'}</td>
@@ -166,9 +166,9 @@ export default function AdminExecutivePage() {
                       <td>
                         {inv.boothName} <span className={styles.boothCategory}>{inv.category}</span>
                         {inv.memo && (
-                          <p className={styles.memoText} onClick={() => setMemoPopup({ name: exec.name, boothName: inv.boothName, category: inv.category, memo: inv.memo! })}>
-                            {inv.memo}
-                          </p>
+                          <div className={styles.memoWrap} onClick={() => setMemoPopup({ name: exec.name, boothName: inv.boothName, category: inv.category, memo: inv.memo! })}>
+                            <div className={styles.memoInner}>{inv.memo}</div>
+                          </div>
                         )}
                       </td>
                       <td className={styles.tdAmountCol}>{formatKorean(inv.amount)}원</td>
