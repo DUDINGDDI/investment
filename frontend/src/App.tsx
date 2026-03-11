@@ -89,44 +89,40 @@ export default function App() {
 
   return (
     <ToastProvider>
+      <MissionProvider>
       <ScrollToTop />
       <Toast />
+      <MissionCompletePopup />
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route element={<PrivateLayout />}>
+          <Route element={<WithTopTabBar />}>
+            <Route element={<PmInvestmentGate />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/booths" element={<BoothListPage />} />
+              <Route path="/booths/:id" element={<BoothDetailPage />} />
+              <Route path="/history" element={<HistoryPage />} />
+            </Route>
+            <Route path="/map" element={<MapPage />} />
+            <Route path="/map/:zoneId" element={<ZoneBoothListPage />} />
+            <Route path="/result" element={<ResultPage />} />
+            {/* <Route path="/report" element={<ReportPage />} /> */}
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/qr" element={<QrPage />} />
+          </Route>
+          <Route element={<WithStockTopTabBar />}>
+            <Route path="/stocks" element={<StockHomePage />} />
+            <Route path="/stocks/booths" element={<StockBoothListPage />} />
+            <Route path="/stocks/history" element={<StockHistoryPage />} />
+          </Route>
+          <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
+        </Route>
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/ticket-scan" element={<AdminTicketScanPage />} />
         <Route path="/executive" element={<AdminExecutivePage />} />
-        <Route path="/*" element={
-          <MissionProvider>
-            <MissionCompletePopup />
-            <Routes>
-              <Route element={<PrivateLayout />}>
-                <Route element={<WithTopTabBar />}>
-                  <Route element={<PmInvestmentGate />}>
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/booths" element={<BoothListPage />} />
-                    <Route path="/booths/:id" element={<BoothDetailPage />} />
-                    <Route path="/history" element={<HistoryPage />} />
-                  </Route>
-                  <Route path="/map" element={<MapPage />} />
-                  <Route path="/map/:zoneId" element={<ZoneBoothListPage />} />
-                  <Route path="/result" element={<ResultPage />} />
-                  {/* <Route path="/report" element={<ReportPage />} /> */}
-                  <Route path="/mypage" element={<MyPage />} />
-                  <Route path="/qr" element={<QrPage />} />
-                </Route>
-                <Route element={<WithStockTopTabBar />}>
-                  <Route path="/stocks" element={<StockHomePage />} />
-                  <Route path="/stocks/booths" element={<StockBoothListPage />} />
-                  <Route path="/stocks/history" element={<StockHistoryPage />} />
-                </Route>
-                <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
-              </Route>
-              <Route path="/idea-board/:boothId" element={<IdeaBoardPage />} />
-            </Routes>
-          </MissionProvider>
-        } />
+        <Route path="/idea-board/:boothId" element={<IdeaBoardPage />} />
       </Routes>
+      </MissionProvider>
     </ToastProvider>
   )
 }
