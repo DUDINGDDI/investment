@@ -60,7 +60,7 @@
   align-items: flex-end;
   gap: 8px;
   margin-bottom: 24px;
-  padding: 8px 0;
+  padding: 24px 0 8px;
 }
 
 .podiumItem {
@@ -70,19 +70,13 @@
   padding: 16px 8px;
   text-align: center;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
 }
 
 .first {
   order: 0;
+  padding-top: 32px;
   background: linear-gradient(180deg, #2A2820 0%, #33301E 100%);
   box-shadow: 0 2px 12px rgba(255, 199, 0, 0.10);
-}
-
-.first .podiumRank {
-  padding-top: 32px;
 }
 
 .second {
@@ -94,7 +88,16 @@
 }
 
 .podiumRank {
-  margin-bottom: 8px;
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.podiumContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .badge {
