@@ -10,6 +10,7 @@ export default function AdminExecutivePage() {
   const [data, setData] = useState<ExecutiveInvestmentResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState<TabType>('booth')
+  const [memoPopup, setMemoPopup] = useState<{ name: string; boothName: string; category: string; memo: string } | null>(null)
 
   useEffect(() => {
     adminApi.getExecutiveInvestments().then(res => {
@@ -32,7 +33,6 @@ export default function AdminExecutivePage() {
         })
       }
     }
-    // 각 부스 내에서 투자금 내림차순 정렬
     for (const [, investors] of map) {
       investors.sort((a, b) => b.amount - a.amount)
     }
@@ -92,7 +92,6 @@ export default function AdminExecutivePage() {
 
       {tab === 'booth' ? (
         <>
-          {/* 부스별 임원 투자 현황 */}
           {investedBooths.map((booth, i) => (
             <div key={booth.boothId} className={styles.boothBlock}>
               <div className={styles.boothBlockHeader}>
@@ -107,25 +106,29 @@ export default function AdminExecutivePage() {
               <table className={styles.subTable}>
                 <thead>
                   <tr>
-                    <th>임원</th>
-                    <th>소속</th>
-                    <th>투자 금액</th>
+                    <th className={styles.thNameCol}>임원</th>
+                    <th className={styles.thCompanyCol}>소속</th>
+                    <th className={styles.thAmountCol}>투자 금액</th>
                   </tr>
                 </thead>
                 <tbody>
                   {(boothInvestorMap.get(booth.boothId) || []).map((inv, j) => (
                     <tr key={j}>
-                      <td>
+                      <td className={styles.tdNameCol}>
                         {inv.name}님
-                        {inv.memo && <p className={styles.memoText}>{inv.memo}</p>}
+                        {inv.memo && (
+                          <p className={styles.memoText} onClick={() => setMemoPopup({ name: inv.name, boothName: booth.boothName, category: booth.category, memo: inv.memo! })}>
+                            {inv.memo}
+                          </p>
+                        )}
                       </td>
-                      <td className={styles.subTdCompany}>{inv.company || '-'}</td>
-                      <td className={styles.subTdAmount}>{formatKorean(inv.amount)}원</td>
+                      <td className={styles.tdCompanyCol}>{inv.company || '-'}</td>
+                      <td className={styles.tdAmountCol}>{formatKorean(inv.amount)}원</td>
                     </tr>
                   ))}
                   <tr className={styles.subTotalRow}>
                     <td colSpan={2}>합계</td>
-                    <td className={styles.subTdAmount}>{formatKorean(booth.executiveInvestment)}원</td>
+                    <td className={styles.tdAmountCol}>{formatKorean(booth.executiveInvestment)}원</td>
                   </tr>
                 </tbody>
               </table>
@@ -137,7 +140,6 @@ export default function AdminExecutivePage() {
         </>
       ) : (
         <>
-          {/* 임원별 투자 상세 */}
           {investedExecutives.map((exec, idx) => (
             <div key={exec.userId} className={styles.execBlock}>
               <div className={styles.execBlockHeader}>
@@ -155,7 +157,7 @@ export default function AdminExecutivePage() {
                 <thead>
                   <tr>
                     <th>투자 부스</th>
-                    <th>투자 금액</th>
+                    <th className={styles.thAmountCol}>투자 금액</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -163,21 +165,24 @@ export default function AdminExecutivePage() {
                     <tr key={inv.boothId}>
                       <td>
                         {inv.boothName} <span className={styles.boothCategory}>{inv.category}</span>
-                        {inv.memo && <p className={styles.memoText}>{inv.memo}</p>}
+                        {inv.memo && (
+                          <p className={styles.memoText} onClick={() => setMemoPopup({ name: exec.name, boothName: inv.boothName, category: inv.category, memo: inv.memo! })}>
+                            {inv.memo}
+                          </p>
+                        )}
                       </td>
-                      <td className={styles.subTdAmount}>{formatKorean(inv.amount)}원</td>
+                      <td className={styles.tdAmountCol}>{formatKorean(inv.amount)}원</td>
                     </tr>
                   ))}
                   <tr className={styles.subTotalRow}>
                     <td>합계</td>
-                    <td className={styles.subTdAmount}>{formatKorean(exec.totalInvested)}원</td>
+                    <td className={styles.tdAmountCol}>{formatKorean(exec.totalInvested)}원</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           ))}
 
-          {/* 미투자 임원 */}
           {notInvestedExecutives.length > 0 && (
             <div className={styles.section}>
               <div className={styles.sectionHeader}>
@@ -210,6 +215,22 @@ export default function AdminExecutivePage() {
       <div className={styles.footer}>
         <p>본 보고서는 실시간 데이터를 기반으로 자동 생성되었습니다.</p>
       </div>
+
+      {/* 메모 팝업 */}
+      {memoPopup && (
+        <div className={styles.memoOverlay} onClick={() => setMemoPopup(null)}>
+          <div className={styles.memoPopup} onClick={e => e.stopPropagation()}>
+            <div className={styles.memoPopupHeader}>
+              <div>
+                <h3 className={styles.memoPopupTitle}>{memoPopup.name}님의 메모</h3>
+                <p className={styles.memoPopupSub}>{memoPopup.boothName} · {memoPopup.category}</p>
+              </div>
+              <button className={styles.memoPopupClose} onClick={() => setMemoPopup(null)}>✕</button>
+            </div>
+            <p className={styles.memoPopupContent}>{memoPopup.memo}</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
