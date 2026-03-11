@@ -31,6 +31,7 @@ public class ExecutiveInvestmentResponse {
     public static class InvestmentItem {
         private Long boothId;
         private String boothName;
+        private String category;
         private String logoEmoji;
         private Long amount;
         private String memo;
@@ -42,6 +43,7 @@ public class ExecutiveInvestmentResponse {
     public static class BoothSummary {
         private Long boothId;
         private String boothName;
+        private String category;
         private String logoEmoji;
         private String themeColor;
         private Long executiveInvestment;

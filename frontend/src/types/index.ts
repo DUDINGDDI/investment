@@ -364,6 +364,7 @@ export interface ExecutiveDetail {
 export interface ExecutiveInvestmentItem {
   boothId: number;
   boothName: string;
+  category: string;
   logoEmoji: string;
   amount: number;
   memo: string | null;
@@ -372,6 +373,7 @@ export interface ExecutiveInvestmentItem {
 export interface BoothSummaryItem {
   boothId: number;
   boothName: string;
+  category: string;
   logoEmoji: string;
   themeColor: string;
   executiveInvestment: number;

@@ -98,7 +98,7 @@ export default function AdminExecutivePage() {
               <div className={styles.boothBlockHeader}>
                 <span className={styles.boothRankBadge}>{i + 1}</span>
                 <div className={styles.boothBlockInfo}>
-                  <span className={styles.boothBlockName}>{booth.boothName}</span>
+                  <span className={styles.boothBlockName}>{booth.boothName} <span className={styles.boothCategory}>{booth.category}</span></span>
                   <span className={styles.boothBlockMeta}>
                     임원 {booth.executiveInvestorCount}명 · {formatKorean(booth.executiveInvestment)}원
                   </span>
@@ -162,7 +162,7 @@ export default function AdminExecutivePage() {
                   {exec.investments.map(inv => (
                     <tr key={inv.boothId}>
                       <td>
-                        {inv.boothName}
+                        {inv.boothName} <span className={styles.boothCategory}>{inv.category}</span>
                         {inv.memo && <p className={styles.memoText}>{inv.memo}</p>}
                       </td>
                       <td className={styles.subTdAmount}>{formatKorean(inv.amount)}원</td>
