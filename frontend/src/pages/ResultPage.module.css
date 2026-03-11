@@ -98,6 +98,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .badge {
@@ -148,7 +150,7 @@
 .podiumName {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 2px;
+  margin: 0 0 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -157,24 +159,26 @@
 .podiumCategory {
   font-size: 11px;
   color: var(--text-secondary);
-  margin-bottom: 8px;
+  margin: 0 0 8px;
 }
 
 .podiumAmount {
   font-size: 16px;
   font-weight: 700;
   color: var(--color-invest);
+  margin: 0;
 }
 
 .podiumUnit {
   font-size: 11px;
   color: var(--text-secondary);
+  margin: 0;
 }
 
 .podiumInvestors {
   font-size: 11px;
   color: var(--text-disabled);
-  margin-top: 4px;
+  margin: 4px 0 0;
 }
 
 /* ── 4등 이하 리스트 ── */
