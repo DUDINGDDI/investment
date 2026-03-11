@@ -72,13 +72,6 @@ function MiniProgressBar({ mission }: { mission: Mission }) {
   )
 }
 
-function RankBadgeLabel({ rank }: { rank: number }) {
-  if (rank === 1) return <span className={badgeStyles.rankBadgeGold}>1st</span>
-  if (rank === 2) return <span className={badgeStyles.rankBadgeSilver}>2nd</span>
-  if (rank === 3) return <span className={badgeStyles.rankBadgeBronze}>3rd</span>
-  return <span>{rank}</span>
-}
-
 function RankChangeIndicator({ change }: { change: number }) {
   if (change === 0) return null
   if (change > 0) {
