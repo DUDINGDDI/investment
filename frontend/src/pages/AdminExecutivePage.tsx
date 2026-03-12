@@ -12,6 +12,20 @@ export default function AdminExecutivePage() {
   const [tab, setTab] = useState<TabType>('booth')
   const [memoPopup, setMemoPopup] = useState<{ name: string; company: string | null; boothName: string; category: string; memo: string } | null>(null)
 
+  // 이 페이지는 태블릿 전체 너비 사용 — #root 제한 해제
+  useEffect(() => {
+    const root = document.getElementById('root')
+    if (!root) return
+    const prevWidth = root.style.width
+    const prevZoom = (root.style as CSSStyleDeclaration & { zoom: string }).zoom
+    root.style.width = '100%'
+    ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = '1'
+    return () => {
+      root.style.width = prevWidth
+      ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = prevZoom
+    }
+  }, [])
+
   useEffect(() => {
     adminApi.getExecutiveInvestments().then(res => {
       setData(res.data)
