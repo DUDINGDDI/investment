@@ -8,8 +8,9 @@ type TabType = 'booth' | 'executive'
 
 function MultiLineCompany({ company }: { company: string | null }) {
   if (!company) return <>-</>
-  const parts = company.split(' ')
-  return <>{parts.map((p, i) => <span key={i}>{i > 0 && <br />}{p}</span>)}</>
+  const match = company.match(/^(.+)\s+(\S*부문)$/)
+  if (!match) return <>{company}</>
+  return <>{match[1]}<br />{match[2]}</>
 }
 
 export default function AdminExecutivePage() {
