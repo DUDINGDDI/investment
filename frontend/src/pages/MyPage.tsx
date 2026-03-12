@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { boothApi, stockApi } from '../api'
 import type { MyStockBoothVisitorResponse } from '../types'
@@ -18,10 +18,11 @@ const TICKET_IMAGE_MAP: Record<string, { normal: string; complete: string; label
 
 export default function MyPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const userName = localStorage.getItem('userName') || ''
   const userCompany = localStorage.getItem('userCompany') || ''
   const userId = localStorage.getItem('userId') || ''
-  const [activeTab, setActiveTab] = useState<'tickets' | 'memos'>('tickets')
+  const [activeTab, setActiveTab] = useState<'tickets' | 'memos'>(searchParams.get('tab') === 'memos' ? 'memos' : 'tickets')
   const { missions, syncFromServer } = useMissions()
   const [boothVisitors, setBoothVisitors] = useState<MyStockBoothVisitorResponse | null>(null)
   const [memoSubTab, setMemoSubTab] = useState<'pm' | 'am'>('am')
@@ -221,7 +222,7 @@ export default function MyPage() {
                       key={m.boothId}
                       className={`${styles.memoCard} stagger-item`}
                       style={{ animationDelay: `${i * 0.02}s` }}
-                      onClick={() => navigate(`${detailPath}/${m.boothId}?memo=open`)}
+                      onClick={() => navigate(`${detailPath}/${m.boothId}?memo=open`, { state: { from: 'memo' } })}
                     >
                       <div className={styles.memoCardHeader}>
                         <p className={styles.cardName}>{m.boothName}</p>

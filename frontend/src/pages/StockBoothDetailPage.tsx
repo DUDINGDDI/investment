@@ -38,7 +38,9 @@ export default function StockBoothDetailPage() {
   const { id } = useParams<{ id: string }>()
   const [searchParams] = useSearchParams()
   const location = useLocation()
-  const fromPortfolio = (location.state as { from?: string })?.from === 'portfolio'
+  const fromState = (location.state as { from?: string })?.from
+  const fromPortfolio = fromState === 'portfolio'
+  const fromMemo = fromState === 'memo'
   const { showToast } = useToast()
   const { syncFromServer } = useMissions()
   const [booth, setBooth] = useState<StockBoothResponse | null>(null)
@@ -289,7 +291,7 @@ export default function StockBoothDetailPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to={fromPortfolio ? '/stocks/booths?tab=portfolio' : '/stocks/booths'} label={fromPortfolio ? '나의 투자정보' : '주식 종목'} style={{ paddingLeft: 20 }} />
+      <PageBackButton to={fromMemo ? '/mypage?tab=memos' : fromPortfolio ? '/stocks/booths?tab=portfolio' : '/stocks/booths'} label={fromMemo ? '메모 목록' : fromPortfolio ? '나의 투자정보' : '주식 종목'} style={{ paddingLeft: 20 }} />
 
       {/* 종목 헤더 */}
       <div className={styles.header}>

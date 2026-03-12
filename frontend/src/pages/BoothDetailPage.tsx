@@ -11,7 +11,9 @@ import styles from './BoothDetailPage.module.css'
 export default function BoothDetailPage() {
   const { id } = useParams<{ id: string }>()
   const location = useLocation()
-  const fromPortfolio = (location.state as { from?: string })?.from === 'portfolio'
+  const fromState = (location.state as { from?: string })?.from
+  const fromPortfolio = fromState === 'portfolio'
+  const fromMemo = fromState === 'memo'
   const { showToast } = useToast()
   const [booth, setBooth] = useState<BoothResponse | null>(null)
   const [balance, setBalance] = useState(0)
@@ -74,7 +76,7 @@ export default function BoothDetailPage() {
 
   return (
     <div className={styles.container}>
-      <PageBackButton to={fromPortfolio ? '/booths?tab=portfolio' : '/home'} label={fromPortfolio ? '나의 투자정보' : '대표작 투자'} style={{ paddingLeft: 20 }} />
+      <PageBackButton to={fromMemo ? '/mypage?tab=memos' : fromPortfolio ? '/booths?tab=portfolio' : '/home'} label={fromMemo ? '메모 목록' : fromPortfolio ? '나의 투자정보' : '대표작 투자'} style={{ paddingLeft: 20 }} />
 
       {/* 종목 헤더 */}
       <div className={styles.header}>
