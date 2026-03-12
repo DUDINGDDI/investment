@@ -4,6 +4,7 @@ import com.pm.investment.dto.AdminBoothRatingResponse;
 import com.pm.investment.dto.AwardRankingItem;
 import com.pm.investment.dto.AwardResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
+import com.pm.investment.dto.RookieInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.dto.StockPriceChangeRequest;
 import com.pm.investment.dto.TicketUseRequest;
@@ -175,6 +176,11 @@ public class AdminController {
     @GetMapping("/executive-investments")
     public ResponseEntity<ExecutiveInvestmentResponse> getExecutiveInvestments() {
         return ResponseEntity.ok(rankingService.getExecutiveInvestments());
+    }
+
+    @GetMapping("/rookie-investments")
+    public ResponseEntity<RookieInvestmentResponse> getRookieInvestments() {
+        return ResponseEntity.ok(rankingService.getRookieInvestments());
     }
 
     @PostMapping("/missions/uncomplete-all")

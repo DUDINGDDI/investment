@@ -91,7 +91,7 @@ export default function AdminExecutivePage() {
       {/* 보고서 헤더 */}
       <div className={styles.reportHeader}>
         <p className={styles.reportLabel}>2026 ONLYONE FAIR</p>
-        <h1 className={styles.reportTitle}>임원 투자 집계 보고서</h1>
+        <h1 className={styles.reportTitle}>경영진 투자 집계 보고서</h1>
         <p className={styles.reportDate}>{dateStr}</p>
       </div>
 

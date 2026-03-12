@@ -379,3 +379,33 @@ export interface BoothSummaryItem {
   executiveInvestment: number;
   executiveInvestorCount: number;
 }
+
+// === 신입사원 투자 집계 ===
+export interface RookieInvestmentResponse {
+  rookies: RookieDetail[];
+  boothSummaries: RookieBoothSummary[];
+}
+
+export interface RookieDetail {
+  userId: number;
+  name: string;
+  company: string | null;
+  balance: number;
+  totalInvested: number;
+  investments: RookieInvestmentItem[];
+}
+
+export interface RookieInvestmentItem {
+  boothId: number;
+  boothName: string;
+  category: string;
+  amount: number;
+}
+
+export interface RookieBoothSummary {
+  boothId: number;
+  boothName: string;
+  category: string;
+  rookieInvestment: number;
+  rookieInvestorCount: number;
+}

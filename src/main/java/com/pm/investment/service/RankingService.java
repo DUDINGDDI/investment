@@ -1,6 +1,7 @@
 package com.pm.investment.service;
 
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
+import com.pm.investment.dto.RookieInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.entity.Booth;
 import com.pm.investment.entity.Investment;
@@ -203,6 +204,65 @@ public class RankingService {
 
         return ExecutiveInvestmentResponse.builder()
                 .executives(executives)
+                .boothSummaries(boothSummaries)
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public RookieInvestmentResponse getRookieInvestments() {
+        List<Investment> investments = investmentRepository.findAllByRookieUsersWithAmount();
+
+        Map<Long, List<Investment>> byUser = investments.stream()
+                .collect(Collectors.groupingBy(i -> i.getUser().getId(), LinkedHashMap::new, Collectors.toList()));
+
+        List<User> allRookies = userRepository.findAll().stream()
+                .filter(u -> Boolean.TRUE.equals(u.getIsRookie()))
+                .sorted(Comparator.comparing(User::getName))
+                .toList();
+
+        List<RookieInvestmentResponse.RookieDetail> rookies = allRookies.stream().map(user -> {
+            List<Investment> userInvestments = byUser.getOrDefault(user.getId(), List.of());
+            long totalInvested = userInvestments.stream().mapToLong(Investment::getAmount).sum();
+            List<RookieInvestmentResponse.InvestmentItem> items = userInvestments.stream().map(inv ->
+                    RookieInvestmentResponse.InvestmentItem.builder()
+                            .boothId(inv.getBooth().getId())
+                            .boothName(inv.getBooth().getName())
+                            .category(inv.getBooth().getCategory())
+                            .amount(inv.getAmount())
+                            .build()
+            ).toList();
+            return RookieInvestmentResponse.RookieDetail.builder()
+                    .userId(user.getId())
+                    .name(user.getName())
+                    .company(user.getCompany())
+                    .balance(user.getBalance())
+                    .totalInvested(totalInvested)
+                    .investments(items)
+                    .build();
+        }).toList();
+
+        List<Booth> allBooths = boothRepository.findAllByOrderByDisplayOrderAsc();
+        Map<Long, long[]> boothStats = new HashMap<>();
+        for (Investment inv : investments) {
+            long[] stats = boothStats.computeIfAbsent(inv.getBooth().getId(), k -> new long[]{0L, 0});
+            stats[0] += inv.getAmount();
+            stats[1]++;
+        }
+
+        List<RookieInvestmentResponse.BoothSummary> boothSummaries = allBooths.stream().map(booth -> {
+            long[] stats = boothStats.getOrDefault(booth.getId(), new long[]{0L, 0});
+            return RookieInvestmentResponse.BoothSummary.builder()
+                    .boothId(booth.getId())
+                    .boothName(booth.getName())
+                    .category(booth.getCategory())
+                    .rookieInvestment(stats[0])
+                    .rookieInvestorCount((int) stats[1])
+                    .build();
+        }).sorted(Comparator.comparingLong(RookieInvestmentResponse.BoothSummary::getRookieInvestment).reversed())
+                .toList();
+
+        return RookieInvestmentResponse.builder()
+                .rookies(rookies)
                 .boothSummaries(boothSummaries)
                 .build();
     }

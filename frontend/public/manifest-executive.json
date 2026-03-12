@@ -1,6 +1,6 @@
 {
-  "name": "임원 투자 보고서",
-  "short_name": "임원투자",
+  "name": "경영진 투자 보고서",
+  "short_name": "경영진투자",
   "start_url": "/executive",
   "scope": "/executive",
   "display": "standalone",
