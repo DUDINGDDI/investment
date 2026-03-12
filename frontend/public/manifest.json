@@ -1,0 +1,21 @@
+{
+  "name": "2026 ONLYONE FAIR",
+  "short_name": "ONLYONE FAIR",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#17171C",
+  "theme_color": "#17171C",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/cj-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/cj-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

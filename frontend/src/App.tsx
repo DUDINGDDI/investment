@@ -76,7 +76,12 @@ export default function App() {
       const maxWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--app-max-width'))
       const vw = window.innerWidth
       if (vw < maxWidth) {
+        // 작은 화면: 축소
         (root.style as CSSStyleDeclaration & { zoom: string }).zoom = String(vw / maxWidth)
+      } else if (vw > maxWidth * 1.1) {
+        // 태블릿/큰 화면: 뷰포트의 92%를 채우도록 확대
+        const scale = Math.min((vw * 0.92) / maxWidth, 2.0)
+        ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = String(scale)
       } else {
         (root.style as CSSStyleDeclaration & { zoom: string }).zoom = ''
       }
