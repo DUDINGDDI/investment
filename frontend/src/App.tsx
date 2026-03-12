@@ -105,11 +105,11 @@ export default function App() {
       }
       document.removeEventListener('click', requestFullscreen)
     }
-    // standalone 모드(홈화면 추가)이거나 태블릿 크기일 때 전체화면 시도
+    // standalone 모드(홈화면 추가/PWA)일 때만 전체화면 시도
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches
       || window.matchMedia('(display-mode: fullscreen)').matches
       || (navigator as unknown as { standalone: boolean }).standalone
-    if (isStandalone || window.innerWidth >= 768) {
+    if (isStandalone) {
       document.addEventListener('click', requestFullscreen)
     }
 
