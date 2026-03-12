@@ -55,8 +55,8 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
   const isDisabled = amount === 0 || overMax
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.sheet} ref={sheetRef} onClick={e => e.stopPropagation()}>
+    <div className={styles.overlay} onMouseDown={onClose} onTouchStart={onClose}>
+      <div className={styles.sheet} ref={sheetRef} onMouseDown={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()}>
         <div className={styles.handle} />
         <h3 className={styles.title}>{boothName}</h3>
         <p className={styles.subtitle}>

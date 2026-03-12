@@ -127,6 +127,13 @@
   font-weight: 600;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.investBtnFull:active {
+  transform: none;
+  opacity: 0.8;
 }
 
 .investBtnFull:disabled {
@@ -149,6 +156,13 @@
   font-weight: 600;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.withdrawBtn:active {
+  transform: none;
+  opacity: 0.8;
 }
 
 .withdrawBtn:disabled {
@@ -166,6 +180,13 @@
   font-weight: 600;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.investBtn:active {
+  transform: none;
+  opacity: 0.8;
 }
 
 .investBtn:disabled {
