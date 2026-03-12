@@ -28,17 +28,25 @@ function seededRandom(seed: number) {
   return x - Math.floor(x)
 }
 
-function useWindowWidth() {
+function useBoardWidth(ref: React.RefObject<HTMLDivElement | null>) {
   const [width, setWidth] = useState(window.innerWidth)
   useEffect(() => {
-    const handle = () => setWidth(window.innerWidth)
-    window.addEventListener('resize', handle)
-    document.addEventListener('fullscreenchange', () => setTimeout(handle, 100))
-    return () => {
-      window.removeEventListener('resize', handle)
-      document.removeEventListener('fullscreenchange', handle)
+    const measure = () => {
+      if (ref.current) {
+        setWidth(ref.current.clientWidth)
+      } else {
+        setWidth(screen.width)
+      }
     }
-  }, [])
+    measure()
+    window.addEventListener('resize', measure)
+    const onFs = () => setTimeout(measure, 200)
+    document.addEventListener('fullscreenchange', onFs)
+    return () => {
+      window.removeEventListener('resize', measure)
+      document.removeEventListener('fullscreenchange', onFs)
+    }
+  }, [ref])
   return width
 }
 
@@ -108,7 +116,7 @@ export default function IdeaBoardPage() {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const knownIdsRef = useRef<Set<number>>(new Set())
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const windowWidth = useWindowWidth()
+  const boardWidth = useBoardWidth(wrapperRef)
 
   // 폴링 폴백용
   const fetchBoard = useCallback(async () => {
@@ -260,8 +268,8 @@ export default function IdeaBoardPage() {
 
   const { positions, boardHeight } = useMemo(() => {
     if (!board || board.comments.length === 0) return { positions: [], boardHeight: 0 }
-    return computePositions(board.comments, windowWidth)
-  }, [board, windowWidth])
+    return computePositions(board.comments, boardWidth)
+  }, [board, boardWidth])
 
   if (loading) return <div className={styles.loading}>로딩 중...</div>
   if (error || !board) {
