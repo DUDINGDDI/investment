@@ -19,7 +19,8 @@ public interface StockRatingRepository extends JpaRepository<StockRating, Long> 
 
     long countByUserIdAndReviewIsNotNull(Long userId);
 
-    List<StockRating> findByStockBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(Long stockBoothId);
+    @Query("SELECT r FROM StockRating r JOIN FETCH r.user WHERE r.stockBooth.id = :stockBoothId AND r.review IS NOT NULL ORDER BY r.updatedAt DESC")
+    List<StockRating> findByStockBoothIdAndReviewIsNotNullOrderByUpdatedAtDesc(@Param("stockBoothId") Long stockBoothId);
 
     @Query("SELECT r.stockBooth.id, " +
            "COUNT(r), " +
