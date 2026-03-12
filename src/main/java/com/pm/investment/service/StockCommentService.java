@@ -96,14 +96,19 @@ public class StockCommentService {
         long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 70);
         missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
 
-        return StockCommentResponse.builder()
+        StockCommentResponse response = StockCommentResponse.builder()
                 .id(comment.getId())
                 .userId(comment.getUser().getId())
                 .userName(comment.getUser().getName())
                 .userCompany(comment.getUser().getCompany())
                 .content(comment.getContent())
+                .tag("꿈을 원대하게")
                 .createdAt(comment.getCreatedAt())
                 .build();
+
+        ideaBoardSseService.broadcastUpdateComment(comment.getStockBooth().getId(), response);
+
+        return response;
     }
 
     @Transactional
@@ -115,10 +120,13 @@ public class StockCommentService {
             throw new IllegalStateException("본인의 댓글만 삭제할 수 있습니다");
         }
 
+        Long boothId = comment.getStockBooth().getId();
         stockCommentRepository.delete(comment);
 
         // dream 미션: 삭제 후 70자 이상 댓글 수 재계산
         long commentCount = stockCommentRepository.countByUserIdAndContentMinLength(userId, 70);
         missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
+
+        ideaBoardSseService.broadcastDeleteComment(boothId, comment.getId());
     }
 }

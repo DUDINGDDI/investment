@@ -35,6 +35,18 @@ public class IdeaBoardSseService {
     }
 
     public void broadcastNewComment(Long boothId, StockCommentResponse comment) {
+        broadcast(boothId, "new-comment", comment);
+    }
+
+    public void broadcastUpdateComment(Long boothId, StockCommentResponse comment) {
+        broadcast(boothId, "update-comment", comment);
+    }
+
+    public void broadcastDeleteComment(Long boothId, Long commentId) {
+        broadcast(boothId, "delete-comment", Map.of("id", commentId));
+    }
+
+    private void broadcast(Long boothId, String eventName, Object data) {
         Set<SseEmitter> emitters = emitterMap.get(boothId);
         if (emitters == null || emitters.isEmpty()) return;
 
@@ -42,8 +54,8 @@ public class IdeaBoardSseService {
         for (SseEmitter emitter : emitters) {
             try {
                 emitter.send(SseEmitter.event()
-                        .name("new-comment")
-                        .data(comment));
+                        .name(eventName)
+                        .data(data));
             } catch (IOException e) {
                 dead.add(emitter);
             }

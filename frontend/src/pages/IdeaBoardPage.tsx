@@ -198,6 +198,37 @@ export default function IdeaBoardPage() {
         }
       })
 
+      eventSource.addEventListener('update-comment', (e: MessageEvent) => {
+        try {
+          const updated: StockCommentResponse = JSON.parse(e.data)
+          setBoard(prev => {
+            if (!prev) return prev
+            return {
+              ...prev,
+              comments: prev.comments.map(c => c.id === updated.id ? updated : c),
+            }
+          })
+        } catch {
+          // JSON 파싱 실패 무시
+        }
+      })
+
+      eventSource.addEventListener('delete-comment', (e: MessageEvent) => {
+        try {
+          const { id } = JSON.parse(e.data) as { id: number }
+          knownIdsRef.current.delete(id)
+          setBoard(prev => {
+            if (!prev) return prev
+            return {
+              ...prev,
+              comments: prev.comments.filter(c => c.id !== id),
+            }
+          })
+        } catch {
+          // JSON 파싱 실패 무시
+        }
+      })
+
       eventSource.addEventListener('heartbeat', () => {
         // heartbeat - 연결 유지 확인
       })

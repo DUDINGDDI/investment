@@ -116,6 +116,9 @@ public class StockRatingService {
         // sincere 미션 진행도 재계산
         long reviewCount = stockRatingRepository.countByUserIdAndReviewIsNotNull(userId);
         missionService.checkAndUpdateMission(userId, "sincere", (int) reviewCount);
+
+        // 아이디어 보드에서 리뷰 실시간 삭제 (음수 ID)
+        ideaBoardSseService.broadcastDeleteComment(boothId, -rating.getId());
     }
 
     @Transactional(readOnly = true)
