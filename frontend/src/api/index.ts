@@ -30,6 +30,7 @@ import type {
   IdeaBoardResponse,
   ExecutiveInvestmentResponse,
   RookieInvestmentResponse,
+  CombinedInvestmentResponse,
   // ReportEligibilityResponse,
   // ReportResponse,
   // ShareReportRequest,
@@ -177,6 +178,8 @@ export const adminApi = {
     api.get<ExecutiveInvestmentResponse>('/admin/executive-investments'),
   getRookieInvestments: () =>
     api.get<RookieInvestmentResponse>('/admin/rookie-investments'),
+  getCombinedInvestments: () =>
+    api.get<CombinedInvestmentResponse>('/admin/combined-investments'),
   getAwards: () =>
     api.get<{ awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }[]>('/admin/awards'),
   getAwardRanking: (index: number) =>

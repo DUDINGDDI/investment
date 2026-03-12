@@ -3,6 +3,7 @@ package com.pm.investment.controller;
 import com.pm.investment.dto.AdminBoothRatingResponse;
 import com.pm.investment.dto.AwardRankingItem;
 import com.pm.investment.dto.AwardResponse;
+import com.pm.investment.dto.CombinedInvestmentResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
 import com.pm.investment.dto.RookieInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
@@ -181,6 +182,11 @@ public class AdminController {
     @GetMapping("/rookie-investments")
     public ResponseEntity<RookieInvestmentResponse> getRookieInvestments() {
         return ResponseEntity.ok(rankingService.getRookieInvestments());
+    }
+
+    @GetMapping("/combined-investments")
+    public ResponseEntity<CombinedInvestmentResponse> getCombinedInvestments() {
+        return ResponseEntity.ok(rankingService.getCombinedInvestments());
     }
 
     @PostMapping("/missions/uncomplete-all")

@@ -409,3 +409,34 @@ export interface RookieBoothSummary {
   rookieInvestment: number;
   rookieInvestorCount: number;
 }
+
+// === 최종 집계 (경영진+신입사원) ===
+export interface CombinedInvestmentResponse {
+  persons: CombinedPersonDetail[];
+  boothSummaries: CombinedBoothSummary[];
+}
+
+export interface CombinedPersonDetail {
+  userId: number;
+  name: string;
+  company: string | null;
+  role: string;
+  balance: number;
+  totalInvested: number;
+  investments: CombinedInvestmentItem[];
+}
+
+export interface CombinedInvestmentItem {
+  boothId: number;
+  boothName: string;
+  category: string;
+  amount: number;
+}
+
+export interface CombinedBoothSummary {
+  boothId: number;
+  boothName: string;
+  category: string;
+  totalInvestment: number;
+  investorCount: number;
+}
