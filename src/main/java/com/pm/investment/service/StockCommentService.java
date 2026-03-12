@@ -67,6 +67,7 @@ public class StockCommentService {
                 .userName(user.getName())
                 .userCompany(user.getCompany())
                 .content(comment.getContent())
+                .tag("꿈을 원대하게")
                 .createdAt(comment.getCreatedAt())
                 .build();
 
