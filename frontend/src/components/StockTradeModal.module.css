@@ -19,6 +19,7 @@
   max-width: var(--app-max-width);
   padding: 20px 24px calc(24px + var(--safe-area-bottom));
   animation: slideUp 0.3s ease;
+  transition: transform 0.15s ease;
 }
 
 .handle {
