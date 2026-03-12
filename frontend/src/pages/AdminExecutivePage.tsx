@@ -6,6 +6,12 @@ import styles from './AdminExecutivePage.module.css'
 
 type TabType = 'booth' | 'executive'
 
+function MultiLineCompany({ company }: { company: string | null }) {
+  if (!company) return <>-</>
+  const parts = company.split(' ')
+  return <>{parts.map((p, i) => <span key={i}>{i > 0 && <br />}{p}</span>)}</>
+}
+
 export default function AdminExecutivePage() {
   const [data, setData] = useState<ExecutiveInvestmentResponse | null>(null)
   const [loading, setLoading] = useState(true)
@@ -152,7 +158,7 @@ export default function AdminExecutivePage() {
                           </div>
                         )}
                       </td>
-                      <td className={styles.tdCompanyCol}>{inv.company || '-'}</td>
+                      <td className={styles.tdCompanyCol}><MultiLineCompany company={inv.company} /></td>
                       <td className={styles.tdAmountCol}>{formatKorean(inv.amount)}원</td>
                     </tr>
                   ))}
