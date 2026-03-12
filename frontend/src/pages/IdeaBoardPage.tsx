@@ -33,7 +33,11 @@ function useWindowWidth() {
   useEffect(() => {
     const handle = () => setWidth(window.innerWidth)
     window.addEventListener('resize', handle)
-    return () => window.removeEventListener('resize', handle)
+    document.addEventListener('fullscreenchange', () => setTimeout(handle, 100))
+    return () => {
+      window.removeEventListener('resize', handle)
+      document.removeEventListener('fullscreenchange', handle)
+    }
   }, [])
   return width
 }
