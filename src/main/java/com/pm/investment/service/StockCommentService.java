@@ -24,6 +24,7 @@ public class StockCommentService {
     private final StockBoothVisitRepository stockBoothVisitRepository;
     private final MissionService missionService;
     private final IdeaBoardNotifier ideaBoardNotifier;
+    private final IdeaBoardSseService ideaBoardSseService;
 
     @Transactional(readOnly = true)
     public List<StockCommentResponse> getComments(Long boothId) {
@@ -69,7 +70,10 @@ public class StockCommentService {
                 .createdAt(comment.getCreatedAt())
                 .build();
 
-        // idea-board 서비스에 비동기 알림
+        // idea-board SSE 브로드캐스트
+        ideaBoardSseService.broadcastNewComment(boothId, response);
+
+        // idea-board 외부 서비스에 비동기 알림
         ideaBoardNotifier.notifyNewComment(boothId, response);
 
         return response;
