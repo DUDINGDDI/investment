@@ -1466,77 +1466,182 @@ INSERT INTO investments (user_id, booth_id, amount, created_at, updated_at) VALU
 (337, 5, 200000000, NOW(), NOW()),
 (337, 11, 150000000, NOW(), NOW());
 
--- -- 임원 메모 더미데이터
--- INSERT INTO booth_memos (user_id, booth_id, content, created_at, updated_at) VALUES
--- -- 이선호 (312)
--- (312, 1, '제일제당의 핵심 역량이 잘 드러나는 아이디어. 실행력에 기대가 큽니다.', NOW(), NOW()),
--- (312, 4, '올리브영의 고객 접점 확장 전략이 인상적입니다.', NOW(), NOW()),
--- -- 김석규 (313)
--- (313, 2, '물류 혁신의 방향성이 명확하고 실현 가능성이 높아 보입니다.', NOW(), NOW()),
--- -- 이보배 (314)
--- (314, 1, '식품 사업의 미래를 잘 그려냈습니다. 글로벌 확장 가능성도 엿보입니다.', NOW(), NOW()),
--- (314, 5, '디지털 전환의 핵심을 잘 짚었습니다.', NOW(), NOW()),
--- -- 김도한 (315)
--- (315, 3, '건설부문의 차별화 전략이 돋보입니다.', NOW(), NOW()),
--- (315, 7, '커머스의 새로운 가능성을 발견했습니다.', NOW(), NOW()),
--- -- 정유진 (316)
--- (316, 1, '가장 완성도 높은 발표였습니다. 전략적 방향이 명확합니다.', NOW(), NOW()),
--- -- 한지호 (317)
--- (317, 4, '뷰티 시장의 트렌드를 잘 반영한 아이디어입니다.', NOW(), NOW()),
--- -- 신대철 (318)
--- (318, 6, '엔터 콘텐츠의 확장성이 뛰어납니다. IP 활용 전략이 좋습니다.', NOW(), NOW()),
--- -- 이종훈 (320)
--- (320, 2, '대한통운의 기술 혁신이 잘 표현되었습니다.', NOW(), NOW()),
--- -- 최정필 (322)
--- (322, 3, '건설부문의 비전이 가장 와닿았습니다.', NOW(), NOW()),
--- -- 이영아 (324)
--- (324, 4, '올리브영다운 창의적인 접근이었습니다. 실행하면 좋겠습니다.', NOW(), NOW()),
--- -- 신근섭 (326)
--- (326, 6, '엔터테인먼트의 새로운 비즈니스 모델 제안이 신선합니다.', NOW(), NOW()),
--- -- 김지현 (328)
--- (328, 7, '커머스 플랫폼의 진화 방향이 잘 제시되었습니다.', NOW(), NOW()),
--- -- 유태우 (330)
--- (330, 8, '프레시웨이의 차별화 포인트가 명확합니다.', NOW(), NOW()),
--- -- 양수민 (332)
--- (332, 9, 'CGV의 공간 혁신 아이디어가 탁월합니다.', NOW(), NOW()),
--- -- 허지수 (334)
--- (334, 10, '푸드빌의 F&B 전략이 시장 트렌드와 잘 맞습니다.', NOW(), NOW()),
--- -- 이장욱 (336)
--- (336, 5, '올리브네트웍스의 기술 기반 솔루션이 인상 깊습니다.', NOW(), NOW());
---
--- -- 임원 잔액 차감 (투자금만큼)
--- UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 312;
--- UPDATE users SET balance = 1000000000 - 300000000 WHERE id = 313;
--- UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 314;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 315;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 316;
--- UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 317;
--- UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 318;
--- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 319;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 320;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 321;
--- UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 322;
--- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 323;
--- UPDATE users SET balance = 1000000000 - 480000000 WHERE id = 324;
--- UPDATE users SET balance = 1000000000 - 370000000 WHERE id = 325;
--- UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 326;
--- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 327;
--- UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 328;
--- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 329;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 330;
--- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 331;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 332;
--- UPDATE users SET balance = 1000000000 - 330000000 WHERE id = 333;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 334;
--- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 335;
--- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 336;
--- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 337;
---
--- -- ──────────────────────────────────────────────
--- -- CJ인재원 운영진 전체 부스 방문 처리 (장한빈, 문선우, 강슬기, 한필우)
--- -- ──────────────────────────────────────────────
--- INSERT INTO stock_booth_visits (user_id, stock_booth_id, visited_at)
--- SELECT u.id, sb.id, NOW()
--- FROM users u
---          CROSS JOIN stock_booths sb
--- WHERE u.unique_code IN ('305950', '312497', '304603', '315531');
+-- 임원 메모 더미데이터
+INSERT INTO booth_memos (user_id, booth_id, content, created_at, updated_at) VALUES
+-- 이선호 (312)
+(312, 1, '제일제당의 핵심 역량이 잘 드러나는 아이디어. 실행력에 기대가 큽니다.', NOW(), NOW()),
+(312, 4, '올리브영의 고객 접점 확장 전략이 인상적입니다.', NOW(), NOW()),
+-- 김석규 (313)
+(313, 2, '물류 혁신의 방향성이 명확하고 실현 가능성이 높아 보입니다.', NOW(), NOW()),
+-- 이보배 (314)
+(314, 1, '식품 사업의 미래를 잘 그려냈습니다. 글로벌 확장 가능성도 엿보입니다.', NOW(), NOW()),
+(314, 5, '디지털 전환의 핵심을 잘 짚었습니다.', NOW(), NOW()),
+-- 김도한 (315)
+(315, 3, '건설부문의 차별화 전략이 돋보입니다.', NOW(), NOW()),
+(315, 7, '커머스의 새로운 가능성을 발견했습니다.', NOW(), NOW()),
+-- 정유진 (316)
+(316, 1, '가장 완성도 높은 발표였습니다. 전략적 방향이 명확합니다.', NOW(), NOW()),
+-- 한지호 (317)
+(317, 4, '뷰티 시장의 트렌드를 잘 반영한 아이디어입니다.', NOW(), NOW()),
+-- 신대철 (318)
+(318, 6, '엔터 콘텐츠의 확장성이 뛰어납니다. IP 활용 전략이 좋습니다.', NOW(), NOW()),
+-- 이종훈 (320)
+(320, 2, '대한통운의 기술 혁신이 잘 표현되었습니다.', NOW(), NOW()),
+-- 최정필 (322)
+(322, 3, '건설부문의 비전이 가장 와닿았습니다.', NOW(), NOW()),
+-- 이영아 (324)
+(324, 4, '올리브영다운 창의적인 접근이었습니다. 실행하면 좋겠습니다.', NOW(), NOW()),
+-- 신근섭 (326)
+(326, 6, '엔터테인먼트의 새로운 비즈니스 모델 제안이 신선합니다.', NOW(), NOW()),
+-- 김지현 (328)
+(328, 7, '커머스 플랫폼의 진화 방향이 잘 제시되었습니다.', NOW(), NOW()),
+-- 유태우 (330)
+(330, 8, '프레시웨이의 차별화 포인트가 명확합니다.', NOW(), NOW()),
+-- 양수민 (332)
+(332, 9, 'CGV의 공간 혁신 아이디어가 탁월합니다.', NOW(), NOW()),
+-- 허지수 (334)
+(334, 10, '푸드빌의 F&B 전략이 시장 트렌드와 잘 맞습니다.', NOW(), NOW()),
+-- 이장욱 (336)
+(336, 5, '올리브네트웍스의 기술 기반 솔루션이 인상 깊습니다.', NOW(), NOW());
+
+-- 임원 잔액 차감 (투자금만큼)
+UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 312;
+UPDATE users SET balance = 1000000000 - 300000000 WHERE id = 313;
+UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 314;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 315;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 316;
+UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 317;
+UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 318;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 319;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 320;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 321;
+UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 322;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 323;
+UPDATE users SET balance = 1000000000 - 480000000 WHERE id = 324;
+UPDATE users SET balance = 1000000000 - 370000000 WHERE id = 325;
+UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 326;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 327;
+UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 328;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 329;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 330;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 331;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 332;
+UPDATE users SET balance = 1000000000 - 330000000 WHERE id = 333;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 334;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 335;
+UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 336;
+UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 337;
+
+-- ──────────────────────────────────────────────
+-- CJ인재원 운영진 전체 부스 방문 처리 (장한빈, 문선우, 강슬기, 한필우)
+-- ──────────────────────────────────────────────
+INSERT INTO stock_booth_visits (user_id, stock_booth_id, visited_at)
+SELECT u.id, sb.id, NOW()
+FROM users u
+         CROSS JOIN stock_booths sb
+WHERE u.unique_code IN ('305950', '312497', '304603', '315531');
+
+-- ──────────────────────────────────────────────
+-- 1번 부스(SWIPICK) 더미 아이디어 100개
+-- ──────────────────────────────────────────────
+INSERT INTO stock_comments (user_id, stock_booth_id, content, created_at) VALUES
+(1, 1, 'K-뷰티 탐색 UX가 신선하네요. 스와이프 방식이 직관적이라 글로벌 고객 접근성이 높을 것 같습니다.', NOW() - INTERVAL 100 MINUTE),
+(2, 1, '좌우 스와이프로 제품을 탐색하는 건 틴더 같은 친숙한 UX라 진입장벽이 낮겠어요.', NOW() - INTERVAL 99 MINUTE),
+(3, 1, 'AI 추천 알고리즘의 학습 데이터가 충분히 쌓이면 전환율이 크게 오를 것 같습니다.', NOW() - INTERVAL 98 MINUTE),
+(4, 1, '리스트형 UI 대비 선택 피로도를 확실히 줄여줄 수 있는 접근이라고 봅니다.', NOW() - INTERVAL 97 MINUTE),
+(5, 1, '올리브영 MD 기획력과 AI 결합이라는 컨셉이 차별화 포인트로 좋습니다.', NOW() - INTERVAL 96 MINUTE),
+(6, 1, '글로벌 시장에서 K-뷰티 큐레이션 서비스로 포지셔닝하면 경쟁력 있을 듯요.', NOW() - INTERVAL 95 MINUTE),
+(7, 1, '실시간 행동 데이터 기반 초개인화는 리텐션 향상에 핵심이 될 거예요.', NOW() - INTERVAL 94 MINUTE),
+(8, 1, '스와이프 데이터로 트렌드 분석도 가능하니 MD 인사이트에도 활용 가치가 크네요.', NOW() - INTERVAL 93 MINUTE),
+(9, 1, 'Pass한 제품 데이터도 귀중한 네거티브 피드백으로 활용할 수 있을 것 같아요.', NOW() - INTERVAL 92 MINUTE),
+(10, 1, '해외 고객 대상 언어 장벽을 이미지 중심 UI로 해결한 점이 인상적입니다.', NOW() - INTERVAL 91 MINUTE),
+(11, 1, '콜드스타트 문제를 어떻게 해결할지 고민이 필요하지만 방향성은 확실해요.', NOW() - INTERVAL 90 MINUTE),
+(12, 1, '스와이프 기반이라 모바일 환경에 최적화되어 있어서 좋습니다.', NOW() - INTERVAL 89 MINUTE),
+(13, 1, '맥락 있는 추천이라는 표현이 좋아요. 단순 협업필터링을 넘어선 느낌.', NOW() - INTERVAL 88 MINUTE),
+(14, 1, '정보 과부하 해소라는 페인포인트 정의가 명확하고 솔루션도 직관적이에요.', NOW() - INTERVAL 87 MINUTE),
+(15, 1, '올리브영 앱 내 서브 기능으로 붙이면 바로 시너지 낼 수 있겠네요.', NOW() - INTERVAL 86 MINUTE),
+(16, 1, 'Like 누적 데이터로 인기 상품 랭킹도 만들 수 있을 것 같아요.', NOW() - INTERVAL 85 MINUTE),
+(17, 1, '글로벌 확장 시 국가별 취향 차이를 반영한 로컬라이징이 중요할 것 같습니다.', NOW() - INTERVAL 84 MINUTE),
+(18, 1, '스와이프 속도와 체류 시간도 관심도 지표로 활용하면 더 정교해질 듯요.', NOW() - INTERVAL 83 MINUTE),
+(19, 1, '게이미피케이션 요소를 더하면 사용자 참여도가 더 높아질 것 같아요.', NOW() - INTERVAL 82 MINUTE),
+(20, 1, '뷰티 분야는 비주얼이 중요한데 스와이프 UX가 딱 맞는 것 같습니다.', NOW() - INTERVAL 81 MINUTE),
+(21, 1, 'AI 추천 정확도가 핵심인데, 올리브영의 풍부한 구매 데이터가 강점이네요.', NOW() - INTERVAL 80 MINUTE),
+(22, 1, '사용자의 피부 타입이나 고민을 초기에 입력받으면 추천 품질이 더 올라갈 듯요.', NOW() - INTERVAL 79 MINUTE),
+(23, 1, '단순 탐색을 넘어서 바로 구매로 이어지는 전환 플로우 설계가 중요하겠어요.', NOW() - INTERVAL 78 MINUTE),
+(24, 1, 'SNS 공유 기능을 붙이면 바이럴 마케팅 효과도 기대할 수 있을 것 같습니다.', NOW() - INTERVAL 77 MINUTE),
+(25, 1, '오프라인 매장과 연계해서 Like한 제품을 매장에서 체험하게 하면 O2O 시너지!', NOW() - INTERVAL 76 MINUTE),
+(26, 1, '추천 이유를 간단히 보여주면 신뢰도가 올라갈 것 같아요.', NOW() - INTERVAL 75 MINUTE),
+(27, 1, '시즌별, 날씨별 추천도 가능하면 맥락 추천의 완성도가 높아지겠네요.', NOW() - INTERVAL 74 MINUTE),
+(28, 1, '인플루언서 큐레이션과 결합하면 MZ세대 공략에 효과적일 듯합니다.', NOW() - INTERVAL 73 MINUTE),
+(29, 1, '데이터 기반으로 신상품 출시 예측에도 활용할 수 있는 플랫폼이 될 수 있어요.', NOW() - INTERVAL 72 MINUTE),
+(30, 1, '스와이프 UI가 쇼핑 경험을 엔터테인먼트로 바꿔주는 점이 매력적이에요.', NOW() - INTERVAL 71 MINUTE),
+(31, 1, '글로벌 K-뷰티 팬덤을 타겟으로 하면 초기 사용자 확보가 수월할 것 같아요.', NOW() - INTERVAL 70 MINUTE),
+(32, 1, 'AB 테스트를 통해 추천 알고리즘을 지속 개선할 수 있는 구조가 좋습니다.', NOW() - INTERVAL 69 MINUTE),
+(33, 1, '카테고리별 필터링과 스와이프를 결합하면 탐색 효율이 더 좋아질 거예요.', NOW() - INTERVAL 68 MINUTE),
+(34, 1, '위시리스트 기능과 연동하면 구매 전환에 도움이 될 것 같습니다.', NOW() - INTERVAL 67 MINUTE),
+(35, 1, '사용자 간 취향 매칭 기능도 재미있을 것 같아요. 소셜 커머스 요소로요.', NOW() - INTERVAL 66 MINUTE),
+(36, 1, '뷰티 트렌드가 빠르게 변하는데 실시간 데이터 반영이 큰 장점이네요.', NOW() - INTERVAL 65 MINUTE),
+(37, 1, 'MD의 전문성과 AI의 데이터 분석력을 결합한 하이브리드 접근이 인상적이에요.', NOW() - INTERVAL 64 MINUTE),
+(38, 1, '리뷰 데이터까지 통합하면 추천 신뢰도가 훨씬 높아질 것 같습니다.', NOW() - INTERVAL 63 MINUTE),
+(39, 1, '첫 사용 경험이 중요한데 온보딩 플로우를 잘 설계하면 좋겠어요.', NOW() - INTERVAL 62 MINUTE),
+(40, 1, '동남아 시장에서 K-뷰티 수요가 높은데 딱 맞는 서비스라고 생각합니다.', NOW() - INTERVAL 61 MINUTE),
+(41, 1, '스와이프 히스토리를 기반으로 취향 리포트를 제공하면 재방문율이 올라갈 듯요.', NOW() - INTERVAL 60 MINUTE),
+(42, 1, '오프라인 팝업 스토어에서 스와이프 체험존을 운영해도 재미있겠어요.', NOW() - INTERVAL 59 MINUTE),
+(43, 1, '가격대별 필터와 함께 제공하면 실구매로 이어질 확률이 높아질 것 같아요.', NOW() - INTERVAL 58 MINUTE),
+(44, 1, '다국어 지원과 현지화 추천이 글로벌 성공의 관건이 될 것 같습니다.', NOW() - INTERVAL 57 MINUTE),
+(45, 1, '성분 기반 추천까지 더하면 클린뷰티 트렌드에도 대응할 수 있겠네요.', NOW() - INTERVAL 56 MINUTE),
+(46, 1, '스와이프 데이터로 시즌 트렌드 리포트를 발행하면 B2B 가치도 있어요.', NOW() - INTERVAL 55 MINUTE),
+(47, 1, '사용자 피드백 루프가 빠른 게 AI 서비스의 핵심인데 잘 설계된 것 같아요.', NOW() - INTERVAL 54 MINUTE),
+(48, 1, 'AR 가상 체험과 연계하면 스와이프 후 바로 발라볼 수 있어서 좋겠어요.', NOW() - INTERVAL 53 MINUTE),
+(49, 1, '구독 모델과 결합해서 매달 스와이프 기반 맞춤 박스를 보내는 것도 가능하겠네요.', NOW() - INTERVAL 52 MINUTE),
+(50, 1, '데이터 프라이버시 이슈만 잘 관리하면 글로벌 확장에 문제없을 것 같아요.', NOW() - INTERVAL 51 MINUTE),
+(51, 1, '올리브영의 상품 다양성이 스와이프 경험을 풍부하게 만들어줄 거예요.', NOW() - INTERVAL 50 MINUTE),
+(52, 1, '비건, 크루얼티프리 등 가치 소비 필터도 글로벌 시장에서 필수적이에요.', NOW() - INTERVAL 49 MINUTE),
+(53, 1, '스와이프 기반 퀴즈 형태로 피부 분석을 하면 재미와 정확도를 동시에 잡을 수 있어요.', NOW() - INTERVAL 48 MINUTE),
+(54, 1, '브랜드사 입장에서도 소비자 반응을 실시간으로 볼 수 있어서 좋을 것 같아요.', NOW() - INTERVAL 47 MINUTE),
+(55, 1, '탐색에서 구매까지의 퍼널을 단축시킬 수 있는 혁신적인 UX라고 생각합니다.', NOW() - INTERVAL 46 MINUTE),
+(56, 1, '경쟁사 대비 올리브영만의 MD 큐레이션이 차별화 무기가 될 수 있어요.', NOW() - INTERVAL 45 MINUTE),
+(57, 1, '유사 취향 사용자 그룹핑으로 커뮤니티 기능도 확장 가능하겠네요.', NOW() - INTERVAL 44 MINUTE),
+(58, 1, '신규 브랜드 발굴에도 스와이프 반응 데이터를 활용할 수 있을 것 같아요.', NOW() - INTERVAL 43 MINUTE),
+(59, 1, '매장 방문 전 스와이프로 미리 탐색하고 매장에서 픽업하는 플로우도 좋겠어요.', NOW() - INTERVAL 42 MINUTE),
+(60, 1, '초개인화 추천이 결국 객단가 상승으로 이어질 수 있는 좋은 전략이에요.', NOW() - INTERVAL 41 MINUTE),
+(61, 1, '실시간 인기 스와이프 랭킹을 보여주면 트렌드 감도 높은 MZ세대가 좋아할 듯요.', NOW() - INTERVAL 40 MINUTE),
+(62, 1, '제품 상세 없이 이미지만으로 1차 필터링하는 게 정보 과부하 해소에 효과적이에요.', NOW() - INTERVAL 39 MINUTE),
+(63, 1, '추천 알고리즘에 계절, 날씨, 이벤트 컨텍스트를 더하면 만족도가 올라갈 거예요.', NOW() - INTERVAL 38 MINUTE),
+(64, 1, '글로벌 뷰티 시장의 디스커버리 플랫폼으로 성장할 가능성이 보입니다.', NOW() - INTERVAL 37 MINUTE),
+(65, 1, '사용자 참여형 콘텐츠와 결합하면 플랫폼 체류 시간을 늘릴 수 있어요.', NOW() - INTERVAL 36 MINUTE),
+(66, 1, '스와이프 UX는 중독성이 있어서 DAU 확보에 유리할 것 같습니다.', NOW() - INTERVAL 35 MINUTE),
+(67, 1, 'K-뷰티의 글로벌 인지도를 활용한 타이밍이 적절하다고 봅니다.', NOW() - INTERVAL 34 MINUTE),
+(68, 1, '개인별 뷰티 프로필을 축적하면 장기적으로 엄청난 데이터 자산이 될 거예요.', NOW() - INTERVAL 33 MINUTE),
+(69, 1, '브랜드 광고 모델로도 수익화가 가능한 구조라 비즈니스 모델이 탄탄해요.', NOW() - INTERVAL 32 MINUTE),
+(70, 1, '사용자 취향 변화를 추적하면 라이프스타일 변화에 맞는 추천도 가능하겠네요.', NOW() - INTERVAL 31 MINUTE),
+(71, 1, '간단한 스와이프 동작으로 복잡한 의사결정을 도와주는 설계가 좋습니다.', NOW() - INTERVAL 30 MINUTE),
+(72, 1, '오프라인 매장의 동선 데이터와 결합하면 옴니채널 인사이트가 가능해요.', NOW() - INTERVAL 29 MINUTE),
+(73, 1, '신상품 론칭 시 스와이프 캠페인으로 초기 반응 테스트를 할 수 있겠네요.', NOW() - INTERVAL 28 MINUTE),
+(74, 1, '컬래버레이션 추천 기능으로 브랜드 간 크로스셀링도 가능할 것 같아요.', NOW() - INTERVAL 27 MINUTE),
+(75, 1, '글로벌 셀럽과의 콜라보 큐레이션도 바이럴 효과가 클 것 같습니다.', NOW() - INTERVAL 26 MINUTE),
+(76, 1, '사용 편의성과 데이터 수집을 동시에 달성하는 똑똑한 접근이에요.', NOW() - INTERVAL 25 MINUTE),
+(77, 1, '스킨케어 루틴 추천까지 확장하면 종합 뷰티 어드바이저가 될 수 있어요.', NOW() - INTERVAL 24 MINUTE),
+(78, 1, '리뷰어 등급과 연계하면 양질의 사용자 생성 콘텐츠 확보에도 도움이 돼요.', NOW() - INTERVAL 23 MINUTE),
+(79, 1, '기존 올리브영 멤버십과 통합하면 시너지가 극대화될 것 같습니다.', NOW() - INTERVAL 22 MINUTE),
+(80, 1, '단순히 제품을 보여주는 게 아니라 스토리텔링을 더하면 몰입감이 높아져요.', NOW() - INTERVAL 21 MINUTE),
+(81, 1, '피부 톤 분석 AI와 결합하면 색조 제품 추천 정확도가 크게 올라갈 듯요.', NOW() - INTERVAL 20 MINUTE),
+(82, 1, '친구와 함께 스와이프하는 소셜 기능이 있으면 바이럴에 좋겠어요.', NOW() - INTERVAL 19 MINUTE),
+(83, 1, '스와이프 데이터 기반 수요 예측으로 재고 관리 최적화에도 기여할 수 있어요.', NOW() - INTERVAL 18 MINUTE),
+(84, 1, '환불률 감소에도 기여할 수 있는 서비스라고 생각합니다. 취향 매칭이니까요.', NOW() - INTERVAL 17 MINUTE),
+(85, 1, '올리브영 자체 PB 브랜드 홍보에도 효과적으로 활용할 수 있을 것 같아요.', NOW() - INTERVAL 16 MINUTE),
+(86, 1, 'CRM 데이터와 연계하면 이탈 방지 추천도 가능하겠네요.', NOW() - INTERVAL 15 MINUTE),
+(87, 1, '단계별 롤아웃으로 국내 검증 후 글로벌 확장하는 전략이 합리적입니다.', NOW() - INTERVAL 14 MINUTE),
+(88, 1, '사용자 경험 개선을 위한 A/B 테스트가 용이한 구조라 빠른 iteration이 가능해요.', NOW() - INTERVAL 13 MINUTE),
+(89, 1, '뷰티 유튜버와 콜라보해서 스와이프 챌린지를 만들면 홍보 효과가 클 것 같아요.', NOW() - INTERVAL 12 MINUTE),
+(90, 1, '매출 데이터와 스와이프 데이터를 교차 분석하면 숨은 인사이트를 발굴할 수 있어요.', NOW() - INTERVAL 11 MINUTE),
+(91, 1, '올리브영의 오프라인 강점과 디지털 혁신을 잘 결합한 아이디어입니다.', NOW() - INTERVAL 10 MINUTE),
+(92, 1, '그린뷰티, 클린뷰티 트렌드에 맞는 필터링 기능도 있으면 좋겠어요.', NOW() - INTERVAL 9 MINUTE),
+(93, 1, 'MVP를 빠르게 만들어서 실제 사용자 반응을 보는 게 중요할 것 같아요.', NOW() - INTERVAL 8 MINUTE),
+(94, 1, '제품 비교 기능과 결합하면 구매 결정을 더 쉽게 도와줄 수 있을 거예요.', NOW() - INTERVAL 7 MINUTE),
+(95, 1, '멤버십 등급별 독점 추천 등 프리미엄 기능으로 수익화도 가능하겠네요.', NOW() - INTERVAL 6 MINUTE),
+(96, 1, '고객 여정 전체를 데이터로 추적할 수 있는 강력한 도구가 될 것 같아요.', NOW() - INTERVAL 5 MINUTE),
+(97, 1, '기술적 구현 난이도 대비 사업적 임팩트가 크다고 판단됩니다.', NOW() - INTERVAL 4 MINUTE),
+(98, 1, '결국 고객 만족과 매출 증대를 동시에 달성할 수 있는 윈윈 서비스예요.', NOW() - INTERVAL 3 MINUTE),
+(99, 1, '올리브영이 글로벌 뷰티 테크 기업으로 도약하는 데 핵심 역할을 할 수 있어요.', NOW() - INTERVAL 2 MINUTE),
+(100, 1, '전체적으로 완성도 높은 아이디어입니다. 실행력이 기대됩니다!', NOW() - INTERVAL 1 MINUTE);
