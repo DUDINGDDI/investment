@@ -18,5 +18,4 @@ public class BoothResponse {
     private String themeColor;
     private Long totalInvestment;
     private Long myInvestment;
-    private Boolean hasRated;
 }

@@ -18,7 +18,6 @@ public class InvestmentService {
     private final BoothRepository boothRepository;
     private final InvestmentRepository investmentRepository;
     private final InvestmentHistoryRepository investmentHistoryRepository;
-    private final BoothRatingRepository boothRatingRepository;
     private final SettingService settingService;
 
     @Transactional
