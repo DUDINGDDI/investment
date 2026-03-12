@@ -215,12 +215,21 @@ export default function IdeaBoardPage() {
   useEffect(() => {
     const root = document.getElementById('root')
     if (!root) return
+    const originalWidth = root.style.width
     const originalMaxWidth = root.style.maxWidth
     const originalZoom = (root.style as CSSStyleDeclaration & { zoom: string }).zoom
+    const originalHeight = root.style.height
+    const originalOverflow = root.style.overflow
+    root.style.width = '100%'
     root.style.maxWidth = 'none'
-    ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = ''
+    root.style.height = 'auto'
+    root.style.overflow = 'visible'
+    ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = '1'
     return () => {
+      root.style.width = originalWidth
       root.style.maxWidth = originalMaxWidth
+      root.style.height = originalHeight
+      root.style.overflow = originalOverflow
       ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = originalZoom
     }
   }, [])
