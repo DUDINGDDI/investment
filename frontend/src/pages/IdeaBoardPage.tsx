@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, useLayoutEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import PageBackButton from '../components/PageBackButton'
 import { ideaBoardApi } from '../api'
@@ -19,9 +19,9 @@ type ClipPos = 'left' | 'center' | 'right'
 const CLIP_POSITIONS: ClipPos[] = ['left', 'center', 'right']
 
 const FALLBACK_INTERVAL = 30
-const CARD_W = 300
-const CARD_ESTIMATED_H = 200
+const CARD_W = 450
 const BOARD_PAD = 40
+const CARD_GAP = 40
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed * 9301 + 49297) * 49297
@@ -65,32 +65,37 @@ interface CardPos {
 
 function computePositions(
   comments: StockCommentResponse[],
-  boardWidth: number
+  boardWidth: number,
+  cardHeights: number[]
 ): { positions: CardPos[]; boardHeight: number } {
   const usableW = boardWidth - BOARD_PAD * 2
   const cols = Math.max(1, Math.floor(usableW / (CARD_W + 30)))
   const cellW = usableW / cols
-  const cellH = CARD_ESTIMATED_H + 90
-  const rows = Math.ceil(comments.length / cols)
+
+  // 각 열의 현재 높이를 추적 (masonry)
+  const colHeights = new Array(cols).fill(0)
 
   const positions = comments.map((c, i) => {
-    const col = i % cols
-    const row = Math.floor(i / cols)
+    // 가장 짧은 열 찾기
+    const shortestCol = colHeights.indexOf(Math.min(...colHeights))
 
-    const jitterX = (seededRandom(c.id * 3) - 0.5) * (cellW - CARD_W + 60)
-    const jitterY = (seededRandom(c.id * 7) - 0.5) * 80
+    const jitterX = (seededRandom(c.id * 3) - 0.5) * Math.min(cellW - CARD_W, 40)
     const rotation = (seededRandom(c.id * 11) - 0.5) * 14
     const zIndex = Math.floor(seededRandom(c.id * 13) * 20)
     const color = POSTIT_COLORS[Math.floor(seededRandom(c.id * 17) * POSTIT_COLORS.length)]
     const clipPos = CLIP_POSITIONS[Math.floor(seededRandom(c.id * 29) * CLIP_POSITIONS.length)]
     const clipRotation = (seededRandom(c.id * 43) - 0.5) * 20
 
+    const top = colHeights[shortestCol] + 30
+    const actualH = cardHeights[i] || 200
+    colHeights[shortestCol] = top + actualH + CARD_GAP
+
     return {
       left: Math.max(10, Math.min(
         boardWidth - CARD_W - 10,
-        BOARD_PAD + col * cellW + cellW / 2 - CARD_W / 2 + jitterX
+        BOARD_PAD + shortestCol * cellW + cellW / 2 - CARD_W / 2 + jitterX
       )),
-      top: row * cellH + jitterY + 30,
+      top,
       rotation,
       zIndex,
       from: color.from,
@@ -102,7 +107,7 @@ function computePositions(
     }
   })
 
-  return { positions, boardHeight: rows * cellH + 120 }
+  return { positions, boardHeight: Math.max(...colHeights) + 80 }
 }
 
 export default function IdeaBoardPage() {
@@ -116,6 +121,8 @@ export default function IdeaBoardPage() {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const knownIdsRef = useRef<Set<number>>(new Set())
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const cardRefsMap = useRef<Map<number, HTMLDivElement>>(new Map())
+  const [cardHeights, setCardHeights] = useState<number[]>([])
   const boardWidth = useBoardWidth(wrapperRef)
 
   // 폴링 폴백용
@@ -266,10 +273,20 @@ export default function IdeaBoardPage() {
     else document.exitFullscreen?.()
   }, [])
 
+  // 카드 높이 측정
+  useLayoutEffect(() => {
+    if (!board || board.comments.length === 0) return
+    const heights = board.comments.map((c) => {
+      const el = cardRefsMap.current.get(c.id)
+      return el ? el.offsetHeight : 200
+    })
+    setCardHeights(heights)
+  }, [board, boardWidth])
+
   const { positions, boardHeight } = useMemo(() => {
     if (!board || board.comments.length === 0) return { positions: [], boardHeight: 0 }
-    return computePositions(board.comments, boardWidth)
-  }, [board, boardWidth])
+    return computePositions(board.comments, boardWidth, cardHeights)
+  }, [board, boardWidth, cardHeights])
 
   if (loading) return <div className={styles.loading}>로딩 중...</div>
   if (error || !board) {
@@ -307,6 +324,10 @@ export default function IdeaBoardPage() {
             return (
               <div
                 key={comment.id}
+                ref={(el) => {
+                  if (el) cardRefsMap.current.set(comment.id, el)
+                  else cardRefsMap.current.delete(comment.id)
+                }}
                 className={`${styles.card} ${isNew ? styles.cardNew : ''}`}
                 style={{
                   left: pos.left,
@@ -332,8 +353,11 @@ export default function IdeaBoardPage() {
                 {/* 내용 */}
                 <div className={styles.cardHeader}>
                   <span className={styles.cardAuthor}>
-                    {comment.userName}{comment.userCompany ? ` (${comment.userCompany})` : ''}님
+                    {comment.userName}님
                   </span>
+                  {comment.userCompany && (
+                    <span className={styles.cardCompany}>{comment.userCompany}</span>
+                  )}
                 </div>
                 <p className={styles.cardContent}>{comment.content}</p>
               </div>

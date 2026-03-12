@@ -32,22 +32,22 @@
 .headerText { display: flex; align-items: baseline; gap: 12px; }
 
 .boothName {
-  font-size: 60px;
+  font-size: 90px;
   font-weight: 900;
   color: #1a1a1a;
   text-shadow: none;
 }
 
-.boothCategory { font-size: 30px; color: rgba(0, 0, 0, 0.5); }
+.boothCategory { font-size: 45px; color: rgba(0, 0, 0, 0.5); }
 
 .commentCount {
   margin-left: auto;
-  font-size: 14px;
+  font-size: 21px;
   color: rgba(0, 0, 0, 0.6);
   white-space: nowrap;
   background: rgba(0, 0, 0, 0.08);
-  padding: 6px 14px;
-  border-radius: 16px;
+  padding: 9px 21px;
+  border-radius: 24px;
 }
 
 /* ───── Board ───── */
@@ -59,7 +59,7 @@
 .card {
   position: absolute;
   border-radius: 2px;
-  padding: 28px 20px 20px;
+  padding: 42px 30px 30px;
   cursor: default;
   transition: box-shadow 0.3s ease;
   transform-origin: top center;
@@ -150,26 +150,26 @@
 
 .cardHeader {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
 }
 
 .cardAuthor {
-  font-size: 25px;
+  font-size: 37px;
   font-weight: 800;
   color: var(--card-text);
   letter-spacing: -0.3px;
 }
 
 .cardCompany {
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 600;
   color: var(--card-sub);
 }
 
 .cardContent {
-  font-size: 20px;
+  font-size: 30px;
   line-height: 1.65;
   color: var(--card-text);
   word-break: break-word;
@@ -238,11 +238,11 @@
   justify-content: center;
   min-height: 50vh;
   color: #1a1a1a;
-  font-size: 36px;
-  gap: 12px;
+  font-size: 54px;
+  gap: 18px;
 }
 
-.emptyIcon { font-size: 96px; }
+.emptyIcon { font-size: 144px; }
 
 .loading {
   display: flex;
