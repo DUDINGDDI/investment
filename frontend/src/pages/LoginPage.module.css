@@ -1,8 +1,9 @@
 .container {
-  min-height: 100vh;
+  height: calc(100vh / var(--zoom, 1));
   display: flex;
   flex-direction: column;
   padding: 0 24px;
+  overflow: hidden;
 }
 
 .header {
@@ -11,7 +12,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 80px;
+  min-height: 0;
 }
 
 .logo {

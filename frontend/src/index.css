@@ -51,18 +51,25 @@ html, body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100%;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --zoom: 1;
 }
 
 #root {
   width: var(--app-max-width);
   margin: 0 auto;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: calc(100vh / var(--zoom));
+  height: calc(100dvh / var(--zoom));
   background: var(--bg-primary);
   position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 button {
