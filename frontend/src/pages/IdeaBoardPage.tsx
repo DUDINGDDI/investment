@@ -220,17 +220,26 @@ export default function IdeaBoardPage() {
     const originalZoom = (root.style as CSSStyleDeclaration & { zoom: string }).zoom
     const originalHeight = root.style.height
     const originalOverflow = root.style.overflow
-    root.style.width = '100%'
+    root.style.width = '100vw'
     root.style.maxWidth = 'none'
     root.style.height = 'auto'
     root.style.overflow = 'visible'
     ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = '1'
+    // body도 스크롤 허용
+    document.body.style.overflow = 'auto'
+    document.body.style.height = 'auto'
+    document.documentElement.style.overflow = 'auto'
+    document.documentElement.style.height = 'auto'
     return () => {
       root.style.width = originalWidth
       root.style.maxWidth = originalMaxWidth
       root.style.height = originalHeight
       root.style.overflow = originalOverflow
       ;(root.style as CSSStyleDeclaration & { zoom: string }).zoom = originalZoom
+      document.body.style.overflow = ''
+      document.body.style.height = ''
+      document.documentElement.style.overflow = ''
+      document.documentElement.style.height = ''
     }
   }, [])
 
