@@ -19,22 +19,13 @@ type ClipPos = 'left' | 'center' | 'right'
 const CLIP_POSITIONS: ClipPos[] = ['left', 'center', 'right']
 
 const FALLBACK_INTERVAL = 30
-const CARD_W = 250
+const CARD_W = 300
 const CARD_ESTIMATED_H = 200
 const BOARD_PAD = 40
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed * 9301 + 49297) * 49297
   return x - Math.floor(x)
-}
-
-function formatTime(dateStr: string) {
-  const d = new Date(dateStr)
-  const month = d.getMonth() + 1
-  const day = d.getDate()
-  const hour = d.getHours().toString().padStart(2, '0')
-  const min = d.getMinutes().toString().padStart(2, '0')
-  return `${month}/${day} ${hour}:${min}`
 }
 
 function useWindowWidth() {
@@ -314,7 +305,6 @@ export default function IdeaBoardPage() {
                   {comment.userCompany && <span className={styles.cardCompany}>{comment.userCompany}</span>}
                 </div>
                 <p className={styles.cardContent}>{comment.content}</p>
-                <div className={styles.cardTime}>{formatTime(comment.createdAt)}</div>
               </div>
             )
           })}

@@ -28,16 +28,16 @@
   border-bottom: 2px solid rgba(0, 0, 0, 0.08);
 }
 
-.headerText { display: flex; flex-direction: column; gap: 2px; }
+.headerText { display: flex; align-items: baseline; gap: 12px; }
 
 .boothName {
-  font-size: 36px;
+  font-size: 60px;
   font-weight: 900;
   color: #1a1a1a;
   text-shadow: none;
 }
 
-.boothCategory { font-size: 14px; color: rgba(0, 0, 0, 0.5); }
+.boothCategory { font-size: 30px; color: rgba(0, 0, 0, 0.5); }
 
 .commentCount {
   margin-left: auto;
@@ -155,33 +155,25 @@
 }
 
 .cardAuthor {
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 800;
   color: var(--card-text);
   letter-spacing: -0.3px;
 }
 
 .cardCompany {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--card-sub);
 }
 
 .cardContent {
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1.65;
   color: var(--card-text);
   word-break: break-word;
   white-space: pre-wrap;
   font-weight: 500;
-}
-
-.cardTime {
-  margin-top: 10px;
-  font-size: 10px;
-  color: var(--card-sub);
-  opacity: 0.5;
-  text-align: right;
 }
 
 /* ───── Fullscreen ───── */
