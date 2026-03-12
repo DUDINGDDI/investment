@@ -1644,3 +1644,28 @@ INSERT INTO stock_comments (user_id, stock_booth_id, content, created_at) VALUES
 (98, 1, '전체적으로 완성도 높은 아이디어입니다. 실행력이 기대됩니다!전체적으로 완성도 높은 아이디어입니다. 실행력이 기대됩니다!전체적으로 완성도 높은 아이디어입니다.', NOW() - INTERVAL 3 MINUTE),
 (99, 1, '전체적으로 완성도 높은 아이디어입니다. 실행력이 기대됩니다!전체적으로 완성도 높은 아이디어입니다. 실행력이 기대됩니다!전체적으로 완성도 높은 아이디어입니다.', NOW() - INTERVAL 2 MINUTE),
 (100, 1, '전체적으로 완성도 높은 아이디어입니다. 실행력이 기대됩니다!전체적으로 완성도 높은 아이디어입니다. 실행력이 기대됩니다!전체적으로 완성도 높은 아이디어입니다.', NOW() - INTERVAL 1 MINUTE);
+
+-- ──────────────────────────────────────────────
+-- stock_ratings (리뷰 포함 시드 데이터)
+-- ──────────────────────────────────────────────
+INSERT INTO stock_ratings (user_id, stock_booth_id, score_first, score_best, score_different, score_number_one, score_gap, score_global, review, created_at, updated_at) VALUES
+(1, 1, 5, 4, 5, 4, 5, 4, '스와이프 UX가 직관적이고 글로벌 확장성이 뛰어나요', NOW() - INTERVAL 90 MINUTE, NOW() - INTERVAL 90 MINUTE),
+(2, 1, 4, 5, 4, 5, 4, 5, 'AI 추천 정확도가 높아지면 K-뷰티 시장을 선도할 수 있어요', NOW() - INTERVAL 88 MINUTE, NOW() - INTERVAL 88 MINUTE),
+(3, 1, 5, 5, 4, 4, 5, 5, '올리브영 MD 역량과 AI의 결합이 차별화 포인트입니다', NOW() - INTERVAL 86 MINUTE, NOW() - INTERVAL 86 MINUTE),
+(4, 1, 4, 4, 5, 5, 4, 4, '선택 피로도 해소라는 고객 니즈를 정확히 짚었습니다', NOW() - INTERVAL 84 MINUTE, NOW() - INTERVAL 84 MINUTE),
+(5, 1, 5, 4, 4, 5, 5, 4, '실시간 데이터 학습으로 개인화 수준이 계속 올라가겠네요', NOW() - INTERVAL 82 MINUTE, NOW() - INTERVAL 82 MINUTE),
+(6, 1, 4, 5, 5, 4, 4, 5, '글로벌 고객 접근성을 높이는 혁신적인 서비스입니다', NOW() - INTERVAL 80 MINUTE, NOW() - INTERVAL 80 MINUTE),
+(7, 1, 5, 5, 5, 5, 4, 4, '맞춤형 추천으로 전환율을 크게 높일 수 있을 것 같아요', NOW() - INTERVAL 78 MINUTE, NOW() - INTERVAL 78 MINUTE),
+(8, 1, 4, 4, 4, 5, 5, 5, '정보 과부하 문제를 재미있는 방식으로 해결했습니다', NOW() - INTERVAL 76 MINUTE, NOW() - INTERVAL 76 MINUTE),
+(9, 1, 5, 5, 4, 4, 4, 5, '뷰티 시장에서 이런 탐색 경험은 처음이라 신선해요', NOW() - INTERVAL 74 MINUTE, NOW() - INTERVAL 74 MINUTE),
+(10, 1, 4, 4, 5, 5, 5, 4, '데이터 기반 큐레이션이 기존 추천과 확실히 다릅니다', NOW() - INTERVAL 72 MINUTE, NOW() - INTERVAL 72 MINUTE),
+(11, 2, 5, 5, 5, 4, 4, 5, '대형 조형물 아이디어가 브랜드 각인에 효과적이에요', NOW() - INTERVAL 70 MINUTE, NOW() - INTERVAL 70 MINUTE),
+(12, 2, 4, 5, 4, 5, 5, 4, '오프닝 세레모니 IP는 글로벌 마케팅에 활용도 높겠어요', NOW() - INTERVAL 68 MINUTE, NOW() - INTERVAL 68 MINUTE),
+(13, 2, 5, 4, 5, 4, 4, 5, '참여형 경험이라 SNS 바이럴에 최적화된 구조입니다', NOW() - INTERVAL 66 MINUTE, NOW() - INTERVAL 66 MINUTE),
+(14, 2, 4, 4, 4, 5, 5, 5, '핵심 상권 설치 전략이 브랜드 인지도를 빠르게 높이겠네요', NOW() - INTERVAL 64 MINUTE, NOW() - INTERVAL 64 MINUTE),
+(15, 2, 5, 5, 5, 5, 4, 4, '올리브영의 글로벌 첫인상을 결정짓는 임팩트 있는 기획', NOW() - INTERVAL 62 MINUTE, NOW() - INTERVAL 62 MINUTE),
+(16, 3, 4, 5, 5, 4, 5, 4, 'DIY와 ASMR의 조합이 Z세대 감성을 잘 잡았어요', NOW() - INTERVAL 60 MINUTE, NOW() - INTERVAL 60 MINUTE),
+(17, 3, 5, 4, 4, 5, 4, 5, '직접 만드는 체험이 브랜드 충성도를 높일 수 있겠네요', NOW() - INTERVAL 58 MINUTE, NOW() - INTERVAL 58 MINUTE),
+(18, 3, 4, 5, 5, 5, 5, 4, '커스텀 색조 시장의 빈틈을 잘 공략한 아이디어입니다', NOW() - INTERVAL 56 MINUTE, NOW() - INTERVAL 56 MINUTE),
+(19, 3, 5, 4, 4, 4, 4, 5, '와작 부수는 경험이 재미있고 콘텐츠 소재로도 좋아요', NOW() - INTERVAL 54 MINUTE, NOW() - INTERVAL 54 MINUTE),
+(20, 3, 4, 5, 5, 5, 5, 5, '체험형 매장 트렌드와 완벽하게 맞아떨어지는 기획이에요', NOW() - INTERVAL 52 MINUTE, NOW() - INTERVAL 52 MINUTE);

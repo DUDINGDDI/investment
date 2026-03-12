@@ -351,6 +351,9 @@ export default function IdeaBoardPage() {
                 </div>
 
                 {/* 내용 */}
+                {comment.tag && (
+                  <span className={styles.cardTag}>{comment.tag}</span>
+                )}
                 <div className={styles.cardHeader}>
                   <span className={styles.cardAuthor}>
                     {comment.userName}님
