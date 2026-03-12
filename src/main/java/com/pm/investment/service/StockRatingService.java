@@ -2,6 +2,7 @@ package com.pm.investment.service;
 
 import com.pm.investment.dto.AdminBoothRatingResponse;
 import com.pm.investment.dto.BoothReviewResponse;
+import com.pm.investment.dto.StockCommentResponse;
 import com.pm.investment.dto.StockRatingRequest;
 import com.pm.investment.dto.StockRatingResponse;
 import com.pm.investment.entity.StockBooth;
@@ -29,6 +30,8 @@ public class StockRatingService {
     private final StockBoothRepository stockBoothRepository;
     private final StockBoothVisitRepository stockBoothVisitRepository;
     private final MissionService missionService;
+    private final IdeaBoardSseService ideaBoardSseService;
+    private final IdeaBoardNotifier ideaBoardNotifier;
 
     @Transactional
     public StockRatingResponse submitRating(Long userId, Long boothId, StockRatingRequest request) {
@@ -70,6 +73,21 @@ public class StockRatingService {
         // sincere 미션 자동 달성 체크: 리뷰가 포함된 평가 수
         long reviewCount = stockRatingRepository.countByUserIdAndReviewIsNotNull(userId);
         missionService.checkAndUpdateMission(userId, "sincere", (int) reviewCount);
+
+        // 리뷰가 있으면 아이디어 보드에 실시간 브로드캐스트
+        if (rating.getReview() != null && !rating.getReview().isBlank()) {
+            StockCommentResponse reviewComment = StockCommentResponse.builder()
+                    .id(-rating.getId())
+                    .userId(user.getId())
+                    .userName(user.getName())
+                    .userCompany(user.getCompany())
+                    .content(rating.getReview())
+                    .tag("진정성 있게")
+                    .createdAt(rating.getCreatedAt())
+                    .build();
+            ideaBoardSseService.broadcastNewComment(boothId, reviewComment);
+            ideaBoardNotifier.notifyNewComment(boothId, reviewComment);
+        }
 
         return toResponse(rating);
     }

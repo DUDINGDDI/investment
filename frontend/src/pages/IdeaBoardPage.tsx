@@ -306,6 +306,11 @@ export default function IdeaBoardPage() {
         </span>
       </div>
 
+      <div className={styles.tagList}>
+        <span className={styles.tagBadge}>꿈을 원대하게</span>
+        <span className={styles.tagBadge}>진정성 있게</span>
+      </div>
+
       {board.comments.length === 0 ? (
         <div className={styles.empty}>
           <span className={styles.emptyIcon}>📌</span>

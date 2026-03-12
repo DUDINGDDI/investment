@@ -50,6 +50,22 @@
   border-radius: 24px;
 }
 
+/* ───── Tag List ───── */
+.tagList {
+  display: flex;
+  gap: 12px;
+  padding: 0 40px 16px;
+}
+
+.tagBadge {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  background: rgba(0, 0, 0, 0.07);
+  padding: 8px 20px;
+  border-radius: 20px;
+}
+
 /* ───── Board ───── */
 .board { position: relative; width: 100%; padding: 20px 0; }
 
