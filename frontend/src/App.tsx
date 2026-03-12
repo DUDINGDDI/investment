@@ -89,7 +89,27 @@ export default function App() {
 
     updateZoom()
     window.addEventListener('resize', updateZoom)
-    return () => window.removeEventListener('resize', updateZoom)
+
+    // PWA 또는 태블릿: 첫 터치 시 전체화면 진입
+    const requestFullscreen = () => {
+      const doc = document.documentElement
+      if (!document.fullscreenElement && doc.requestFullscreen) {
+        doc.requestFullscreen().catch(() => {})
+      }
+      document.removeEventListener('click', requestFullscreen)
+    }
+    // standalone 모드(홈화면 추가)이거나 태블릿 크기일 때 전체화면 시도
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || window.matchMedia('(display-mode: fullscreen)').matches
+      || (navigator as unknown as { standalone: boolean }).standalone
+    if (isStandalone || window.innerWidth >= 768) {
+      document.addEventListener('click', requestFullscreen)
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateZoom)
+      document.removeEventListener('click', requestFullscreen)
+    }
   }, [])
 
   return (
