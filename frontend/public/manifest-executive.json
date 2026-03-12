@@ -1,0 +1,22 @@
+{
+  "name": "임원 투자 보고서",
+  "short_name": "임원투자",
+  "start_url": "/executive",
+  "scope": "/executive",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/CJ_Group_Full Color.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/CJ_Group_Full Color.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

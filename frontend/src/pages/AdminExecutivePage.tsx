@@ -26,6 +26,22 @@ export default function AdminExecutivePage() {
     }
   }, [])
 
+  // executive 전용 PWA manifest + SW 등록
+  useEffect(() => {
+    const manifestLink = document.querySelector('link[rel="manifest"]') as HTMLLinkElement | null
+    const prevHref = manifestLink?.getAttribute('href') || '/manifest.json'
+    if (manifestLink) manifestLink.setAttribute('href', '/manifest-executive.json')
+
+    const themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null
+    const prevTheme = themeMeta?.content
+    if (themeMeta) themeMeta.content = '#1a1a1a'
+
+    return () => {
+      if (manifestLink) manifestLink.setAttribute('href', prevHref)
+      if (themeMeta && prevTheme) themeMeta.content = prevTheme
+    }
+  }, [])
+
   useEffect(() => {
     adminApi.getExecutiveInvestments().then(res => {
       setData(res.data)
