@@ -1466,77 +1466,77 @@ INSERT INTO investments (user_id, booth_id, amount, created_at, updated_at) VALU
 (337, 5, 200000000, NOW(), NOW()),
 (337, 11, 150000000, NOW(), NOW());
 
--- 임원 메모 더미데이터
-INSERT INTO booth_memos (user_id, booth_id, content, created_at, updated_at) VALUES
--- 이선호 (312)
-(312, 1, '제일제당의 핵심 역량이 잘 드러나는 아이디어. 실행력에 기대가 큽니다.', NOW(), NOW()),
-(312, 4, '올리브영의 고객 접점 확장 전략이 인상적입니다.', NOW(), NOW()),
--- 김석규 (313)
-(313, 2, '물류 혁신의 방향성이 명확하고 실현 가능성이 높아 보입니다.', NOW(), NOW()),
--- 이보배 (314)
-(314, 1, '식품 사업의 미래를 잘 그려냈습니다. 글로벌 확장 가능성도 엿보입니다.', NOW(), NOW()),
-(314, 5, '디지털 전환의 핵심을 잘 짚었습니다.', NOW(), NOW()),
--- 김도한 (315)
-(315, 3, '건설부문의 차별화 전략이 돋보입니다.', NOW(), NOW()),
-(315, 7, '커머스의 새로운 가능성을 발견했습니다.', NOW(), NOW()),
--- 정유진 (316)
-(316, 1, '가장 완성도 높은 발표였습니다. 전략적 방향이 명확합니다.', NOW(), NOW()),
--- 한지호 (317)
-(317, 4, '뷰티 시장의 트렌드를 잘 반영한 아이디어입니다.', NOW(), NOW()),
--- 신대철 (318)
-(318, 6, '엔터 콘텐츠의 확장성이 뛰어납니다. IP 활용 전략이 좋습니다.', NOW(), NOW()),
--- 이종훈 (320)
-(320, 2, '대한통운의 기술 혁신이 잘 표현되었습니다.', NOW(), NOW()),
--- 최정필 (322)
-(322, 3, '건설부문의 비전이 가장 와닿았습니다.', NOW(), NOW()),
--- 이영아 (324)
-(324, 4, '올리브영다운 창의적인 접근이었습니다. 실행하면 좋겠습니다.', NOW(), NOW()),
--- 신근섭 (326)
-(326, 6, '엔터테인먼트의 새로운 비즈니스 모델 제안이 신선합니다.', NOW(), NOW()),
--- 김지현 (328)
-(328, 7, '커머스 플랫폼의 진화 방향이 잘 제시되었습니다.', NOW(), NOW()),
--- 유태우 (330)
-(330, 8, '프레시웨이의 차별화 포인트가 명확합니다.', NOW(), NOW()),
--- 양수민 (332)
-(332, 9, 'CGV의 공간 혁신 아이디어가 탁월합니다.', NOW(), NOW()),
--- 허지수 (334)
-(334, 10, '푸드빌의 F&B 전략이 시장 트렌드와 잘 맞습니다.', NOW(), NOW()),
--- 이장욱 (336)
-(336, 5, '올리브네트웍스의 기술 기반 솔루션이 인상 깊습니다.', NOW(), NOW());
-
--- 임원 잔액 차감 (투자금만큼)
-UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 312;
-UPDATE users SET balance = 1000000000 - 300000000 WHERE id = 313;
-UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 314;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 315;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 316;
-UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 317;
-UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 318;
-UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 319;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 320;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 321;
-UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 322;
-UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 323;
-UPDATE users SET balance = 1000000000 - 480000000 WHERE id = 324;
-UPDATE users SET balance = 1000000000 - 370000000 WHERE id = 325;
-UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 326;
-UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 327;
-UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 328;
-UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 329;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 330;
-UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 331;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 332;
-UPDATE users SET balance = 1000000000 - 330000000 WHERE id = 333;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 334;
-UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 335;
-UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 336;
-UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 337;
-
--- ──────────────────────────────────────────────
--- CJ인재원 운영진 전체 부스 방문 처리 (장한빈, 문선우, 강슬기, 한필우)
--- ──────────────────────────────────────────────
-INSERT INTO stock_booth_visits (user_id, stock_booth_id, visited_at)
-SELECT u.id, sb.id, NOW()
-FROM users u
-         CROSS JOIN stock_booths sb
-WHERE u.unique_code IN ('305950', '312497', '304603', '315531');
+-- -- 임원 메모 더미데이터
+-- INSERT INTO booth_memos (user_id, booth_id, content, created_at, updated_at) VALUES
+-- -- 이선호 (312)
+-- (312, 1, '제일제당의 핵심 역량이 잘 드러나는 아이디어. 실행력에 기대가 큽니다.', NOW(), NOW()),
+-- (312, 4, '올리브영의 고객 접점 확장 전략이 인상적입니다.', NOW(), NOW()),
+-- -- 김석규 (313)
+-- (313, 2, '물류 혁신의 방향성이 명확하고 실현 가능성이 높아 보입니다.', NOW(), NOW()),
+-- -- 이보배 (314)
+-- (314, 1, '식품 사업의 미래를 잘 그려냈습니다. 글로벌 확장 가능성도 엿보입니다.', NOW(), NOW()),
+-- (314, 5, '디지털 전환의 핵심을 잘 짚었습니다.', NOW(), NOW()),
+-- -- 김도한 (315)
+-- (315, 3, '건설부문의 차별화 전략이 돋보입니다.', NOW(), NOW()),
+-- (315, 7, '커머스의 새로운 가능성을 발견했습니다.', NOW(), NOW()),
+-- -- 정유진 (316)
+-- (316, 1, '가장 완성도 높은 발표였습니다. 전략적 방향이 명확합니다.', NOW(), NOW()),
+-- -- 한지호 (317)
+-- (317, 4, '뷰티 시장의 트렌드를 잘 반영한 아이디어입니다.', NOW(), NOW()),
+-- -- 신대철 (318)
+-- (318, 6, '엔터 콘텐츠의 확장성이 뛰어납니다. IP 활용 전략이 좋습니다.', NOW(), NOW()),
+-- -- 이종훈 (320)
+-- (320, 2, '대한통운의 기술 혁신이 잘 표현되었습니다.', NOW(), NOW()),
+-- -- 최정필 (322)
+-- (322, 3, '건설부문의 비전이 가장 와닿았습니다.', NOW(), NOW()),
+-- -- 이영아 (324)
+-- (324, 4, '올리브영다운 창의적인 접근이었습니다. 실행하면 좋겠습니다.', NOW(), NOW()),
+-- -- 신근섭 (326)
+-- (326, 6, '엔터테인먼트의 새로운 비즈니스 모델 제안이 신선합니다.', NOW(), NOW()),
+-- -- 김지현 (328)
+-- (328, 7, '커머스 플랫폼의 진화 방향이 잘 제시되었습니다.', NOW(), NOW()),
+-- -- 유태우 (330)
+-- (330, 8, '프레시웨이의 차별화 포인트가 명확합니다.', NOW(), NOW()),
+-- -- 양수민 (332)
+-- (332, 9, 'CGV의 공간 혁신 아이디어가 탁월합니다.', NOW(), NOW()),
+-- -- 허지수 (334)
+-- (334, 10, '푸드빌의 F&B 전략이 시장 트렌드와 잘 맞습니다.', NOW(), NOW()),
+-- -- 이장욱 (336)
+-- (336, 5, '올리브네트웍스의 기술 기반 솔루션이 인상 깊습니다.', NOW(), NOW());
+--
+-- -- 임원 잔액 차감 (투자금만큼)
+-- UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 312;
+-- UPDATE users SET balance = 1000000000 - 300000000 WHERE id = 313;
+-- UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 314;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 315;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 316;
+-- UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 317;
+-- UPDATE users SET balance = 1000000000 - 430000000 WHERE id = 318;
+-- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 319;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 320;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 321;
+-- UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 322;
+-- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 323;
+-- UPDATE users SET balance = 1000000000 - 480000000 WHERE id = 324;
+-- UPDATE users SET balance = 1000000000 - 370000000 WHERE id = 325;
+-- UPDATE users SET balance = 1000000000 - 450000000 WHERE id = 326;
+-- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 327;
+-- UPDATE users SET balance = 1000000000 - 380000000 WHERE id = 328;
+-- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 329;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 330;
+-- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 331;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 332;
+-- UPDATE users SET balance = 1000000000 - 330000000 WHERE id = 333;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 334;
+-- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 335;
+-- UPDATE users SET balance = 1000000000 - 400000000 WHERE id = 336;
+-- UPDATE users SET balance = 1000000000 - 350000000 WHERE id = 337;
+--
+-- -- ──────────────────────────────────────────────
+-- -- CJ인재원 운영진 전체 부스 방문 처리 (장한빈, 문선우, 강슬기, 한필우)
+-- -- ──────────────────────────────────────────────
+-- INSERT INTO stock_booth_visits (user_id, stock_booth_id, visited_at)
+-- SELECT u.id, sb.id, NOW()
+-- FROM users u
+--          CROSS JOIN stock_booths sb
+-- WHERE u.unique_code IN ('305950', '312497', '304603', '315531');
