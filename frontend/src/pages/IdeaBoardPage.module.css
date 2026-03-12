@@ -144,32 +144,19 @@
 }
 
 /* ───── 카드 내용 ───── */
-.cardHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 10px;
+.cardTag {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--card-sub);
+  margin: 0 0 6px;
+  letter-spacing: 0.5px;
 }
 
-.cardAuthorWrap {
+.cardHeader {
   display: flex;
   flex-direction: column;
   gap: 2px;
-}
-
-.cardTag {
-  display: inline-block;
-  flex-shrink: 0;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--card-text);
-  background: rgba(0, 0, 0, 0.15);
-  padding: 5px 14px;
-  border-radius: 20px;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  margin-top: 6px;
+  margin-bottom: 10px;
 }
 
 .cardNew {

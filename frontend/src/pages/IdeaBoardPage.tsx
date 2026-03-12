@@ -351,17 +351,15 @@ export default function IdeaBoardPage() {
                 </div>
 
                 {/* 내용 */}
+                {comment.tag && (
+                  <p className={styles.cardTag}>{comment.tag}</p>
+                )}
                 <div className={styles.cardHeader}>
-                  <div className={styles.cardAuthorWrap}>
-                    <span className={styles.cardAuthor}>
-                      {comment.userName}님
-                    </span>
-                    {comment.userCompany && (
-                      <span className={styles.cardCompany}>{comment.userCompany}</span>
-                    )}
-                  </div>
-                  {comment.tag && (
-                    <span className={styles.cardTag}>{comment.tag}</span>
+                  <span className={styles.cardAuthor}>
+                    {comment.userName}님
+                  </span>
+                  {comment.userCompany && (
+                    <span className={styles.cardCompany}>{comment.userCompany}</span>
                   )}
                 </div>
                 <p className={styles.cardContent}>{comment.content}</p>
