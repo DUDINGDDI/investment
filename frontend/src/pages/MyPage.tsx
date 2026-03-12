@@ -135,7 +135,7 @@ export default function MyPage() {
           className={`${styles.chipTab} ${activeTab === 'tickets' ? styles.chipActive : ''}`}
           onClick={() => setActiveTab('tickets')}
         >
-          이용권
+          티켓
         </button>
         <button
           className={`${styles.chipTab} ${activeTab === 'memos' ? styles.chipActive : ''}`}
@@ -149,7 +149,7 @@ export default function MyPage() {
         <>
           <div className={styles.ticketHeader}>
             <div className={styles.ticketHeaderLeft}>
-              <span className={styles.ticketHeaderLabel}>보유 이용권</span>
+              <span className={styles.ticketHeaderLabel}>보유 티켓</span>
               <span className={styles.ticketHeaderCount}>{ticketCount}장</span>
             </div>
             {unusedTicketCount > 0 && (
@@ -162,7 +162,7 @@ export default function MyPage() {
           {!hasPhotoTicket && ticketMissions.length === 0 ? (
             <div className={styles.emptyState}>
               <span className={styles.emptyIcon}>🎟️</span>
-              <p className={styles.emptyText}>미션을 완료하면 이용권이 발급됩니다</p>
+              <p className={styles.emptyText}>미션을 완료하면 티켓 발급됩니다</p>
             </div>
           ) : (
             <div className={styles.ticketGrid}>
@@ -278,7 +278,7 @@ export default function MyPage() {
           <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
             <h3 className={styles.qrTitle}>{qrMission.title}</h3>
             <p className={styles.qrSubtitle}>
-              이벤트존 이용권
+              이벤트존 티켓
             </p>
             <div className={styles.qrCode}>
               <QRCodeSVG
@@ -300,7 +300,7 @@ export default function MyPage() {
           <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
             <h3 className={styles.qrTitle}>AI 포토네컷</h3>
             <p className={styles.qrSubtitle}>
-              영구 이용권
+              영구 티켓
             </p>
             <div className={styles.qrCode}>
               <QRCodeSVG
@@ -320,7 +320,7 @@ export default function MyPage() {
       {showAllQr && (
         <div className={styles.qrOverlay} onClick={() => { setShowAllQr(false); syncFromServer() }}>
           <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
-            <h3 className={styles.qrTitle}>모든 이용권 사용</h3>
+            <h3 className={styles.qrTitle}>모든 티켓 사용</h3>
             <p className={styles.qrSubtitle}>
               키캡 교환권 {unusedTicketCount}장을 전부 사용합니다
             </p>

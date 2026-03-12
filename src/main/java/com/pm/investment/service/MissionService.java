@@ -271,7 +271,7 @@ public class MissionService {
             throw new IllegalStateException("완료되지 않은 미션입니다");
         }
         if (um.getIsUsed()) {
-            throw new IllegalStateException("이미 사용된 이용권입니다");
+            throw new IllegalStateException("이미 사용된 티켓입니다");
         }
 
         um.setIsUsed(true);
@@ -299,7 +299,7 @@ public class MissionService {
             }
         }
         if (usedMissionIds.isEmpty()) {
-            throw new IllegalStateException("사용 가능한 이용권이 없습니다");
+            throw new IllegalStateException("사용 가능한 티켓이 없습니다");
         }
         return usedMissionIds;
     }

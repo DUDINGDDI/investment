@@ -300,13 +300,13 @@ export default function AdminPage() {
           </div>
 
           <div className={styles.controlCard}>
-            <p className={styles.statusLabel}>이용권 관리</p>
-            <p className={styles.statusDesc}>참가자의 이벤트존 이용권 QR 코드를 스캔하여 사용 처리합니다.</p>
+            <p className={styles.statusLabel}>티켓 관리</p>
+            <p className={styles.statusDesc}>참가자의 이벤트존 티켓 QR 코드를 스캔하여 사용 처리합니다.</p>
             <button
               className={`${styles.toggleBtn} ${styles.revealBtn}`}
               onClick={() => navigate('/admin/ticket-scan')}
             >
-              이용권 스캔
+              티켓 스캔
             </button>
           </div>
 

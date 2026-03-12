@@ -176,7 +176,7 @@
   color: var(--text-secondary);
 }
 
-/* 이용권 헤더 (좌측 상단 소형) */
+/* 티켓 헤더 (좌측 상단 소형) */
 .ticketHeader {
   display: flex;
   align-items: center;
@@ -216,7 +216,7 @@
   opacity: 0.7;
 }
 
-/* 이용권 이미지 그리드 */
+/* 티켓 이미지 그리드 */
 .ticketGrid {
   display: flex;
   flex-direction: column;
@@ -246,7 +246,7 @@
   object-position: center 52%;
 }
 
-/* 사용 완료 이용권 */
+/* 사용 완료 티켓 */
 .ticketUsedCard {
   cursor: default;
 }

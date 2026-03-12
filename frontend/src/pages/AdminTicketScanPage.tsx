@@ -73,7 +73,7 @@ export default function AdminTicketScanPage() {
         setIsScanning(false)
       }
 
-      // 모든 이용권 일괄 사용
+      // 모든 티켓 일괄 사용
       const allMatch = text.match(TICKET_ALL_REGEX)
       if (allMatch) {
         const userId = Number(allMatch[1])
@@ -82,10 +82,10 @@ export default function AdminTicketScanPage() {
         return
       }
 
-      // 개별 이용권 사용
+      // 개별 티켓 사용
       const match = text.match(TICKET_REGEX)
       if (!match) {
-        showToast('유효하지 않은 이용권 QR 코드입니다', 'error')
+        showToast('유효하지 않은 티켓 QR 코드입니다', 'error')
         isProcessingRef.current = false
         restartScanner()
         return
@@ -99,7 +99,7 @@ export default function AdminTicketScanPage() {
     } catch (err: unknown) {
       const errorMsg =
         (err as { response?: { data?: { error?: string } } }).response?.data?.error ||
-        '이용권 사용 처리에 실패했습니다'
+        '티켓 사용 처리에 실패했습니다'
       showToast(errorMsg, 'error')
       isProcessingRef.current = false
       restartScanner()
@@ -134,8 +134,8 @@ export default function AdminTicketScanPage() {
         <button className={styles.backBtn} onClick={() => navigate('/admin')}>
           ← 돌아가기
         </button>
-        <h2 className={styles.title}>이용권 스캔</h2>
-        <p className={styles.subtitle}>참가자의 이용권 QR 코드를 스캔하세요</p>
+        <h2 className={styles.title}>티켓 스캔</h2>
+        <p className={styles.subtitle}>참가자의 티켓 QR 코드를 스캔하세요</p>
       </div>
 
       {error ? (
@@ -147,7 +147,7 @@ export default function AdminTicketScanPage() {
         <div className={styles.scannerWrapper}>
           <div id="ticket-qr-reader" className={styles.scanner} />
           {isScanning && (
-            <p className={styles.guideText}>이용권 QR 코드를 프레임 안에 맞춰주세요</p>
+            <p className={styles.guideText}>티켓 QR 코드를 프레임 안에 맞춰주세요</p>
           )}
         </div>
       )}
