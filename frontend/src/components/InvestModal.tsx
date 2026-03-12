@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { formatKorean } from '../utils/format'
 import styles from './InvestModal.module.css'
 
@@ -19,7 +19,21 @@ const QUICK_AMOUNTS = [
 
 export default function InvestModal({ type, boothName, maxAmount, onConfirm, onClose }: Props) {
   const [inputValue, setInputValue] = useState('')
+  const sheetRef = useRef<HTMLDivElement>(null)
   const amount = (parseInt(inputValue, 10) || 0) * 10_000
+
+  useEffect(() => {
+    const vv = window.visualViewport
+    if (!vv) return
+    const handleResize = () => {
+      if (sheetRef.current) {
+        const keyboardH = window.innerHeight - vv.height
+        sheetRef.current.style.transform = `translateY(-${keyboardH}px)`
+      }
+    }
+    vv.addEventListener('resize', handleResize)
+    return () => vv.removeEventListener('resize', handleResize)
+  }, [])
 
   const isInvest = type === 'invest'
   const title = isInvest ? '투자하기' : '철회하기'
@@ -42,7 +56,7 @@ export default function InvestModal({ type, boothName, maxAmount, onConfirm, onC
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.sheet} onClick={e => e.stopPropagation()}>
+      <div className={styles.sheet} ref={sheetRef} onClick={e => e.stopPropagation()}>
         <div className={styles.handle} />
         <h3 className={styles.title}>{boothName}</h3>
         <p className={styles.subtitle}>
