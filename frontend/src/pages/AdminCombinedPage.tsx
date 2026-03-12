@@ -62,7 +62,7 @@ export default function AdminCombinedPage() {
 
   const investedPersons = data.persons.filter(p => p.totalInvested > 0)
   const notInvestedPersons = data.persons.filter(p => p.totalInvested === 0)
-  const investedBooths = data.boothSummaries.filter(b => b.totalInvestment > 0).sort((a, b) => b.totalInvestment - a.totalInvestment)
+  const investedBooths = [...data.boothSummaries].sort((a, b) => b.totalInvestment - a.totalInvestment)
   const totalInvestment = data.persons.reduce((sum, p) => sum + p.totalInvested, 0)
   const now = new Date()
   const dateStr = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}. ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} 기준`

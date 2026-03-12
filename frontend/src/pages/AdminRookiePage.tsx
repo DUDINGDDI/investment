@@ -54,7 +54,7 @@ export default function AdminRookiePage() {
 
   const investedRookies = data.rookies.filter(r => r.totalInvested > 0)
   const notInvestedRookies = data.rookies.filter(r => r.totalInvested === 0)
-  const investedBooths = data.boothSummaries.filter(b => b.rookieInvestment > 0).sort((a, b) => b.rookieInvestment - a.rookieInvestment)
+  const investedBooths = [...data.boothSummaries].sort((a, b) => b.rookieInvestment - a.rookieInvestment)
   const totalInvestment = data.rookies.reduce((sum, r) => sum + r.totalInvested, 0)
   const now = new Date()
   const dateStr = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}. ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} 기준`

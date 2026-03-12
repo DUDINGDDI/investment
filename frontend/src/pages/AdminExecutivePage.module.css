@@ -250,6 +250,7 @@
 }
 
 .thName {
+  width: 120px;
   text-align: left;
 }
 
@@ -259,8 +260,7 @@
 }
 
 .thAmount {
-  width: 110px;
-  text-align: right !important;
+  text-align: left;
 }
 
 .table td {
@@ -275,7 +275,9 @@
 }
 
 .tdName {
+  width: 120px;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .tdCount {
@@ -284,9 +286,8 @@
 }
 
 .tdAmount {
-  text-align: right;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
+  text-align: left;
+  color: #666;
 }
 
 .tdEmpty {
