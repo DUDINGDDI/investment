@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import { useParams, useSearchParams, useLocation } from 'react-router-dom'
-import { stockApi, resultApi } from '../api'
+import { stockApi, resultApi, userApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { StockBoothResponse, StockCommentResponse, StockRatingResponse, BoothReviewResponse } from '../types'
 import StockTradeModal from '../components/StockTradeModal'
@@ -47,6 +47,7 @@ export default function StockBoothDetailPage() {
   const [balance, setBalance] = useState(0)
   const [modal, setModal] = useState<'buy' | 'sell' | null>(null)
   const [stockEnabled, setStockEnabled] = useState(true)
+  const [belongingStockBoothId, setBelongingStockBoothId] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>(() => {
     const tab = searchParams.get('tab')
     if (tab === 'rating' || tab === 'invest' || tab === 'sincere' || tab === 'develop') return tab
@@ -84,6 +85,7 @@ export default function StockBoothDetailPage() {
     stockApi.getBoothById(Number(id)).then(res => setBooth(res.data))
     stockApi.getAccount().then(res => setBalance(res.data.balance))
     resultApi.getStockStatus().then(res => setStockEnabled(res.data.enabled))
+    userApi.getMe().then(res => setBelongingStockBoothId(res.data.belongingStockBoothId))
   }, [id])
 
   useEffect(() => {
@@ -289,6 +291,7 @@ export default function StockBoothDetailPage() {
   const isExecutive = localStorage.getItem('isExecutive') === 'true'
   const canTrade = isBypass || (booth.hasVisited && booth.hasRated)
   const hasHolding = booth.myHolding > 0
+  const isMyBooth = belongingStockBoothId !== null && belongingStockBoothId === booth.id
 
   return (
     <div className={styles.container}>
@@ -434,6 +437,10 @@ export default function StockBoothDetailPage() {
               {!stockEnabled ? (
                 <button className={styles.investBtnFull} disabled>
                   현재 하고잡이 투자가 중지된 상태입니다
+                </button>
+              ) : isMyBooth ? (
+                <button className={styles.investBtnFull} disabled>
+                  자기 소속 부스에는 투자할 수 없습니다
                 </button>
               ) : (
                 <>

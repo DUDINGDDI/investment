@@ -21,6 +21,7 @@ export interface UserResponse {
   balance: number;
   isExecutive: boolean;
   isRookie: boolean;
+  belongingStockBoothId: number | null;
 }
 
 export interface BoothResponse {

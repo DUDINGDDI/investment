@@ -39,7 +39,8 @@ public class UserService {
     public UserResponse getUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
-        return new UserResponse(user.getId(), user.getUniqueCode(), user.getName(), user.getCompany(), user.getBalance(), user.getIsExecutive(), user.getIsRookie());
+        Long belongingStockBoothId = user.getBelongingStockBooth() != null ? user.getBelongingStockBooth().getId() : null;
+        return new UserResponse(user.getId(), user.getUniqueCode(), user.getName(), user.getCompany(), user.getBalance(), user.getIsExecutive(), user.getIsRookie(), belongingStockBoothId);
     }
 
     private String generateToken(Long userId) {

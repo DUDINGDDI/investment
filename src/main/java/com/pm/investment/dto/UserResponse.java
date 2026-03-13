@@ -13,4 +13,5 @@ public class UserResponse {
     private Long balance;
     private Boolean isExecutive;
     private Boolean isRookie;
+    private Long belongingStockBoothId;
 }

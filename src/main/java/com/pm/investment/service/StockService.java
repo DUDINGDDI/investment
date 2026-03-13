@@ -46,6 +46,13 @@ public class StockService {
         StockBooth stockBooth = stockBoothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
+        // 자기 소속 부스에는 투자 불가
+        User user = account.getUser();
+        if (user.getBelongingStockBooth() != null
+                && user.getBelongingStockBooth().getId().equals(boothId)) {
+            throw new IllegalStateException("자기 소속 부스에는 투자할 수 없습니다");
+        }
+
         if (account.getBalance() < amount) {
             throw new IllegalStateException("보유 잔액이 부족합니다");
         }
