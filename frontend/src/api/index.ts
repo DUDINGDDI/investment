@@ -179,4 +179,12 @@ export const adminApi = {
     api.get<{ awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }[]>('/admin/awards'),
   getAwardRanking: (index: number) =>
     api.get<{ rank: number; name: string; company: string; value: string; time: string | null }[]>(`/admin/awards/${index}/ranking`),
+  generateReportSnapshots: () =>
+    api.post<{ message: string; generatedAt: string }>('/admin/reports/generate'),
+  getExecutiveSnapshot: () =>
+    api.get<ExecutiveInvestmentResponse>('/admin/reports/executive'),
+  getRookieSnapshot: () =>
+    api.get<RookieInvestmentResponse>('/admin/reports/rookie'),
+  getCombinedSnapshot: () =>
+    api.get<CombinedInvestmentResponse>('/admin/reports/combined'),
 };

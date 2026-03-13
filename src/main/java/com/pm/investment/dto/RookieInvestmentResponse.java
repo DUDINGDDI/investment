@@ -3,12 +3,14 @@ package com.pm.investment.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class RookieInvestmentResponse {
     private List<RookieDetail> rookies;
     private List<BoothSummary> boothSummaries;
@@ -16,6 +18,7 @@ public class RookieInvestmentResponse {
     @Getter
     @Builder
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class RookieDetail {
         private Long userId;
         private String name;
@@ -28,6 +31,7 @@ public class RookieInvestmentResponse {
     @Getter
     @Builder
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class InvestmentItem {
         private Long boothId;
         private String boothName;
@@ -38,6 +42,7 @@ public class RookieInvestmentResponse {
     @Getter
     @Builder
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class BoothSummary {
         private Long boothId;
         private String boothName;

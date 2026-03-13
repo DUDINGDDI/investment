@@ -13,6 +13,7 @@ import com.pm.investment.dto.UserMissionResponse;
 import com.pm.investment.service.AwardService;
 import com.pm.investment.service.MissionService;
 import com.pm.investment.service.RankingService;
+import com.pm.investment.service.ReportSnapshotService;
 import com.pm.investment.service.SettingService;
 import com.pm.investment.service.SseEmitterService;
 import com.pm.investment.service.StockPriceService;
@@ -37,6 +38,7 @@ public class AdminController {
     private final StockPriceService stockPriceService;
     private final StockRatingService stockRatingService;
     private final MissionService missionService;
+    private final ReportSnapshotService reportSnapshotService;
 
     @GetMapping("/results/status")
     public ResponseEntity<Map<String, Boolean>> getResultsStatus() {
@@ -180,6 +182,28 @@ public class AdminController {
     @GetMapping("/combined-investments")
     public ResponseEntity<CombinedInvestmentResponse> getCombinedInvestments() {
         return ResponseEntity.ok(rankingService.getCombinedInvestments());
+    }
+
+    // ── 보고서 스냅샷 ──
+
+    @PostMapping("/reports/generate")
+    public ResponseEntity<Map<String, String>> generateReportSnapshots() {
+        return ResponseEntity.ok(reportSnapshotService.generateAllSnapshots());
+    }
+
+    @GetMapping("/reports/executive")
+    public ResponseEntity<ExecutiveInvestmentResponse> getExecutiveSnapshot() {
+        return ResponseEntity.ok(reportSnapshotService.getExecutiveSnapshot());
+    }
+
+    @GetMapping("/reports/rookie")
+    public ResponseEntity<RookieInvestmentResponse> getRookieSnapshot() {
+        return ResponseEntity.ok(reportSnapshotService.getRookieSnapshot());
+    }
+
+    @GetMapping("/reports/combined")
+    public ResponseEntity<CombinedInvestmentResponse> getCombinedSnapshot() {
+        return ResponseEntity.ok(reportSnapshotService.getCombinedSnapshot());
     }
 
     @PostMapping("/missions/uncomplete-all")

@@ -26,7 +26,7 @@ export default function AdminRookiePage() {
   }, [])
 
   useEffect(() => {
-    adminApi.getRookieInvestments().then(res => {
+    adminApi.getRookieSnapshot().then(res => {
       setData(res.data)
     }).finally(() => setLoading(false))
   }, [])

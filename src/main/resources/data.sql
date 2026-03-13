@@ -13,6 +13,7 @@ TRUNCATE TABLE stock_prices;
 TRUNCATE TABLE stock_holdings;
 TRUNCATE TABLE stock_accounts;
 TRUNCATE TABLE stock_booth_visits;
+TRUNCATE TABLE report_snapshots;
 TRUNCATE TABLE users;
 TRUNCATE TABLE stock_booths;
 TRUNCATE TABLE booths;

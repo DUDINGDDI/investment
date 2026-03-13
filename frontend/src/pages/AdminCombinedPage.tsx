@@ -33,7 +33,7 @@ export default function AdminCombinedPage() {
   }, [])
 
   useEffect(() => {
-    adminApi.getCombinedInvestments().then(res => {
+    adminApi.getCombinedSnapshot().then(res => {
       setData(res.data)
     }).finally(() => setLoading(false))
   }, [])

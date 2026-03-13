@@ -51,7 +51,7 @@ export default function AdminExecutivePage() {
   }, [])
 
   useEffect(() => {
-    adminApi.getExecutiveInvestments().then(res => {
+    adminApi.getExecutiveSnapshot().then(res => {
       setData(res.data)
     }).finally(() => setLoading(false))
   }, [])

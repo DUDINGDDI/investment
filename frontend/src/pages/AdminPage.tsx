@@ -43,6 +43,8 @@ export default function AdminPage() {
   const [awardRankingTitle, setAwardRankingTitle] = useState('')
   const [awardRankingOpen, setAwardRankingOpen] = useState(false)
   const [awardRankingLoading, setAwardRankingLoading] = useState(false)
+  const [generating, setGenerating] = useState(false)
+  const [lastGenerated, setLastGenerated] = useState<string | null>(null)
 
   const loadData = async () => {
     try {
@@ -326,14 +328,32 @@ export default function AdminPage() {
           </div>
 
           <div className={styles.controlCard}>
-            <p className={styles.statusLabel}>임원 투자 집계</p>
-            <p className={styles.statusDesc}>임원분들의 대표작 투자 내역과 부스별 임원 투자 현황을 확인합니다.</p>
+            <p className={styles.statusLabel}>보고서 관리</p>
+            <p className={styles.statusDesc}>
+              현재 시점의 투자 데이터를 집계하여 보고서를 생성합니다.
+              {lastGenerated && <><br/>마지막 생성: {lastGenerated}</>}
+            </p>
             <button
               className={`${styles.toggleBtn} ${styles.revealBtn}`}
-              onClick={() => navigate('/executive')}
+              disabled={generating}
+              onClick={async () => {
+                if (!confirm('보고서 3건(경영진/신입사원/종합)을 생성하시겠습니까?')) return
+                setGenerating(true)
+                try {
+                  const res = await adminApi.generateReportSnapshots()
+                  setLastGenerated(res.data.generatedAt.replace('T', ' ').slice(0, 16))
+                  alert(res.data.message)
+                } catch { alert('보고서 생성 중 오류가 발생했습니다.') }
+                finally { setGenerating(false) }
+              }}
             >
-              임원 내역 집계
+              {generating ? '생성 중...' : '보고서 생성'}
             </button>
+            <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+              <button className={styles.toggleBtn} onClick={() => navigate('/executive')}>경영진</button>
+              <button className={styles.toggleBtn} onClick={() => navigate('/rookie')}>신입사원</button>
+              <button className={styles.toggleBtn} onClick={() => navigate('/combined')}>종합</button>
+            </div>
           </div>
 
           <div className={styles.controlCard}>

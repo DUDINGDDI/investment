@@ -274,3 +274,12 @@ CREATE TABLE shared_reports (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE KEY uk_shared_report_user (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 보고서 스냅샷
+CREATE TABLE report_snapshots (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    report_type VARCHAR(30) NOT NULL COMMENT '보고서 타입 (EXECUTIVE, ROOKIE, COMBINED)',
+    data LONGTEXT NOT NULL COMMENT 'JSON 직렬화된 보고서 데이터',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_report_type_created (report_type, created_at DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
