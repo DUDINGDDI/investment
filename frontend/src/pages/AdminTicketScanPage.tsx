@@ -32,6 +32,8 @@ interface ScanResult {
   userName?: string
 }
 
+const SCAN_COOLDOWN = 3000 // 같은 QR 재인식 방지 쿨다운 (ms)
+
 export default function AdminTicketScanPage() {
   const { showToast } = useToast()
   const [isScanning, setIsScanning] = useState(false)
@@ -39,6 +41,7 @@ export default function AdminTicketScanPage() {
   const [scanResult, setScanResult] = useState<ScanResult | null>(null)
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const isProcessingRef = useRef(false)
+  const lastScannedRef = useRef<{ text: string; time: number }>({ text: '', time: 0 })
 
   useEffect(() => {
     let cancelled = false
@@ -50,7 +53,10 @@ export default function AdminTicketScanPage() {
       { fps: 10, qrbox: { width: 250, height: 250 } },
       (decodedText) => {
         if (isProcessingRef.current) return
+        const now = Date.now()
+        if (decodedText === lastScannedRef.current.text && now - lastScannedRef.current.time < SCAN_COOLDOWN) return
         isProcessingRef.current = true
+        lastScannedRef.current = { text: decodedText, time: now }
         handleScan(decodedText)
       },
       () => {}
@@ -93,8 +99,10 @@ export default function AdminTicketScanPage() {
       const match = text.match(TICKET_REGEX)
       if (!match) {
         showToast('유효하지 않은 티켓 QR 코드입니다', 'error')
-        isProcessingRef.current = false
-        restartScanner()
+        setTimeout(() => {
+          isProcessingRef.current = false
+          restartScanner()
+        }, SCAN_COOLDOWN)
         return
       }
 
@@ -108,8 +116,10 @@ export default function AdminTicketScanPage() {
         (err as { response?: { data?: { error?: string } } }).response?.data?.error ||
         '티켓 사용 처리에 실패했습니다'
       showToast(errorMsg, 'error')
-      isProcessingRef.current = false
-      restartScanner()
+      setTimeout(() => {
+        isProcessingRef.current = false
+        restartScanner()
+      }, SCAN_COOLDOWN)
     }
   }
 
@@ -120,7 +130,10 @@ export default function AdminTicketScanPage() {
       { fps: 10, qrbox: { width: 250, height: 250 } },
       (decodedText) => {
         if (isProcessingRef.current) return
+        const now = Date.now()
+        if (decodedText === lastScannedRef.current.text && now - lastScannedRef.current.time < SCAN_COOLDOWN) return
         isProcessingRef.current = true
+        lastScannedRef.current = { text: decodedText, time: now }
         handleScan(decodedText)
       },
       () => {}
