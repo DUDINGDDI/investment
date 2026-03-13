@@ -16,5 +16,6 @@ public class CommentNotifyRequest {
     private String userName;
     private String userCompany;
     private String content;
+    private String tag;
     private LocalDateTime createdAt;
 }

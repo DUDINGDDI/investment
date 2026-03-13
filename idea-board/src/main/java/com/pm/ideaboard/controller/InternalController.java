@@ -16,17 +16,35 @@ public class InternalController {
 
     @PostMapping("/comments/notify")
     public ResponseEntity<Void> notifyNewComment(@RequestBody CommentNotifyRequest request) {
-        CommentResponse comment = CommentResponse.builder()
+        CommentResponse comment = toCommentResponse(request);
+        sseEmitterService.broadcastNewComment(request.getBoothId(), comment);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/comments/update")
+    public ResponseEntity<Void> notifyUpdateComment(@RequestBody CommentNotifyRequest request) {
+        CommentResponse comment = toCommentResponse(request);
+        sseEmitterService.broadcastUpdateComment(request.getBoothId(), comment);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/comments/delete")
+    public ResponseEntity<Void> notifyDeleteComment(@RequestBody java.util.Map<String, Object> request) {
+        Long boothId = ((Number) request.get("boothId")).longValue();
+        Long commentId = ((Number) request.get("commentId")).longValue();
+        sseEmitterService.broadcastDeleteComment(boothId, commentId);
+        return ResponseEntity.ok().build();
+    }
+
+    private CommentResponse toCommentResponse(CommentNotifyRequest request) {
+        return CommentResponse.builder()
                 .id(request.getCommentId())
                 .userId(request.getUserId())
                 .userName(request.getUserName())
                 .userCompany(request.getUserCompany())
                 .content(request.getContent())
+                .tag(request.getTag())
                 .createdAt(request.getCreatedAt())
                 .build();
-
-        sseEmitterService.broadcastNewComment(request.getBoothId(), comment);
-
-        return ResponseEntity.ok().build();
     }
 }

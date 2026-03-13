@@ -119,6 +119,7 @@ public class StockRatingService {
 
         // 아이디어 보드에서 리뷰 실시간 삭제 (음수 ID)
         ideaBoardSseService.broadcastDeleteComment(boothId, -rating.getId());
+        ideaBoardNotifier.notifyDeleteComment(boothId, -rating.getId());
     }
 
     @Transactional(readOnly = true)

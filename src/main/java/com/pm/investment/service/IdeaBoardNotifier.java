@@ -29,20 +29,47 @@ public class IdeaBoardNotifier {
 
     @Async
     public void notifyNewComment(Long boothId, StockCommentResponse comment) {
+        postInternal("/internal/comments/notify", Map.of(
+                "boothId", boothId,
+                "commentId", comment.getId(),
+                "userId", comment.getUserId(),
+                "userName", comment.getUserName(),
+                "userCompany", comment.getUserCompany() != null ? comment.getUserCompany() : "",
+                "content", comment.getContent(),
+                "tag", comment.getTag() != null ? comment.getTag() : "",
+                "createdAt", comment.getCreatedAt().toString()
+        ));
+    }
+
+    @Async
+    public void notifyUpdateComment(Long boothId, StockCommentResponse comment) {
+        postInternal("/internal/comments/update", Map.of(
+                "boothId", boothId,
+                "commentId", comment.getId(),
+                "userId", comment.getUserId(),
+                "userName", comment.getUserName(),
+                "userCompany", comment.getUserCompany() != null ? comment.getUserCompany() : "",
+                "content", comment.getContent(),
+                "tag", comment.getTag() != null ? comment.getTag() : "",
+                "createdAt", comment.getCreatedAt().toString()
+        ));
+    }
+
+    @Async
+    public void notifyDeleteComment(Long boothId, Long commentId) {
+        postInternal("/internal/comments/delete", Map.of(
+                "boothId", boothId,
+                "commentId", commentId
+        ));
+    }
+
+    private void postInternal(String uri, Map<String, Object> body) {
         try {
             restClient.post()
-                    .uri("/internal/comments/notify")
+                    .uri(uri)
                     .header("X-Internal-Api-Key", internalApiKey)
                     .header("Content-Type", "application/json")
-                    .body(Map.of(
-                            "boothId", boothId,
-                            "commentId", comment.getId(),
-                            "userId", comment.getUserId(),
-                            "userName", comment.getUserName(),
-                            "userCompany", comment.getUserCompany() != null ? comment.getUserCompany() : "",
-                            "content", comment.getContent(),
-                            "createdAt", comment.getCreatedAt().toString()
-                    ))
+                    .body(body)
                     .retrieve()
                     .toBodilessEntity();
         } catch (Exception e) {

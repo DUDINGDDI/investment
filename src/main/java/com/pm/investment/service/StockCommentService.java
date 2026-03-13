@@ -107,6 +107,7 @@ public class StockCommentService {
                 .build();
 
         ideaBoardSseService.broadcastUpdateComment(comment.getStockBooth().getId(), response);
+        ideaBoardNotifier.notifyUpdateComment(comment.getStockBooth().getId(), response);
 
         return response;
     }
@@ -128,5 +129,6 @@ public class StockCommentService {
         missionService.checkAndUpdateMission(userId, "dream", (int) commentCount);
 
         ideaBoardSseService.broadcastDeleteComment(boothId, comment.getId());
+        ideaBoardNotifier.notifyDeleteComment(boothId, comment.getId());
     }
 }

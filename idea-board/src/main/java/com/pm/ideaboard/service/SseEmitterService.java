@@ -51,6 +51,18 @@ public class SseEmitterService {
     }
 
     public void broadcastNewComment(Long boothId, CommentResponse comment) {
+        broadcast(boothId, "new-comment", comment);
+    }
+
+    public void broadcastUpdateComment(Long boothId, CommentResponse comment) {
+        broadcast(boothId, "update-comment", comment);
+    }
+
+    public void broadcastDeleteComment(Long boothId, Long commentId) {
+        broadcast(boothId, "delete-comment", Map.of("id", commentId));
+    }
+
+    private void broadcast(Long boothId, String eventName, Object data) {
         Set<SseEmitter> boothEmitters = emitters.get(boothId);
         if (boothEmitters == null || boothEmitters.isEmpty()) {
             return;
@@ -59,8 +71,8 @@ public class SseEmitterService {
         for (SseEmitter emitter : boothEmitters) {
             try {
                 emitter.send(SseEmitter.event()
-                        .name("new-comment")
-                        .data(comment));
+                        .name(eventName)
+                        .data(data));
             } catch (IOException e) {
                 removeEmitter(boothId, emitter);
             }
