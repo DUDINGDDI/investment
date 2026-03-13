@@ -381,10 +381,12 @@ export default function IdeaBoardPage() {
                   <div className={styles.clipInner} />
                 </div>
 
-                {/* 내용 */}
+                {/* 뱃지 */}
                 {comment.tag && (
-                  <p className={styles.cardTag}>{comment.tag}</p>
+                  <span className={styles.cardBadge}>{comment.tag}</span>
                 )}
+
+                {/* 내용 */}
                 <div className={styles.cardHeader}>
                   <span className={styles.cardAuthor}>
                     {comment.userName}님

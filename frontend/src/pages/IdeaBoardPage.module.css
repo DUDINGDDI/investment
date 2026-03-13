@@ -144,12 +144,19 @@
 }
 
 /* ───── 카드 내용 ───── */
-.cardTag {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--card-sub);
-  margin: 0 0 6px;
-  letter-spacing: 0.5px;
+.cardBadge {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--card-text);
+  background: rgba(255, 255, 255, 0.25);
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  z-index: 2;
 }
 
 .cardHeader {
