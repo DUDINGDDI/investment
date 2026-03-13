@@ -7,6 +7,7 @@ interface Props {
   boothName: string
   maxAmount: number
   currentHolding?: number
+  isExecutive?: boolean
   onConfirm: (amount: number) => void
   onClose: () => void
 }
@@ -20,7 +21,7 @@ const QUICK_AMOUNTS = [
 
 const MAX_PER_BOOTH = 30_000_000
 
-export default function StockTradeModal({ type, boothName, maxAmount, currentHolding = 0, onConfirm, onClose }: Props) {
+export default function StockTradeModal({ type, boothName, maxAmount, currentHolding = 0, isExecutive = false, onConfirm, onClose }: Props) {
   const [inputValue, setInputValue] = useState('')
   const sheetRef = useRef<HTMLDivElement>(null)
   const amount = (parseInt(inputValue, 10) || 0) * 10_000
@@ -41,7 +42,7 @@ export default function StockTradeModal({ type, boothName, maxAmount, currentHol
   const isBuy = type === 'buy'
   const title = isBuy ? '투자하기' : '철회하기'
   const overMax = amount > maxAmount
-  const overLimit = isBuy && (currentHolding + amount) > MAX_PER_BOOTH
+  const overLimit = isBuy && !isExecutive && (currentHolding + amount) > MAX_PER_BOOTH
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value.replace(/[^0-9]/g, '')
@@ -54,7 +55,7 @@ export default function StockTradeModal({ type, boothName, maxAmount, currentHol
     const next = current + manwon
 
     if (isBuy) {
-      const maxManwon = Math.floor(Math.min(maxAmount, MAX_PER_BOOTH - currentHolding) / 10_000)
+      const maxManwon = Math.floor((isExecutive ? maxAmount : Math.min(maxAmount, MAX_PER_BOOTH - currentHolding)) / 10_000)
       setInputValue(String(Math.min(next, maxManwon)))
     } else {
       const maxManwon = Math.floor(maxAmount / 10_000)

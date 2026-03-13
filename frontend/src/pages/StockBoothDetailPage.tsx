@@ -286,6 +286,7 @@ export default function StockBoothDetailPage() {
   if (!booth) return null
 
   const isBypass = localStorage.getItem('isRookie') === 'false'
+  const isExecutive = localStorage.getItem('isExecutive') === 'true'
   const canTrade = isBypass || (booth.hasVisited && booth.hasRated)
   const hasHolding = booth.myHolding > 0
 
@@ -455,7 +456,7 @@ export default function StockBoothDetailPage() {
                       <button
                         className={styles.investBtn}
                         onClick={() => setModal('buy')}
-                        disabled={!canTrade || balance === 0 || booth.myHolding >= 30_000_000}
+                        disabled={!canTrade || balance === 0 || (!isExecutive && booth.myHolding >= 30_000_000)}
                       >
                         투자하기
                       </button>
@@ -692,8 +693,9 @@ export default function StockBoothDetailPage() {
         <StockTradeModal
           type="buy"
           boothName={booth.name}
-          maxAmount={Math.min(balance, 30_000_000 - booth.myHolding)}
+          maxAmount={isExecutive ? balance : Math.min(balance, 30_000_000 - booth.myHolding)}
           currentHolding={booth.myHolding}
+          isExecutive={isExecutive}
           onConfirm={handleBuy}
           onClose={() => setModal(null)}
         />

@@ -84,6 +84,8 @@ export default function MyPage() {
     localStorage.removeItem('userId')
     localStorage.removeItem('userName')
     localStorage.removeItem('userCompany')
+    localStorage.removeItem('isExecutive')
+    localStorage.removeItem('isRookie')
     navigate('/')
   }
 

@@ -23,6 +23,8 @@ api.interceptors.response.use(
       localStorage.removeItem('userId');
       localStorage.removeItem('userName');
       localStorage.removeItem('userCompany');
+      localStorage.removeItem('isExecutive');
+      localStorage.removeItem('isRookie');
       window.location.href = '/';
     }
     return Promise.reject(error);
