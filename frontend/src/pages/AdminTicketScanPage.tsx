@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Html5Qrcode } from 'html5-qrcode'
 import { adminApi } from '../api'
 import { useToast } from '../components/ToastContext'
@@ -25,7 +24,6 @@ interface ScanResult {
 }
 
 export default function AdminTicketScanPage() {
-  const navigate = useNavigate()
   const { showToast } = useToast()
   const [isScanning, setIsScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -131,9 +129,6 @@ export default function AdminTicketScanPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backBtn} onClick={() => navigate('/admin')}>
-          ← 돌아가기
-        </button>
         <h2 className={styles.title}>티켓 스캔</h2>
         <p className={styles.subtitle}>참가자의 티켓 QR 코드를 스캔하세요</p>
       </div>

@@ -157,6 +157,7 @@ export default function App() {
         <Route path="/rookie" element={<AdminRookiePage />} />
         <Route path="/combined" element={<AdminCombinedPage />} />
         <Route path="/idea-board/:boothId" element={<IdeaBoardPage />} />
+        <Route path="/ticket-checking" element={<AdminTicketScanPage />} />
       </Routes>
       </MissionProvider>
     </ToastProvider>

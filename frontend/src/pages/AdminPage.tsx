@@ -304,7 +304,7 @@ export default function AdminPage() {
             <p className={styles.statusDesc}>참가자의 이벤트존 티켓 QR 코드를 스캔하여 사용 처리합니다.</p>
             <button
               className={`${styles.toggleBtn} ${styles.revealBtn}`}
-              onClick={() => navigate('/admin/ticket-scan')}
+              onClick={() => navigate('/ticket-checking')}
             >
               티켓 스캔
             </button>
