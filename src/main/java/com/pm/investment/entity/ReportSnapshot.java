@@ -21,8 +21,7 @@ public class ReportSnapshot {
     @Column(name = "report_type", nullable = false, length = 30)
     private String reportType;
 
-    @Lob
-    @Column(name = "data", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "data", nullable = false, columnDefinition = "LONGTEXT")
     private String data;
 
     @Column(name = "created_at", updatable = false)
