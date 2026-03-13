@@ -44,7 +44,7 @@ function PrivateLayout() {
   const token = localStorage.getItem('token')
   if (!token) return <Navigate to="/" replace />
   return (
-    <div style={{ paddingBottom: '80px' }}>
+    <div style={{ paddingBottom: 'calc(90px + env(safe-area-inset-bottom, 0px))' }}>
       <AppHeader />
       <AnnouncementBanner />
       <Outlet />
