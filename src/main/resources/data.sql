@@ -1415,3 +1415,9 @@ INSERT INTO stock_ratings (user_id, stock_booth_id, score_first, score_best, sco
 (18, 3, 4, 5, 5, 5, 5, 4, '커스텀 색조 시장의 빈틈을 잘 공략한 아이디어입니다', DATEADD('MINUTE', -56, NOW()), DATEADD('MINUTE', -56, NOW())),
 (19, 3, 5, 4, 4, 4, 4, 5, '와작 부수는 경험이 재미있고 콘텐츠 소재로도 좋아요', DATEADD('MINUTE', -54, NOW()), DATEADD('MINUTE', -54, NOW())),
 (20, 3, 4, 5, 5, 5, 5, 5, '체험형 매장 트렌드와 완벽하게 맞아떨어지는 기획이에요', DATEADD('MINUTE', -52, NOW()), DATEADD('MINUTE', -52, NOW()));
+
+-- ──────────────────────────────────────────────
+-- "반드시 결과로" 미션 전체 완료 상태로 시드
+-- ──────────────────────────────────────────────
+INSERT INTO user_missions (user_id, mission_id, progress, target, is_completed, completed_at, is_used, updated_at)
+SELECT id, 'result', 1, 1, true, NOW(), false, NOW() FROM users;

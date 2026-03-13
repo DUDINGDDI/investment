@@ -33,8 +33,6 @@ export default function AdminPage() {
   const [annSaving, setAnnSaving] = useState(false)
   const [stockRankingEnabled, setStockRankingEnabled] = useState(true)
   const [stockRankingToggling, setStockRankingToggling] = useState(false)
-  const [resultMissionLoading, setResultMissionLoading] = useState(false)
-  const [resultMissionCompleted, setResultMissionCompleted] = useState(false)
   const [activeQr, setActiveQr] = useState<{ value: string; label: string } | null>(null)
   const [awards, setAwards] = useState<AwardItem[]>([])
   const [awardsLoading, setAwardsLoading] = useState(false)
@@ -400,52 +398,6 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div className={styles.controlCard}>
-            <div className={styles.statusRow}>
-              <span className={styles.statusLabel}>"반드시 결과로" 미션</span>
-              <span className={`${styles.statusBadge} ${resultMissionCompleted ? styles.statusOn : styles.statusOff}`}>
-                {resultMissionCompleted ? '완료됨' : '미완료'}
-              </span>
-            </div>
-            <p className={styles.statusDesc}>
-              {resultMissionCompleted
-                ? '전체 참가자의 "반드시 결과로" 미션이 완료 상태입니다.'
-                : '전체 참가자의 "반드시 결과로" 미션을 일괄 완료 처리합니다. 참가자 화면에 실시간으로 완료 효과가 표시됩니다.'}
-            </p>
-            <button
-              className={`${styles.toggleBtn} ${resultMissionCompleted ? styles.hideBtn : styles.revealBtn}`}
-              disabled={resultMissionLoading}
-              onClick={async () => {
-                if (resultMissionCompleted) {
-                  if (!confirm('전체 참가자의 "반드시 결과로" 미션을 미완료로 되돌리시겠습니까?')) return
-                  setResultMissionLoading(true)
-                  try {
-                    const res = await adminApi.uncompleteMissionForAll('result')
-                    setResultMissionCompleted(false)
-                    alert(`${res.data.uncompletedCount}명의 미션이 미완료 처리되었습니다.`)
-                  } catch {
-                    alert('처리 중 오류가 발생했습니다.')
-                  } finally {
-                    setResultMissionLoading(false)
-                  }
-                } else {
-                  if (!confirm('전체 참가자의 "반드시 결과로" 미션을 완료 처리하시겠습니까?')) return
-                  setResultMissionLoading(true)
-                  try {
-                    const res = await adminApi.completeMissionForAll('result')
-                    setResultMissionCompleted(true)
-                    alert(`${res.data.completedCount}명의 미션이 완료 처리되었습니다.`)
-                  } catch {
-                    alert('처리 중 오류가 발생했습니다.')
-                  } finally {
-                    setResultMissionLoading(false)
-                  }
-                }
-              }}
-            >
-              {resultMissionLoading ? '처리 중...' : resultMissionCompleted ? '미션 미완료 처리' : '전체 미션 완료 처리'}
-            </button>
-          </div>
         </>
       )}
 
