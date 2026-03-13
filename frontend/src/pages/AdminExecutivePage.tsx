@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { adminApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { ExecutiveInvestmentResponse } from '../types'
+import ReportAuthGate from '../components/ReportAuthGate'
 import styles from './AdminExecutivePage.module.css'
 
 type TabType = 'booth' | 'executive'
@@ -76,8 +77,8 @@ export default function AdminExecutivePage() {
     return map
   }, [data])
 
-  if (loading) return <div className={styles.page}><p className={styles.loadingText}>보고서 생성 중...</p></div>
-  if (!data) return <div className={styles.page}><p className={styles.loadingText}>데이터를 불러올 수 없습니다.</p></div>
+  if (loading) return <ReportAuthGate><div className={styles.page}><p className={styles.loadingText}>보고서 생성 중...</p></div></ReportAuthGate>
+  if (!data) return <ReportAuthGate><div className={styles.page}><p className={styles.loadingText}>데이터를 불러올 수 없습니다.</p></div></ReportAuthGate>
 
   const investedExecutives = data.executives.filter(e => e.totalInvested > 0)
   const notInvestedExecutives = data.executives.filter(e => e.totalInvested === 0)
@@ -87,6 +88,7 @@ export default function AdminExecutivePage() {
   const dateStr = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}. ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} 기준`
 
   return (
+    <ReportAuthGate>
     <div className={styles.page}>
       {/* 보고서 헤더 */}
       <div className={styles.reportHeader}>
@@ -269,5 +271,6 @@ export default function AdminExecutivePage() {
         </div>
       )}
     </div>
+    </ReportAuthGate>
   )
 }

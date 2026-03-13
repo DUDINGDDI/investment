@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { adminApi } from '../api'
 import { formatKorean } from '../utils/format'
 import type { CombinedInvestmentResponse } from '../types'
+import ReportAuthGate from '../components/ReportAuthGate'
 import styles from './AdminExecutivePage.module.css'
 
 type TabType = 'booth' | 'person'
@@ -57,8 +58,8 @@ export default function AdminCombinedPage() {
     return map
   }, [data])
 
-  if (loading) return <div className={styles.page}><p className={styles.loadingText}>보고서 생성 중...</p></div>
-  if (!data) return <div className={styles.page}><p className={styles.loadingText}>데이터를 불러올 수 없습니다.</p></div>
+  if (loading) return <ReportAuthGate><div className={styles.page}><p className={styles.loadingText}>보고서 생성 중...</p></div></ReportAuthGate>
+  if (!data) return <ReportAuthGate><div className={styles.page}><p className={styles.loadingText}>데이터를 불러올 수 없습니다.</p></div></ReportAuthGate>
 
   const investedPersons = data.persons.filter(p => p.totalInvested > 0)
   const notInvestedPersons = data.persons.filter(p => p.totalInvested === 0)
@@ -68,6 +69,7 @@ export default function AdminCombinedPage() {
   const dateStr = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}. ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} 기준`
 
   return (
+    <ReportAuthGate>
     <div className={styles.page}>
       <div className={styles.reportHeader}>
         <p className={styles.reportLabel}>2026 ONLYONE FAIR</p>
@@ -221,5 +223,6 @@ export default function AdminCombinedPage() {
         <p>본 보고서는 실시간 데이터를 기반으로 자동 생성되었습니다.</p>
       </div>
     </div>
+    </ReportAuthGate>
   )
 }
