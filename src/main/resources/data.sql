@@ -520,7 +520,7 @@ INSERT INTO users (unique_code, name, company, balance, is_executive, is_rookie)
 ('100609', '정수영', 'CJ 4Dplex', 100000000, false, false),
 ('835657', '한수림', 'CJ올리브네트웍스', 100000000, false, false),
 ('998546', '권윤희', 'CJ인재원', 1000000000, true, false),
-('313884', '김윤기', 'CJ인재원', 100000000, false, false),
+('313884', '김윤기', 'CJ인재원', 1000000000, true, false),
 ('300625', '박미라', 'CJ인재원', 100000000, false, false),
 ('314215', '김혜정', 'CJ인재원', 100000000, false, false),
 ('311945', '박서영', 'CJ인재원', 100000000, false, false),
