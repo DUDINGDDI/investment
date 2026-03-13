@@ -10,8 +10,13 @@ type AwardItem = { awardName: string; description: string; winnerName: string; w
 type AwardRankingItem = { rank: number; name: string; company: string; value: string; time: string | null }
 type AdminTab = 'common' | 'ranking' | 'awards' | 'settings'
 
+const ADMIN_KEY = 'admin_authenticated'
+
 export default function AdminPage() {
   const navigate = useNavigate()
+  const [authenticated, setAuthenticated] = useState(() => sessionStorage.getItem(ADMIN_KEY) === 'true')
+  const [password, setPassword] = useState('')
+  const [authError, setAuthError] = useState(false)
   const [tab, setTab] = useState<AdminTab>('common')
   const [revealed, setRevealed] = useState(false)
   const [stockEnabled, setStockEnabled] = useState(true)
@@ -78,6 +83,38 @@ export default function AdminPage() {
     } finally {
       setToggling(false)
     }
+  }
+
+  if (!authenticated) {
+    const handleAuth = () => {
+      if (password === 'rolypoly') {
+        sessionStorage.setItem(ADMIN_KEY, 'true')
+        setAuthenticated(true)
+        setAuthError(false)
+      } else {
+        setAuthError(true)
+      }
+    }
+    return (
+      <div className={styles.authContainer}>
+        <div className={styles.authCard}>
+          <span className={styles.authIcon}>🔒</span>
+          <h2 className={styles.authTitle}>관리자 인증</h2>
+          <p className={styles.authSubtitle}>비밀번호를 입력해주세요</p>
+          <input
+            type="password"
+            className={styles.authInput}
+            value={password}
+            onChange={e => { setPassword(e.target.value); setAuthError(false) }}
+            onKeyDown={e => e.key === 'Enter' && handleAuth()}
+            placeholder="비밀번호"
+            autoFocus
+          />
+          {authError && <p className={styles.authError}>비밀번호가 올바르지 않습니다</p>}
+          <button className={styles.authBtn} onClick={handleAuth}>확인</button>
+        </div>
+      </div>
+    )
   }
 
   if (loading) return null

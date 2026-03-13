@@ -1,3 +1,72 @@
+/* 인증 */
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+
+.authIcon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.authTitle {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.authSubtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.authInput {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 15px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.authInput:focus {
+  border-color: #6C5CE7;
+}
+
+.authError {
+  font-size: 13px;
+  color: #ef4444;
+  margin-bottom: 4px;
+}
+
+.authBtn {
+  width: 100%;
+  padding: 14px;
+  background: #6C5CE7;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
 .container {
   padding: 20px;
   min-height: 100vh;

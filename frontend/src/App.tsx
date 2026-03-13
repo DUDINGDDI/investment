@@ -151,8 +151,7 @@ export default function App() {
           </Route>
           <Route path="/stocks/booths/:id" element={<StockBoothDetailPage />} />
         </Route>
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/ticket-scan" element={<AdminTicketScanPage />} />
+        <Route path="/ilytf" element={<AdminPage />} />
         <Route path="/executive" element={<AdminExecutivePage />} />
         <Route path="/rookie" element={<AdminRookiePage />} />
         <Route path="/combined" element={<AdminCombinedPage />} />
