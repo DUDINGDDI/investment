@@ -16,6 +16,15 @@ const MISSION_LABELS: Record<string, string> = {
   together: '함께하는 하고잡이',
 }
 
+const MISSION_COLORS: Record<string, { bg: string; text: string }> = {
+  renew: { bg: '#F2B934', text: '#3a2800' },
+  dream: { bg: '#80D3D9', text: '#0a3333' },
+  result: { bg: '#D74631', text: '#ffffff' },
+  again: { bg: '#F96390', text: '#ffffff' },
+  sincere: { bg: '#F57655', text: '#ffffff' },
+  together: { bg: '#7AF3CA', text: '#0a332a' },
+}
+
 interface ScanResult {
   missionId: string
   usedCount?: number
@@ -147,31 +156,57 @@ export default function AdminTicketScanPage() {
         </div>
       )}
 
-      {scanResult && (
+      {scanResult && (() => {
+        const singleColor = scanResult.missionId !== 'all' ? MISSION_COLORS[scanResult.missionId] : null
+        return (
         <div className={styles.overlay} onClick={handleCloseResult}>
-          <div className={styles.successModal} onClick={e => e.stopPropagation()}>
+          <div
+            className={styles.successModal}
+            onClick={e => e.stopPropagation()}
+            style={singleColor ? { background: singleColor.bg } : undefined}
+          >
             <div className={styles.successIcon}>✅</div>
-            <h3 className={styles.successTitle}>사용 처리 완료</h3>
-            <p className={styles.successDesc}>
+            <h3
+              className={styles.successTitle}
+              style={singleColor ? { color: singleColor.text } : undefined}
+            >
+              사용 처리 완료
+            </h3>
+            <p
+              className={styles.successDesc}
+              style={singleColor ? { color: singleColor.text, opacity: 0.85 } : undefined}
+            >
               {scanResult.missionId === 'all'
                 ? `키캡 교환권 ${scanResult.usedCount}장이 사용 처리되었습니다.`
                 : `${MISSION_LABELS[scanResult.missionId] || scanResult.missionId} 교환권이 사용 처리되었습니다.`}
             </p>
             {scanResult.missionId === 'all' && scanResult.usedMissions && (
               <ul className={styles.usedList}>
-                {scanResult.usedMissions.map(id => (
-                  <li key={id} className={styles.usedListItem}>
-                    {MISSION_LABELS[id] || id}
-                  </li>
-                ))}
+                {scanResult.usedMissions.map(id => {
+                  const color = MISSION_COLORS[id]
+                  return (
+                    <li
+                      key={id}
+                      className={styles.usedListItem}
+                      style={color ? { background: color.bg, color: color.text } : undefined}
+                    >
+                      {MISSION_LABELS[id] || id}
+                    </li>
+                  )
+                })}
               </ul>
             )}
-            <button className={styles.successButton} onClick={handleCloseResult}>
+            <button
+              className={styles.successButton}
+              onClick={handleCloseResult}
+              style={singleColor ? { background: 'rgba(0,0,0,0.2)', color: singleColor.text } : undefined}
+            >
               다음 스캔
             </button>
           </div>
         </div>
-      )}
+        )
+      })()}
     </div>
   )
 }
