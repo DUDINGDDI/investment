@@ -44,7 +44,7 @@ function PrivateLayout() {
   const token = localStorage.getItem('token')
   if (!token) return <Navigate to="/" replace />
   return (
-    <div style={{ paddingBottom: 'calc(12.5dvh + 60px)' }}>
+    <div style={{ paddingBottom: 'var(--content-bottom)' }}>
       <AppHeader />
       <AnnouncementBanner />
       <Outlet />
@@ -99,13 +99,21 @@ export default function App() {
     updateZoom()
     window.addEventListener('resize', updateZoom)
 
-    // PWA 또는 태블릿: 첫 터치 시 전체화면 진입
+    // PWA 또는 태블릿: 전체화면 진입 (성공할 때까지 재시도)
     const requestFullscreen = () => {
       const doc = document.documentElement
       if (!document.fullscreenElement && doc.requestFullscreen) {
-        doc.requestFullscreen().catch(() => {})
+        doc.requestFullscreen()
+          .then(() => {
+            // 성공하면 리스너 제거
+            document.removeEventListener('click', requestFullscreen)
+          })
+          .catch(() => {
+            // 실패하면 리스너 유지 → 다음 클릭 시 재시도
+          })
+      } else if (document.fullscreenElement) {
+        document.removeEventListener('click', requestFullscreen)
       }
-      document.removeEventListener('click', requestFullscreen)
     }
     // standalone 모드(홈화면 추가/PWA)일 때만 전체화면 시도
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches

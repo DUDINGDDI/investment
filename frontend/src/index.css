@@ -37,8 +37,9 @@ input, textarea {
   --radius-card: 16px;
   --radius-button: 12px;
   --radius-pill: 20px;
-  --nav-height: 60px;
+  --nav-height: 70px;
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --content-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 34px) + 14px);
 }
 
 @media (min-width: 768px) {
@@ -59,8 +60,8 @@ html, body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
-  height: 100%;
+  overflow-x: hidden;
+  min-height: 100%;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
@@ -72,12 +73,13 @@ html, body {
 #root {
   width: var(--app-max-width);
   margin: 0 auto;
-  height: calc(100vh / var(--zoom));
-  height: calc(100dvh / var(--zoom));
+  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-primary);
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 button {
