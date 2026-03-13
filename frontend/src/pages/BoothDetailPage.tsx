@@ -19,6 +19,8 @@ export default function BoothDetailPage() {
   const [balance, setBalance] = useState(0)
   const [modal, setModal] = useState<'invest' | 'withdraw' | null>(null)
   const [investmentEnabled, setInvestmentEnabled] = useState(true)
+  const [userCompany, setUserCompany] = useState<string | null>(null)
+  const [isRookie, setIsRookie] = useState(false)
 
   // 메모
   const [memo, setMemo] = useState('')
@@ -27,7 +29,11 @@ export default function BoothDetailPage() {
   const loadData = useCallback(() => {
     if (!id) return
     boothApi.getById(Number(id)).then(res => setBooth(res.data))
-    userApi.getMe().then(res => setBalance(res.data.balance))
+    userApi.getMe().then(res => {
+      setBalance(res.data.balance)
+      setUserCompany(res.data.company)
+      setIsRookie(res.data.isRookie)
+    })
     resultApi.getInvestmentStatus().then(res => setInvestmentEnabled(res.data.enabled))
     boothApi.getMemo(Number(id)).then(res => {
       setMemo(res.data.content || '')
@@ -73,6 +79,7 @@ export default function BoothDetailPage() {
   if (!booth) return null
 
   const hasInvestment = booth.myInvestment > 0
+  const isSameCompanyRookie = isRookie && userCompany != null && userCompany === booth.category
 
   return (
     <div className={styles.container}>
@@ -110,6 +117,10 @@ export default function BoothDetailPage() {
         {!investmentEnabled ? (
           <button className={styles.investBtnFull} disabled>
             현재 투자가 중지된 상태입니다
+          </button>
+        ) : isSameCompanyRookie ? (
+          <button className={styles.investBtnFull} disabled>
+            자기 계열사 대표작에는 투자할 수 없습니다
           </button>
         ) : (
           <>
