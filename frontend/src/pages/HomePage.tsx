@@ -21,7 +21,7 @@ export default function HomePage() {
     }).catch(() => {})
     boothApi.getAll().then(res => {
       const sorted = [...res.data].sort((a, b) =>
-        b.totalInvestment - a.totalInvestment || a.displayOrder - b.displayOrder
+        a.displayOrder - b.displayOrder
       )
       setBooths(sorted)
     }).catch(() => {})
