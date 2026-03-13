@@ -20,7 +20,7 @@ public class ReportSnapshotService {
 
     private final ReportSnapshotRepository snapshotRepository;
     private final RankingService rankingService;
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
     public Map<String, String> generateAllSnapshots() {
