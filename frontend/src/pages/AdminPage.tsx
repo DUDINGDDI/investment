@@ -14,7 +14,10 @@ const ADMIN_KEY = 'admin_authenticated'
 
 export default function AdminPage() {
   const navigate = useNavigate()
-  const [authenticated, setAuthenticated] = useState(() => sessionStorage.getItem(ADMIN_KEY) === 'true')
+  const [authMode, setAuthMode] = useState<false | 'full' | 'qronly'>(() => {
+    const stored = sessionStorage.getItem(ADMIN_KEY)
+    return stored === 'full' || stored === 'qronly' ? stored : false
+  })
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState(false)
   const [tab, setTab] = useState<AdminTab>('common')
@@ -88,11 +91,15 @@ export default function AdminPage() {
     }
   }
 
-  if (!authenticated) {
+  if (!authMode) {
     const handleAuth = () => {
       if (password === 'rolypoly') {
-        sessionStorage.setItem(ADMIN_KEY, 'true')
-        setAuthenticated(true)
+        sessionStorage.setItem(ADMIN_KEY, 'full')
+        setAuthMode('full')
+        setAuthError(false)
+      } else if (password === 'onlyonefair') {
+        sessionStorage.setItem(ADMIN_KEY, 'qronly')
+        setAuthMode('qronly')
         setAuthError(false)
       } else {
         setAuthError(true)
@@ -116,6 +123,42 @@ export default function AdminPage() {
           {authError && <p className={styles.authError}>비밀번호가 올바르지 않습니다</p>}
           <button className={styles.authBtn} onClick={handleAuth}>확인</button>
         </div>
+      </div>
+    )
+  }
+
+  if (authMode === 'qronly') {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>미션 QR 코드</h2>
+          <p className={styles.subtitle}>현장에 부착할 미션 QR 코드</p>
+        </div>
+
+        <div className={styles.controlCard}>
+          <p className={styles.statusLabel}>미션 QR 코드</p>
+          <p className={styles.statusDesc}>현장에 부착할 미션 QR 코드입니다. 참가자가 스캔하면 미션이 완료됩니다.</p>
+          <div className={styles.qrBtnGrid}>
+            <button className={styles.qrBtn} onClick={() => setActiveQr({ value: 'b2c3d4e5-f6a7-8901-bcde-f12345678901', label: '내일 더 새롭게' })}>
+              내일 더 새롭게
+            </button>
+            <button className={styles.qrBtn} onClick={() => setActiveQr({ value: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', label: '함께하는 하고잡이' })}>
+              함께하는 하고잡이
+            </button>
+          </div>
+        </div>
+
+        {activeQr && (
+          <div className={styles.qrOverlay} onClick={() => setActiveQr(null)}>
+            <div className={styles.qrModal} onClick={e => e.stopPropagation()}>
+              <h3 className={styles.qrModalTitle}>{activeQr.label}</h3>
+              <div className={styles.qrModalCode}>
+                <QRCodeSVG value={activeQr.value} size={240} level="M" />
+              </div>
+              <button className={styles.qrModalClose} onClick={() => setActiveQr(null)}>닫기</button>
+            </div>
+          </div>
+        )}
       </div>
     )
   }
