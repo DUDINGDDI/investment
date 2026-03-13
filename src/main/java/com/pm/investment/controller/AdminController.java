@@ -5,6 +5,7 @@ import com.pm.investment.dto.AwardRankingItem;
 import com.pm.investment.dto.AwardResponse;
 import com.pm.investment.dto.CombinedInvestmentResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
+import com.pm.investment.dto.RepresentativeResultResponse;
 import com.pm.investment.dto.RookieInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.dto.StockPriceChangeRequest;
@@ -167,6 +168,11 @@ public class AdminController {
         int count = missionService.completeForAll(missionId);
         sseEmitterService.broadcastMissionComplete(missionId);
         return ResponseEntity.ok(Map.of("missionId", missionId, "completedCount", count));
+    }
+
+    @GetMapping("/representative-result")
+    public ResponseEntity<RepresentativeResultResponse> getRepresentativeResult() {
+        return ResponseEntity.ok(rankingService.getRepresentativeResult());
     }
 
     @GetMapping("/executive-investments")

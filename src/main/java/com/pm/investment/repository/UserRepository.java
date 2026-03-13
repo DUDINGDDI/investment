@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByIdWithLock(@Param("id") Long id);
 
     List<User> findByNameContainingAndIdNot(String name, Long id);
+
+    @Query("SELECT u.company, COUNT(u) FROM User u WHERE u.isRookie = true AND u.company IS NOT NULL GROUP BY u.company")
+    List<Object[]> countRookiesByCompany();
 }

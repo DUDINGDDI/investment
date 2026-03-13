@@ -33,6 +33,13 @@ public class InvestmentService {
         Booth booth = boothRepository.findById(boothId)
                 .orElseThrow(() -> new IllegalArgumentException("부스를 찾을 수 없습니다"));
 
+        // rookie는 자기 계열사 부스에 투자 불가
+        if (Boolean.TRUE.equals(user.getIsRookie())
+                && user.getCompany() != null
+                && user.getCompany().equals(booth.getCategory())) {
+            throw new IllegalStateException("자기 계열사 대표작에는 투자할 수 없습니다");
+        }
+
         if (user.getBalance() < amount) {
             throw new IllegalStateException("보유 잔액이 부족합니다");
         }

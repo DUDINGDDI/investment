@@ -439,3 +439,21 @@ export interface CombinedBoothSummary {
   totalInvestment: number;
   investorCount: number;
 }
+
+// === 대표작 투자 결과 ===
+export interface RepresentativeResultResponse {
+  combinedRanking: RepresentativeBoothResult[];
+  rookieRanking: RepresentativeBoothResult[];
+  executiveRanking: RepresentativeBoothResult[];
+}
+
+export interface RepresentativeBoothResult {
+  rank: number;
+  boothId: number;
+  boothName: string;
+  category: string;
+  rookieRawInvestment: number;
+  rookieScore: number;
+  executiveInvestment: number;
+  totalScore: number;
+}

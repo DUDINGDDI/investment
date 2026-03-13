@@ -2,6 +2,7 @@ package com.pm.investment.service;
 
 import com.pm.investment.dto.CombinedInvestmentResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
+import com.pm.investment.dto.RepresentativeResultResponse;
 import com.pm.investment.dto.RookieInvestmentResponse;
 import com.pm.investment.dto.RankingResponse;
 import com.pm.investment.entity.Booth;
@@ -327,5 +328,106 @@ public class RankingService {
                 .persons(persons)
                 .boothSummaries(boothSummaries)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public RepresentativeResultResponse getRepresentativeResult() {
+        List<Booth> allBooths = boothRepository.findAllByOrderByDisplayOrderAsc();
+
+        // 회사별 rookie 인원수
+        Map<String, Long> companyHeadcount = userRepository.countRookiesByCompany()
+                .stream()
+                .collect(Collectors.toMap(
+                        row -> (String) row[0],
+                        row -> (Long) row[1]
+                ));
+
+        // rookie 투자 집계 (부스별)
+        List<Investment> rookieInvestments = investmentRepository.findAllByRookieUsersWithAmount();
+        Map<Long, Long> rookieByBooth = rookieInvestments.stream()
+                .collect(Collectors.groupingBy(
+                        i -> i.getBooth().getId(),
+                        Collectors.summingLong(Investment::getAmount)
+                ));
+
+        // executive 투자 집계 (부스별)
+        List<Investment> execInvestments = investmentRepository.findAllByExecutiveUsersWithAmount();
+        Map<Long, Long> execByBooth = execInvestments.stream()
+                .collect(Collectors.groupingBy(
+                        i -> i.getBooth().getId(),
+                        Collectors.summingLong(Investment::getAmount)
+                ));
+
+        // 부스별 결과 계산
+        List<RepresentativeResultResponse.BoothResult> results = allBooths.stream().map(booth -> {
+            long rookieRaw = rookieByBooth.getOrDefault(booth.getId(), 0L);
+            long execAmount = execByBooth.getOrDefault(booth.getId(), 0L);
+
+            // rookie 점수: (실제 투자금) / (304 - 해당 회사 인원수) * 234
+            double rookieScore = 0.0;
+            String category = booth.getCategory();
+            if (!"전체".equals(category)) {
+                long headcount = companyHeadcount.getOrDefault(category, 0L);
+                long divisor = 304 - headcount;
+                if (divisor > 0 && rookieRaw > 0) {
+                    rookieScore = (double) rookieRaw / divisor * 234;
+                }
+            } else {
+                // "전체" 카테고리(신입사원 Pick!)는 공식 미적용, 원금 그대로
+                rookieScore = rookieRaw;
+            }
+
+            double totalScore = rookieScore + execAmount;
+
+            return RepresentativeResultResponse.BoothResult.builder()
+                    .boothId(booth.getId())
+                    .boothName(booth.getName())
+                    .category(category)
+                    .rookieRawInvestment(rookieRaw)
+                    .rookieScore(Math.round(rookieScore * 100.0) / 100.0)
+                    .executiveInvestment(execAmount)
+                    .totalScore(Math.round(totalScore * 100.0) / 100.0)
+                    .build();
+        }).toList();
+
+        // 전체 순위 (totalScore 내림차순)
+        List<RepresentativeResultResponse.BoothResult> combinedRanking = rankByScore(results,
+                RepresentativeResultResponse.BoothResult::getTotalScore);
+
+        // rookie 순위 (rookieScore 내림차순)
+        List<RepresentativeResultResponse.BoothResult> rookieRanking = rankByScore(results,
+                RepresentativeResultResponse.BoothResult::getRookieScore);
+
+        // executive 순위 (executiveInvestment 내림차순)
+        List<RepresentativeResultResponse.BoothResult> executiveRanking = rankByScore(results,
+                r -> (double) r.getExecutiveInvestment());
+
+        return RepresentativeResultResponse.builder()
+                .combinedRanking(combinedRanking)
+                .rookieRanking(rookieRanking)
+                .executiveRanking(executiveRanking)
+                .build();
+    }
+
+    private List<RepresentativeResultResponse.BoothResult> rankByScore(
+            List<RepresentativeResultResponse.BoothResult> results,
+            java.util.function.ToDoubleFunction<RepresentativeResultResponse.BoothResult> scoreExtractor) {
+
+        List<RepresentativeResultResponse.BoothResult> sorted = results.stream()
+                .sorted(Comparator.comparingDouble(scoreExtractor).reversed())
+                .toList();
+
+        AtomicInteger rank = new AtomicInteger(1);
+        return sorted.stream().map(r -> RepresentativeResultResponse.BoothResult.builder()
+                .rank(rank.getAndIncrement())
+                .boothId(r.getBoothId())
+                .boothName(r.getBoothName())
+                .category(r.getCategory())
+                .rookieRawInvestment(r.getRookieRawInvestment())
+                .rookieScore(r.getRookieScore())
+                .executiveInvestment(r.getExecutiveInvestment())
+                .totalScore(r.getTotalScore())
+                .build()
+        ).toList();
     }
 }

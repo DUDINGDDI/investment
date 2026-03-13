@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { adminApi } from '../api'
 import { formatKorean } from '../utils/format'
-import type { RankingResponse } from '../types'
+import type { RankingResponse, RepresentativeResultResponse, RepresentativeBoothResult } from '../types'
 import styles from './AdminPage.module.css'
 
 type AwardItem = { awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }
 type AwardRankingItem = { rank: number; name: string; company: string; value: string; time: string | null }
-type AdminTab = 'common' | 'ranking' | 'awards' | 'settings'
+type AdminTab = 'common' | 'ranking' | 'representative' | 'awards' | 'settings'
 
 const ADMIN_KEY = 'admin_authenticated'
 
@@ -45,6 +45,9 @@ export default function AdminPage() {
   const [awardRankingLoading, setAwardRankingLoading] = useState(false)
   const [generating, setGenerating] = useState(false)
   const [lastGenerated, setLastGenerated] = useState<string | null>(null)
+  const [repResult, setRepResult] = useState<RepresentativeResultResponse | null>(null)
+  const [repLoading, setRepLoading] = useState(false)
+  const [repSubTab, setRepSubTab] = useState<'combined' | 'rookie' | 'executive'>('combined')
 
   const loadData = async () => {
     try {
@@ -140,6 +143,23 @@ export default function AdminPage() {
           onClick={() => setTab('ranking')}
         >
           투자 순위
+        </button>
+        <button
+          className={`${styles.tabBtn} ${tab === 'representative' ? styles.tabBtnActive : ''}`}
+          onClick={async () => {
+            setTab('representative')
+            if (!repResult) {
+              setRepLoading(true)
+              try {
+                const res = await adminApi.getRepresentativeResult()
+                setRepResult(res.data)
+              } finally {
+                setRepLoading(false)
+              }
+            }
+          }}
+        >
+          대표작 결과
         </button>
         <button
           className={`${styles.tabBtn} ${tab === 'awards' ? styles.tabBtnActive : ''}`}
@@ -468,6 +488,93 @@ export default function AdminPage() {
 
         </>
       )}
+      {tab === 'representative' && (
+        <>
+          <div className={styles.controlCard}>
+            <p className={styles.statusLabel}>대표작 투자 결과</p>
+            <p className={styles.statusDesc}>
+              Rookie: (투자금 합계) / (304 - 해당 회사 인원수) x 234 로 점수 산정<br/>
+              Executive: 투자금 합계 그대로 점수 산정
+            </p>
+            <button
+              className={`${styles.toggleBtn} ${styles.revealBtn}`}
+              disabled={repLoading}
+              onClick={async () => {
+                setRepLoading(true)
+                try {
+                  const res = await adminApi.getRepresentativeResult()
+                  setRepResult(res.data)
+                } finally {
+                  setRepLoading(false)
+                }
+              }}
+            >
+              {repLoading ? '조회 중...' : '새로고침'}
+            </button>
+          </div>
+
+          {repResult && (
+            <>
+              <div className={styles.rankingSubTabs}>
+                <button
+                  className={`${styles.rankingSubTab} ${repSubTab === 'combined' ? styles.rankingSubTabActive : ''}`}
+                  onClick={() => setRepSubTab('combined')}
+                >
+                  전체 (합산)
+                </button>
+                <button
+                  className={`${styles.rankingSubTab} ${repSubTab === 'rookie' ? styles.rankingSubTabActive : ''}`}
+                  onClick={() => setRepSubTab('rookie')}
+                >
+                  Rookie
+                </button>
+                <button
+                  className={`${styles.rankingSubTab} ${repSubTab === 'executive' ? styles.rankingSubTabActive : ''}`}
+                  onClick={() => setRepSubTab('executive')}
+                >
+                  Executive
+                </button>
+              </div>
+
+              <div className={styles.rankingSection}>
+                <h3 className={styles.sectionTitle}>
+                  {repSubTab === 'combined' ? '전체 순위 (Rookie + Executive)' :
+                   repSubTab === 'rookie' ? 'Rookie 순위' : 'Executive 순위'}
+                </h3>
+                <div className={styles.list}>
+                  {(repSubTab === 'combined' ? repResult.combinedRanking :
+                    repSubTab === 'rookie' ? repResult.rookieRanking : repResult.executiveRanking
+                  ).map((item: RepresentativeBoothResult, i: number) => (
+                    <div key={item.boothId} className={styles.item}>
+                      <span className={`${styles.rank} ${i < 3 ? styles.topRank : ''}`}>
+                        {item.rank}
+                      </span>
+                      <div className={styles.info}>
+                        <p className={styles.name}>{item.boothName}</p>
+                        <p className={styles.meta}>
+                          {item.category}
+                          {repSubTab === 'combined' && (
+                            <> · R: {formatKorean(Math.round(item.rookieScore))} · E: {formatKorean(item.executiveInvestment)}</>
+                          )}
+                          {repSubTab === 'rookie' && (
+                            <> · 원금: {formatKorean(item.rookieRawInvestment)}</>
+                          )}
+                        </p>
+                      </div>
+                      <p className={styles.amount}>
+                        {repSubTab === 'combined' ? formatKorean(Math.round(item.totalScore)) :
+                         repSubTab === 'rookie' ? formatKorean(Math.round(item.rookieScore)) :
+                         formatKorean(item.executiveInvestment)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </>
+      )}
+
       {tab === 'awards' && (
         <>
           <div className={styles.controlCard}>
