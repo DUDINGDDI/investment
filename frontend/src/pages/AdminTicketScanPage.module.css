@@ -141,8 +141,8 @@
 .successButton {
   width: 100%;
   padding: 14px;
-  background: #6C5CE7;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
   border: none;
   border-radius: 12px;
   font-size: 15px;
