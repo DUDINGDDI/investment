@@ -264,8 +264,8 @@ public class MissionService {
 
     @Transactional
     public UserMissionResponse useTicket(Long userId, String missionId) {
-        if (missionId.startsWith("photo_")) {
-            throw new IllegalArgumentException("포토 티켓은 사용 대상이 아닙니다");
+        if (missionId.startsWith("photo_") || missionId.equals("result")) {
+            throw new IllegalArgumentException("해당 미션은 교환권 사용 대상이 아닙니다");
         }
 
         UserMission um = userMissionRepository.findByUser_IdAndMissionId(userId, missionId)
@@ -295,7 +295,7 @@ public class MissionService {
         List<String> usedMissionIds = new java.util.ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
         for (UserMission um : missions) {
-            if (um.getMissionId().startsWith("photo_")) continue;
+            if (um.getMissionId().startsWith("photo_") || um.getMissionId().equals("result")) continue;
             if (um.getIsCompleted() && !um.getIsUsed()) {
                 um.setIsUsed(true);
                 um.setUsedAt(now);
