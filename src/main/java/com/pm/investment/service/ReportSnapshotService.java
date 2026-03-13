@@ -1,7 +1,5 @@
 package com.pm.investment.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pm.investment.dto.CombinedInvestmentResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
 import com.pm.investment.dto.RookieInvestmentResponse;
@@ -10,6 +8,7 @@ import com.pm.investment.repository.ReportSnapshotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -20,7 +19,7 @@ public class ReportSnapshotService {
 
     private final ReportSnapshotRepository snapshotRepository;
     private final RankingService rankingService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     @Transactional
     public Map<String, String> generateAllSnapshots() {
@@ -34,16 +33,12 @@ public class ReportSnapshotService {
     }
 
     private void generateSnapshot(String type, Object data) {
-        try {
-            String json = objectMapper.writeValueAsString(data);
-            ReportSnapshot snapshot = ReportSnapshot.builder()
-                    .reportType(type)
-                    .data(json)
-                    .build();
-            snapshotRepository.save(snapshot);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("보고서 직렬화 실패: " + type, e);
-        }
+        String json = objectMapper.writeValueAsString(data);
+        ReportSnapshot snapshot = ReportSnapshot.builder()
+                .reportType(type)
+                .data(json)
+                .build();
+        snapshotRepository.save(snapshot);
     }
 
     @Transactional(readOnly = true)
@@ -72,10 +67,6 @@ public class ReportSnapshotService {
         ReportSnapshot snapshot = snapshotRepository
                 .findFirstByReportTypeOrderByCreatedAtDesc(type)
                 .orElseThrow(() -> new IllegalStateException("생성된 보고서가 없습니다. 관리자 페이지에서 보고서를 먼저 생성해주세요."));
-        try {
-            return objectMapper.readValue(snapshot.getData(), clazz);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("보고서 역직렬화 실패: " + type, e);
-        }
+        return objectMapper.readValue(snapshot.getData(), clazz);
     }
 }
