@@ -19,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final StockAccountRepository stockAccountRepository;
+    private final MissionService missionService;
 
     @Transactional
     public LoginResponse login(LoginRequest request) {
@@ -29,6 +30,9 @@ public class UserService {
         if (stockAccountRepository.findByUserId(user.getId()).isEmpty()) {
             stockAccountRepository.save(new StockAccount(user));
         }
+
+        // PM 부스 소속 rookie의 "안돼도 다시" 미션 자동 완료
+        missionService.ensureAgainMissionForPmRookie(user.getId());
 
         String token = generateToken(user.getId());
 

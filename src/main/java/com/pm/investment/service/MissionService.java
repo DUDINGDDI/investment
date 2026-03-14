@@ -81,6 +81,30 @@ public class MissionService {
     }
 
     /**
+     * PM 부스 소속 rookie의 "안돼도 다시" 미션 자동 완료 처리.
+     * 자기 부스에 투자할 수 없는 대신 미션 완료 + 티켓 사용 가능 보장.
+     */
+    @Transactional
+    public void ensureAgainMissionForPmRookie(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return;
+        if (!Boolean.TRUE.equals(user.getIsRookie()) || user.getBelongingStockBooth() == null) return;
+
+        UserMission um = userMissionRepository.findByUser_IdAndMissionId(userId, "again")
+                .orElseGet(() -> {
+                    UserMission newUm = new UserMission(user, "again", MISSION_TARGETS.get("again"));
+                    return userMissionRepository.save(newUm);
+                });
+
+        if (!um.getIsCompleted()) {
+            um.setProgress(um.getTarget());
+            um.setIsCompleted(true);
+            um.setCompletedAt(LocalDateTime.now());
+            userMissionRepository.save(um);
+        }
+    }
+
+    /**
      * 기존 유저 소급 처리: 원본 미션이 완료되었지만 포토 티켓이 없는 경우 자동 생성
      */
     private void ensurePhotoTickets(Long userId) {
@@ -209,6 +233,7 @@ public class MissionService {
         return response;
     }
 
+    @Transactional
     @Transactional
     public List<UserMissionResponse> getMyMissions(Long userId) {
         ensurePhotoTickets(userId);
