@@ -236,6 +236,7 @@ public class MissionService {
     @Transactional
     public List<UserMissionResponse> getMyMissions(Long userId) {
         ensurePhotoTickets(userId);
+        ensureAgainMissionForPmRookie(userId);
 
         List<UserMission> userMissions = userMissionRepository.findByUser_Id(userId);
         Map<String, UserMission> missionMap = userMissions.stream()
