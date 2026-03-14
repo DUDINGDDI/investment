@@ -234,7 +234,6 @@ public class MissionService {
     }
 
     @Transactional
-    @Transactional
     public List<UserMissionResponse> getMyMissions(Long userId) {
         ensurePhotoTickets(userId);
 
