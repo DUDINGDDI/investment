@@ -244,10 +244,22 @@
   min-width: 0;
 }
 
+.boothNameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
 .boothName {
   font-size: 15px;
   font-weight: 600;
-  margin-bottom: 3px;
+}
+
+.boothCategory {
+  font-size: 11px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
 }
 
 .boothDesc {

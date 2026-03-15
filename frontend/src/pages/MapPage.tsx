@@ -325,7 +325,10 @@ export default function MapPage() {
                     onClick={() => navigate(`/stocks/booths/${booth.id}`)}
                   >
                     <div className={styles.boothBody}>
-                      <p className={styles.boothName}>{booth.name}</p>
+                      <div className={styles.boothNameRow}>
+                        <p className={styles.boothName}>{booth.name}</p>
+                        <span className={styles.boothCategory}>{booth.category}</span>
+                      </div>
                       <p className={styles.boothDesc}>
                         {booth.shortDescription}
                       </p>
