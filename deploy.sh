@@ -57,7 +57,9 @@ sudo docker run -d \
   -p 3306:3306 \
   mysql:8.0 \
   --character-set-server=utf8mb4 \
-  --collation-server=utf8mb4_unicode_ci
+  --collation-server=utf8mb4_unicode_ci \
+  --innodb-buffer-pool-size=1073741824 \
+  --max-connections=200
 
 echo "MySQL 컨테이너 시작 대기 중..."
 for i in $(seq 1 30); do
@@ -186,7 +188,7 @@ After=network.target docker.service
 Type=simple
 User=root
 WorkingDirectory=${APP_DIR}
-ExecStart=/usr/bin/java -jar ${APP_DIR}/build/libs/investment-0.0.1-SNAPSHOT.jar --spring.profiles.active=mysql
+ExecStart=/usr/bin/java -Xms2g -Xmx4g -Xss512k -XX:MaxMetaspaceSize=256m -XX:+UseG1GC -jar ${APP_DIR}/build/libs/investment-0.0.1-SNAPSHOT.jar --spring.profiles.active=mysql
 Restart=always
 RestartSec=10
 
@@ -209,7 +211,7 @@ After=network.target docker.service investment.service
 Type=simple
 User=root
 WorkingDirectory=${APP_DIR}/idea-board
-ExecStart=/usr/bin/java -Xms128m -Xmx256m -Xss256k -XX:MaxMetaspaceSize=96m -XX:+UseG1GC -jar ${APP_DIR}/idea-board/build/libs/idea-board-0.0.1-SNAPSHOT.jar
+ExecStart=/usr/bin/java -Xms256m -Xmx512m -Xss256k -XX:MaxMetaspaceSize=128m -XX:+UseG1GC -jar ${APP_DIR}/idea-board/build/libs/idea-board-0.0.1-SNAPSHOT.jar
 Restart=always
 RestartSec=10
 
