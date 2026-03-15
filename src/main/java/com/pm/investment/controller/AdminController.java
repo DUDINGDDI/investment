@@ -3,6 +3,7 @@ package com.pm.investment.controller;
 import com.pm.investment.dto.AdminBoothRatingResponse;
 import com.pm.investment.dto.AwardRankingItem;
 import com.pm.investment.dto.AwardResponse;
+import com.pm.investment.dto.BoothReplacePickRequest;
 import com.pm.investment.dto.CombinedInvestmentResponse;
 import com.pm.investment.dto.ExecutiveInvestmentResponse;
 import com.pm.investment.dto.RepresentativeResultResponse;
@@ -12,6 +13,7 @@ import com.pm.investment.dto.StockPriceChangeRequest;
 import com.pm.investment.dto.TicketUseRequest;
 import com.pm.investment.dto.UserMissionResponse;
 import com.pm.investment.service.AwardService;
+import com.pm.investment.service.BoothService;
 import com.pm.investment.service.MissionService;
 import com.pm.investment.service.RankingService;
 import com.pm.investment.service.ReportSnapshotService;
@@ -40,6 +42,7 @@ public class AdminController {
     private final StockRatingService stockRatingService;
     private final MissionService missionService;
     private final ReportSnapshotService reportSnapshotService;
+    private final BoothService boothService;
 
     @GetMapping("/results/status")
     public ResponseEntity<Map<String, Boolean>> getResultsStatus() {
@@ -217,6 +220,13 @@ public class AdminController {
         String missionId = body.get("missionId");
         int count = missionService.uncompleteForAll(missionId);
         return ResponseEntity.ok(Map.of("missionId", missionId, "uncompletedCount", count));
+    }
+
+    @PostMapping("/booths/replace-pick")
+    public ResponseEntity<Map<String, String>> replacePickBooth(
+            @Valid @RequestBody BoothReplacePickRequest request) {
+        boothService.replacePickBooth(request.getStockBoothId());
+        return ResponseEntity.ok(Map.of("message", "신입사원 Pick 부스가 변경되었습니다"));
     }
 
     @GetMapping("/awards")

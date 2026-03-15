@@ -190,4 +190,6 @@ export const adminApi = {
     api.get<RookieInvestmentResponse>('/admin/reports/rookie'),
   getCombinedSnapshot: () =>
     api.get<CombinedInvestmentResponse>('/admin/reports/combined'),
+  replacePickBooth: (stockBoothId: number) =>
+    api.post<{ message: string }>('/admin/booths/replace-pick', { stockBoothId }),
 };

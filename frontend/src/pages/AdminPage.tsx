@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
-import { adminApi } from '../api'
+import { adminApi, stockApi } from '../api'
 import { formatKorean } from '../utils/format'
-import type { RankingResponse, RepresentativeResultResponse, RepresentativeBoothResult } from '../types'
+import type { RankingResponse, RepresentativeResultResponse, RepresentativeBoothResult, StockBoothResponse } from '../types'
 import styles from './AdminPage.module.css'
 
 type AwardItem = { awardName: string; description: string; winnerName: string; winnerCompany: string; detail: string }
@@ -49,6 +49,10 @@ export default function AdminPage() {
   const [repResult, setRepResult] = useState<RepresentativeResultResponse | null>(null)
   const [repLoading, setRepLoading] = useState(false)
   const [repSubTab, setRepSubTab] = useState<'combined' | 'rookie' | 'executive'>('combined')
+  const [stockBooths, setStockBooths] = useState<StockBoothResponse[]>([])
+  const [selectedStockBoothId, setSelectedStockBoothId] = useState<number | null>(null)
+  const [replacingPick, setReplacingPick] = useState(false)
+  const [stockBoothsLoaded, setStockBoothsLoaded] = useState(false)
 
   const loadData = async () => {
     try {
@@ -218,6 +222,66 @@ export default function AdminPage() {
 
       {tab === 'settings' && (
         <>
+          <div className={styles.controlCard}>
+            <p className={styles.statusLabel}>신입사원 Pick 부스 변경</p>
+            <p className={styles.statusDesc}>
+              오전(AM) 부스 중 하나를 선택하여 오후(PM) "신입사원 Pick" 부스로 대체합니다.
+              기존 투자금은 그대로 유지됩니다.
+            </p>
+            {!stockBoothsLoaded ? (
+              <button
+                className={`${styles.toggleBtn} ${styles.revealBtn}`}
+                onClick={async () => {
+                  try {
+                    const res = await stockApi.getBooths()
+                    setStockBooths(res.data)
+                    setStockBoothsLoaded(true)
+                  } catch {
+                    alert('부스 목록을 불러오는데 실패했습니다.')
+                  }
+                }}
+              >
+                오전 부스 목록 불러오기
+              </button>
+            ) : (
+              <>
+                <select
+                  className={styles.authInput}
+                  value={selectedStockBoothId ?? ''}
+                  onChange={e => setSelectedStockBoothId(e.target.value ? Number(e.target.value) : null)}
+                  style={{ marginBottom: 12 }}
+                >
+                  <option value="">부스를 선택하세요</option>
+                  {stockBooths.map(b => (
+                    <option key={b.id} value={b.id}>
+                      {b.name} ({b.category})
+                    </option>
+                  ))}
+                </select>
+                <button
+                  className={`${styles.toggleBtn} ${styles.revealBtn}`}
+                  disabled={!selectedStockBoothId || replacingPick}
+                  onClick={async () => {
+                    const selected = stockBooths.find(b => b.id === selectedStockBoothId)
+                    if (!selected) return
+                    if (!confirm(`"${selected.name}" (${selected.category})을(를) 신입사원 Pick 부스로 변경하시겠습니까?`)) return
+                    setReplacingPick(true)
+                    try {
+                      const res = await adminApi.replacePickBooth(selectedStockBoothId!)
+                      alert(res.data.message)
+                    } catch {
+                      alert('부스 변경 중 오류가 발생했습니다.')
+                    } finally {
+                      setReplacingPick(false)
+                    }
+                  }}
+                >
+                  {replacingPick ? '처리 중...' : '적용'}
+                </button>
+              </>
+            )}
+          </div>
+
           <div className={styles.controlCard}>
             <div className={styles.statusRow}>
               <span className={styles.statusLabel}>하고잡이 투자 랭킹</span>
