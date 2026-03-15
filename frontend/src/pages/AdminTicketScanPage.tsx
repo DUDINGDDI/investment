@@ -22,7 +22,7 @@ const MISSION_COLORS: Record<string, { bg: string; text: string }> = {
   result: { bg: '#D74631', text: '#ffffff' },
   again: { bg: '#F96390', text: '#ffffff' },
   sincere: { bg: '#F57655', text: '#ffffff' },
-  together: { bg: '#7AF3CA', text: '#0a332a' },
+  together: { bg: '#3CD199', text: '#0a332a' },
 }
 
 interface ScanResult {
