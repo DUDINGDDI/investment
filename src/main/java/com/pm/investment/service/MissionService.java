@@ -88,7 +88,7 @@ public class MissionService {
     public void ensureAgainMissionForPmRookie(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) return;
-        if (!Boolean.TRUE.equals(user.getIsRookie()) || user.getBelongingStockBooth() == null) return;
+        if (!Boolean.TRUE.equals(user.getIsRookie()) || user.getBelongingStockBooth() != null) return;
 
         UserMission um = userMissionRepository.findByUser_IdAndMissionId(userId, "again")
                 .orElseGet(() -> {
