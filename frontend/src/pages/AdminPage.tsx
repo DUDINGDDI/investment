@@ -323,7 +323,7 @@ export default function AdminPage() {
             <p className={styles.statusDesc}>
               {stockEnabled
                 ? '현재 하고잡이 투자가 활성화되어 있습니다. 참가자가 하고잡이 투자에 접근할 수 있습니다.'
-                : '하고잡이 투자가 중단된 상태입니다. 참가자에게 "Coming Soon"이 표시됩니다.'}
+                : '하고잡이 투자가 중단된 상태입니다. 참가자에게 "하고잡이 투자가 종료되었습니다"가 표시됩니다.'}
             </p>
             <button
               className={`${styles.toggleBtn} ${stockEnabled ? styles.hideBtn : styles.revealBtn}`}
